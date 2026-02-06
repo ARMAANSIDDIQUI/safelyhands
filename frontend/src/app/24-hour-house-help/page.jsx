@@ -1,3 +1,4 @@
+import React from "react";
 import Header from "@/components/sections/header";
 import ServiceDetail from "@/components/sections/service-detail";
 import Footer from "@/components/sections/footer";
