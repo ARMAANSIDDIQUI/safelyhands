@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, Minus, MessageCircle, Send, Loader2 } from "lucide-react";
+import { X, Minus, MessageCircle, Send, Loader2, PlayCircle } from "lucide-react";
+import { useTutorial } from "@/context/TutorialContext";
 
 const PREDEFINED_QA = [
   {
@@ -34,6 +35,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
+  const { startTutorial } = useTutorial();
 
   const toggleChat = () => setIsOpen(!isOpen);
 
@@ -71,9 +73,17 @@ export default function ChatWidget() {
         responseText = PREDEFINED_QA[2].answer;
       } else if (lowerText.includes("contact") || lowerText.includes("support") || lowerText.includes("call")) {
         responseText = PREDEFINED_QA[4].answer;
+      } else if (lowerText.includes("help") || lowerText.includes("guide") || lowerText.includes("tutorial") || lowerText.includes("tour")) {
+        responseText = "I can guide you through the app! Click the button below to start the tour.";
       }
 
       setMessages(prev => [...prev, { text: responseText, sender: "bot", time: new Date() }]);
+
+      // Auto-trigger tour offer if keyword matches
+      if (lowerText.includes("help") || lowerText.includes("guide") || lowerText.includes("tutorial") || lowerText.includes("tour")) {
+        // Optional: could auto-start, but button is better
+      }
+
       setIsTyping(false);
     }, 1000);
   };
@@ -134,6 +144,15 @@ export default function ChatWidget() {
             {/* Quick Questions Chips */}
             {!isTyping && messages.length < 5 && (
               <div className="flex flex-wrap gap-2 mt-2">
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    startTutorial();
+                  }}
+                  className="text-xs bg-indigo-50 border border-indigo-200 text-indigo-700 px-3 py-1.5 rounded-full hover:bg-indigo-100 transition-colors flex items-center gap-1"
+                >
+                  <PlayCircle size={12} /> Start App Tour
+                </button>
                 {PREDEFINED_QA.map((qa, i) => (
                   <button
                     key={i}
@@ -144,6 +163,19 @@ export default function ChatWidget() {
                   </button>
                 ))}
               </div>
+            )}
+
+            {/* Show start tour button if help was asked */}
+            {!isTyping && messages.length >= 5 && messages[messages.length - 1].sender === 'bot' && messages[messages.length - 1].text.includes("tour") && (
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  startTutorial();
+                }}
+                className="self-start text-xs bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-sm mt-1"
+              >
+                <PlayCircle size={14} /> Start Guided Tour
+              </button>
             )}
           </div>
 

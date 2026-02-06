@@ -80,7 +80,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
-                <Card>
+                <Card id="dashboard-stats">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">Active Services</CardTitle>
                         <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -128,7 +128,7 @@ export default function DashboardPage() {
                                 <div className="text-sm text-slate-600">
                                     You have {stats.activeBookings} active services and {stats.pendingActions} pending requests.
                                     <br />
-                                    Check <Link href="/dashboard/bookings" className="text-blue-600 underline">My Bookings</Link> for details.
+                                    Check <Link id="dashboard-bookings-link" href="/dashboard/bookings" className="text-blue-600 underline">My Bookings</Link> for details.
                                 </div>
                             )}
                         </div>
