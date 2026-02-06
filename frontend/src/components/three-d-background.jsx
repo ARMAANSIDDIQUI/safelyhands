@@ -6,7 +6,7 @@ export default function ThreeDBackground() {
   const [circles, setCircles] = useState([]);
 
   useEffect(() => {
-    const newCircles = [...Array(20)].map((_, i) => ({
+    const newCircles = [...Array(28)].map((_, i) => ({
       id: i,
       width: `${Math.random() * 200 + 100}px`,
       height: `${Math.random() * 200 + 100}px`,

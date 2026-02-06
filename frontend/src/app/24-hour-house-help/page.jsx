@@ -11,7 +11,7 @@ export const metadata = {
 
 async function getService(slug) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/slug/${slug}`, { cache: 'no-store' });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/slug/${slug}`, { next: { revalidate: 3600 } });
         if (!res.ok) return null;
         return res.json();
     } catch (error) {

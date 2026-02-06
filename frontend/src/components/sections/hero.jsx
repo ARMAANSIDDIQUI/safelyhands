@@ -69,6 +69,7 @@ const HeroSection = () => {
                   alt="Happy family with domestic help"
                   fill
                   className="object-cover"
+                  priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent"></div>
               </div>
