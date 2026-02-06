@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Calendar, MapPin, Clock, Loader2 } from 'lucide-react';
@@ -10,7 +10,7 @@ import Footer from '@/components/sections/footer';
 import ChatWidget from '@/components/sections/chat-widget';
 import { getToken } from '@/lib/auth';
 
-export default function BookingPage() {
+function BookingContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { user, loading: authLoading } = useAuth();
@@ -90,172 +90,180 @@ export default function BookingPage() {
     if (!user) return null;
 
     return (
-        <main className="min-h-screen">
-            <Header />
-            <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-32 pb-20">
-                <div className="container mx-auto px-6 max-w-3xl">
-                    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-8 md:p-12 border border-white/60">
-                        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-                            Book Your Service
-                        </h1>
-                        <p className="text-slate-600 mb-8">
-                            {searchParams.get('title') || 'Fill in the details below'}
-                        </p>
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-32 pb-20">
+            <div className="container mx-auto px-6 max-w-3xl">
+                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-8 md:p-12 border border-white/60">
+                    <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                        Book Your Service
+                    </h1>
+                    <p className="text-slate-600 mb-8">
+                        {searchParams.get('title') || 'Fill in the details below'}
+                    </p>
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Service Type */}
+                    <form id="booking-form" onSubmit={handleSubmit} className="space-y-6">
+                        {/* Service Type */}
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                Service Type
+                            </label>
+                            <select
+                                name="serviceType"
+                                value={formData.serviceType}
+                                onChange={handleChange}
+                                required
+                                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent capitalize bg-white"
+                            >
+                                <option value="">Select Service Type</option>
+                                <option value="cooks">Cooks & Chefs</option>
+                                <option value="babysitter">Babysitter</option>
+                                <option value="domestic-help">Domestic Help</option>
+                                <option value="elderly-care">Elderly Care</option>
+                                <option value="all-rounder">All Rounder</option>
+                                <option value="24-hour-live-in">24 Hour Live-in</option>
+                                <option value="japa-maid">Japa Maid</option>
+                                <option value="driver">Driver</option>
+                                <option value="quick-book">Quick Assist</option>
+                            </select>
+                        </div>
+
+                        {/* Address */}
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                                <MapPin size={16} /> Address
+                            </label>
+                            <textarea
+                                name="address"
+                                value={formData.address}
+                                onChange={handleChange}
+                                required
+                                rows={3}
+                                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Enter your full address"
+                            />
+                        </div>
+
+                        {/* City & Pincode */}
+                        <div className="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                    Service Type
+                                    City
                                 </label>
-                                <select
-                                    name="serviceType"
-                                    value={formData.serviceType}
+                                <input
+                                    type="text"
+                                    name="city"
+                                    value={formData.city}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent capitalize bg-white"
-                                >
-                                    <option value="">Select Service Type</option>
-                                    <option value="cooks">Cooks & Chefs</option>
-                                    <option value="babysitter">Babysitter</option>
-                                    <option value="domestic-help">Domestic Help</option>
-                                    <option value="elderly-care">Elderly Care</option>
-                                    <option value="all-rounder">All Rounder</option>
-                                    <option value="24-hour-live-in">24 Hour Live-in</option>
-                                    <option value="japa-maid">Japa Maid</option>
-                                    <option value="driver">Driver</option>
-                                    <option value="quick-book">Quick Assist</option>
-                                </select>
+                                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
                             </div>
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                    Pincode
+                                </label>
+                                <input
+                                    type="text"
+                                    name="pincode"
+                                    value={formData.pincode}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
 
-                            {/* Address */}
+                        {/* Date & Time */}
+                        <div className="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                                    <MapPin size={16} /> Address
+                                    <Calendar size={16} /> Preferred Date
                                 </label>
-                                <textarea
-                                    name="address"
-                                    value={formData.address}
+                                <input
+                                    type="date"
+                                    name="date"
+                                    value={formData.date}
                                     onChange={handleChange}
                                     required
-                                    rows={3}
+                                    min={new Date().toISOString().split('T')[0]}
                                     className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="Enter your full address"
                                 />
                             </div>
-
-                            {/* City & Pincode */}
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                        City
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="city"
-                                        value={formData.city}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                        Pincode
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="pincode"
-                                        value={formData.pincode}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Date & Time */}
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                                        <Calendar size={16} /> Preferred Date
-                                    </label>
-                                    <input
-                                        type="date"
-                                        name="date"
-                                        value={formData.date}
-                                        onChange={handleChange}
-                                        required
-                                        min={new Date().toISOString().split('T')[0]}
-                                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                                        <Clock size={16} /> Preferred Time
-                                    </label>
-                                    <input
-                                        type="time"
-                                        name="time"
-                                        value={formData.time}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Frequency */}
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                    Frequency
+                                <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                                    <Clock size={16} /> Preferred Time
                                 </label>
-                                <select
-                                    name="frequency"
-                                    value={formData.frequency}
+                                <input
+                                    type="time"
+                                    name="time"
+                                    value={formData.time}
                                     onChange={handleChange}
+                                    required
                                     className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                >
-                                    <option value="One-time">One Time</option>
-                                    <option value="Daily">Daily</option>
-                                    <option value="Live-in">Live-in</option>
-                                </select>
-                            </div>
-
-                            {/* Notes */}
-                            <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                    Additional Notes (Optional)
-                                </label>
-                                <textarea
-                                    name="notes"
-                                    value={formData.notes}
-                                    onChange={handleChange}
-                                    rows={3}
-                                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="Any special requirements or instructions"
                                 />
                             </div>
+                        </div>
 
-                            {/* Submit Button */}
-                            <button
-                                type="submit"
-                                disabled={submitting}
-                                className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-bold text-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        {/* Frequency */}
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                Frequency
+                            </label>
+                            <select
+                                name="frequency"
+                                value={formData.frequency}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             >
-                                {submitting ? (
-                                    <>
-                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                        Submitting...
-                                    </>
-                                ) : (
-                                    'Submit Booking Request'
-                                )}
-                            </button>
-                        </form>
-                    </div>
+                                <option value="One-time">One Time</option>
+                                <option value="Daily">Daily</option>
+                                <option value="Live-in">Live-in</option>
+                            </select>
+                        </div>
+
+                        {/* Notes */}
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                Additional Notes (Optional)
+                            </label>
+                            <textarea
+                                name="notes"
+                                value={formData.notes}
+                                onChange={handleChange}
+                                rows={3}
+                                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Any special requirements or instructions"
+                            />
+                        </div>
+
+                        {/* Submit Button */}
+                        <button
+                            type="submit"
+                            disabled={submitting}
+                            className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-bold text-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        >
+                            {submitting ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    Submitting...
+                                </>
+                            ) : (
+                                'Submit Booking Request'
+                            )}
+                        </button>
+                    </form>
                 </div>
             </div>
+        </div>
+    );
+}
+
+export default function BookingPage() {
+    return (
+        <main className="min-h-screen">
+            <Header />
+            <Suspense fallback={<div className="flex h-screen items-center justify-center"><Loader2 className="animate-spin text-blue-600" /></div>}>
+                <BookingContent />
+            </Suspense>
             <Footer />
             <ChatWidget />
         </main>
