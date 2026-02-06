@@ -4,35 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 
-const fallbackTestimonials = [
-  {
-    _id: '1',
-    name: "Priya Sharma",
-    role: "Working Professional",
-    location: "Mumbai",
-    message: "Safely Hands has been a lifesaver! I found a reliable maid within 24 hours.",
-    rating: 5,
-    review: "Safely Hands has been a lifesaver! I found a reliable maid within 24 hours."
-  },
-  {
-    _id: '2',
-    name: "Rahul Verma",
-    role: "Business Owner",
-    location: "Delhi",
-    message: "Excellent service and verified staff. Highly recommended for elderly care.",
-    rating: 5,
-    review: "Excellent service and verified staff. Highly recommended for elderly care."
-  },
-  {
-    _id: '3',
-    name: "Anjali Gupta",
-    role: "Homemaker",
-    location: "Bangalore",
-    message: "Very professional and transparent pricing. The japa maid we hired was experienced.",
-    rating: 4,
-    review: "Very professional and transparent pricing. The japa maid we hired was experienced."
-  }
-];
+const fallbackTestimonials = [];
 
 const CustomerTestimonial = () => {
   const [testimonials, setTestimonials] = useState([]);
@@ -42,6 +14,12 @@ const CustomerTestimonial = () => {
 
   useEffect(() => {
     setIsMounted(true);
+
+    // Failsafe: if fetch takes too long, stop loading anyway after 5s
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
     const fetchTestimonials = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials`);
@@ -49,17 +27,19 @@ const CustomerTestimonial = () => {
         if (Array.isArray(data) && data.length > 0) {
           setTestimonials(data);
         } else {
-          setTestimonials(fallbackTestimonials);
+          setTestimonials([]);
         }
       } catch (err) {
-        console.warn("Using fallback testimonials (Backend unreachable)");
-        setTestimonials(fallbackTestimonials);
+        console.error("Failed to fetch testimonials:", err);
+        setTestimonials([]);
       } finally {
         setLoading(false);
+        clearTimeout(timeout);
       }
     };
 
     fetchTestimonials();
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {

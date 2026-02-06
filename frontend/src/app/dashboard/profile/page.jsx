@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { toast } from "sonner";
-import { getToken } from "@/lib/auth";
+import { getToken, saveSession } from "@/lib/auth";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -32,10 +32,42 @@ export default function ProfilePage() {
 
     const handleSave = async () => {
         try {
-            // TODO: Implement profile update API call
-            toast.success("Profile updated successfully!");
-            setIsEditing(false);
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    phone: formData.phone
+                })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                // Update local state and context
+                // Assuming saveSession handles pure object update or we manually update user
+                // Referencing AuthContext.js logic: saveSession(data, token)
+                const { saveSession } = require("@/lib/auth");
+                saveSession(data, token);
+
+                // Force reload or just update context if exposed?
+                // valid approach: window.location.reload() to be safe or just trigger re-fetch?
+                // The context updates on mount, but let's try to update if we can access setUser 
+                // However, useAuth exposes setUser, so we can use it.
+                // We need to import saveSession at top or use the one from lib.
+
+                toast.success("Profile updated successfully!");
+                setIsEditing(false);
+                setTimeout(() => window.location.reload(), 1000); // Simple reload to ensure all state is fresh
+            } else {
+                toast.error(data.message || "Failed to update profile");
+            }
         } catch (error) {
+            console.error(error);
             toast.error("Failed to update profile");
         }
     };

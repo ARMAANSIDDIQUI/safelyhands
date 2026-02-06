@@ -10,6 +10,7 @@ const bookingSchema = new mongoose.Schema({
     status: { type: String, enum: ['pending', 'approved', 'rejected', 'completed'], default: 'pending' },
     paymentProofUrl: { type: String }, // Cloudinary URL
     paymentStatus: { type: String, enum: ['unpaid', 'pending_approval', 'paid'], default: 'unpaid' },
+    attendanceStatus: { type: String, enum: ['not_marked', 'present', 'absent'], default: 'not_marked' },
     assignedWorker: { type: mongoose.Schema.Types.ObjectId, ref: 'Worker' },
     startDate: { type: Date },
     endDate: { type: Date }, // For subscription duration

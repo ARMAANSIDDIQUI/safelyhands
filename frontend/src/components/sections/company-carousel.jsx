@@ -17,7 +17,7 @@ const CompanyCarousel = () => {
   useEffect(() => {
     const fetchCarousel = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cms/carousel`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carousel`);
         if (res.ok) {
           const data = await res.json();
           if (data && data.length > 0) {

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const workerSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Link to auth account
+    workerId: { type: String, unique: true }, // Stable identifier (e.g., WRK-101)
     name: { type: String, required: true },
     profession: { type: String, required: true }, // e.g. Cook, Babysitter
     rating: { type: Number, default: 5.0 },

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { X, Minus, MessageCircle, Send, Loader2, PlayCircle } from "lucide-react";
 import { useTutorial } from "@/context/TutorialContext";
+import { usePathname } from "next/navigation";
 
 const PREDEFINED_QA = [
   {
@@ -28,6 +29,7 @@ const PREDEFINED_QA = [
 ];
 
 export default function ChatWidget() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { text: "Hello! How can I assist you today with Safely Hands services?", sender: "bot", time: new Date() }
@@ -36,6 +38,11 @@ export default function ChatWidget() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
   const { startTutorial } = useTutorial();
+
+  // Hide ChatWidget on specific pages
+  if (pathname.includes("/dashboard") || pathname.includes("/booking") || pathname.includes("/profile") || pathname.includes("/admin")) {
+    return null;
+  }
 
   const toggleChat = () => setIsOpen(!isOpen);
 

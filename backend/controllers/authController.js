@@ -2,6 +2,17 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+
+// Email Transporter Config
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_USER, // Ensure these are set in .env
+        pass: process.env.GMAIL_APP_PASSWORD
+    }
+});
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -204,6 +215,44 @@ const googleAuthCallback = async (req, res) => {
     }
 };
 
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+
+        if (user) {
+            user.name = req.body.name || user.name;
+            user.phone = req.body.phone || user.phone;
+
+            // If email update is allowed in future, add here (careful with auth)
+            // user.email = req.body.email || user.email;
+
+            if (req.body.password) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(req.body.password, salt);
+            }
+
+            const updatedUser = await user.save();
+
+            res.json({
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                phone: updatedUser.phone,
+                role: updatedUser.role,
+                isGoogleUser: !!updatedUser.googleId,
+                token: generateToken(updatedUser._id),
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 // @desc    Update user password
 // @route   PUT /api/auth/profile/password
 // @access  Private
@@ -244,10 +293,123 @@ const updatePassword = async (req, res) => {
     }
 };
 
+// @desc    Forgot Password - Send OTP
+// @route   POST /api/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Rate Limiting: 5 OTPs per day
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (user.lastOtpRequestDate && user.lastOtpRequestDate >= today) {
+            if (user.otpRequestsToday >= 5) {
+                return res.status(429).json({ message: 'Daily OTP limit reached (5/day). Please try again tomorrow.' });
+            }
+        } else {
+            // Reset counter for new day
+            user.otpRequestsToday = 0;
+            user.lastOtpRequestDate = today;
+        }
+
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+        // Save OTP and increment counter
+        user.otp = otp;
+        user.otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes expiry
+        user.otpRequestsToday += 1;
+        user.lastOtpRequestDate = new Date(); // Update to current time for tracking
+        await user.save();
+
+        // Send Email
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: user.email,
+            subject: 'Password Reset OTP - Safely Hands',
+            text: `Your OTP for password reset is: ${otp}\n\nThis OTP is valid for 10 minutes.\n\nNote: You have used ${user.otpRequestsToday}/5 OTP requests today.`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.json({ message: 'OTP sent to your email' });
+
+    } catch (error) {
+        console.error("Forgot Password Error:", error);
+        res.status(500).json({ message: 'Server error sending OTP' });
+    }
+};
+
+// @desc    Reset Password with OTP
+// @route   POST /api/auth/reset-password
+// @access  Public
+const resetPassword = async (req, res) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+        const user = await User.findOne({
+            email,
+            otp,
+            otpExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+
+        // Hash new password
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+
+        // Clear OTP fields
+        user.otp = undefined;
+        user.otpExpires = undefined;
+        await user.save();
+
+        res.json({ message: 'Password reset successful. You can now login.' });
+
+    } catch (error) {
+        console.error("Reset Password Error:", error);
+        res.status(500).json({ message: 'Server error resetting password' });
+    }
+};
+
+// @desc    Promote user to admin
+// @route   PUT /api/auth/promote-admin
+// @access  Private/Admin
+const promoteToAdmin = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User with this email not found. They must sign up first.' });
+        }
+
+        user.role = 'admin';
+        await user.save();
+
+        res.json({ message: `Successfully promoted ${user.name} to Admin` });
+    } catch (error) {
+        console.error("Promote Admin Error:", error);
+        res.status(500).json({ message: 'Server error promoting user' });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
     googleAuth,
     googleAuthCallback,
-    updatePassword
+    updatePassword,
+    updateProfile,
+    forgotPassword,
+    resetPassword,
+    promoteToAdmin
 };

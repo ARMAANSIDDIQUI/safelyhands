@@ -29,19 +29,19 @@ export default function AdminServices() {
         imageUrl: ""
     });
 
-    const fetchServices = async () => {
-        try {
-            const res = await fetch("http://localhost:5001/api/services");
-            const data = await res.json();
-            if (Array.isArray(data)) setServices(data);
-        } catch (err) {
-            toast.error("Failed to fetch services");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
+                const data = await res.json();
+                if (Array.isArray(data)) setServices(data);
+            } catch (err) {
+                toast.error("Failed to fetch services");
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchServices();
     }, []);
 
@@ -116,7 +116,7 @@ export default function AdminServices() {
         if (!confirm("Are you sure you want to delete this service?")) return;
 
         try {
-            const res = await fetch(`http://localhost:5001/api/services/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/${id}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user?.token}` }
             });

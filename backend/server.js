@@ -23,6 +23,7 @@ app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
+app.use('/api/carousel', require('./routes/carouselRoutes'));
 
 // Serve Uploads
 const path = require('path');

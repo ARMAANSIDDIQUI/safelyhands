@@ -55,12 +55,13 @@ function LoginContent() {
     // Auto-redirect if already logged in
     useEffect(() => {
         if (!loading && user) {
+            toast.info("You are already logged in");
             if (user.role === 'worker') {
-                router.push('/worker/dashboard');
+                router.replace('/worker/dashboard'); // Use replace to prevent back navigation
             } else if (user.role === 'admin') {
-                router.push('/admin');
+                router.replace('/admin');
             } else {
-                router.push('/dashboard');
+                router.replace('/dashboard');
             }
         }
     }, [user, loading, router]);

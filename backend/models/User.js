@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
     role: { type: String, enum: ['customer', 'admin', 'worker'], default: 'customer' },
     googleId: { type: String }, // For OAuth
     phone: { type: String },
+    otp: { type: String },
+    otpExpires: { type: Date },
+    otpRequestsToday: { type: Number, default: 0 },
+    lastOtpRequestDate: { type: Date },
     createdAt: { type: Date, default: Date.now }
 });
 

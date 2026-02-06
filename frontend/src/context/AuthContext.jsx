@@ -2,7 +2,7 @@
 
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { saveSession, getUser, clearSession, isAuthenticated } from "@/lib/auth";
+import { saveSession, getUser, getToken, clearSession, isAuthenticated } from "@/lib/auth";
 
 const AuthContext = createContext();
 
@@ -14,8 +14,9 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Restore session from localStorage on mount
         const currentUser = getUser();
-        if (currentUser) {
-            setUser(currentUser);
+        const token = getToken();
+        if (currentUser && token) {
+            setUser({ ...currentUser, token });
         }
         setLoading(false);
     }, []);

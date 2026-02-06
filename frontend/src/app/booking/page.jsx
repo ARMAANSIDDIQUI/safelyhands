@@ -28,9 +28,14 @@ function BookingContent() {
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        if (!authLoading && !user) {
-            toast.error('Please login to book a service');
-            router.push('/login');
+        if (!authLoading) {
+            if (!user) {
+                toast.error('Please login to book a service');
+                router.push('/login');
+            } else if (!user.phone) {
+                toast.warning('Please complete your profile (Phone Number) before booking.');
+                router.push('/dashboard/profile');
+            }
         }
     }, [user, authLoading, router]);
 

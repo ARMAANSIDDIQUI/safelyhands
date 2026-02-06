@@ -10,9 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import ImageUpload from "@/components/ui/image-upload";
 
 export default function AdminWorkers() {
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const [workers, setWorkers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -31,7 +32,7 @@ export default function AdminWorkers() {
 
     const fetchWorkers = async () => {
         try {
-            const res = await fetch("http://localhost:5001/api/workers");
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers`);
             const data = await res.json();
             if (Array.isArray(data)) setWorkers(data);
         } catch (err) {
@@ -42,8 +43,14 @@ export default function AdminWorkers() {
     };
 
     useEffect(() => {
-        fetchWorkers();
-    }, []);
+        if (!authLoading) {
+            if (user?.token) {
+                fetchWorkers();
+            } else {
+                setLoading(false);
+            }
+        }
+    }, [user, authLoading]);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -113,7 +120,7 @@ export default function AdminWorkers() {
         if (!confirm("Are you sure you want to delete this worker?")) return;
 
         try {
-            const res = await fetch(`http://localhost:5001/api/workers/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers/${id}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user?.token}` }
             });
@@ -141,37 +148,47 @@ export default function AdminWorkers() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {workers.map((worker) => (
-                    <Card key={worker._id} className="flex flex-col text-center items-center pt-6">
-                        <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-slate-100">
-                            {worker.imageUrl ? (
-                                <img src={worker.imageUrl} alt={worker.name} className="w-full h-full object-cover" />
-                            ) : (
-                                <div className="w-full h-full flex items-center justify-center text-slate-400">
-                                    <UserIcon size={40} />
-                                </div>
-                            )}
-                        </div>
-                        <CardHeader className="p-0 mb-4">
-                            <CardTitle className="text-lg">{worker.name}</CardTitle>
-                            <CardDescription>{worker.profession}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-1 space-y-2">
-                            <Badge variant={worker.isAvailable ? "default" : "destructive"}>
-                                {worker.isAvailable ? "Available" : "Unavailable"}
-                            </Badge>
-                            <p className="text-sm text-slate-500">{worker.experienceYears} Years Exp.</p>
-                        </CardContent>
-                        <CardFooter className="flex gap-2 w-full justify-center pb-6">
-                            <Button variant="outline" size="sm" onClick={() => handleOpenDialog(worker)}>
-                                <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button variant="destructive" size="sm" onClick={() => handleDelete(worker._id)}>
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                ))}
+                {workers.length === 0 ? (
+                    <div className="col-span-full flex flex-col items-center justify-center p-12 text-center text-slate-500 bg-slate-50 rounded-lg border-2 border-dashed">
+                        <UserIcon className="h-12 w-12 mb-4 opacity-20" />
+                        <h3 className="text-lg font-medium">No Workers Added Yet</h3>
+                        <p className="mb-4">Get started by adding your first team member.</p>
+                        <Button onClick={() => handleOpenDialog()}>Add Worker</Button>
+                    </div>
+                ) : (
+                    workers.map((worker) => (
+                        <Card key={worker._id} className="flex flex-col text-center items-center pt-6">
+                            <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-slate-100">
+                                {worker.imageUrl ? (
+                                    <img src={worker.imageUrl} alt={worker.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                        <UserIcon size={40} />
+                                    </div>
+                                )}
+                            </div>
+                            <CardHeader className="p-0 mb-4">
+                                <CardTitle className="text-lg">{worker.name}</CardTitle>
+                                <CardDescription>{worker.profession}</CardDescription>
+                            </CardHeader>
+                            <CardContent className="flex-1 space-y-2">
+                                <Badge variant={worker.isAvailable ? "default" : "destructive"}>
+                                    {worker.isAvailable ? "Available" : "Unavailable"}
+                                </Badge>
+                                <p className="text-sm text-slate-500">{worker.experienceYears} Years Exp.</p>
+                            </CardContent>
+                            <CardFooter className="flex gap-2 w-full justify-center pb-6">
+                                <Button variant="outline" size="sm" onClick={() => handleOpenDialog(worker)}>
+                                    <Pencil className="h-4 w-4" />
+                                </Button>
+                                <Button variant="destructive" size="sm" onClick={() => handleDelete(worker._id)}>
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </CardFooter>
+                        </Card>
+
+                    ))
+                )}
             </div>
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -196,9 +213,15 @@ export default function AdminWorkers() {
                                 <Label htmlFor="experienceYears" className="text-right">Experience</Label>
                                 <Input id="experienceYears" name="experienceYears" type="number" value={formData.experienceYears} onChange={handleInputChange} className="col-span-3" required />
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="imageUrl" className="text-right">Image URL</Label>
-                                <Input id="imageUrl" name="imageUrl" value={formData.imageUrl} onChange={handleInputChange} className="col-span-3" />
+                            <div className="grid grid-cols-4 items-start gap-4">
+                                <Label className="text-right pt-2">Image</Label>
+                                <div className="col-span-3">
+                                    <ImageUpload
+                                        value={formData.imageUrl}
+                                        onChange={(url) => setFormData(prev => ({ ...prev, imageUrl: url }))}
+                                        disabled={loading}
+                                    />
+                                </div>
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="bio" className="text-right">Bio/Story</Label>
@@ -233,6 +256,6 @@ export default function AdminWorkers() {
                     </form>
                 </DialogContent>
             </Dialog>
-        </div>
+        </div >
     );
 }

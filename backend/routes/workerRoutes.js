@@ -5,13 +5,16 @@ const {
     getWorkerById,
     createWorker,
     updateWorker,
-    deleteWorker
+    deleteWorker,
+    createWorkerWithId
 } = require('../controllers/workerController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 router.route('/')
     .get(getWorkers)
     .post(protect, admin, createWorker);
+
+router.post('/create-id', protect, admin, createWorkerWithId);
 
 router.route('/:id')
     .get(getWorkerById)

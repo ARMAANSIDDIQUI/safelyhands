@@ -27,17 +27,19 @@ export default function AdminLayout({ children }) {
             {/* Sidebar */}
             <aside className="w-64 bg-white border-r border-slate-200 hidden md:block shrink-0 h-screen sticky top-0 overflow-y-auto">
                 <div className="p-6 border-b border-slate-100">
-                    <Link href="/admin/dashboard" className="text-xl font-bold font-display text-slate-900 flex items-center gap-2">
+                    <Link href="/admin" className="text-xl font-bold font-display text-slate-900 flex items-center gap-2">
                         Safely Hands <span className="text-blue-500">Admin</span>
                     </Link>
                 </div>
 
                 <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-                    <SidebarItem href="/admin/dashboard" icon={<LayoutDashboard size={20} />} label="Overview" />
+                    <SidebarItem href="/admin" icon={<LayoutDashboard size={20} />} label="Overview" />
                     <SidebarItem href="/admin/bookings" icon={<CalendarCheck size={20} />} label="Bookings & Payments" />
                     <SidebarItem href="/admin/services" icon={<Briefcase size={20} />} label="Services" />
                     <SidebarItem href="/admin/workers" icon={<Users size={20} />} label="Workers" />
+                    <SidebarItem href="/admin/users" icon={<Users size={20} />} label="Team Management" />
                     <SidebarItem href="/admin/testimonials" icon={<MessageSquareQuote size={20} />} label="Testimonials" />
+                    <SidebarItem href="/admin/carousel" icon={<LayoutDashboard size={20} />} label="Carousel" />
                     <SidebarItem href="/admin/settings" icon={<Settings size={20} />} label="Settings" />
                 </nav>
 

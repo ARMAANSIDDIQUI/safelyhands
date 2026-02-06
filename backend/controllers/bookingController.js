@@ -58,7 +58,11 @@ const updateBookingStatus = async (req, res) => {
 
         if (booking) {
             booking.status = req.body.status || booking.status;
-            booking.paymentStatus = req.body.paymentStatus || booking.paymentStatus;
+
+            // Only update paymentStatus if it's explicitly provided in the request
+            if (req.body.paymentStatus !== undefined) {
+                booking.paymentStatus = req.body.paymentStatus;
+            }
 
             const updatedBooking = await booking.save();
             res.json(updatedBooking);
@@ -159,6 +163,83 @@ const getWorkerBookings = async (req, res) => {
     }
 };
 
+// @desc    Delete booking
+// @route   DELETE /api/bookings/:id
+// @access  Private
+const deleteBooking = async (req, res) => {
+    try {
+        const booking = await Booking.findById(req.params.id);
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Verify ownership or admin
+        if (booking.user.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        await Booking.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Booking removed' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Update booking (User/Admin)
+// @route   PUT /api/bookings/:id/edit
+// @access  Private
+const updateBooking = async (req, res) => {
+    try {
+        const booking = await Booking.findById(req.params.id);
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Verify ownership or admin
+        if (booking.user.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        // Update fields
+        booking.serviceType = req.body.serviceType || booking.serviceType;
+        booking.frequency = req.body.frequency || booking.frequency;
+        booking.date = req.body.date || booking.date;
+        booking.address = req.body.address || booking.address;
+        booking.notes = req.body.notes || booking.notes;
+
+        const updatedBooking = await booking.save();
+        res.json(updatedBooking);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const markAttendance = async (req, res) => {
+    try {
+        const { attendanceStatus } = req.body;
+        const booking = await Booking.findById(req.params.id);
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Check if admin or the user who created the booking
+        if (req.user.role !== 'admin' && booking.user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        booking.attendanceStatus = attendanceStatus || booking.attendanceStatus;
+        const updatedBooking = await booking.save();
+        res.json(updatedBooking);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     createBooking,
     getMyBookings,
@@ -166,5 +247,8 @@ module.exports = {
     updateBookingStatus,
     getBookingById,
     assignWorker,
-    getWorkerBookings
+    getWorkerBookings,
+    deleteBooking,
+    updateBooking,
+    markAttendance
 };
