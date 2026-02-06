@@ -11,8 +11,10 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { getToken } from "@/lib/auth";
 
+import { Skeleton } from "@/components/ui/skeleton";
+
 export default function ProfilePage() {
-    const { user, logout } = useAuth();
+    const { user, logout, loading } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         name: user?.name || "",
@@ -82,6 +84,49 @@ export default function ProfilePage() {
             setLoadingResult(false);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="space-y-8">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <Skeleton className="h-9 w-48 mb-2" />
+                        <Skeleton className="h-5 w-64" />
+                    </div>
+                    <Skeleton className="h-10 w-32" />
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2 mt-6">
+                    <div className="col-span-2 md:col-span-1 border rounded-lg p-6 space-y-4">
+                        <Skeleton className="h-7 w-48 mb-4" />
+                        <div className="space-y-4">
+                            <div>
+                                <Skeleton className="h-4 w-20 mb-2" />
+                                <Skeleton className="h-10 w-full" />
+                            </div>
+                            <div>
+                                <Skeleton className="h-4 w-24 mb-2" />
+                                <Skeleton className="h-10 w-full" />
+                            </div>
+                            <div>
+                                <Skeleton className="h-4 w-24 mb-2" />
+                                <Skeleton className="h-10 w-full" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-span-2 md:col-span-1 border rounded-lg p-6 space-y-4">
+                        <Skeleton className="h-7 w-48 mb-4" />
+                        <div className="space-y-4">
+                            <Skeleton className="h-20 w-full rounded-lg" />
+                            <Skeleton className="h-20 w-full rounded-lg" />
+                            <Skeleton className="h-10 w-full mt-4" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-8">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Header from "@/components/sections/header";
 import LoginForm from "@/components/sections/login-form";
@@ -9,8 +9,9 @@ import ChatWidget from "@/components/sections/chat-widget";
 import { toast } from "sonner";
 import { saveSession } from "@/lib/auth";
 import { useAuth } from "@/context/AuthContext";
+import { Loader2 } from "lucide-react";
 
-export default function LoginPage() {
+function LoginContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const { user, loading } = useAuth();
@@ -65,15 +66,23 @@ export default function LoginPage() {
     }, [user, loading, router]);
 
     return (
+        <div className="pt-[100px] pb-12 relative min-h-[calc(100vh-80px)] flex items-center justify-center bg-slate-50/50">
+            {/* Decorative Background Elements */}
+            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-10 right-10 w-80 h-80 bg-blue-300/20 rounded-full blur-[100px] pointer-events-none" />
+
+            <LoginForm />
+        </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
         <main className="min-h-screen">
             <Header />
-            <div className="pt-[100px] pb-12 relative min-h-[calc(100vh-80px)] flex items-center justify-center bg-slate-50/50">
-                {/* Decorative Background Elements */}
-                <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-[100px] pointer-events-none" />
-                <div className="absolute bottom-10 right-10 w-80 h-80 bg-blue-300/20 rounded-full blur-[100px] pointer-events-none" />
-
-                <LoginForm />
-            </div>
+            <Suspense fallback={<div className="flex h-screen items-center justify-center"><Loader2 className="animate-spin text-blue-600" /></div>}>
+                <LoginContent />
+            </Suspense>
             <Footer />
             <ChatWidget />
         </main>

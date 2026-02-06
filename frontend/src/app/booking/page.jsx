@@ -257,11 +257,66 @@ function BookingContent() {
     );
 }
 
+function BookingSkeleton() {
+    return (
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-32 pb-20">
+            <div className="container mx-auto px-6 max-w-3xl">
+                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-8 md:p-12 border border-white/60">
+                    {/* Header Skeleton */}
+                    <div className="h-10 bg-slate-200 rounded-lg w-3/4 mb-4 animate-pulse" />
+                    <div className="h-6 bg-slate-100 rounded-lg w-1/2 mb-8 animate-pulse" />
+
+                    <div className="space-y-6">
+                        {/* Service Type */}
+                        <div>
+                            <div className="h-5 bg-slate-200 rounded w-1/4 mb-2 animate-pulse" />
+                            <div className="h-12 bg-slate-100 rounded-xl w-full animate-pulse" />
+                        </div>
+
+                        {/* Address */}
+                        <div>
+                            <div className="h-5 bg-slate-200 rounded w-1/4 mb-2 animate-pulse" />
+                            <div className="h-24 bg-slate-100 rounded-xl w-full animate-pulse" />
+                        </div>
+
+                        {/* City & Pincode */}
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <div className="h-5 bg-slate-200 rounded w-1/4 mb-2 animate-pulse" />
+                                <div className="h-12 bg-slate-100 rounded-xl w-full animate-pulse" />
+                            </div>
+                            <div>
+                                <div className="h-5 bg-slate-200 rounded w-1/4 mb-2 animate-pulse" />
+                                <div className="h-12 bg-slate-100 rounded-xl w-full animate-pulse" />
+                            </div>
+                        </div>
+
+                        {/* Date & Time */}
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <div className="h-5 bg-slate-200 rounded w-1/3 mb-2 animate-pulse" />
+                                <div className="h-12 bg-slate-100 rounded-xl w-full animate-pulse" />
+                            </div>
+                            <div>
+                                <div className="h-5 bg-slate-200 rounded w-1/3 mb-2 animate-pulse" />
+                                <div className="h-12 bg-slate-100 rounded-xl w-full animate-pulse" />
+                            </div>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="h-14 bg-slate-200 rounded-xl w-full mt-8 animate-pulse" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function BookingPage() {
     return (
         <main className="min-h-screen">
             <Header />
-            <Suspense fallback={<div className="flex h-screen items-center justify-center"><Loader2 className="animate-spin text-blue-600" /></div>}>
+            <Suspense fallback={<BookingSkeleton />}>
                 <BookingContent />
             </Suspense>
             <Footer />

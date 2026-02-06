@@ -10,6 +10,8 @@ import { toast } from "sonner";
 
 import { getToken } from "@/lib/auth";
 
+import { Skeleton } from "@/components/ui/skeleton";
+
 export default function DashboardPage() {
     const { user } = useAuth();
     const [stats, setStats] = useState({
@@ -37,11 +39,7 @@ export default function DashboardPage() {
                 // Calculate stats
                 const active = bookings.filter(b => b.status === 'approved' || b.status === 'pending').length;
                 const completed = bookings.filter(b => b.status === 'completed');
-                // Assuming basePrice logic or we can just mock spend for now based on count if price isn't in booking
-                // Since Booking model doesn't seem to store price directly in my previous read, I'll assume standard rates or 0.
-                // Or I can add a field later. For now, let's just say 0 or count * 5000.
                 const spent = completed.length * 5000; // Mock calculation
-
                 const pending = bookings.filter(b => b.status === 'pending').length;
 
                 setStats({
@@ -52,7 +50,6 @@ export default function DashboardPage() {
 
             } catch (error) {
                 console.error(error);
-                // toast.error("Could not load dashboard stats");
             } finally {
                 setLoading(false);
             }
@@ -63,7 +60,30 @@ export default function DashboardPage() {
         }
     }, [user]);
 
-    if (loading) return <div className="flex h-96 items-center justify-center"><Loader2 className="animate-spin" /></div>;
+    if (loading) {
+        return (
+            <div className="space-y-8">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <Skeleton className="h-9 w-64 mb-2" />
+                        <Skeleton className="h-5 w-48" />
+                    </div>
+                    <Skeleton className="h-10 w-32" />
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-3">
+                    <Skeleton className="h-[120px] rounded-xl" />
+                    <Skeleton className="h-[120px] rounded-xl" />
+                    <Skeleton className="h-[120px] rounded-xl" />
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                    <Skeleton className="col-span-4 h-[300px] rounded-xl" />
+                    <Skeleton className="col-span-3 h-[300px] rounded-xl" />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-8">
