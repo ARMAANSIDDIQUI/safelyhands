@@ -42,17 +42,7 @@ const HeroSection = () => {
               >
                 Book Now <ArrowRight size={20} />
               </Link>
-              <div className="flex -space-x-3 items-center">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 overflow-hidden relative">
-                    <Image src={`https://randomuser.me/api/portraits/thumb/women/${i + 20}.jpg`} alt="User" fill className="object-cover" />
-                  </div>
-                ))}
-                <div className="w-10 h-10 rounded-full border-2 border-white bg-blue-50 flex items-center justify-center text-[10px] font-bold text-blue-600">
-                  2k+
-                </div>
-                <span className="ml-4 text-sm font-semibold text-slate-600">Happy Customers</span>
-              </div>
+
             </div>
 
             <div className="flex items-center justify-center lg:justify-start gap-8 mt-12 text-slate-500 text-sm font-medium">
