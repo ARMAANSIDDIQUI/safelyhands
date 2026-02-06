@@ -1,5 +1,9 @@
 "use client";
 
+import React from 'react';
+import Link from 'next/link';
+import { ShieldCheck, ArrowRight, CheckCircle2, Clock, Star } from 'lucide-react';
+
 export default function ServiceDetail({ initialData, slug }) {
     const [data, setData] = React.useState(initialData || null);
     const [loading, setLoading] = React.useState(!initialData);
