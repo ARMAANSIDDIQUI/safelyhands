@@ -1,0 +1,81 @@
+"use client";
+
+import { useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import Header from "@/components/sections/header";
+import LoginForm from "@/components/sections/login-form";
+import Footer from "@/components/sections/footer";
+import ChatWidget from "@/components/sections/chat-widget";
+import { toast } from "sonner";
+import { saveSession } from "@/lib/auth";
+import { useAuth } from "@/context/AuthContext";
+
+export default function LoginPage() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const { user, loading } = useAuth();
+
+    useEffect(() => {
+        const token = searchParams.get('token');
+        const userStr = searchParams.get('user');
+        const error = searchParams.get('error');
+
+        if (error) {
+            toast.error('Google authentication failed. Please try again.');
+            return;
+        }
+
+        if (token && userStr) {
+            try {
+                const user = JSON.parse(decodeURIComponent(userStr));
+
+                // Save session using centralized utility
+                saveSession(user, token);
+
+                toast.success(`Welcome back, ${user.name}!`);
+
+                // Redirect based on role after short delay
+                setTimeout(() => {
+                    if (user.role === 'worker') {
+                        router.push('/worker/dashboard');
+                    } else if (user.role === 'admin') {
+                        router.push('/admin');
+                    } else {
+                        router.push('/dashboard');
+                    }
+                }, 500);
+            } catch (err) {
+                console.error('Error parsing OAuth data:', err);
+                toast.error('Authentication error. Please try logging in again.');
+            }
+        }
+    }, [searchParams, router]);
+
+    // Auto-redirect if already logged in
+    useEffect(() => {
+        if (!loading && user) {
+            if (user.role === 'worker') {
+                router.push('/worker/dashboard');
+            } else if (user.role === 'admin') {
+                router.push('/admin');
+            } else {
+                router.push('/dashboard');
+            }
+        }
+    }, [user, loading, router]);
+
+    return (
+        <main className="min-h-screen">
+            <Header />
+            <div className="pt-[100px] pb-12 relative min-h-[calc(100vh-80px)] flex items-center justify-center bg-slate-50/50">
+                {/* Decorative Background Elements */}
+                <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-10 right-10 w-80 h-80 bg-blue-300/20 rounded-full blur-[100px] pointer-events-none" />
+
+                <LoginForm />
+            </div>
+            <Footer />
+            <ChatWidget />
+        </main>
+    );
+}

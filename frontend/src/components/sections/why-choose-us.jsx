@@ -1,0 +1,71 @@
+import React from 'react';
+import { BadgeCheck, Wallet, HeadphonesIcon } from 'lucide-react';
+
+const WhyChooseUs = () => {
+    const features = [
+        {
+            icon: <BadgeCheck size={32} />,
+            title: "Verification & Assessment",
+            description: "We enhance our rigorous physical and telephonic verification processes to ensure the highest quality assessments of our workers.",
+            color: "bg-green-50 text-green-600"
+        },
+        {
+            icon: <Wallet size={32} />,
+            title: "Transparent Pricing",
+            description: "You get what you pay for. Additionally, you get replacement guarantee, Covid-19 test reports, verification documents and more!",
+            color: "bg-blue-50 text-blue-600"
+        },
+        {
+            icon: <HeadphonesIcon size={32} />,
+            title: "Customer Support",
+            description: "Our executives will always be there to hear you out and solve your issues quickly and efficiently.",
+            color: "bg-yellow-50 text-yellow-600"
+        }
+    ];
+
+    return (
+        <section className="py-24 bg-white relative overflow-hidden">
+            {/* Decorative Elements */}
+            <div className="absolute right-0 top-1/4 w-1/3 h-1/2 bg-slate-50 rounded-l-[100px] -z-10" />
+
+            <div className="container mx-auto px-6 max-w-6xl">
+                <div className="flex flex-col md:flex-row gap-16 items-center">
+
+                    {/* Left Content */}
+                    <div className="w-full md:w-1/3">
+                        <h2 className="text-3xl md:text-5xl font-bold font-display text-slate-800 mb-6 leading-tight">
+                            Why <span className="text-primary">Choose Us</span>
+                        </h2>
+                        <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+                            We're redefining the domestic help industry with trust, transparency, and technology.
+                        </p>
+                        <button className="px-8 py-3 bg-slate-900 text-white rounded-full font-semibold hover:bg-slate-800 transition-all shadow-lg hover:translate-y-[-2px]">
+                            Get Started
+                        </button>
+                    </div>
+
+                    {/* Right Grid */}
+                    <div className="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {features.map((feature, index) => (
+                            <div
+                                key={index}
+                                className={`p-8 rounded-3xl border border-slate-100 bg-white hover:shadow-xl transition-all duration-300 group ${index === 2 ? 'md:col-span-2' : ''}`}
+                            >
+                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${feature.color} group-hover:scale-110 transition-transform duration-300`}>
+                                    {feature.icon}
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-800 mb-3">{feature.title}</h3>
+                                <p className="text-slate-600 leading-relaxed">
+                                    {feature.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default WhyChooseUs;
