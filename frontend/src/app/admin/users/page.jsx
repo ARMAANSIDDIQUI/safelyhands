@@ -1,218 +1,138 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { ShieldAlert, UserCheck, UserPlus, Loader2, Mail, Briefcase, IdCard } from "lucide-react";
+import { Users, Mail, Phone, Calendar, Loader2, ShieldCheck, UserCircle } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { getToken } from "@/lib/auth";
+import { formatDate } from "@/lib/utils";
 
-export default function UserManagement() {
+export default function UserList() {
     const { user } = useAuth();
-    const [adminLoading, setAdminLoading] = useState(false);
-    const [workerLoading, setWorkerLoading] = useState(false);
-    const [adminEmail, setAdminEmail] = useState("");
+    const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [workerForm, setWorkerForm] = useState({
-        name: "",
-        profession: "",
-        email: ""
-    });
-    const [generatedId, setGeneratedId] = useState(null);
-
-    const handlePromoteAdmin = async (e) => {
-        e.preventDefault();
-        if (!adminEmail) return;
-
-        setAdminLoading(true);
+    const fetchUsers = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/promote-admin`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user?.token}`
-                },
-                body: JSON.stringify({ email: adminEmail })
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/users`, {
+                headers: { "Authorization": `Bearer ${token}` }
             });
-
             const data = await res.json();
             if (res.ok) {
-                toast.success(data.message);
-                setAdminEmail("");
+                setUsers(data);
             } else {
-                toast.error(data.message || "Failed to promote user");
+                toast.error(data.message || "Failed to fetch users");
             }
-        } catch (error) {
-            toast.error("Error promoting user");
+        } catch (err) {
+            toast.error("Error loading users");
         } finally {
-            setAdminLoading(false);
+            setIsLoading(false);
         }
     };
 
-    const handleCreateWorkerId = async (e) => {
-        e.preventDefault();
-        setWorkerLoading(true);
-        setGeneratedId(null);
-
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers/create-id`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user?.token}`
-                },
-                body: JSON.stringify(workerForm)
-            });
-
-            const data = await res.json();
-            if (res.ok) {
-                toast.success("Worker ID Generated!");
-                setGeneratedId(data.workerId);
-                setWorkerForm({ name: "", profession: "", email: "" });
-            } else {
-                toast.error(data.message || "Failed to create worker ID");
-            }
-        } catch (error) {
-            toast.error("Error generating worker ID");
-        } finally {
-            setWorkerLoading(false);
+    useEffect(() => {
+        if (user) {
+            fetchUsers();
         }
-    };
+    }, [user]);
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+            </div>
+        );
+    }
 
     return (
-        <div className="space-y-8 max-w-4xl">
-            <div>
-                <h1 className="text-3xl font-display font-bold text-slate-900">Team Management</h1>
-                <p className="text-slate-500 mt-2">Control administrative access and generate worker identifiers.</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Admin Promotion Card */}
-                <Card className="border-blue-100 shadow-sm">
-                    <CardHeader className="bg-blue-50/50">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
-                                <UserCheck size={20} />
-                            </div>
-                            <div>
-                                <CardTitle className="text-lg">Promote to Admin</CardTitle>
-                                <CardDescription>Grant full management access to a user.</CardDescription>
-                            </div>
-                        </div>
-                    </CardHeader>
-                    <CardContent className="pt-6">
-                        <form onSubmit={handlePromoteAdmin} className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="adminEmail">User Email Address</Label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                                    <Input
-                                        id="adminEmail"
-                                        type="email"
-                                        placeholder="user@example.com"
-                                        className="pl-10"
-                                        value={adminEmail}
-                                        onChange={(e) => setAdminEmail(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={adminLoading}>
-                                {adminLoading ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
-                                Promote User
-                            </Button>
-                        </form>
-                    </CardContent>
-                </Card>
-
-                {/* Worker ID Creation Card */}
-                <Card className="border-emerald-100 shadow-sm">
-                    <CardHeader className="bg-emerald-50/50">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-emerald-100 rounded-lg text-emerald-600">
-                                <UserPlus size={20} />
-                            </div>
-                            <div>
-                                <CardTitle className="text-lg">Generate Worker ID</CardTitle>
-                                <CardDescription>Register a help professional and get their ID.</CardDescription>
-                            </div>
-                        </div>
-                    </CardHeader>
-                    <CardContent className="pt-6">
-                        <form onSubmit={handleCreateWorkerId} className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="name">Full Name</Label>
-                                <Input
-                                    id="name"
-                                    placeholder="e.g. Rahul Sharma"
-                                    value={workerForm.name}
-                                    onChange={(e) => setWorkerForm({ ...workerForm, name: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="profession">Profession</Label>
-                                <div className="relative">
-                                    <Briefcase className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                                    <Input
-                                        id="profession"
-                                        placeholder="e.g. Cook, Driver"
-                                        className="pl-10"
-                                        value={workerForm.profession}
-                                        onChange={(e) => setWorkerForm({ ...workerForm, profession: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="workerEmail">Email (Optional)</Label>
-                                <Input
-                                    id="workerEmail"
-                                    type="email"
-                                    placeholder="worker@example.com"
-                                    value={workerForm.email}
-                                    onChange={(e) => setWorkerForm({ ...workerForm, email: e.target.value })}
-                                />
-                                <p className="text-[10px] text-slate-400 italic">If email exists, user role will be updated to "worker".</p>
-                            </div>
-
-                            {generatedId ? (
-                                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 flex flex-col items-center gap-2 animate-in fade-in zoom-in duration-300">
-                                    <div className="flex items-center gap-2 font-bold text-xl">
-                                        <IdCard size={24} />
-                                        {generatedId}
-                                    </div>
-                                    <p className="text-xs">Share this ID with the worker for attendance tracking.</p>
-                                </div>
-                            ) : (
-                                <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={workerLoading}>
-                                    {workerLoading ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
-                                    Generate Worker ID
-                                </Button>
-                            )}
-                        </form>
-                    </CardContent>
-                </Card>
-            </div>
-
-            <Card className="border-amber-100 bg-amber-50/30">
-                <CardContent className="pt-6">
-                    <div className="flex gap-4">
-                        <div className="p-2 bg-amber-100 rounded-full h-fit text-amber-600">
-                            <ShieldAlert size={20} />
-                        </div>
-                        <div>
-                            <h4 className="font-semibold text-slate-900">Safety & Security</h4>
-                            <p className="text-sm text-slate-600 mt-1">
-                                Administrative privileges allow full data deletion and modification. Only promote trusted team members.
-                                Worker IDs are essential for linking attendance logs in external verification systems.
-                            </p>
-                        </div>
+        <div className="space-y-6">
+            <div className="flex justify-between items-center">
+                <div>
+                    <h1 className="text-3xl font-display font-bold text-slate-900">Registered Users</h1>
+                    <p className="text-slate-500 mt-2">View and manage all registered customers and staff.</p>
+                </div>
+                <div className="bg-white border rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                    <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                        <Users size={24} />
                     </div>
-                </CardContent>
-            </Card>
+                    <div>
+                        <p className="text-sm text-slate-500 font-medium">Total Users</p>
+                        <p className="text-2xl font-bold text-slate-900">{users.length}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead className="bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th className="p-4 font-semibold text-slate-700">User Details</th>
+                                <th className="p-4 font-semibold text-slate-700">Contact Info</th>
+                                <th className="p-4 font-semibold text-slate-700">Role</th>
+                                <th className="p-4 font-semibold text-slate-700">Join Date</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {users.length === 0 ? (
+                                <tr>
+                                    <td colSpan="4" className="p-8 text-center text-slate-500 italic">No users found.</td>
+                                </tr>
+                            ) : (
+                                users.map((u) => (
+                                    <tr key={u._id} className="hover:bg-slate-50/50 transition-colors">
+                                        <td className="p-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 overflow-hidden">
+                                                    {u.profilePicture ? (
+                                                        <img src={u.profilePicture} alt={u.name} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <UserCircle size={24} />
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <div className="font-semibold text-slate-900">{u.name}</div>
+                                                    <div className="text-[10px] text-slate-400 font-mono">ID: {u._id.slice(-6).toUpperCase()}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="p-4">
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-2 text-sm text-slate-600">
+                                                    <Mail size={14} className="text-slate-400" />
+                                                    {u.email}
+                                                </div>
+                                                {u.phone && (
+                                                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                                                        <Phone size={14} className="text-slate-400" />
+                                                        {u.phone}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td className="p-4">
+                                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider
+                                                ${u.role === 'admin' ? 'bg-blue-100 text-blue-700' :
+                                                    u.role === 'worker' ? 'bg-purple-100 text-purple-700' :
+                                                        'bg-emerald-100 text-emerald-700'}`}>
+                                                {u.role === 'admin' && <ShieldCheck size={12} />}
+                                                {u.role}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 text-sm text-slate-600">
+                                            <div className="flex items-center gap-2">
+                                                <Calendar size={14} className="text-slate-400" />
+                                                {formatDate(u.createdAt)}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 }

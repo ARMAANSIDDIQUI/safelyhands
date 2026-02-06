@@ -5,15 +5,17 @@ const Booking = require('../models/Booking');
 // @access  Private
 const createBooking = async (req, res) => {
     try {
-        const { serviceType, frequency, date, address, notes, paymentProofUrl } = req.body;
+        const { serviceType, frequency, date, time, address, notes, totalAmount, paymentProofUrl } = req.body;
 
         const booking = await Booking.create({
             user: req.user._id,
             serviceType,
             frequency,
             date,
+            time,
             address,
             notes,
+            totalAmount,
             paymentProofUrl, // Optional initially
             status: 'pending'
         });
@@ -57,6 +59,7 @@ const updateBookingStatus = async (req, res) => {
         const booking = await Booking.findById(req.params.id);
 
         if (booking) {
+            const oldStatus = booking.status;
             booking.status = req.body.status || booking.status;
 
             // Only update paymentStatus if it's explicitly provided in the request
@@ -64,12 +67,30 @@ const updateBookingStatus = async (req, res) => {
                 booking.paymentStatus = req.body.paymentStatus;
             }
 
+            // Update totalAmount if provided
+            if (req.body.totalAmount !== undefined) {
+                booking.totalAmount = req.body.totalAmount;
+            }
+
             const updatedBooking = await booking.save();
+
+            // Create notification if marked as completed
+            if (req.body.status === 'completed' && oldStatus !== 'completed') {
+                await Notification.create({
+                    user: booking.user,
+                    title: 'Service Completed',
+                    message: `Your your booking for ${booking.serviceType} has been marked as completed. We hope you enjoyed our service!`,
+                    type: 'booking',
+                    link: `/dashboard/bookings/${booking._id}`
+                });
+            }
+
             res.json(updatedBooking);
         } else {
             res.status(404).json({ message: 'Booking not found' });
         }
     } catch (error) {
+        console.error('Error updating status:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -220,7 +241,7 @@ const updateBooking = async (req, res) => {
 
 const markAttendance = async (req, res) => {
     try {
-        const { attendanceStatus } = req.body;
+        const { attendanceStatus, date } = req.body;
         const booking = await Booking.findById(req.params.id);
 
         if (!booking) {
@@ -232,7 +253,28 @@ const markAttendance = async (req, res) => {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
-        booking.attendanceStatus = attendanceStatus || booking.attendanceStatus;
+        const logDate = date ? new Date(date) : new Date();
+        logDate.setHours(0, 0, 0, 0);
+
+        if (!booking.attendanceLogs) booking.attendanceLogs = [];
+
+        const logIndex = booking.attendanceLogs.findIndex(log => {
+            const d = new Date(log.date);
+            d.setHours(0, 0, 0, 0);
+            return d.getTime() === logDate.getTime();
+        });
+
+        if (logIndex > -1) {
+            booking.attendanceLogs[logIndex].status = attendanceStatus || booking.attendanceLogs[logIndex].status;
+            booking.attendanceLogs[logIndex].markedBy = req.user.role === 'admin' ? 'admin' : 'user';
+        } else {
+            booking.attendanceLogs.push({
+                date: logDate,
+                status: attendanceStatus || 'not_marked',
+                markedBy: req.user.role === 'admin' ? 'admin' : 'user'
+            });
+        }
+
         const updatedBooking = await booking.save();
         res.json(updatedBooking);
     } catch (error) {

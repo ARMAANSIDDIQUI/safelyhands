@@ -29,6 +29,8 @@ router.route('/:id')
     .put(protect, admin, updateBookingStatus)
     .delete(protect, deleteBooking);
 
+router.route('/:id/status').put(protect, admin, updateBookingStatus);
+
 router.route('/:id/edit').put(protect, updateBooking);
 
 router.route('/:id/assign').put(protect, admin, assignWorker);

@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Eye, Loader2, FileText, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -145,6 +145,12 @@ export default function MyBookingsPage() {
         }
     };
 
+    const getDailyAttendanceStatus = (booking) => {
+        const today = new Date().toLocaleDateString();
+        const todayLog = booking.attendanceLogs?.find(log => new Date(log.date).toLocaleDateString() === today);
+        return todayLog?.status || 'not_marked';
+    };
+
     if (loading) {
         return (
             <div className="space-y-6">
@@ -229,29 +235,36 @@ export default function MyBookingsPage() {
                                     {booking.assignedWorker && (
                                         <div className="flex items-center gap-3 mt-4 p-2 bg-slate-50 rounded-lg border border-slate-100 w-fit">
                                             <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Attendance:</div>
-                                            <div className="flex gap-2">
-                                                <Button
-                                                    size="xs"
-                                                    variant={booking.attendanceStatus === 'present' ? 'default' : 'outline'}
-                                                    className={`h-7 px-3 text-[10px] ${booking.attendanceStatus === 'present' ? 'bg-emerald-600 hover:bg-emerald-700' : 'text-slate-500'}`}
-                                                    onClick={() => handleAttendanceUpdate(booking._id, 'present')}
-                                                >
-                                                    Present
-                                                </Button>
-                                                <Button
-                                                    size="xs"
-                                                    variant={booking.attendanceStatus === 'absent' ? 'destructive' : 'outline'}
-                                                    className="h-7 px-3 text-[10px]"
-                                                    onClick={() => handleAttendanceUpdate(booking._id, 'absent')}
-                                                >
-                                                    Absent
-                                                </Button>
-                                            </div>
-                                            {booking.attendanceStatus !== 'not_marked' && (
-                                                <span className={`text-[10px] font-bold uppercase ${booking.attendanceStatus === 'present' ? 'text-emerald-600' : 'text-rose-600'}`}>
-                                                    ✓ {booking.attendanceStatus}
-                                                </span>
-                                            )}
+                                            {(() => {
+                                                const status = getDailyAttendanceStatus(booking);
+                                                return (
+                                                    <>
+                                                        <div className="flex gap-2">
+                                                            <Button
+                                                                size="xs"
+                                                                variant={status === 'present' ? 'default' : 'outline'}
+                                                                className={`h-7 px-3 text-[10px] ${status === 'present' ? 'bg-emerald-600 hover:bg-emerald-700' : 'text-slate-500'}`}
+                                                                onClick={() => handleAttendanceUpdate(booking._id, 'present')}
+                                                            >
+                                                                Present
+                                                            </Button>
+                                                            <Button
+                                                                size="xs"
+                                                                variant={status === 'absent' ? 'destructive' : 'outline'}
+                                                                className="h-7 px-3 text-[10px]"
+                                                                onClick={() => handleAttendanceUpdate(booking._id, 'absent')}
+                                                            >
+                                                                Absent
+                                                            </Button>
+                                                        </div>
+                                                        {status !== 'not_marked' && (
+                                                            <span className={`text-[10px] font-bold uppercase ${status === 'present' ? 'text-emerald-600' : 'text-rose-600'}`}>
+                                                                ✓ {status}
+                                                            </span>
+                                                        )}
+                                                    </>
+                                                );
+                                            })()}
                                         </div>
                                     )}
                                 </div>

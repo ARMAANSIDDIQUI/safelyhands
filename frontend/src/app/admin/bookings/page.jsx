@@ -2,17 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Check, X, Eye, Loader2, Calendar, MapPin, Search, Pencil, Trash2 } from "lucide-react";
+import { Check, X, Eye, Loader2, Calendar, MapPin, Search, Pencil, Trash2, Clock, History } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export default function AdminBookings() {
     const { user, loading } = useAuth();
@@ -22,13 +23,15 @@ export default function AdminBookings() {
     const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState('all');
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [workersWithAvailability, setWorkersWithAvailability] = useState({});
     const [editingBooking, setEditingBooking] = useState(null);
     const [editFormData, setEditFormData] = useState({
         serviceType: "",
         frequency: "",
         date: "",
         address: "",
-        notes: ""
+        notes: "",
+        totalAmount: 0
     });
 
     const fetchBookings = async () => {
@@ -63,6 +66,21 @@ export default function AdminBookings() {
         }
     };
 
+    const fetchAvailability = async (booking) => {
+        try {
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers/availability?date=${booking.date}&time=${booking.time}&frequency=${booking.frequency}`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                setWorkersWithAvailability(prev => ({ ...prev, [booking._id]: data }));
+            }
+        } catch (err) {
+            console.error("Failed to fetch availability", err);
+        }
+    };
+
     const handleDelete = async (id) => {
         if (!confirm("Are you sure you want to PERMANENTLY delete this booking?")) return;
 
@@ -90,7 +108,8 @@ export default function AdminBookings() {
             frequency: booking.frequency,
             date: booking.date ? new Date(booking.date).toISOString().split('T')[0] : "",
             address: booking.address,
-            notes: booking.notes || ""
+            notes: booking.notes || "",
+            totalAmount: booking.totalAmount || 0
         });
         setIsEditDialogOpen(true);
     };
@@ -98,7 +117,7 @@ export default function AdminBookings() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${editingBooking._id}/edit`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${editingBooking._id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -180,7 +199,7 @@ export default function AdminBookings() {
         }
     };
 
-    const handleAttendanceUpdate = async (bookingId, attendanceStatus) => {
+    const handleAttendanceUpdate = async (bookingId, attendanceStatus, date) => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}/attendance`, {
                 method: 'PUT',
@@ -188,11 +207,11 @@ export default function AdminBookings() {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${user?.token}`
                 },
-                body: JSON.stringify({ attendanceStatus })
+                body: JSON.stringify({ attendanceStatus, date })
             });
 
             if (res.ok) {
-                toast.success(`Attendance marked as ${attendanceStatus}`);
+                toast.success(`Attendance marked`);
                 fetchBookings();
             } else {
                 throw new Error("Failed to update attendance");
@@ -200,6 +219,12 @@ export default function AdminBookings() {
         } catch (error) {
             toast.error("Failed to update attendance");
         }
+    };
+
+    const getDailyAttendanceStatus = (booking) => {
+        const today = new Date().toLocaleDateString();
+        const todayLog = booking.attendanceLogs?.find(log => new Date(log.date).toLocaleDateString() === today);
+        return todayLog?.status || 'not_marked';
     };
 
     const filteredBookings = bookings.filter(b => filter === 'all' || b.status === filter);
@@ -234,7 +259,8 @@ export default function AdminBookings() {
                                 <th className="p-4 font-semibold text-slate-700">Customer</th>
                                 <th className="p-4 font-semibold text-slate-700">Status</th>
                                 <th className="p-4 font-semibold text-slate-700">Payment</th>
-                                <th className="p-4 font-semibold text-slate-700">Assigned Worker</th>
+                                <th className="p-4 font-semibold text-slate-700">Price</th>
+                                <th className="p-4 font-semibold text-slate-700">Assigned Professional</th>
                                 <th className="p-4 font-semibold text-slate-700 text-center">Attendance</th>
                                 <th className="p-4 font-semibold text-slate-700 text-right">Actions</th>
                             </tr>
@@ -242,7 +268,7 @@ export default function AdminBookings() {
                         <tbody className="divide-y divide-slate-100">
                             {filteredBookings.length === 0 ? (
                                 <tr>
-                                    <td colSpan="8" className="p-8 text-center text-slate-500">No bookings found</td>
+                                    <td colSpan="9" className="p-8 text-center text-slate-500">No bookings found</td>
                                 </tr>
                             ) : (
                                 filteredBookings.map((booking) => (
@@ -252,12 +278,18 @@ export default function AdminBookings() {
                                             <div className="font-medium text-slate-900 capitalize">{booking.serviceType.replace('-', ' ')}</div>
                                             <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
                                                 <Calendar size={12} />
-                                                {formatDate(booking.date)} at {booking.time}
+                                                {formatDate(booking.date)}
                                             </div>
+                                            {booking.time && (
+                                                <div className="flex items-center gap-1 text-[10px] text-blue-500 font-bold mt-0.5">
+                                                    <Clock size={10} />
+                                                    {booking.time} ({booking.frequency})
+                                                </div>
+                                            )}
                                         </td>
                                         <td className="p-4">
                                             <div className="font-medium text-slate-900">{booking.user?.name || 'Guest'}</div>
-                                            <div className="text-xs text-slate-500">{booking.city}</div>
+                                            <div className="text-xs text-slate-500">{booking.address?.slice(0, 20)}...</div>
                                         </td>
                                         <td className="p-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
@@ -285,42 +317,84 @@ export default function AdminBookings() {
                                                         onClick={() => handleStatusUpdate(booking._id, booking.status, 'unpaid')}
                                                         className={`text-[9px] px-1.5 py-0.5 rounded border transition-colors ${booking.paymentStatus === 'unpaid' || !booking.paymentStatus ? 'bg-red-500 text-white border-red-500' : 'bg-white text-slate-400 hover:border-red-500 hover:text-red-500'}`}
                                                     >
-                                                        Unpaid
+                                                        Unp
                                                     </button>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="p-4">
-                                            {booking.worker ? (
+                                            <div className="text-sm font-bold text-slate-700">₹{booking.totalAmount || 0}</div>
+                                        </td>
+                                        <td className="p-4">
+                                            {booking.assignedWorker || booking.worker ? (
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-sm font-medium">{booking.worker.name}</span>
+                                                    <span className="text-sm font-medium">{(booking.assignedWorker || booking.worker).name}</span>
                                                 </div>
                                             ) : (
                                                 <span className="text-xs text-slate-400 italic">Unassigned</span>
                                             )}
                                         </td>
                                         <td className="p-4">
-                                            {booking.assignedWorker || booking.worker ? (
+                                            {(booking.assignedWorker || booking.worker) ? (
                                                 <div className="flex flex-col items-center gap-1">
-                                                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase
-                                                        ${booking.attendanceStatus === 'present' ? 'bg-emerald-100 text-emerald-700' :
-                                                            booking.attendanceStatus === 'absent' ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-500'}`}>
-                                                        {booking.attendanceStatus?.replace('_', ' ') || 'not marked'}
-                                                    </span>
-                                                    <div className="flex gap-1">
-                                                        <button
-                                                            onClick={() => handleAttendanceUpdate(booking._id, 'present')}
-                                                            className={`text-[9px] px-1.5 py-0.5 rounded border transition-colors ${booking.attendanceStatus === 'present' ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-white text-slate-400 hover:border-emerald-500 hover:text-emerald-500'}`}
-                                                        >
-                                                            P
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleAttendanceUpdate(booking._id, 'absent')}
-                                                            className={`text-[9px] px-1.5 py-0.5 rounded border transition-colors ${booking.attendanceStatus === 'absent' ? 'bg-rose-500 text-white border-rose-500' : 'bg-white text-slate-400 hover:border-rose-500 hover:text-rose-500'}`}
-                                                        >
-                                                            A
-                                                        </button>
-                                                    </div>
+                                                    {/* Today's Quick Status */}
+                                                    {(() => {
+                                                        const status = getDailyAttendanceStatus(booking);
+                                                        return (
+                                                            <div className="flex flex-col items-center gap-1">
+                                                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase
+                                                                    ${status === 'present' ? 'bg-emerald-100 text-emerald-700' :
+                                                                        status === 'absent' ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-500'}`}>
+                                                                    {status.replace('_', ' ')}
+                                                                </span>
+                                                                <div className="flex gap-1">
+                                                                    <button
+                                                                        onClick={() => handleAttendanceUpdate(booking._id, 'present')}
+                                                                        className={`text-[9px] px-1.5 py-0.5 rounded border transition-colors ${status === 'present' ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-white text-slate-400 hover:border-emerald-500 hover:text-emerald-500'}`}
+                                                                    >
+                                                                        P
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handleAttendanceUpdate(booking._id, 'absent')}
+                                                                        className={`text-[9px] px-1.5 py-0.5 rounded border transition-colors ${status === 'absent' ? 'bg-rose-500 text-white border-rose-500' : 'bg-white text-slate-400 hover:border-rose-500 hover:text-rose-500'}`}
+                                                                    >
+                                                                        A
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })()}
+
+                                                    {/* History Popover */}
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
+                                                            <button className="text-[10px] text-blue-500 hover:underline mt-1 flex items-center gap-1">
+                                                                <History size={10} /> History
+                                                            </button>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-64 p-3 bg-white border border-slate-200 shadow-xl rounded-lg">
+                                                            <h4 className="text-xs font-bold mb-2 flex items-center gap-2 border-b pb-1">
+                                                                <Calendar size={12} /> Attendance History
+                                                            </h4>
+                                                            <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                                                                {booking.attendanceLogs?.length > 0 ? (
+                                                                    booking.attendanceLogs.sort((a, b) => new Date(b.date) - new Date(a.date)).map((log, idx) => (
+                                                                        <div key={idx} className="flex items-center justify-between text-[11px] p-1.5 bg-slate-50 rounded border border-slate-100">
+                                                                            <span className="font-medium">{new Date(log.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}</span>
+                                                                            <div className="flex items-center gap-2">
+                                                                                <span className={`font-bold uppercase text-[9px] ${log.status === 'present' ? 'text-emerald-600' : 'text-rose-600'}`}>
+                                                                                    {log.status === 'present' ? 'P' : 'A'}
+                                                                                </span>
+                                                                                <span className="text-[8px] text-slate-400 italic">by {log.markedBy}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))
+                                                                ) : (
+                                                                    <p className="text-[10px] text-slate-500 text-center py-4 italic">No attendance marked yet.</p>
+                                                                )}
+                                                            </div>
+                                                        </PopoverContent>
+                                                    </Popover>
                                                 </div>
                                             ) : (
                                                 <div className="text-center text-xs text-slate-400">-</div>
@@ -331,16 +405,61 @@ export default function AdminBookings() {
                                                 {/* Assignment UI */}
                                                 {booking.status === 'pending' && (
                                                     <div className="flex items-center gap-2">
-                                                        <select
-                                                            className="p-2 border rounded-md text-xs w-32 focus:ring-1 focus:ring-blue-500 outline-none"
-                                                            onChange={(e) => setSelectedWorker({ ...selectedWorker, [booking._id]: e.target.value })}
-                                                            value={selectedWorker[booking._id] || ""}
-                                                        >
-                                                            <option value="">Assign Worker</option>
-                                                            {workers.map(w => (
-                                                                <option key={w._id} value={w._id}>{w.name}</option>
-                                                            ))}
-                                                        </select>
+                                                        <div className="relative group">
+                                                            <select
+                                                                className={`p-2 border rounded-md text-xs w-32 focus:ring-1 focus:ring-blue-500 outline-none
+                                                                    ${workersWithAvailability[booking._id]?.find(w => w._id === selectedWorker[booking._id])?.isAvailable === false ? 'border-red-300 bg-red-50 text-red-700' : 'border-slate-200'}`}
+                                                                onFocus={() => fetchAvailability(booking)}
+                                                                onChange={(e) => setSelectedWorker({ ...selectedWorker, [booking._id]: e.target.value })}
+                                                                value={selectedWorker[booking._id] || ""}
+                                                            >
+                                                                <option value="">Assign Professional</option>
+                                                                {(workersWithAvailability[booking._id] || workers).map(w => (
+                                                                    <option key={w._id} value={w._id} className={w.isAvailable === false ? 'text-red-600 font-bold' : ''}>
+                                                                        {w.name} {w.isAvailable === false ? ' (Busy)' : ''}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+
+                                                            {/* Availability Hover Info */}
+                                                            {selectedWorker[booking._id] && (
+                                                                <div className="absolute right-0 bottom-full mb-2 w-48 bg-white border border-slate-200 shadow-xl rounded-lg p-3 z-50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                                                    {(() => {
+                                                                        const w = (workersWithAvailability[booking._id] || workers).find(x => x._id === selectedWorker[booking._id]);
+                                                                        if (!w) return null;
+                                                                        return (
+                                                                            <div className="space-y-2 text-left">
+                                                                                <div className="flex items-center justify-between border-b pb-1 mb-1 border-slate-100">
+                                                                                    <span className="text-[10px] font-bold text-slate-400">Schedule Check</span>
+                                                                                    <span className={`text-[10px] font-bold ${w.isAvailable ? 'text-emerald-600' : 'text-rose-600'}`}>
+                                                                                        {w.isAvailable ? 'AVAILABLE' : 'BUSY'}
+                                                                                    </span>
+                                                                                </div>
+                                                                                {w.isAvailable ? (
+                                                                                    <p className="text-[9px] text-slate-500 italic">No direct conflicts found for this slot.</p>
+                                                                                ) : (
+                                                                                    <div className="bg-rose-50 p-1.5 rounded border border-rose-100">
+                                                                                        <p className="text-[9px] font-bold text-rose-700">Conflict:</p>
+                                                                                        <p className="text-[9px] text-rose-600 capitalize">{w.conflict?.serviceType} at {w.conflict?.time}</p>
+                                                                                        <p className="text-[8px] text-rose-400">({w.conflict?.frequency})</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {w.currentSchedule?.length > 0 && (
+                                                                                    <div className="pt-1">
+                                                                                        <p className="text-[8px] font-bold text-slate-400 uppercase mb-1">Load:</p>
+                                                                                        {w.currentSchedule.slice(0, 2).map((s, idx) => (
+                                                                                            <div key={idx} className="text-[8px] text-slate-600 leading-tight">
+                                                                                                • {s.time} - {s.serviceType}
+                                                                                            </div>
+                                                                                        ))}
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        );
+                                                                    })()}
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                         <button
                                                             onClick={() => handleAssignWorker(booking._id)}
                                                             className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 border border-blue-100"
@@ -466,6 +585,17 @@ export default function AdminBookings() {
                         </div>
 
                         <div className="grid gap-2">
+                            <Label htmlFor="totalAmount">Total Amount (₹)</Label>
+                            <Input
+                                id="totalAmount"
+                                type="number"
+                                value={editFormData.totalAmount}
+                                onChange={(e) => setEditFormData({ ...editFormData, totalAmount: Number(e.target.value) })}
+                                placeholder="Enter total bill amount"
+                            />
+                        </div>
+
+                        <div className="grid gap-2">
                             <Label htmlFor="notes">Notes (Internal)</Label>
                             <Textarea
                                 id="notes"
@@ -482,6 +612,6 @@ export default function AdminBookings() {
                     </form>
                 </DialogContent>
             </Dialog>
-        </div>
+        </div >
     );
 }

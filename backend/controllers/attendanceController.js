@@ -5,11 +5,18 @@ const Attendance = require('../models/Attendance');
 // @access  Private
 const markAttendance = async (req, res) => {
     try {
-        const { booking, status, date } = req.body;
+        const { booking: bookingId, status, date } = req.body;
+        const Booking = require('../models/Booking');
+        const booking = await Booking.findById(bookingId);
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
 
         const attendance = await Attendance.create({
-            booking,
-            worker: req.user._id,
+            booking: bookingId,
+            worker: booking.assignedWorker,
+            user: booking.user,
             date: date || new Date(),
             status,
             markedBy: req.user._id

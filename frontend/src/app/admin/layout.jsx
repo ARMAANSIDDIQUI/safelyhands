@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Users, CalendarCheck, Briefcase, Settings, LogOut, MessageSquareQuote, Home } from "lucide-react";
+import { LayoutDashboard, Users, CalendarCheck, Briefcase, Settings, LogOut, MessageSquareQuote, Home, ShieldCheck } from "lucide-react";
 
 export default function AdminLayout({ children }) {
     const { user, loading, logout } = useAuth();
@@ -37,7 +37,8 @@ export default function AdminLayout({ children }) {
                     <SidebarItem href="/admin/bookings" icon={<CalendarCheck size={20} />} label="Bookings & Payments" />
                     <SidebarItem href="/admin/services" icon={<Briefcase size={20} />} label="Services" />
                     <SidebarItem href="/admin/workers" icon={<Users size={20} />} label="Workers" />
-                    <SidebarItem href="/admin/users" icon={<Users size={20} />} label="Team Management" />
+                    <SidebarItem href="/admin/users" icon={<Users size={20} />} label="Users" />
+                    <SidebarItem href="/admin/team" icon={<ShieldCheck size={20} />} label="Team Management" />
                     <SidebarItem href="/admin/testimonials" icon={<MessageSquareQuote size={20} />} label="Testimonials" />
                     <SidebarItem href="/admin/carousel" icon={<LayoutDashboard size={20} />} label="Carousel" />
                     <SidebarItem href="/admin/settings" icon={<Settings size={20} />} label="Settings" />

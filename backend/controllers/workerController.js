@@ -156,11 +156,91 @@ const createWorkerWithId = async (req, res) => {
     }
 };
 
+// @desc    Get workers with availability status for a specific slot
+// @route   GET /api/workers/availability
+// @access  Private/Admin
+const getWorkersWithAvailability = async (req, res) => {
+    try {
+        const { date, time, frequency } = req.query;
+        const Booking = require('../models/Booking');
+
+        if (!date || !time) {
+            return res.status(400).json({ message: 'Date and time are required' });
+        }
+
+        const requestedDate = new Date(date);
+        requestedDate.setHours(0, 0, 0, 0);
+
+        const workers = await Worker.find({});
+        const bookings = await Booking.find({
+            status: 'approved',
+            assignedWorker: { $ne: null }
+        }).populate('assignedWorker');
+
+        const workersWithStatus = workers.map(worker => {
+            const workerBookings = bookings.filter(b =>
+                b.assignedWorker && b.assignedWorker._id.toString() === worker._id.toString()
+            );
+
+            let isBusy = false;
+            let conflict = null;
+
+            for (const b of workerBookings) {
+                const bDate = new Date(b.date);
+                bDate.setHours(0, 0, 0, 0);
+
+                // Check for exact time overlap
+                if (b.time === time) {
+                    if (b.frequency === 'Daily' || b.frequency === 'Live-in') {
+                        isBusy = true;
+                        conflict = b;
+                        break;
+                    }
+                    if (bDate.getTime() === requestedDate.getTime()) {
+                        isBusy = true;
+                        conflict = b;
+                        break;
+                    }
+                }
+
+                // Live-in workers are busy all day
+                if (b.frequency === 'Live-in' && bDate.getTime() === requestedDate.getTime()) {
+                    isBusy = true;
+                    conflict = b;
+                    break;
+                }
+            }
+
+            return {
+                ...worker._doc,
+                isAvailable: !isBusy,
+                conflict: conflict ? {
+                    serviceType: conflict.serviceType,
+                    time: conflict.time,
+                    frequency: conflict.frequency
+                } : null,
+                currentSchedule: workerBookings.map(b => ({
+                    serviceType: b.serviceType,
+                    time: b.time,
+                    frequency: b.frequency,
+                    date: b.date
+                }))
+            };
+        });
+
+        res.json(workersWithStatus);
+    } catch (error) {
+        console.error("Availability Error:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getWorkers,
     getWorkerById,
     createWorker,
     updateWorker,
     deleteWorker,
-    createWorkerWithId
+    createWorkerWithId,
+    getWorkersWithAvailability
 };

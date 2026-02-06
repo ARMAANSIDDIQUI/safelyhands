@@ -37,17 +37,22 @@ export default function MyServicesPage() {
         }
     };
 
+    const getDailyAttendanceStatus = (booking) => {
+        const today = new Date().toLocaleDateString();
+        const todayLog = booking.attendanceLogs?.find(log => new Date(log.date).toLocaleDateString() === today);
+        return todayLog?.status || 'not_marked';
+    };
+
     const markAttendance = async (bookingId, status) => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance`, {
-                method: 'POST',
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}/attendance`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${user?.token}`
                 },
                 body: JSON.stringify({
-                    booking: bookingId,
-                    status,
+                    attendanceStatus: status,
                     date: new Date().toISOString().split('T')[0]
                 })
             });
@@ -173,20 +178,27 @@ export default function MyServicesPage() {
 
                                         {booking.status === 'approved' && (
                                             <div className="flex gap-3">
-                                                <button
-                                                    onClick={() => markAttendance(booking._id, 'present')}
-                                                    className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-                                                >
-                                                    <CheckCircle size={18} />
-                                                    Mark Present
-                                                </button>
-                                                <button
-                                                    onClick={() => markAttendance(booking._id, 'absent')}
-                                                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
-                                                >
-                                                    <XCircle size={18} />
-                                                    Mark Absent
-                                                </button>
+                                                {(() => {
+                                                    const status = getDailyAttendanceStatus(booking);
+                                                    return (
+                                                        <>
+                                                            <button
+                                                                onClick={() => markAttendance(booking._id, 'present')}
+                                                                className={`flex-1 px-4 py-2 text-white rounded-lg transition-colors flex items-center justify-center gap-2 ${status === 'present' ? 'bg-green-700 shadow-inner' : 'bg-green-600 hover:bg-green-700'}`}
+                                                            >
+                                                                <CheckCircle size={18} />
+                                                                {status === 'present' ? 'Present ✓' : 'Mark Present'}
+                                                            </button>
+                                                            <button
+                                                                onClick={() => markAttendance(booking._id, 'absent')}
+                                                                className={`flex-1 px-4 py-2 text-white rounded-lg transition-colors flex items-center justify-center gap-2 ${status === 'absent' ? 'bg-red-700 shadow-inner' : 'bg-red-600 hover:bg-red-700'}`}
+                                                            >
+                                                                <XCircle size={18} />
+                                                                {status === 'absent' ? 'Absent ✗' : 'Mark Absent'}
+                                                            </button>
+                                                        </>
+                                                    );
+                                                })()}
                                                 <button
                                                     onClick={() => setReviewModal(booking)}
                                                     className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"

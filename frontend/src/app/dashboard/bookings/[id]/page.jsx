@@ -43,48 +43,49 @@ export default function BookingDetailPage() {
     const [reviewComment, setReviewComment] = useState("");
     const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
+    const fetchBooking = async () => {
+        try {
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error("Booking not found");
+            const data = await res.json();
+            setBooking(data);
+        } catch (error) {
+            toast.error("Failed to load booking details");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchBooking = async () => {
-            try {
-                const token = getToken();
-
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                if (!res.ok) throw new Error("Booking not found");
-
-                const data = await res.json();
-                setBooking(data);
-            } catch (error) {
-                toast.error("Failed to load booking details");
-                // router.push('/dashboard/bookings');
-            } finally {
-                setLoading(false);
-            }
-        };
-
         if (user && id) {
             fetchBooking();
         }
     }, [user, id, router]);
+
+    const getDailyAttendanceStatus = (booking) => {
+        const dateToCheck = attendanceDate || new Date().toISOString().split('T')[0];
+        const logDateStr = new Date(dateToCheck).toLocaleDateString();
+        const log = booking.attendanceLogs?.find(l => new Date(l.date).toLocaleDateString() === logDateStr);
+        return log?.status || 'not_marked';
+    };
 
     const handleMarkAttendance = async (status) => {
         if (!booking?.assignedWorker) return;
         setAttendanceLoading(true);
         try {
             const token = getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance`, {
-                method: "POST",
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${booking._id}/attendance`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    bookingId: booking._id,
-                    workerId: booking.assignedWorker._id,
-                    date: attendanceDate,
-                    status // 'present' or 'absent'
+                    attendanceStatus: status,
+                    date: attendanceDate
                 })
             });
 
@@ -92,6 +93,7 @@ export default function BookingDetailPage() {
             if (!res.ok) throw new Error(data.message);
 
             toast.success(`Marked as ${status}`);
+            fetchBooking();
         } catch (error) {
             toast.error(error.message || "Failed to mark attendance");
         } finally {
@@ -203,23 +205,30 @@ export default function BookingDetailPage() {
                                                 />
                                             </div>
                                             <div className="flex gap-4">
-                                                <Button
-                                                    className="w-full bg-green-600 hover:bg-green-700"
-                                                    onClick={() => handleMarkAttendance('present')}
-                                                    disabled={attendanceLoading}
-                                                >
-                                                    {attendanceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="mr-2 w-4 h-4" />}
-                                                    Present
-                                                </Button>
-                                                <Button
-                                                    className="w-full"
-                                                    variant="destructive"
-                                                    onClick={() => handleMarkAttendance('absent')}
-                                                    disabled={attendanceLoading}
-                                                >
-                                                    {attendanceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="mr-2 w-4 h-4" />}
-                                                    Absent
-                                                </Button>
+                                                {(() => {
+                                                    const status = getDailyAttendanceStatus(booking);
+                                                    return (
+                                                        <>
+                                                            <Button
+                                                                className={`w-full ${status === 'present' ? 'bg-green-700 shadow-inner' : 'bg-green-600 hover:bg-green-700'}`}
+                                                                onClick={() => handleMarkAttendance('present')}
+                                                                disabled={attendanceLoading}
+                                                            >
+                                                                {attendanceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="mr-2 w-4 h-4" />}
+                                                                {status === 'present' ? 'Present ✓' : 'Present'}
+                                                            </Button>
+                                                            <Button
+                                                                className={`w-full ${status === 'absent' ? 'bg-red-700 shadow-inner' : ''}`}
+                                                                variant="destructive"
+                                                                onClick={() => handleMarkAttendance('absent')}
+                                                                disabled={attendanceLoading}
+                                                            >
+                                                                {attendanceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="mr-2 w-4 h-4" />}
+                                                                {status === 'absent' ? 'Absent ✗' : 'Absent'}
+                                                            </Button>
+                                                        </>
+                                                    );
+                                                })()}
                                             </div>
                                         </div>
                                     ) : (
