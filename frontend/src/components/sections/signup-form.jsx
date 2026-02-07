@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Mail, Lock, User, Phone, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, User, Phone, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
@@ -17,6 +17,8 @@ export default function SignupForm() {
         confirmPassword: "",
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -131,13 +133,44 @@ export default function SignupForm() {
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="Create a password"
-                                className="w-full bg-white/80 border border-slate-200 text-slate-900 text-sm rounded-xl pl-11 pr-4 h-[50px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400"
+                                className="w-full bg-white/80 border border-slate-200 text-slate-900 text-sm rounded-xl pl-11 pr-12 h-[50px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400"
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-semibold text-slate-700 ml-1" htmlFor="confirmPassword">Confirm Password</label>
+                        <div className="relative">
+                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                            <input
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                type={showConfirmPassword ? "text" : "password"}
+                                required
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="Confirm your password"
+                                className="w-full bg-white/80 border border-slate-200 text-slate-900 text-sm rounded-xl pl-11 pr-12 h-[50px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                            >
+                                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
                         </div>
                     </div>
 

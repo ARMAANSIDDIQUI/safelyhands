@@ -48,14 +48,19 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${(isScrolled || isMenuOpen)
-        ? "bg-[#f0f9ff]/90 backdrop-blur-md py-3 shadow-md border-b border-blue-100"
-        : "bg-transparent py-5"
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
+        ? "bg-[#f0f9ff] py-3 shadow-md border-b border-blue-100"
+        : isScrolled
+          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-3 shadow-md border-b border-blue-100"
+          : "bg-transparent py-5"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}
-      {!isScrolled && !isMenuOpen && equalizerBars.length > 0 && (
-        <div className="absolute top-0 left-0 w-full h-32 -z-10 flex items-start justify-between px-2 overflow-hidden pointer-events-none opacity-60">
+      {equalizerBars.length > 0 && (
+        <div
+          className={`absolute top-0 left-0 w-full h-32 -z-10 flex items-start justify-between px-2 overflow-hidden pointer-events-none transition-opacity duration-500 
+            ${(!isScrolled && !isMenuOpen) ? "opacity-60" : "opacity-0"}`}
+        >
           {equalizerBars.map((bar, i) => (
             <div
               key={i}
@@ -237,7 +242,7 @@ const Header = () => {
       />
 
       <div
-        className={`fixed top-0 right-0 w-[280px] h-full bg-white shadow-2xl z-50 transition-transform duration-300 transform lg:hidden flex flex-col ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 w-[280px] h-full bg-white shadow-2xl z-[1001] transition-transform duration-300 transform lg:hidden flex flex-col border-l border-slate-200 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
         <div className="p-5 flex items-center justify-between border-b border-slate-100">
@@ -252,10 +257,10 @@ const Header = () => {
 
         <div className="flex-1 overflow-y-auto py-4 px-3">
           <div className="space-y-1">
-            {['Home', 'Services', 'About Us', 'Contact', 'Blog'].map((item) => (
+            {['Home', 'Services', 'About Us', 'Contact'].map((item) => (
               <Link
                 key={item}
-                href={`/${item.toLowerCase().replace(' ', '-')}`}
+                href={`/${item.toLowerCase().replace(' ', '-') === 'home' ? '' : item.toLowerCase().replace(' ', '-')}`}
                 className="block px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -264,19 +269,21 @@ const Header = () => {
             ))}
           </div>
 
-          <div className="mt-8 px-4">
-            <div className="bg-blue-50 rounded-2xl p-4">
-              <div className="font-bold text-blue-900 mb-1">New here?</div>
-              <p className="text-xs text-blue-700 mb-3">Create an account to manage your bookings easily.</p>
-              <Link
-                href="/signup"
-                className="block w-full bg-blue-600 text-white text-center py-2 rounded-lg text-sm font-bold shadow-md shadow-blue-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Sign Up
-              </Link>
+          {!user && (
+            <div className="mt-8 px-4">
+              <div className="bg-blue-50 rounded-2xl p-4">
+                <div className="font-bold text-blue-900 mb-1">New here?</div>
+                <p className="text-xs text-blue-700 mb-3">Create an account to manage your bookings easily.</p>
+                <Link
+                  href="/signup"
+                  className="block w-full bg-blue-600 text-white text-center py-2 rounded-lg text-sm font-bold shadow-md shadow-blue-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="p-4 border-t border-slate-100">

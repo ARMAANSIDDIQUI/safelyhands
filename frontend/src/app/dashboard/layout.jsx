@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }) {
     ];
 
     return (
-        <div className="flex h-screen bg-gray-50/50">
+        <div className="flex h-screen bg-gray-50">
             {/* Sidebar */}
             <aside className="hidden w-64 border-r bg-white md:block">
                 <div className="p-6 border-b border-slate-100">

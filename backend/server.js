@@ -49,7 +49,7 @@ mongoose.connect(MONGODB_URI)
     .then(() => console.log('MongoDB Connected Successfully'))
     .catch(err => console.error('MongoDB Connection Error:', err));
 
-// Start Server with Port Fallback
+// Start Server with Port Fallback (only for local development)
 const startServer = (port) => {
     const server = app.listen(port, () => {
         console.log(`Server running on port ${port}`);
@@ -63,4 +63,10 @@ const startServer = (port) => {
     });
 };
 
-startServer(PORT);
+// Only start server in local development (not on Vercel)
+if (process.env.NODE_ENV !== 'production') {
+    startServer(PORT);
+}
+
+// Export app for Vercel serverless deployment
+module.exports = app;
