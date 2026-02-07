@@ -58,6 +58,7 @@ const FeaturedServices = () => {
           // Map services from database with all fields
           setServices(data.slice(0, 5).map(s => ({
             title: s.title,
+            slug: s.slug,
             rating: s.rating ? s.rating.toFixed(1) : "4.8",
             reviews: s.reviewCount ? `${s.reviewCount >= 1000 ? (s.reviewCount / 1000).toFixed(1) + 'k' : s.reviewCount}+` : "500+",
             image: s.imageUrl || staticServices[0].image,
