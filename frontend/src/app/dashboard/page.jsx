@@ -110,7 +110,7 @@ export default function DashboardPage() {
                         <p className="text-xs text-muted-foreground">Ongoing subscriptions</p>
                     </CardContent>
                 </Card>
-                <Card>
+                <Card id="dashboard-total-spent">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">Est. Total Spent</CardTitle>
                         <CreditCard className="h-4 w-4 text-muted-foreground" />

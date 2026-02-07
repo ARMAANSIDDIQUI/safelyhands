@@ -31,12 +31,12 @@ const SharkBanner = () => {
           <div className="relative flex items-center cursor-pointer h-full" onClick={() => window.open('https://youtu.be/gaDsZMDG95Q?si=9OOftQSiBptVEBYz', '_blank')}>
             <div className="relative h-[45px] sm:h-[55px] w-[50px] sm:w-[60px]">
               <Image
-                src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/shark-2.gif"
+                src="https://placehold.co/60x60/003D99/ffffff?text=🦈"
                 alt="Shark Tank Animation"
                 fill
                 className="object-contain"
                 priority
-                unoptimized // GIFs need to be unoptimized in Next.js Image for animation to work reliably
+                unoptimized
               />
             </div>
           </div>

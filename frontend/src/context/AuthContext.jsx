@@ -4,7 +4,14 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { saveSession, getUser, getToken, clearSession, isAuthenticated } from "@/lib/auth";
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+    user: null,
+    setUser: () => { },
+    loading: true,
+    login: async () => { },
+    register: async () => { },
+    logout: () => { }
+});
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);

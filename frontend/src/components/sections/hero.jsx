@@ -10,8 +10,8 @@ const HeroSection = () => {
     <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-surface">
       {/* Dynamic Background Elements - More visible blue */}
 
-      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-200/30 rounded-full blur-[100px] -z-10 animate-blob" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[80px] -z-10 animate-blob animation-delay-2000" />
+      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-200/30 rounded-full blur-[100px] -z-10 animate-blob hidden md:block" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[80px] -z-10 animate-blob animation-delay-2000 hidden md:block" />
 
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -26,7 +26,7 @@ const HeroSection = () => {
               India's Trusted Home Makers
             </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-display tracking-tight text-slate-900 mb-6 leading-[1.1]">
+            <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-bold font-display tracking-tight text-slate-900 mb-6 leading-[1.1]">
               Maid for House at <br />
               <span className="text-gradient">your Doorsteps</span>
             </h1>
@@ -37,6 +37,7 @@ const HeroSection = () => {
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
+                id="book-now-btn"
                 href="/services"
                 className="w-full sm:w-auto px-8 py-4 bg-gradient-primary text-white rounded-full font-bold text-lg hover:shadow-glow-blue hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-sky-200"
               >
@@ -65,7 +66,7 @@ const HeroSection = () => {
               <div className="absolute inset-0 bg-gradient-brand rounded-[40px] rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500"></div>
               <div className="absolute inset-0 bg-transparent rounded-[40px] overflow-hidden shadow-2xl rotate-0 transition-transform duration-500 z-10 flex items-center justify-center">
                 <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/cd253c39bd16fcdf8835ff502fec9273-6.jpg"
+                  src="https://placehold.co/800x800/e0f2fe/0ea5e9?text=Happy+Home+Services"
                   alt="Happy family with domestic help"
                   fill
                   className="object-cover"

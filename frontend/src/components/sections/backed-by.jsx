@@ -7,48 +7,36 @@ import Image from "next/image";
 export default function BackedBy() {
   const partners = [
     {
-      name: "Magic Fund",
-      src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/MagicFund-4.svg",
+      name: "Top Fund",
+      src: "https://placehold.co/120x48/e0f2fe/0ea5e9?text=Top+Fund",
       width: 120,
       height: 48,
     },
     {
-      name: "2am VC",
-      src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/2amVC-5.svg",
-      width: 45,
+      name: "Growth VC",
+      src: "https://placehold.co/100x40/f0f9ff/0284c7?text=Growth+VC",
+      width: 100,
       height: 40,
     },
     {
-      name: "SAT",
-      src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/SAT-6.svg",
-      width: 90,
+      name: "Innovate Labs",
+      src: "https://placehold.co/100x40/e0f2fe/38bdf8?text=Innovate+Labs",
+      width: 100,
       height: 40,
     },
     {
-      name: "100x",
-      src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/100x-7.svg",
-      width: 90,
+      name: "Alpha Ventures",
+      src: "https://placehold.co/120x40/f0f9ff/0ea5e9?text=Alpha+VC",
+      width: 120,
       height: 40,
-    },
-    {
-      name: "Dholakia Ventures",
-      src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Dholakia-8.svg",
-      width: 140,
-      height: 40,
-    },
-    {
-      name: "Riverside Ventures",
-      src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/Riverside-21.png",
-      width: 80,
-      height: 40,
-    },
+    }
   ];
 
   return (
     <section className="py-12 bg-white">
       <div className="container px-4 mx-auto text-center">
         {/* Section Heading */}
-        <h3 
+        <h3
           className="text-[14px] font-semibold text-[#666666] mb-8 uppercase tracking-wider"
           style={{ fontFamily: 'var(--font-sans)' }}
         >
@@ -58,8 +46,8 @@ export default function BackedBy() {
         {/* Logo Wall */}
         <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 opacity-80 hover:opacity-100 transition-opacity duration-300">
           {partners.map((partner, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300"
             >
               <Image

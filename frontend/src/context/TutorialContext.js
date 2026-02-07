@@ -2,32 +2,74 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { toast } from 'sonner';
 
 const TutorialContext = createContext();
 
 const STEPS = [
     {
-        id: 'booking-step',
-        targetId: 'booking-form',
+        id: 'welcome-step',
+        targetId: 'hero-title',
+        path: '/',
+        title: 'Welcome to Safely Hands',
+        content: 'Your trusted partner for home makers in Moradabad. Let us show you around!',
+        position: 'bottom'
+    },
+    {
+        id: 'booking-start-step',
+        targetId: 'book-now-btn',
+        path: '/',
+        title: 'Ready to Book?',
+        content: 'Click here or navigate to the booking page to start hiring your professional help.',
+        position: 'bottom'
+    },
+    {
+        id: 'booking-service-step',
+        targetId: 'booking-service-type',
         path: '/booking',
-        title: 'Book a Service',
-        content: 'Start by filling out this form to book your service clearly. Select the service type, date, and time.',
-        position: 'left'
+        title: 'Choose a Service',
+        content: 'Select the type of help you need. We offer cooks, babysitters, and more!',
+        position: 'bottom'
+    },
+    {
+        id: 'booking-address-step',
+        targetId: 'booking-address',
+        path: '/booking',
+        title: 'Where do you need us?',
+        content: 'Provide your full address so our team can reach you easily.',
+        position: 'bottom'
+    },
+    {
+        id: 'booking-date-step',
+        targetId: 'booking-date-time',
+        path: '/booking',
+        title: 'Set Date & Time',
+        content: 'Choose your preferred date and time for the service to start.',
+        position: 'bottom'
+    },
+    {
+        id: 'booking-submit-step',
+        targetId: 'booking-submit-btn',
+        path: '/booking',
+        title: 'Confirm Booking',
+        content: 'Finalize your request by clicking the submit button. We\'ll handle the rest!',
+        position: 'top'
     },
     {
         id: 'dashboard-step',
         targetId: 'dashboard-stats',
         path: '/dashboard',
-        title: 'Track Activities',
-        content: 'Here you can see your active services and pending actions at a glance.',
+        title: 'Your Dashboard',
+        content: 'Monitor your bookings, track worker attendance, and manage your profile here.',
         position: 'bottom'
     },
     {
         id: 'attendance-step',
-        targetId: 'dashboard-bookings-link', // We need to add this ID to the link
+        targetId: 'dashboard-bookings-link',
         path: '/dashboard',
-        title: 'Manage Attendance',
-        content: 'Click here to view your bookings and mark daily attendance for your workers.',
+        title: 'Worker Attendance',
+        content: 'View and mark daily attendance for your helpers directly from this section.',
         position: 'bottom'
     }
 ];
@@ -37,8 +79,15 @@ export function TutorialProvider({ children }) {
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
     const router = useRouter();
     const pathname = usePathname();
+    const auth = useAuth();
+    const user = auth ? auth.user : null;
 
     const startTutorial = () => {
+        if (!user) {
+            toast.error('Please login to start the guided tour!');
+            router.push('/login');
+            return;
+        }
         setIsActive(true);
         setCurrentStepIndex(0);
         // Navigate to first step if needed

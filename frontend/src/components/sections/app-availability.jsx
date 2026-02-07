@@ -11,8 +11,8 @@ import Image from 'next/image';
  */
 const AppAvailability = () => {
   // Asset URLs from provided list
-  const playStoreIcon = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/playstore-2.svg";
-  const appleStoreIcon = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/apple-3.svg";
+  const playStoreIcon = "https://placehold.co/135x40/000000/ffffff?text=Google+Play";
+  const appleStoreIcon = "https://placehold.co/120x40/000000/ffffff?text=App+Store";
 
   return (
     <section className="w-full flex justify-center py-6 md:py-8 bg-white">

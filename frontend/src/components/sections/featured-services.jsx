@@ -11,7 +11,7 @@ const staticServices = [
     slug: "24-hour-house-help",
     rating: "4.8",
     reviews: "1.2k+",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/cd253c39bd16fcdf8835ff502fec9273-6.jpg",
+    image: "https://placehold.co/600x400/e0f2fe/0ea5e9?text=Live-in+Help",
     badge: "Popular"
   },
   {
@@ -19,14 +19,14 @@ const staticServices = [
     slug: "online-maid-service",
     rating: "4.7",
     reviews: "850+",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/130359605e8fb04bd76de91901a716bb-7.jpg",
+    image: "https://placehold.co/600x400/f0f9ff/0284c7?text=Maid+Service",
   },
   {
     title: "On-Demand (15 min)",
     slug: "quick-book",
     rating: "4.9",
     reviews: "2k+",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/545646546513878-8.jpeg",
+    image: "https://placehold.co/600x400/e0f2fe/38bdf8?text=Quick+Booking",
     badge: "Fastest"
   },
   {
@@ -34,14 +34,14 @@ const staticServices = [
     slug: "elderly-care",
     rating: "4.9",
     reviews: "500+",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/edec0091f4348c22a0b08c5a10cef4d5-9.jpg",
+    image: "https://placehold.co/600x400/f0f9ff/0ea5e9?text=Elderly+Care",
   },
   {
     title: "Expert Babysitters",
     slug: "japa-maid-service",
     rating: "4.9",
     reviews: "3.5k+",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/broomit656464-10.jpg",
+    image: "https://placehold.co/600x400/e0f2fe/0ea5e9?text=Babysitters",
     badge: "Trusted"
   },
 ];

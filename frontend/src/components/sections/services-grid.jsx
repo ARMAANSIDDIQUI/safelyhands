@@ -8,56 +8,56 @@ const staticServices = [
     id: 'elderly-care',
     title: '24 Hrs - Elderly Care',
     rating: '4.8',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/BroomeesElederlyCare1-2.jpg',
+    imageUrl: 'https://placehold.co/800x450/e0f2fe/0ea5e9?text=Elderly+Care',
     link: '/services/elderly-care',
   },
   {
     id: 'babysitters',
     title: 'Babysitters',
     rating: '4.9',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/cd253c39bd16fcdf8835ff502fec9273-3.jpg',
+    imageUrl: 'https://placehold.co/800x450/f0f9ff/0284c7?text=Babysitters',
     link: '/services/japa-maid-service',
   },
   {
     id: 'all-rounders',
     title: 'All-rounders',
     rating: '4.7',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/allrounderImag_08_11_24-4.png',
+    imageUrl: 'https://placehold.co/800x450/e0f2fe/38bdf8?text=All-rounders',
     link: '/services/all-rounders',
   },
   {
     id: 'japas',
     title: '24 Hrs - Japas',
     rating: '4.4',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/cd253c39bd16fcdf8835ff502fec9273-3.jpg',
+    imageUrl: 'https://placehold.co/800x450/f0f9ff/0ea5e9?text=Japa+Maids',
     link: '/services/japa-maid-service',
   },
   {
     id: 'cooks',
     title: 'Cooks',
     rating: '4.8',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/130359605e8fb04bd76de91901a716bb-5.jpg',
+    imageUrl: 'https://placehold.co/800x450/e0f2fe/0ea5e9?text=Professional+Cooks',
     link: '/services/home-cooking-maid-service',
   },
   {
     id: 'full-time',
     title: '24 hrs - Full Time',
     rating: '4.4',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/545646546513878-6.jpeg',
+    imageUrl: 'https://placehold.co/800x450/f0f9ff/0284c7?text=Full+Time+Help',
     link: '/services/24-hour-house-help',
   },
   {
     id: 'domestic-help',
     title: 'Domestic help',
     rating: '4.3',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/edec0091f4348c22a0b08c5a10cef4d5-7.jpg',
+    imageUrl: 'https://placehold.co/800x450/e0f2fe/38bdf8?text=Domestic+Help',
     link: '/services/online-maid-service',
   },
   {
     id: 'on-demand',
     title: 'On-Demand',
     rating: '4.7',
-    imageUrl: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/broomit656464-8.jpg',
+    imageUrl: 'https://placehold.co/800x450/f0f9ff/0ea5e9?text=On-Demand+Service',
     link: '/services/broomit',
   },
 ];
@@ -114,13 +114,7 @@ const ServicesGrid = () => {
 
                 {/* Rating Badge */}
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-[5px] flex items-center shadow-sm z-10">
-                  <Image
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Mystar-2.svg"
-                    alt="Star"
-                    width={14}
-                    height={14}
-                    className="mr-1"
-                  />
+                  <Star size={14} fill="#fbbf24" className="text-[#fbbf24] mr-1" />
                   <span className="text-[14px] font-bold text-[#212529]">
                     {service.rating}
                   </span>

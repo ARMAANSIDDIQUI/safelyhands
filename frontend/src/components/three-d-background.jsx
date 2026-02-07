@@ -6,10 +6,13 @@ export default function ThreeDBackground() {
   const [circles, setCircles] = useState([]);
 
   useEffect(() => {
-    const newCircles = [...Array(28)].map((_, i) => ({
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 8 : 28;
+
+    const newCircles = [...Array(count)].map((_, i) => ({
       id: i,
-      width: `${Math.random() * 200 + 100}px`,
-      height: `${Math.random() * 200 + 100}px`,
+      width: `${Math.random() * (isMobile ? 100 : 200) + 100}px`,
+      height: `${Math.random() * (isMobile ? 100 : 200) + 100}px`,
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       animationDelay: `${Math.random() * 5}s`,

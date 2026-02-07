@@ -6,11 +6,11 @@ import TutorialOverlay from "@/components/ui/tutorial-overlay";
 
 export function Providers({ children }) {
     return (
-        <TutorialProvider>
-            <AuthProvider>
+        <AuthProvider>
+            <TutorialProvider>
                 <TutorialOverlay />
                 {children}
-            </AuthProvider>
-        </TutorialProvider>
+            </TutorialProvider>
+        </AuthProvider>
     );
 }

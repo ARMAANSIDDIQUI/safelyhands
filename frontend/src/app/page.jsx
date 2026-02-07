@@ -3,6 +3,7 @@ import HeroSection from "@/components/sections/hero";
 import CTACards from "@/components/sections/cta-cards";
 import AppPromotion from "@/components/sections/app-promotion";
 import Footer from "@/components/sections/footer";
+import ChatWidget from "@/components/sections/chat-widget";
 import dynamic from 'next/dynamic';
 
 const FeaturedServices = dynamic(() => import("@/components/sections/featured-services"), {
@@ -28,6 +29,7 @@ export default function Home() {
             <FAQs />
             <AppPromotion />
             <Footer />
+            <ChatWidget />
         </main>
     );
 }

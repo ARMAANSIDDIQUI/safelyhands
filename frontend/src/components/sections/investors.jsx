@@ -6,14 +6,20 @@ import Image from 'next/image';
 // Fallback investor data
 const fallbackInvestors = [
   {
-    name: "Magic Fund",
-    src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/MagicFund-4.svg",
+    name: "Venture Partners",
+    src: "https://placehold.co/120x40/e0f2fe/0ea5e9?text=VC+Partner",
     width: 120,
     height: 40
   },
   {
-    name: "2am VC",
-    src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/2amVC-5.svg",
+    name: "Growth Fund",
+    src: "https://placehold.co/100x40/e0f2fe/0ea5e9?text=Growth+Fund",
+    width: 100,
+    height: 40
+  },
+  {
+    name: "Seed Labs",
+    src: "https://placehold.co/100x40/e0f2fe/0ea5e9?text=Seed+Labs",
     width: 100,
     height: 40
   }

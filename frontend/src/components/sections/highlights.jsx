@@ -3,15 +3,6 @@ import Image from 'next/image';
 import { Clock, Users, Award, ShieldCheck, Zap, TrendingUp } from 'lucide-react';
 
 const Highlights = () => {
-  const partners = [
-    { name: 'Magic Fund', logo: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/MagicFund-4.svg' },
-    { name: '2am VC', logo: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/2amVC-5.svg' },
-    { name: 'SAT', logo: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/SAT-6.svg' },
-    { name: '100x', logo: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/100x-7.svg' },
-    { name: 'Dholakia Ventures', logo: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Dholakia-8.svg' },
-    { name: 'Riverside', logo: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/Riverside-21.png' },
-  ];
-
   return (
     <section className="py-24 bg-slate-50">
       <div className="container mx-auto px-6">

@@ -4,13 +4,24 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: '**',
+                hostname: 'placehold.co',
             },
             {
-                protocol: 'http',
-                hostname: '**',
+                protocol: 'https',
+                hostname: 'api.dicebear.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'slelguoygbfzlpylpxfs.supabase.co',
             },
         ],
+        dangerouslyAllowSVG: true,
+        contentDispositionType: 'attachment',
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
     typescript: {
         ignoreBuildErrors: true,

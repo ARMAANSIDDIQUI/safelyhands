@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import { Quote } from 'lucide-react';
 
 /**
  * MissionSection component
@@ -33,29 +33,17 @@ const MissionSection = () => {
             <div className="relative max-w-[900px] mx-auto px-[40px] sm:px-[60px]">
               {/* Top-Left Yellow Quotation Mark */}
               <div className="absolute top-0 left-0 -translate-y-1/2 sm:translate-x-0">
-                <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/CollenYellow-2.svg"
-                  alt="quote mark open"
-                  width={34}
-                  height={26}
-                  className="w-[34px] h-[26px]"
-                />
+                <Quote size={40} className="text-primary opacity-40 rotate-180" />
               </div>
 
               {/* Mission Text */}
-              <p className="font-display text-[18px] sm:text-[22px] leading-[1.6] text-[#6c757d] font-normal">
+              <p className="font-display text-[18px] sm:text-[22px] leading-[1.6] text-[#6c757d] font-normal italic">
                 SAFELY HANDS is enabling customers to hire experienced, verified and reliable professionals.
               </p>
 
               {/* Bottom-Right Yellow Quotation Mark (rotated for closing effect) */}
-              <div className="absolute bottom-0 right-0 translate-y-1/2 rotate-180">
-                <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/CollenYellow-2.svg"
-                  alt="quote mark close"
-                  width={34}
-                  height={26}
-                  className="w-[34px] h-[26px]"
-                />
+              <div className="absolute bottom-0 right-0 translate-y-1/2">
+                <Quote size={40} className="text-primary opacity-40" />
               </div>
             </div>
           </div>

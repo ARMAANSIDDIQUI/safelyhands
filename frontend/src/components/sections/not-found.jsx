@@ -8,7 +8,7 @@ import Image from 'next/image';
  */
 const NotFound = () => {
   // Asset constant
-  const notFoundGif = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/notFound-1.gif";
+  const notFoundGif = "https://placehold.co/800x600/ffffff/0056D2?text=Cleaning+in+Progress...+(404)";
 
   return (
     <div className="bg-white min-h-screen flex flex-col items-center justify-center text-[#212529] font-sans">
@@ -36,7 +36,7 @@ const NotFound = () => {
         {/* CTA Button Container: margin-top: -40px based on computed styles */}
         <div className="mt-[-20px] md:mt-[-40px] mb-[50px]">
           <a
-            href="https://broomees.com/services"
+            href="/services"
             className="inline-block bg-[#007bff] hover:bg-[#0069d9] text-white text-[20px] font-normal py-[8px] px-[16px] rounded-[4.8px] transition-colors duration-150 ease-in-out no-underline cursor-pointer"
           >
             Go To Home

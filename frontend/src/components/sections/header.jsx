@@ -33,9 +33,9 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled
-        ? "bg-blue-200/90 backdrop-blur-xl py-3 shadow-lg shadow-blue-200/50 border-b border-blue-300"
-        : "bg-gradient-to-b from-blue-300/80 to-transparent py-5 backdrop-blur-[2px]"
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
+        ? "bg-white/95 backdrop-blur-md py-3 shadow-md border-b"
+        : "bg-transparent py-5"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}

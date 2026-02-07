@@ -5,10 +5,10 @@ import Image from "next/image";
 
 // Fallback carousel images
 const fallbackImages = [
-  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop"
+  "https://placehold.co/800x600/e0f2fe/0ea5e9?text=Team+Culture+1",
+  "https://placehold.co/800x600/f0f9ff/0284c7?text=Collaborative+Work",
+  "https://placehold.co/800x600/e0f2fe/38bdf8?text=Office+Success",
+  "https://placehold.co/800x600/f0f9ff/0ea5e9?text=Customer+Focused"
 ];
 
 const CompanyCarousel = () => {

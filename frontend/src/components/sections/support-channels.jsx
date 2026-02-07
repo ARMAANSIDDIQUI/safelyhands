@@ -1,24 +1,23 @@
-import React from 'react';
-import Image from 'next/image';
+import { Phone, Mail, MessageSquare, Apple, PlayCircle } from 'lucide-react';
 
 const SupportChannels = () => {
   const contactInfo = [
     {
       label: 'Phone Number',
       value: '+91 8401-8401-42',
-      icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Group_20119-8.svg',
+      icon: <Phone size={24} className="text-white" />,
       link: 'tel:+918401840142',
     },
     {
       label: 'E-mail ID',
       value: 'armaansiddiqui.mbd@gmail.com',
-      icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Group_20120-9.svg',
+      icon: <Mail size={24} className="text-white" />,
       link: 'mailto:armaansiddiqui.mbd@gmail.com',
     },
     {
       label: 'Whatsapp',
       value: '+91 8401-8401-42',
-      icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Group_20121-10.svg',
+      icon: <MessageSquare size={24} className="text-white" />,
       link: 'https://wa.me/918401840142',
     },
   ];
@@ -26,12 +25,10 @@ const SupportChannels = () => {
   const appLinks = [
     {
       name: 'App Store',
-      img: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/apple-21.svg',
       link: '#',
     },
     {
       name: 'Google Play',
-      img: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/playstore-22.svg',
       link: '#',
     },
   ];
@@ -98,11 +95,13 @@ const SupportChannels = () => {
                 href={app.link}
                 className="transition-transform duration-300 hover:scale-[1.03]"
               >
-                <img
-                  src={app.img}
-                  alt={app.name}
-                  className="h-[48px] md:h-[56px] w-auto bg-black rounded-lg"
-                />
+                <div className="h-[48px] md:h-[56px] px-6 flex items-center gap-3 bg-black text-white rounded-lg">
+                  {app.name === 'App Store' ? <Apple size={24} /> : <PlayCircle size={24} />}
+                  <div className="flex flex-col items-start leading-none">
+                    <span className="text-[10px] opacity-70">Download on</span>
+                    <span className="text-[16px] font-bold">{app.name}</span>
+                  </div>
+                </div>
               </a>
             ))}
           </div>

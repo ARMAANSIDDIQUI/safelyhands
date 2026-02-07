@@ -112,6 +112,7 @@ function BookingContent() {
                                 Service Type
                             </label>
                             <select
+                                id="booking-service-type"
                                 name="serviceType"
                                 value={formData.serviceType}
                                 onChange={handleChange}
@@ -137,6 +138,7 @@ function BookingContent() {
                                 <MapPin size={16} /> Address
                             </label>
                             <textarea
+                                id="booking-address"
                                 name="address"
                                 value={formData.address}
                                 onChange={handleChange}
@@ -178,7 +180,7 @@ function BookingContent() {
                         </div>
 
                         {/* Date & Time */}
-                        <div className="grid md:grid-cols-2 gap-6">
+                        <div id="booking-date-time" className="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
                                     <Calendar size={16} /> Preferred Date
@@ -242,6 +244,7 @@ function BookingContent() {
 
                         {/* Submit Button */}
                         <button
+                            id="booking-submit-btn"
                             type="submit"
                             disabled={submitting}
                             className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-bold text-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"

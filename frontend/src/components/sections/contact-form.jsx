@@ -83,9 +83,9 @@ const ContactForm = () => {
     setStep(1);
   };
 
-  const tickGreenIcon = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/tickgreen-5.svg";
-  const flagIcon = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Group_2019080-3.svg";
-  const arrowIcon = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Vector_2013-2.svg";
+  const tickGreenIcon = <Check size={18} className="text-[#128807]" />;
+  const flagIcon = <Flag size={16} className="text-[#262626]" />;
+  const arrowIcon = <ArrowUpRight size={40} className="text-blue-400 opacity-60" />;
 
   return (
     <div className="w-full flex justify-center py-10 px-4">
@@ -175,13 +175,13 @@ const ContactForm = () => {
               {formData.category && (
                 <div className="flex-1 bg-white border border-[#eeeeee] rounded-xl p-3 flex justify-between items-center shadow-sm">
                   <span className="text-[13px] font-medium text-[#262626]">{formData.category}</span>
-                  <Image src={tickGreenIcon} width={18} height={18} alt="selected" />
+                  {tickGreenIcon}
                 </div>
               )}
               {formData.subject && (
                 <div className="flex-1 bg-white border border-[#eeeeee] rounded-xl p-3 flex justify-between items-center shadow-sm">
                   <span className="text-[13px] font-medium text-[#262626]">{formData.subject}</span>
-                  <Image src={tickGreenIcon} width={18} height={18} alt="selected" />
+                  {tickGreenIcon}
                 </div>
               )}
             </div>
@@ -201,7 +201,7 @@ const ContactForm = () => {
                         }`}
                     >
                       <span className="text-[13px] font-medium text-[#262626] leading-tight">{cat}</span>
-                      {formData.category === cat && <Image src={tickGreenIcon} width={16} height={16} alt="checked" />}
+                      {formData.category === cat && tickGreenIcon}
                     </div>
                   ))}
                 </div>

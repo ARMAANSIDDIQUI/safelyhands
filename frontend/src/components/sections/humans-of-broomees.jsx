@@ -9,19 +9,19 @@ const staticTestimonials = [
         name: "Shashi's Story",
         role: "Dedicated Helper",
         content: "Meet Shashi, a dedicated helper who truly embodies the spirit of hard work. Despite experiencing a devastating loss, Shashi didn't let grief hold her back. She started working the next day, showing unwavering commitment. Her dedication is an inspiration to all of us at Safely Hands.",
-        image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/460abe2a519ba790bd465665642c3f4e-22.png"
+        image: "https://placehold.co/600x800/e0f2fe/0ea5e9?text=Shashi"
     },
     {
         name: "Neelam's Journey",
         role: "Experienced Caregiver",
         content: "Neelam, 49, struggled to find work due to age bias. Determined to be independent, she came to Safely Hands. We valued her wisdom and placed her with a family that appreciates her years of experience and provides fair pay.",
-        image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/460abe2a519ba790bd465665642c3f4e-22.png"
+        image: "https://placehold.co/600x800/f0f9ff/0284c7?text=Neelam"
     },
     {
         name: "Harilaal's Success",
         role: "Family Provider",
         content: "Harilaal works hard to support his family. Thrilled by Safely Hands' mission, he registered his family for a secure future. Within a month, we placed his daughter in a full-time role, bringing immense joy and stability to their lives.",
-        image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/460abe2a519ba790bd465665642c3f4e-22.png"
+        image: "https://placehold.co/600x800/e0f2fe/38bdf8?text=Harilaal"
     }
 ];
 

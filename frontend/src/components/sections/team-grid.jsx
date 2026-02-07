@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { Linkedin } from "lucide-react";
 
 const teamData = [
   // Founders
@@ -9,7 +10,7 @@ const teamData = [
     name: "Niharika Jain",
     role: "Founder & CSO",
     category: "Founders",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/97fca6515abf2a29caefb4cbfd7975da-16.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Niharika",
     description: "Ex-Egon Zehnder, The Dance Bible\nHindu College, Delhi University, Co'18Dropout, PGP - ISB Hyderabad",
     linkedin: "#"
   },
@@ -17,7 +18,7 @@ const teamData = [
     name: "Vaibhav Agrawal",
     role: "Founder & CEO",
     category: "Founders",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/a8b3b379360596d571bab1ec5ca6e31e-17.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Vaibhav",
     description: "Founder @Nanhe KadamFormer COO @KubmaEx-Kearney, Sheroes, BoldrocchiDelhi Technological University, Co'18",
     linkedin: "#"
   },
@@ -25,7 +26,7 @@ const teamData = [
     name: "Saurav Kumar",
     role: "Founder & COO",
     category: "Founders",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/79c36a46333fda81c9a734f69f9b492c-18.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Saurav",
     description: "Founder @Nanhe KadamEx-Boldrocchi, CY Super\nDelhi Technological University, Co'18",
     linkedin: "#"
   },
@@ -34,7 +35,7 @@ const teamData = [
     name: "Pooja",
     role: "CRM - TL",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/97fca6515abf2a29caefb4cbfd7975da-16.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Pooja",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -42,7 +43,7 @@ const teamData = [
     name: "Vishali",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/a8b3b379360596d571bab1ec5ca6e31e-17.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Vishali",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -50,7 +51,7 @@ const teamData = [
     name: "Aakanksha Devrani",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/79c36a46333fda81c9a734f69f9b492c-18.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aakanksha",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -58,7 +59,7 @@ const teamData = [
     name: "Nisha Biswas",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/97fca6515abf2a29caefb4cbfd7975da-16.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nisha",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -66,7 +67,7 @@ const teamData = [
     name: "Payal",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/a8b3b379360596d571bab1ec5ca6e31e-17.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Payal",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -74,7 +75,7 @@ const teamData = [
     name: "Gourav",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/79c36a46333fda81c9a734f69f9b492c-18.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Gourav",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -82,7 +83,7 @@ const teamData = [
     name: "Divyansh",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/97fca6515abf2a29caefb4cbfd7975da-16.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Divyansh",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -90,7 +91,7 @@ const teamData = [
     name: "Ritik",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/a8b3b379360596d571bab1ec5ca6e31e-17.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ritik",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -98,7 +99,7 @@ const teamData = [
     name: "Sanchit",
     role: "Customer Relationship Manager",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/79c36a46333fda81c9a734f69f9b492c-18.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sanchit",
     contact: "armaansiddiqui.mbd@gmail.com",
     linkedin: "#"
   },
@@ -106,7 +107,7 @@ const teamData = [
     name: "Apoorv Gaur",
     role: "Team Lead - PRM",
     category: "Customer Success",
-    image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/97fca6515abf2a29caefb4cbfd7975da-16.png",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Apoorv",
     description: "\"Excellence is what I believe in\"",
     linkedin: "#"
   }
@@ -201,14 +202,9 @@ const TeamGrid = () => {
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-2 transition-transform hover:scale-110"
+                        className="mt-2 transition-transform hover:scale-110 text-[#0077b5]"
                       >
-                        <Image
-                          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/Linkedin-3.svg"
-                          alt="LinkedIn"
-                          width={24}
-                          height={24}
-                        />
+                        <Linkedin size={24} fill="currentColor" strokeWidth={0} />
                       </a>
                     )}
                   </div>

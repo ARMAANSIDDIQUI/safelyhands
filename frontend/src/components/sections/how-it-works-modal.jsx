@@ -2,26 +2,26 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, HandMetal, PhoneCall, Smile } from "lucide-react";
 
 const steps = [
   {
     id: "choose",
     title: "Choose",
     description: "Select and book from our list of services",
-    icon: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/touch-4.svg",
+    icon: <HandMetal size={40} className="text-primary" />,
   },
   {
     id: "talk",
     title: "Talk",
     description: "Get on a call with a Broomees expert.",
-    icon: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/call-5.svg",
+    icon: <PhoneCall size={40} className="text-primary" />,
   },
   {
     id: "relax",
     title: "Relax",
     description: "That’s all, the selected candidate will report to you at the earliest.",
-    icon: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/svgs/relax-6.svg",
+    icon: <Smile size={40} className="text-primary" />,
   },
 ];
 
@@ -77,13 +77,7 @@ export default function HowItWorksModal({
             {steps.map((step) => (
               <li key={step.id} className="flex flex-col items-center px-4">
                 <figure className="mb-6 flex items-center justify-center bg-[#F8F9FA] rounded-full w-24 h-24 p-6 transition-transform hover:scale-105 duration-200">
-                  <Image
-                    src={step.icon}
-                    alt={`${step.title}-icon`}
-                    width={50}
-                    height={50}
-                    className="object-contain"
-                  />
+                  {step.icon}
                 </figure>
                 <h5 className="text-[20px] font-semibold text-[#212529] mb-3 font-display">
                   {step.title}
