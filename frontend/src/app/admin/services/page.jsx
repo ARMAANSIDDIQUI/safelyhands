@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import ImageUpload from "@/components/ui/image-upload";
 
 export default function AdminServices() {
     const { user } = useAuth();
@@ -211,9 +212,15 @@ export default function AdminServices() {
                                 <Label htmlFor="features" className="text-right">Features</Label>
                                 <Textarea id="features" name="features" value={formData.features} onChange={handleInputChange} placeholder="Comma separated list" className="col-span-3" />
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="imageUrl" className="text-right">Image URL</Label>
-                                <Input id="imageUrl" name="imageUrl" value={formData.imageUrl} onChange={handleInputChange} className="col-span-3" />
+                            <div className="grid grid-cols-4 items-start gap-4">
+                                <Label className="text-right pt-2">Image</Label>
+                                <div className="col-span-3">
+                                    <ImageUpload
+                                        value={formData.imageUrl}
+                                        onChange={(url) => setFormData(prev => ({ ...prev, imageUrl: url }))}
+                                        disabled={loading}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <DialogFooter>

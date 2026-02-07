@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { toast } from "sonner";
+import { Check, Flag, ArrowUpRight } from "lucide-react";
 
 const categories = [
   "Service-Complaints",
@@ -94,7 +94,7 @@ const ContactForm = () => {
         {/* Header Section */}
         <div className="text-center mb-6">
           <div className="flex justify-center mb-2">
-            <Image src={arrowIcon} width={40} height={15} alt="arrow" className="opacity-80" />
+            {arrowIcon}
           </div>
           <h2 className="text-[20px] font-bold text-[#262626] leading-tight font-display">
             Fill the form to contact us quicker!
@@ -124,7 +124,7 @@ const ContactForm = () => {
                 <label className="text-[12px] text-[#666666] font-medium block ml-1 mb-1">Phone Number</label>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1 shrink-0">
-                    <Image src={flagIcon} width={24} height={16} alt="IN Flag" className="rounded-sm" />
+                    {flagIcon}
                     <span className="text-[14px] font-medium text-[#262626]">+91</span>
                   </div>
                   <input
@@ -230,7 +230,7 @@ const ContactForm = () => {
                         }`}
                     >
                       <span className="text-[13px] font-medium text-[#262626] leading-tight">{sub}</span>
-                      {formData.subject === sub && <Image src={tickGreenIcon} width={16} height={16} alt="checked" />}
+                      {formData.subject === sub && tickGreenIcon}
                     </div>
                   ))}
                 </div>
