@@ -7,10 +7,13 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
+// Ensure uploads directory exists (only for local development)
+// Vercel serverless has read-only filesystem except /tmp
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    const uploadsDir = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir);
+    }
 }
 
 const PORT = process.env.PORT || 5000;

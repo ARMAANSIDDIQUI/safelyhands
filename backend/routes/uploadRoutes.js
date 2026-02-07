@@ -2,15 +2,32 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
 
-// Configure Multer for local temporary storage (or memory)
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Configure Multer for temporary storage
+// Use /tmp on Vercel (serverless has read-only filesystem except /tmp)
+const getUploadPath = () => {
+    if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+        return '/tmp';
+    }
+    const uploadPath = path.join(__dirname, '..', 'uploads');
+    if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    return uploadPath;
+};
+
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        const uploadPath = path.join(__dirname, '..', 'uploads');
-        if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath, { recursive: true });
-        }
-        cb(null, uploadPath);
+        cb(null, getUploadPath());
     },
     filename(req, file, cb) {
         cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
@@ -20,19 +37,6 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: { fileSize: 5000000 }, // 5MB limit
-});
-
-// @desc    Upload file
-// @route   POST /api/upload
-// @access  Private
-// Configure Cloudinary
-const cloudinary = require('cloudinary').v2;
-const fs = require('fs');
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 // @desc    Upload file
