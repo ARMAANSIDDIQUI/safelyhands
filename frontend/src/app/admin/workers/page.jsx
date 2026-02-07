@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import ImageUpload from "@/components/ui/image-upload";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function AdminWorkers() {
     const { user, loading: authLoading } = useAuth();
@@ -19,6 +20,8 @@ export default function AdminWorkers() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [currentWorkerId, setCurrentWorkerId] = useState(null);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -116,11 +119,11 @@ export default function AdminWorkers() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("Are you sure you want to delete this worker?")) return;
+    const handleDelete = async () => {
+        if (!deletingId) return;
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers/${deletingId}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user?.token}` }
             });
@@ -128,6 +131,7 @@ export default function AdminWorkers() {
             if (res.ok) {
                 toast.success("Worker deleted");
                 fetchWorkers();
+                setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete worker");
             }
@@ -181,7 +185,10 @@ export default function AdminWorkers() {
                                 <Button variant="outline" size="sm" onClick={() => handleOpenDialog(worker)}>
                                     <Pencil className="h-4 w-4" />
                                 </Button>
-                                <Button variant="destructive" size="sm" onClick={() => handleDelete(worker._id)}>
+                                <Button variant="destructive" size="sm" onClick={() => {
+                                    setDeletingId(worker._id);
+                                    setIsDeleteDialogOpen(true);
+                                }}>
                                     <Trash2 className="h-4 w-4" />
                                 </Button>
                             </CardFooter>
@@ -256,6 +263,16 @@ export default function AdminWorkers() {
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Delete Worker"
+                description="Are you sure you want to delete this team member? This action cannot be undone."
+                confirmText="Delete"
+                loading={loading}
+            />
         </div >
     );
 }

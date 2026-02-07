@@ -7,11 +7,8 @@ import { ArrowRight, Star, Shield, Clock, Heart } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-surface">
-      {/* Dynamic Background Elements - More visible blue */}
-
-      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-200/30 rounded-full blur-[100px] -z-10 animate-blob hidden md:block" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[80px] -z-10 animate-blob animation-delay-2000 hidden md:block" />
+    <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-transparent">
+      {/* Dynamic Background Elements - Handled by GlobalBackground */}
 
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -88,15 +85,6 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              <div className="absolute -bottom-8 -left-6 bg-white p-4 pr-8 rounded-2xl shadow-float z-20 hover:animate-float border border-blue-50 flex items-center gap-3 transition-all duration-300">
-                <div className="bg-green-100 p-2 rounded-full">
-                  <Star className="text-green-600 fill-green-600" size={20} />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-slate-900 leading-none">4.8/5</div>
-                  <div className="text-xs text-slate-500 font-medium mt-1">Average Rating</div>
-                </div>
-              </div>
 
             </div>
           </div>

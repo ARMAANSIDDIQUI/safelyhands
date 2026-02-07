@@ -10,12 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ImageUpload from "@/components/ui/image-upload";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function AdminCarousel() {
     const { user, loading: authLoading } = useAuth();
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -79,11 +82,11 @@ export default function AdminCarousel() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("Are you sure you want to delete this image?")) return;
+    const handleDelete = async () => {
+        if (!deletingId) return;
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carousel/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carousel/${deletingId}`, {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${user?.token}` }
             });
@@ -91,6 +94,7 @@ export default function AdminCarousel() {
             if (res.ok) {
                 toast.success("Image deleted");
                 fetchImages();
+                setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete image");
             }
@@ -128,7 +132,10 @@ export default function AdminCarousel() {
                                     className="w-full h-full object-cover"
                                 />
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <Button variant="destructive" size="sm" onClick={() => handleDelete(item._id)}>
+                                    <Button variant="destructive" size="sm" onClick={() => {
+                                        setDeletingId(item._id);
+                                        setIsDeleteDialogOpen(true);
+                                    }}>
                                         <Trash2 className="h-4 w-4 mr-2" /> Delete
                                     </Button>
                                 </div>
@@ -175,6 +182,16 @@ export default function AdminCarousel() {
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Delete Carousel Image"
+                description="Are you sure you want to delete this image from the carousel? This action cannot be undone."
+                confirmText="Delete"
+                loading={loading}
+            />
         </div >
     );
 }

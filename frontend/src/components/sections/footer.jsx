@@ -1,8 +1,27 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
+  const [services, setServices] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) setServices(data.slice(0, 6));
+        }
+      } catch (err) {
+        console.error("Failed to fetch services for footer", err);
+      }
+    };
+    fetchServices();
+  }, []);
+
   return (
     <footer className="bg-slate-900 text-slate-300 pt-20 pb-10 border-t border-slate-800">
       <div className="container mx-auto px-6 max-w-7xl">
@@ -49,12 +68,23 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold mb-6 text-lg">Services</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="/services/babysitter" className="hover:text-primary transition-colors">Babysitters</Link></li>
-              <li><Link href="/services/cook" className="hover:text-primary transition-colors">Cooks & Chefs</Link></li>
-              <li><Link href="/services/domestic-help" className="hover:text-primary transition-colors">Domestic Help</Link></li>
-              <li><Link href="/services/elderly-care" className="hover:text-primary transition-colors">Elderly Care</Link></li>
-              <li><Link href="/services/24-hour" className="hover:text-primary transition-colors">24 Hour Live-in</Link></li>
-              <li><Link href="/quick-book" className="hover:text-primary transition-colors">On-Demand Help</Link></li>
+              {services.length > 0 ? (
+                services.map((service) => (
+                  <li key={service._id}>
+                    <Link href={`/services/${service.slug}`} className="hover:text-primary transition-colors">
+                      {service.title}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li><Link href="/services/babysitter" className="hover:text-primary transition-colors">Babysitters</Link></li>
+                  <li><Link href="/services/cook" className="hover:text-primary transition-colors">Cooks & Chefs</Link></li>
+                  <li><Link href="/services/domestic-help" className="hover:text-primary transition-colors">Domestic Help</Link></li>
+                  <li><Link href="/services/elderly-care" className="hover:text-primary transition-colors">Elderly Care</Link></li>
+                </>
+              )}
+              <li><Link href="/services" className="hover:text-primary transition-colors font-bold mt-2 inline-block">View All →</Link></li>
             </ul>
           </div>
 

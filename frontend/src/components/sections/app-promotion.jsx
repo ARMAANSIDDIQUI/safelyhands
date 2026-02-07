@@ -77,17 +77,6 @@ const AppPromotion = () => {
                             )}
                         </div>
 
-                        <div className="mt-12 flex items-center justify-center lg:justify-start gap-8">
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-white">4.8</div>
-                                <div className="text-sky-200 text-sm">Rating</div>
-                            </div>
-                            <div className="w-px h-10 bg-sky-300/50"></div>
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-white">100K+</div>
-                                <div className="text-sky-200 text-sm">Users</div>
-                            </div>
-                        </div>
                     </div>
 
                     {/* Phone Mockup */}

@@ -7,7 +7,7 @@ export default function ThreeDBackground() {
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
-    const count = isMobile ? 8 : 28;
+    const count = isMobile ? 3 : 6;
 
     const newCircles = [...Array(count)].map((_, i) => ({
       id: i,
@@ -23,8 +23,8 @@ export default function ThreeDBackground() {
 
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-      {/* Blue gradient background - matching hero section */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-blue-50 to-white" />
+      {/* Very light blue gradient base - for a clean, premium feel */}
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-50/50 via-white to-white" />
 
       {/* Large gradient blobs like hero section */}
       <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-200/30 rounded-full blur-[100px] animate-blob" />

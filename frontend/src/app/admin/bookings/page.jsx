@@ -14,6 +14,7 @@ import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function AdminBookings() {
     const { user, loading } = useAuth();
@@ -25,6 +26,8 @@ export default function AdminBookings() {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [workersWithAvailability, setWorkersWithAvailability] = useState({});
     const [editingBooking, setEditingBooking] = useState(null);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
     const [editFormData, setEditFormData] = useState({
         serviceType: "",
         frequency: "",
@@ -81,18 +84,20 @@ export default function AdminBookings() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("Are you sure you want to PERMANENTLY delete this booking?")) return;
+    const handleDelete = async () => {
+        if (!deletingId) return;
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`, {
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${deletingId}`, {
                 method: 'DELETE',
-                headers: { "Authorization": `Bearer ${user?.token}` }
+                headers: { "Authorization": `Bearer ${token}` }
             });
 
             if (res.ok) {
                 toast.success("Booking deleted permanently");
                 fetchBookings();
+                setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete booking");
             }
@@ -501,7 +506,10 @@ export default function AdminBookings() {
 
                                                 {/* Delete Button */}
                                                 <button
-                                                    onClick={() => handleDelete(booking._id)}
+                                                    onClick={() => {
+                                                        setDeletingId(booking._id);
+                                                        setIsDeleteDialogOpen(true);
+                                                    }}
                                                     className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 border border-red-100"
                                                     title="Permanently Delete"
                                                 >
@@ -612,6 +620,16 @@ export default function AdminBookings() {
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Permanently Delete Booking?"
+                description="This action cannot be undone. The booking will be removed from the system forever."
+                confirmText="Delete Permanently"
+                loading={loading}
+            />
         </div >
     );
 }

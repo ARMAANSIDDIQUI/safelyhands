@@ -12,6 +12,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [equalizerBars, setEqualizerBars] = useState([]);
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
     setEqualizerBars(
@@ -27,6 +28,20 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+
+    const fetchServices = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) setServices(data.slice(0, 6)); // Top 6 for dropdown
+        }
+      } catch (err) {
+        console.error("Failed to fetch services for header", err);
+      }
+    };
+
+    fetchServices();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -77,26 +92,37 @@ const Header = () => {
             </Link>
             {/* Dropdown Menu */}
             <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <Link href="/services/babysitter" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                <Baby size={16} className="text-blue-500" />
-                Babysitters
-              </Link>
-              <Link href="/services/cooks" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                <ChefHat size={16} className="text-blue-500" />
-                Cooks & Chefs
-              </Link>
-              <Link href="/services/domestic-help" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                <Home size={16} className="text-blue-500" />
-                Domestic Help
-              </Link>
-              <Link href="/services/elderly-care" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                <HeartPulse size={16} className="text-blue-500" />
-                Elderly Care
-              </Link>
-              <Link href="/services/24-hour-live-in" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                <Clock size={16} className="text-blue-500" />
-                24 Hour Live-in
-              </Link>
+              {services.length > 0 ? (
+                services.map((service) => (
+                  <Link
+                    key={service._id}
+                    href={`/services/${service.slug}`}
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    <ChefHat size={16} className="text-blue-500" />
+                    {service.title}
+                  </Link>
+                ))
+              ) : (
+                <>
+                  <Link href="/services/babysitter" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                    <Baby size={16} className="text-blue-500" />
+                    Babysitters
+                  </Link>
+                  <Link href="/services/cooks" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                    <ChefHat size={16} className="text-blue-500" />
+                    Cooks & Chefs
+                  </Link>
+                  <Link href="/services/domestic-help" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                    <Home size={16} className="text-blue-500" />
+                    Domestic Help
+                  </Link>
+                  <Link href="/services/elderly-care" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                    <HeartPulse size={16} className="text-blue-500" />
+                    Elderly Care
+                  </Link>
+                </>
+              )}
               <div className="border-t border-slate-100 mt-2 pt-2">
                 <Link href="/services" className="block px-4 py-2.5 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
                   View All Services →
