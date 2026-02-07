@@ -4,6 +4,15 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
+const fs = require('fs');
+const path = require('path');
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+}
+
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -27,7 +36,6 @@ app.use('/api/carousel', require('./routes/carouselRoutes'));
 app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
 
 // Serve Uploads
-const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.get('/', (req, res) => {

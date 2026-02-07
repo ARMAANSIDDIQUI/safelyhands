@@ -33,18 +33,18 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
-        ? "bg-white/95 backdrop-blur-md py-3 shadow-md border-b"
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${(isScrolled || isMenuOpen)
+        ? "bg-[#f0f9ff]/90 backdrop-blur-md py-3 shadow-md border-b border-blue-100"
         : "bg-transparent py-5"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}
-      {!isScrolled && equalizerBars.length > 0 && (
+      {!isScrolled && !isMenuOpen && equalizerBars.length > 0 && (
         <div className="absolute top-0 left-0 w-full h-32 -z-10 flex items-start justify-between px-2 overflow-hidden pointer-events-none opacity-60">
           {equalizerBars.map((bar, i) => (
             <div
               key={i}
-              className="w-1 md:w-2 bg-blue-500 rounded-b-full mx-[2px] animate-equalizer shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+              className="w-1 md:w-2 bg-blue-500 rounded-b-full mx-[2px] animate-equalizer"
               style={{
                 animationDuration: `${bar.animationDuration}s`,
                 animationDelay: `${bar.animationDelay}s`,

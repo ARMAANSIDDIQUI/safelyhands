@@ -5,53 +5,14 @@ import Image from 'next/image';
 import { Star, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-const staticServices = [
-  {
-    title: "24/7 Live-in Help",
-    slug: "24-hour-house-help",
-    rating: "4.8",
-    reviews: "1.2k+",
-    image: "https://placehold.co/600x400/e0f2fe/0ea5e9?text=Live-in+Help",
-    badge: "Popular"
-  },
-  {
-    title: "Domestic Help",
-    slug: "online-maid-service",
-    rating: "4.7",
-    reviews: "850+",
-    image: "https://placehold.co/600x400/f0f9ff/0284c7?text=Maid+Service",
-  },
-  {
-    title: "On-Demand (15 min)",
-    slug: "quick-book",
-    rating: "4.9",
-    reviews: "2k+",
-    image: "https://placehold.co/600x400/e0f2fe/38bdf8?text=Quick+Booking",
-    badge: "Fastest"
-  },
-  {
-    title: "Elderly Care",
-    slug: "elderly-care",
-    rating: "4.9",
-    reviews: "500+",
-    image: "https://placehold.co/600x400/f0f9ff/0ea5e9?text=Elderly+Care",
-  },
-  {
-    title: "Expert Babysitters",
-    slug: "japa-maid-service",
-    rating: "4.9",
-    reviews: "3.5k+",
-    image: "https://placehold.co/600x400/e0f2fe/0ea5e9?text=Babysitters",
-    badge: "Trusted"
-  },
-];
-
 const FeaturedServices = () => {
-  const [services, setServices] = useState(staticServices);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
+        setLoading(true);
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
@@ -61,17 +22,21 @@ const FeaturedServices = () => {
             slug: s.slug,
             rating: s.rating ? s.rating.toFixed(1) : "4.8",
             reviews: s.reviewCount ? `${s.reviewCount >= 1000 ? (s.reviewCount / 1000).toFixed(1) + 'k' : s.reviewCount}+` : "500+",
-            image: s.imageUrl || staticServices[0].image,
+            image: s.imageUrl || 'https://placehold.co/600x400/e0f2fe/0ea5e9?text=Service',
             badge: s.badge || undefined
           })));
         }
       } catch (error) {
-        console.warn("Using fallback services (Backend unreachable)");
-        // Keep static services as fallback
+        console.warn("Using fallback colors/placeholders (Backend unreachable)");
+      } finally {
+        setLoading(false);
       }
     };
     fetchServices();
   }, []);
+
+  if (loading) return null; // Or a subtle skeleton
+  if (services.length === 0) return null;
 
   return (
     <section className="bg-white section-padding relative">

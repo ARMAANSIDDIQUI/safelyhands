@@ -49,7 +49,7 @@ const getServiceBySlug = async (req, res) => {
 // @access  Private/Admin
 const createService = async (req, res) => {
     try {
-        const { title, slug, description, basePrice, features, imageUrl, rating, reviewCount, badge, category } = req.body;
+        const { title, slug, description, basePrice, minPrice, maxPrice, features, imageUrl, rating, reviewCount, badge, category, availability, verificationStatus } = req.body;
 
         const serviceExists = await Service.findOne({ slug });
         if (serviceExists) {
@@ -60,13 +60,19 @@ const createService = async (req, res) => {
             title,
             slug,
             description,
-            basePrice,
+            basePrice: basePrice || 0,
+            priceRange: {
+                min: minPrice || 0,
+                max: maxPrice || 0
+            },
             features,
             imageUrl,
             rating,
             reviewCount,
             badge,
-            category
+            category,
+            availability,
+            verificationStatus
         });
 
         res.status(201).json(service);
@@ -80,14 +86,18 @@ const createService = async (req, res) => {
 // @access  Private/Admin
 const updateService = async (req, res) => {
     try {
-        const { title, description, basePrice, features, imageUrl, isActive, rating, reviewCount, badge, category } = req.body;
+        const { title, description, basePrice, minPrice, maxPrice, features, imageUrl, isActive, rating, reviewCount, badge, category, availability, verificationStatus } = req.body;
 
         const service = await Service.findById(req.params.id);
 
         if (service) {
             service.title = title || service.title;
             service.description = description || service.description;
-            service.basePrice = basePrice || service.basePrice;
+            service.basePrice = basePrice !== undefined ? basePrice : service.basePrice;
+            service.priceRange = {
+                min: minPrice !== undefined ? minPrice : (service.priceRange?.min || 0),
+                max: maxPrice !== undefined ? maxPrice : (service.priceRange?.max || 0)
+            };
             service.features = features || service.features;
             service.imageUrl = imageUrl || service.imageUrl;
             service.isActive = isActive !== undefined ? isActive : service.isActive;
@@ -95,6 +105,8 @@ const updateService = async (req, res) => {
             service.reviewCount = reviewCount !== undefined ? reviewCount : service.reviewCount;
             service.badge = badge !== undefined ? badge : service.badge;
             service.category = category || service.category;
+            service.availability = availability || service.availability;
+            service.verificationStatus = verificationStatus || service.verificationStatus;
 
             const updatedService = await service.save();
             res.json(updatedService);

@@ -10,163 +10,6 @@ import Footer from '@/components/sections/footer';
 import ChatWidget from '@/components/sections/chat-widget';
 
 // Real service data from broomees.com
-const fallbackServices = [
-    {
-        slug: "cooks",
-        title: "Cooks & Chefs",
-        description: "Professional cooks and chefs to prepare delicious, nutritious home-cooked meals for your family. Our verified cooks are experienced in multiple cuisines and maintain the highest standards of hygiene.",
-        badge: "Trending",
-        rating: 4.8,
-        reviewCount: 350,
-        basePrice: 10000,
-        imageUrl: "https://placehold.co/800x800/e0f2fe/0ea5e9?text=Cooks",
-        features: [
-            "Expert in multiple cuisines (Indian, Continental, Chinese)",
-            "Hygiene and food safety certified",
-            "Custom meal planning based on dietary needs",
-            "Dietary restrictions accommodated (vegan, gluten-free, etc.)",
-            "Uses fresh ingredients",
-            "Professional cooking equipment handling",
-            "Menu planning assistance",
-            "Grocery list preparation"
-        ]
-    },
-    {
-        slug: "domestic-help",
-        title: "Domestic Help",
-        description: "Reliable and trustworthy domestic help for all your household cleaning and maintenance needs. Our maids are trained professionals who ensure your home stays spotless.",
-        rating: 4.3,
-        reviewCount: 520,
-        basePrice: 7000,
-        imageUrl: "https://placehold.co/800x800/f0f9ff/0284c7?text=Domestic+Help",
-        features: [
-            "Thorough sweeping and mopping",
-            "Dusting of all surfaces",
-            "Bathroom deep cleaning",
-            "Kitchen maintenance and cleaning",
-            "Laundry and ironing services",
-            "Dishwashing",
-            "Utensil cleaning",
-            "Balcony and window cleaning"
-        ]
-    },
-    {
-        slug: "babysitter",
-        title: "Babysitter",
-        description: "Professional and caring babysitters to look after your little ones with love, attention, and safety. Our babysitters are trained in child care and first aid.",
-        badge: "Most Popular",
-        rating: 4.9,
-        reviewCount: 420,
-        basePrice: 8000,
-        imageUrl: "https://placehold.co/800x800/e0f2fe/38bdf8?text=Babysitter",
-        features: [
-            "Background verified and police verified",
-            "Experienced with children of all ages",
-            "First aid and CPR trained",
-            "Flexible scheduling options",
-            "Regular updates to parents",
-            "Safe and engaging activities",
-            "Homework assistance for older kids",
-            "Meal preparation for children"
-        ]
-    },
-    {
-        slug: "all-rounder",
-        title: "All Rounder",
-        description: "Versatile all-rounder staff capable of handling multiple household roles including cooking, cleaning, and general household management. Perfect for comprehensive home care.",
-        rating: 4.7,
-        reviewCount: 280,
-        basePrice: 12000,
-        imageUrl: "https://placehold.co/800x800/f0f9ff/0ea5e9?text=All+Rounder",
-        features: [
-            "Cooking and meal preparation",
-            "Complete house cleaning",
-            "Laundry and ironing",
-            "Grocery shopping assistance",
-            "Basic household maintenance",
-            "Flexible task management",
-            "Time-efficient multi-tasking",
-            "Adaptable to household needs"
-        ]
-    },
-    {
-        slug: "elderly-care",
-        title: "24 Hrs - Elderly Care",
-        description: "Compassionate and trained caregivers providing dedicated 24-hour support and companionship for senior citizens. Our elderly care professionals ensure comfort, safety, and dignity.",
-        badge: "Premium",
-        rating: 4.8,
-        reviewCount: 195,
-        basePrice: 15000,
-        imageUrl: "https://placehold.co/800x800/e0f2fe/0ea5e9?text=Elderly+Care",
-        features: [
-            "Trained in elderly care and patient handling",
-            "Medication reminders and management",
-            "Mobility and walking assistance",
-            "Companionship and emotional support",
-            "Meal preparation and feeding assistance",
-            "Health monitoring and vital checks",
-            "Personal hygiene assistance",
-            "24/7 availability and care"
-        ]
-    },
-    {
-        slug: "24-hour-live-in",
-        title: "24 Hrs - Live In",
-        description: "Round-the-clock live-in help for comprehensive household support and care. Our live-in staff provides continuous assistance for all your household needs.",
-        rating: 4.4,
-        reviewCount: 165,
-        basePrice: 14000,
-        imageUrl: "https://placehold.co/800x800/f0f9ff/0284c7?text=Live+In",
-        features: [
-            "24/7 availability at home",
-            "Dedicated live-in staff",
-            "All household tasks covered",
-            "Cooking and cleaning services",
-            "Emergency support anytime",
-            "Flexible work arrangements",
-            "Accommodation provided by employer",
-            "Complete household management"
-        ]
-    },
-    {
-        slug: "japa-services",
-        title: "24 Hrs - Japa Services",
-        description: "Specialized newborn care and postpartum support services. Our experienced Japa caregivers provide expert care for both mother and baby during the crucial postpartum period.",
-        rating: 4.3,
-        reviewCount: 145,
-        basePrice: 16000,
-        imageUrl: "https://placehold.co/800x800/e0f2fe/38bdf8?text=Japa+Care",
-        features: [
-            "Newborn baby care expertise",
-            "Postpartum mother care and support",
-            "Breastfeeding guidance and assistance",
-            "Baby bathing and massage",
-            "Diaper changing and hygiene",
-            "Sleep schedule management",
-            "Light cooking for mother",
-            "24/7 availability during postpartum period"
-        ]
-    },
-    {
-        slug: "quick-book",
-        title: "Quick Assist (15 min)",
-        description: "Express on-demand service for quick household tasks. Get help within 15 minutes for urgent cleaning, cooking, or assistance needs.",
-        badge: "Fastest",
-        rating: 4.9,
-        reviewCount: 2100,
-        basePrice: 500,
-        imageUrl: "https://placehold.co/800x800/f0f9ff/0ea5e9?text=Quick+Assist",
-        features: [
-            "Arrives in 15-30 minutes",
-            "Perfect for urgent tasks",
-            "Verified professionals",
-            "Fixed hourly rate",
-            "No long-term commitment",
-            "Cleaning, cooking, or help"
-        ]
-    }
-];
-
 export default function ServicePage() {
     const params = useParams();
     const router = useRouter();
@@ -176,44 +19,29 @@ export default function ServicePage() {
     useEffect(() => {
         const fetchService = async () => {
             try {
+                setLoading(true);
                 // Fetch from backend API using slug endpoint
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/slug/${params.slug}`);
 
                 if (res.ok) {
                     const data = await res.json();
                     setService(data);
-                    setLoading(false);
-                    return;
-                }
-
-                // If API fails, use fallback data
-                console.log('API not available, using fallback service data');
-                const foundService = fallbackServices.find(s => s.slug === params.slug);
-
-                if (foundService) {
-                    setService(foundService);
                 } else {
                     toast.error('Service not found');
                     router.push('/services');
                 }
             } catch (error) {
-                console.log('Error fetching service, using fallback data:', error);
-
-                // Use fallback data on error
-                const foundService = fallbackServices.find(s => s.slug === params.slug);
-
-                if (foundService) {
-                    setService(foundService);
-                } else {
-                    toast.error('Service not found');
-                    router.push('/services');
-                }
+                console.error('Error fetching service:', error);
+                toast.error('Failed to load service details');
+                router.push('/services');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchService();
+        if (params.slug) {
+            fetchService();
+        }
     }, [params.slug, router]);
 
     const handleBookNow = () => {

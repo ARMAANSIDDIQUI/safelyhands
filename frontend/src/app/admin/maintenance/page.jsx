@@ -6,13 +6,16 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { getToken } from "@/lib/auth";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function MaintenancePage() {
     const [seeding, setSeeding] = useState(false);
     const [migrating, setMigrating] = useState(false);
+    const [isSeedConfirmOpen, setIsSeedConfirmOpen] = useState(false);
+    const [isMigrateConfirmOpen, setIsMigrateConfirmOpen] = useState(false);
 
     const handleSeed = async () => {
-        if (!confirm("Are you sure? This will wipe existing services/team data and reload from defaults!")) return;
+        setIsSeedConfirmOpen(false);
 
         setSeeding(true);
         try {
@@ -35,7 +38,7 @@ export default function MaintenancePage() {
     };
 
     const handleMigrate = async () => {
-        if (!confirm("DANGER: This will wipe your MongoDB Atlas data and replace it with local data. Proceed?")) return;
+        setIsMigrateConfirmOpen(false);
 
         setMigrating(true);
         try {
@@ -82,7 +85,7 @@ export default function MaintenancePage() {
                             <p>Useful for first-time setups or if you want to restore the official broomees.com service list.</p>
                         </div>
                         <Button
-                            onClick={handleSeed}
+                            onClick={() => setIsSeedConfirmOpen(true)}
                             disabled={seeding || migrating}
                             className="w-full bg-blue-600 hover:bg-blue-700"
                         >
@@ -109,7 +112,7 @@ export default function MaintenancePage() {
                             <p><strong>Warning:</strong> This wipes the cloud database before uploading. Use with caution!</p>
                         </div>
                         <Button
-                            onClick={handleMigrate}
+                            onClick={() => setIsMigrateConfirmOpen(true)}
                             disabled={seeding || migrating}
                             variant="outline"
                             className="w-full border-amber-200 text-amber-700 hover:bg-amber-100"
@@ -120,6 +123,26 @@ export default function MaintenancePage() {
                     </CardContent>
                 </Card>
             </div>
+
+            <ConfirmDialog
+                open={isSeedConfirmOpen}
+                onOpenChange={setIsSeedConfirmOpen}
+                onConfirm={handleSeed}
+                title="Trigger Seeding?"
+                description="This will wipe existing services/team data and reload from defaults! This action cannot be undone."
+                confirmText="Seed Database"
+                loading={seeding}
+            />
+
+            <ConfirmDialog
+                open={isMigrateConfirmOpen}
+                onOpenChange={setIsMigrateConfirmOpen}
+                onConfirm={handleMigrate}
+                title="Migrate to Atlas?"
+                description="DANGER: This will wipe your MongoDB Atlas data and replace it with local data. Use with extreme caution!"
+                confirmText="Migrate Now"
+                loading={migrating}
+            />
         </div>
     );
 }

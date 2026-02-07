@@ -4,93 +4,53 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 
-const staticServices = [
-  {
-    id: 'elderly-care',
-    title: '24 Hrs - Elderly Care',
-    rating: '4.8',
-    imageUrl: 'https://placehold.co/800x450/e0f2fe/0ea5e9?text=Elderly+Care',
-    link: '/services/elderly-care',
-  },
-  {
-    id: 'babysitters',
-    title: 'Babysitters',
-    rating: '4.9',
-    imageUrl: 'https://placehold.co/800x450/f0f9ff/0284c7?text=Babysitters',
-    link: '/services/japa-maid-service',
-  },
-  {
-    id: 'all-rounders',
-    title: 'All-rounders',
-    rating: '4.7',
-    imageUrl: 'https://placehold.co/800x450/e0f2fe/38bdf8?text=All-rounders',
-    link: '/services/all-rounders',
-  },
-  {
-    id: 'japas',
-    title: '24 Hrs - Japas',
-    rating: '4.4',
-    imageUrl: 'https://placehold.co/800x450/f0f9ff/0ea5e9?text=Japa+Maids',
-    link: '/services/japa-maid-service',
-  },
-  {
-    id: 'cooks',
-    title: 'Cooks',
-    rating: '4.8',
-    imageUrl: 'https://placehold.co/800x450/e0f2fe/0ea5e9?text=Professional+Cooks',
-    link: '/services/home-cooking-maid-service',
-  },
-  {
-    id: 'full-time',
-    title: '24 hrs - Full Time',
-    rating: '4.4',
-    imageUrl: 'https://placehold.co/800x450/f0f9ff/0284c7?text=Full+Time+Help',
-    link: '/services/24-hour-house-help',
-  },
-  {
-    id: 'domestic-help',
-    title: 'Domestic help',
-    rating: '4.3',
-    imageUrl: 'https://placehold.co/800x450/e0f2fe/38bdf8?text=Domestic+Help',
-    link: '/services/online-maid-service',
-  },
-  {
-    id: 'on-demand',
-    title: 'On-Demand',
-    rating: '4.7',
-    imageUrl: 'https://placehold.co/800x450/f0f9ff/0ea5e9?text=On-Demand+Service',
-    link: '/services/broomit',
-  },
-];
-
 const ServicesGrid = () => {
-  const [services, setServices] = useState(staticServices);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
+        setLoading(true);
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
         if (!res.ok) {
-          console.warn("Failed to fetch services, using static data");
+          console.warn("Failed to fetch services");
           return;
         }
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           setServices(data.map(s => ({
             id: s._id,
             title: s.title,
             rating: "4.8", // Mock rating
-            imageUrl: s.imageUrl || staticServices[0].imageUrl,
+            imageUrl: s.imageUrl || 'https://placehold.co/800x450/e0f2fe/0ea5e9?text=Service',
             link: `/services/${s.slug}` // Dynamic link
           })));
         }
       } catch (error) {
-        console.warn("Failed to fetch services grid, using static data", error);
-        // Keep using staticServices as fallback
+        console.warn("Failed to fetch services grid", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchServices();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (services.length === 0) {
+    return (
+      <div className="text-center py-20">
+        <p className="text-slate-500">No services available. Please seed the database from Admin Maintenance.</p>
+      </div>
+    );
+  }
 
   return (
     <section className="bg-white py-[40px] md:py-[80px]">
