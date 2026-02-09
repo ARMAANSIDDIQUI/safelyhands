@@ -19,4 +19,4 @@ const carouselSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Carousel', carouselSchema);
+module.exports = mongoose.models.Carousel || mongoose.model('Carousel', carouselSchema);
