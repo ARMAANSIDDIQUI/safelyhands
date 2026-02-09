@@ -19,8 +19,18 @@ if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
+
+// Request logger
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -33,16 +43,34 @@ app.use('/api/workers', require('./routes/workerRoutes'));
 app.use('/api/testimonials', require('./routes/testimonialRoutes'));
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
-app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
 app.use('/api/carousel', require('./routes/carouselRoutes'));
 app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
+
+// Health check
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        uptime: process.uptime(),
+        timestamp: new Date(),
+        dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    });
+});
 
 // Serve Uploads
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.get('/', (req, res) => {
-    res.send('Broomees Backend API is Running');
+    res.send('Safely Hands Backend API is Running');
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error('SERVER ERROR:', err);
+    res.status(500).json({
+        message: 'Internal Server Error',
+        error: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong!'
+    });
 });
 
 // Database Connection
