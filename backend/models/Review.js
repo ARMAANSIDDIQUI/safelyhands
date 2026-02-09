@@ -45,4 +45,4 @@ const reviewSchema = new mongoose.Schema({
 reviewSchema.index({ worker: 1, createdAt: -1 });
 reviewSchema.index({ booking: 1 });
 
-module.exports = mongoose.model('Review', reviewSchema);
+module.exports = mongoose.models.Review || mongoose.model('Review', reviewSchema);

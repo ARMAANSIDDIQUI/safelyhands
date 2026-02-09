@@ -23,4 +23,4 @@ const serviceSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Service', serviceSchema);
+module.exports = mongoose.models.Service || mongoose.model('Service', serviceSchema);

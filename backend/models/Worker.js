@@ -14,4 +14,4 @@ const workerSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Worker', workerSchema);
+module.exports = mongoose.models.Worker || mongoose.model('Worker', workerSchema);

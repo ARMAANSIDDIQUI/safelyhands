@@ -76,9 +76,34 @@ app.use((err, req, res, next) => {
 // Database Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/broomees';
 
-mongoose.connect(MONGODB_URI)
-    .then(() => console.log('MongoDB Connected Successfully'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+// Cached connection for serverless
+let cachedConnection = null;
+
+const connectDB = async () => {
+    if (cachedConnection) return cachedConnection;
+
+    try {
+        console.log('⏳ Connecting to MongoDB...');
+        const conn = await mongoose.connect(MONGODB_URI, {
+            serverSelectionTimeoutMS: 5000,
+        });
+        cachedConnection = conn;
+        console.log('✅ MongoDB Connected Successfully');
+        return conn;
+    } catch (err) {
+        console.error('❌ MongoDB Connection Error:', err.message);
+        // Don't exit process on connection error in serverless
+    }
+};
+
+// Initial connection attempt (background)
+connectDB();
+
+// Middleware to ensure DB is connected for requests
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 
 // Start Server with Port Fallback (only for local development)
 const startServer = (port) => {
