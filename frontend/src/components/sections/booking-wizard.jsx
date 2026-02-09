@@ -1480,7 +1480,6 @@ export default function BookingWizard() {
                 </div>
             )}
 
-            )}
 
             {/* Patient Care Modal */}
             {showPatientCareModal && (
