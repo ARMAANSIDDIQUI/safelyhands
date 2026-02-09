@@ -14,6 +14,7 @@ const HumansOfBroomees = dynamic(() => import("@/components/sections/humans-of-b
 const WhyChooseUs = dynamic(() => import("@/components/sections/why-choose-us"));
 const FAQs = dynamic(() => import("@/components/sections/faqs"));
 const CustomerTestimonial = dynamic(() => import("@/components/sections/customer-testimonial"));
+const CTACards = dynamic(() => import("@/components/sections/cta-cards"));
 
 export default function Home() {
     return (
