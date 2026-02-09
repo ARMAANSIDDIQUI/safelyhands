@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Check, X, Eye, Loader2, Calendar, MapPin, Search, Pencil, Trash2, Clock, History } from "lucide-react";
+import { Check, X, Eye, Loader2, Calendar as CalendarIcon, MapPin, Search, Pencil, Trash2, Clock, History } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -282,7 +283,7 @@ export default function AdminBookings() {
                                         <td className="p-4">
                                             <div className="font-medium text-slate-900 capitalize">{booking.serviceType.replace('-', ' ')}</div>
                                             <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
-                                                <Calendar size={12} />
+                                                <CalendarIcon size={12} />
                                                 {formatDate(booking.date)}
                                             </div>
                                             {booking.time && (
@@ -377,26 +378,44 @@ export default function AdminBookings() {
                                                                 <History size={10} /> History
                                                             </button>
                                                         </PopoverTrigger>
-                                                        <PopoverContent className="w-64 p-3 bg-white border border-slate-200 shadow-xl rounded-lg">
-                                                            <h4 className="text-xs font-bold mb-2 flex items-center gap-2 border-b pb-1">
-                                                                <Calendar size={12} /> Attendance History
-                                                            </h4>
-                                                            <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-                                                                {booking.attendanceLogs?.length > 0 ? (
-                                                                    booking.attendanceLogs.sort((a, b) => new Date(b.date) - new Date(a.date)).map((log, idx) => (
-                                                                        <div key={idx} className="flex items-center justify-between text-[11px] p-1.5 bg-slate-50 rounded border border-slate-100">
-                                                                            <span className="font-medium">{new Date(log.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}</span>
-                                                                            <div className="flex items-center gap-2">
-                                                                                <span className={`font-bold uppercase text-[9px] ${log.status === 'present' ? 'text-emerald-600' : 'text-rose-600'}`}>
-                                                                                    {log.status === 'present' ? 'P' : 'A'}
-                                                                                </span>
-                                                                                <span className="text-[8px] text-slate-400 italic">by {log.markedBy}</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    ))
-                                                                ) : (
-                                                                    <p className="text-[10px] text-slate-500 text-center py-4 italic">No attendance marked yet.</p>
-                                                                )}
+                                                        <PopoverContent className="w-auto p-4 bg-white border border-slate-200 shadow-xl rounded-lg">
+                                                            <div className="flex items-center justify-between mb-4 border-b pb-2">
+                                                                <h4 className="text-sm font-bold flex items-center gap-2">
+                                                                    <CalendarIcon size={14} /> Attendance History
+                                                                </h4>
+                                                            </div>
+                                                            <Calendar
+                                                                mode="single"
+                                                                selected={new Date()}
+                                                                className="rounded-md border shadow-sm mx-auto"
+                                                                modifiers={{
+                                                                    present: (date) => {
+                                                                        const log = booking.attendanceLogs?.find(l =>
+                                                                            new Date(l.date).toDateString() === date.toDateString()
+                                                                        );
+                                                                        return log?.status === 'present';
+                                                                    },
+                                                                    absent: (date) => {
+                                                                        const log = booking.attendanceLogs?.find(l =>
+                                                                            new Date(l.date).toDateString() === date.toDateString()
+                                                                        );
+                                                                        return log?.status === 'absent';
+                                                                    }
+                                                                }}
+                                                                modifiersStyles={{
+                                                                    present: { backgroundColor: '#dcfce7', color: '#166534', fontWeight: 'bold' },
+                                                                    absent: { backgroundColor: '#fee2e2', color: '#991b1b', fontWeight: 'bold' }
+                                                                }}
+                                                            />
+                                                            <div className="mt-4 flex gap-4 text-xs justify-center">
+                                                                <div className="flex items-center gap-1">
+                                                                    <div className="w-3 h-3 rounded-full bg-green-100 border border-green-600"></div>
+                                                                    <span>Present</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1">
+                                                                    <div className="w-3 h-3 rounded-full bg-red-100 border border-red-600"></div>
+                                                                    <span>Absent</span>
+                                                                </div>
                                                             </div>
                                                         </PopoverContent>
                                                     </Popover>

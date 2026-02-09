@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User, Mail, Phone, Shield, Home, Lock, Key, Eye, EyeOff } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,17 +10,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { toast } from "sonner";
 import { getToken, saveSession } from "@/lib/auth";
-
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProfilePage() {
-    const { user, logout, loading } = useAuth();
+    const { user, logout, loading, setUser } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
-        name: user?.name || "",
-        email: user?.email || "",
-        phone: user?.phone || ""
+        name: "",
+        email: "",
+        phone: ""
     });
+
+    // Sync form data when user loads
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                name: user.name || "",
+                email: user.email || "",
+                phone: user.phone || ""
+            });
+        }
+    }, [user]);
 
     // Password State
     const [passwordData, setPasswordData] = useState({
@@ -34,24 +44,265 @@ export default function ProfilePage() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleSave = async () => {
-        // ... (existing logic)
+        // Validate phone is exactly 10 digits if provided
+        if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
+            toast.error("Please enter a valid 10-digit phone number");
+            return;
+        }
+
+        try {
+            setLoadingResult(true);
+            const token = getToken();
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || "Failed to update profile");
+            }
+
+            // API returns user data directly with a new token
+            const newToken = data.token || token;
+            const userData = {
+                _id: data._id,
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                role: data.role,
+                isGoogleUser: data.isGoogleUser,
+                profilePicture: data.profilePicture
+            };
+
+            // Update user in context
+            if (setUser) {
+                setUser(userData);
+            }
+            // saveSession expects (userData, token) - NOT (token, userData)!
+            saveSession(userData, newToken);
+
+            toast.success("Profile updated successfully!");
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Profile update error:", error);
+            toast.error(error.message || "Failed to update profile");
+        } finally {
+            setLoadingResult(false);
+        }
     };
 
     const handlePasswordUpdate = async (e) => {
-        // ... (existing logic)
+        e.preventDefault();
+
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            toast.error("Passwords do not match");
+            return;
+        }
+
+        if (passwordData.newPassword.length < 6) {
+            toast.error("Password must be at least 6 characters");
+            return;
+        }
+
+        try {
+            setLoadingResult(true);
+            const token = getToken();
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/password`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentPassword: passwordData.currentPassword,
+                    newPassword: passwordData.newPassword
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || "Failed to update password");
+            }
+
+            toast.success("Password updated successfully!");
+            setPasswordData({
+                currentPassword: "",
+                newPassword: "",
+                confirmPassword: ""
+            });
+        } catch (error) {
+            console.error("Password update error:", error);
+            toast.error(error.message || "Failed to update password");
+        } finally {
+            setLoadingResult(false);
+        }
     };
 
-    // ... (Skeleton loading section)
+    if (loading) {
+        return (
+            <div className="space-y-8">
+                <div>
+                    <Skeleton className="h-9 w-48 mb-2" />
+                    <Skeleton className="h-5 w-64" />
+                </div>
+                <Skeleton className="h-[400px] rounded-xl" />
+            </div>
+        );
+    }
+
+    if (!user) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                <p className="text-muted-foreground">Please log in to view your profile.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-8">
-            {/* ... (Header section) */}
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Profile</h2>
+                    <p className="text-muted-foreground">Manage your account settings</p>
+                </div>
+                <Button variant="outline" asChild className="w-fit">
+                    <Link href="/">
+                        <Home className="mr-2 h-4 w-4" /> Back to Site
+                    </Link>
+                </Button>
+            </div>
 
             <Tabs defaultValue="profile" className="w-full">
-                {/* ... (TabsList section) */}
+                <TabsList className="grid w-full max-w-md grid-cols-2">
+                    <TabsTrigger value="profile">
+                        <User className="mr-2 h-4 w-4" /> Profile
+                    </TabsTrigger>
+                    <TabsTrigger value="security">
+                        <Shield className="mr-2 h-4 w-4" /> Security
+                    </TabsTrigger>
+                </TabsList>
 
                 <TabsContent value="profile" className="mt-6">
-                    {/* ... (Profile Details content) */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Profile Details</CardTitle>
+                            <CardDescription>
+                                Update your personal information
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            {/* Avatar */}
+                            <div className="flex items-center gap-4">
+                                {user?.profilePicture ? (
+                                    <img
+                                        src={user.profilePicture}
+                                        alt={user.name}
+                                        className="w-16 h-16 rounded-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 text-2xl font-bold">
+                                        {user?.name?.charAt(0).toUpperCase() || "U"}
+                                    </div>
+                                )}
+                                <div>
+                                    <p className="font-semibold text-lg">{user?.name}</p>
+                                    <p className="text-sm text-muted-foreground capitalize">
+                                        {user?.role || "User"} Account
+                                        {user?.isGoogleUser && " • Google"}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Form Fields */}
+                            <div className="space-y-4 max-w-md">
+                                <div className="space-y-2">
+                                    <Label htmlFor="name">Full Name</Label>
+                                    <div className="relative">
+                                        <User className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                        <Input
+                                            id="name"
+                                            className="pl-9"
+                                            placeholder="Your name"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            disabled={!isEditing}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="email">Email</Label>
+                                    <div className="relative">
+                                        <Mail className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            className="pl-9"
+                                            placeholder="Your email"
+                                            value={formData.email}
+                                            disabled
+                                        />
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">Email cannot be changed</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="phone">Phone</Label>
+                                    <div className="flex">
+                                        <span className="inline-flex items-center px-3 bg-slate-100 border border-r-0 rounded-l-md text-sm text-muted-foreground font-medium">
+                                            +91
+                                        </span>
+                                        <Input
+                                            id="phone"
+                                            className="rounded-l-none"
+                                            placeholder="9876543210"
+                                            maxLength={10}
+                                            value={formData.phone}
+                                            onChange={(e) => {
+                                                const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                                setFormData({ ...formData, phone: digitsOnly });
+                                            }}
+                                            disabled={!isEditing}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3 pt-4">
+                                    {isEditing ? (
+                                        <>
+                                            <Button onClick={handleSave} disabled={loadingResult}>
+                                                {loadingResult ? "Saving..." : "Save Changes"}
+                                            </Button>
+                                            <Button variant="outline" onClick={() => {
+                                                setIsEditing(false);
+                                                setFormData({
+                                                    name: user?.name || "",
+                                                    email: user?.email || "",
+                                                    phone: user?.phone || ""
+                                                });
+                                            }}>
+                                                Cancel
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <Button onClick={() => setIsEditing(true)}>
+                                            Edit Profile
+                                        </Button>
+                                    )}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </TabsContent>
 
                 <TabsContent value="security" className="mt-6">

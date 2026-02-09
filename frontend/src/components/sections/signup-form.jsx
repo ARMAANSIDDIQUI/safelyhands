@@ -23,6 +23,11 @@ export default function SignupForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Validate phone is exactly 10 digits
+        if (!/^\d{10}$/.test(formData.phone)) {
+            return toast.error("Please enter a valid 10-digit phone number");
+        }
+
         if (formData.password !== formData.confirmPassword) {
             return toast.error("Passwords do not match");
         }
@@ -41,7 +46,14 @@ export default function SignupForm() {
     };
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        // Only allow digits for phone, max 10
+        if (name === 'phone') {
+            const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+            setFormData({ ...formData, phone: digitsOnly });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     return (
@@ -94,8 +106,10 @@ export default function SignupForm() {
 
                     <div className="space-y-1.5">
                         <label className="text-sm font-semibold text-slate-700 ml-1" htmlFor="phone">Phone Number</label>
-                        <div className="relative">
-                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                        <div className="relative flex">
+                            <span className="inline-flex items-center px-3 bg-slate-100 border border-r-0 border-slate-200 text-slate-600 text-sm rounded-l-xl font-medium">
+                                +91
+                            </span>
                             <input
                                 id="phone"
                                 name="phone"
@@ -103,8 +117,9 @@ export default function SignupForm() {
                                 required
                                 value={formData.phone}
                                 onChange={handleChange}
-                                placeholder="+91 98765 43210"
-                                className="w-full bg-white/80 border border-slate-200 text-slate-900 text-sm rounded-xl pl-11 pr-4 h-[50px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400"
+                                placeholder="9876543210"
+                                maxLength={10}
+                                className="w-full bg-white/80 border border-slate-200 text-slate-900 text-sm rounded-r-xl px-4 h-[50px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400"
                             />
                         </div>
                     </div>

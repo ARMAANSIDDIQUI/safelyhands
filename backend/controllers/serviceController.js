@@ -49,7 +49,7 @@ const getServiceBySlug = async (req, res) => {
 // @access  Private/Admin
 const createService = async (req, res) => {
     try {
-        const { title, slug, description, basePrice, minPrice, maxPrice, features, imageUrl, rating, reviewCount, badge, category, availability, verificationStatus } = req.body;
+        const { title, slug, description, basePrice, minPrice, maxPrice, features, imageUrl, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
 
         const serviceExists = await Service.findOne({ slug });
         if (serviceExists) {
@@ -71,6 +71,8 @@ const createService = async (req, res) => {
             reviewCount,
             badge,
             category,
+            shift,
+            gender: gender || 'Both',
             availability,
             verificationStatus
         });
@@ -86,7 +88,7 @@ const createService = async (req, res) => {
 // @access  Private/Admin
 const updateService = async (req, res) => {
     try {
-        const { title, description, basePrice, minPrice, maxPrice, features, imageUrl, isActive, rating, reviewCount, badge, category, availability, verificationStatus } = req.body;
+        const { title, description, basePrice, minPrice, maxPrice, features, imageUrl, isActive, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
 
         const service = await Service.findById(req.params.id);
 
@@ -105,6 +107,8 @@ const updateService = async (req, res) => {
             service.reviewCount = reviewCount !== undefined ? reviewCount : service.reviewCount;
             service.badge = badge !== undefined ? badge : service.badge;
             service.category = category || service.category;
+            service.shift = shift || service.shift;
+            service.gender = gender || service.gender;
             service.availability = availability || service.availability;
             service.verificationStatus = verificationStatus || service.verificationStatus;
 

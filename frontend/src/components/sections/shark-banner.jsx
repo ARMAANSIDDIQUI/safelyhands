@@ -49,9 +49,7 @@ const SharkBanner = () => {
           href="/services"
           className="inline-flex items-center gap-2 text-white font-sans text-[11px] sm:text-[13px] font-semibold tracking-wide uppercase"
         >
-          <Zap size={14} className="text-yellow-300 fill-yellow-300" />
-          Get a maid in 15 mins
-          <Zap size={14} className="text-yellow-300 fill-yellow-300" />
+          {/* Text Removed */}
         </a>
       </div>
 

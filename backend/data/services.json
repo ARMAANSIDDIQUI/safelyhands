@@ -195,7 +195,7 @@
         "id": 8,
         "slug": "on-demand",
         "title": "On-Demand Service (Broomit)",
-        "description": "Get instant help in just 15 minutes! Our on-demand service connects you with verified professionals for immediate household assistance whenever you need it.",
+        "description": "Get instant help when you need it! Our on-demand service connects you with verified professionals for immediate household assistance.",
         "badge": "New",
         "rating": 4.6,
         "reviewCount": 89,
@@ -207,7 +207,7 @@
         "imageUrl": "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/broomit656464-8.jpg",
         "category": "on-demand",
         "features": [
-            "Get help in just 15 minutes",
+            "Get help instantly",
             "Pay per service basis",
             "No long-term commitment required",
             "Verified professionals",
@@ -216,7 +216,7 @@
             "Emergency assistance available",
             "Transparent hourly rates"
         ],
-        "availability": "On-demand (15 mins response time)",
+        "availability": "On-demand (Fast response time)",
         "verificationStatus": "Fully verified with background checks"
     }
 ]

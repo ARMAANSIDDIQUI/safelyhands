@@ -46,7 +46,14 @@ const ContactForm = () => {
   });
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    // Only allow digits for phone, max 10
+    if (id === 'phone') {
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+      setFormData({ ...formData, phone: digitsOnly });
+    } else {
+      setFormData({ ...formData, [id]: value });
+    }
   };
 
   const handleSelection = (field, value) => {
@@ -55,6 +62,11 @@ const ContactForm = () => {
 
   const nextStep = (e) => {
     e.preventDefault();
+    // Validate phone on step 1
+    if (step === 1 && !/^\d{10}$/.test(formData.phone)) {
+      toast.error("Please enter a valid 10-digit phone number");
+      return;
+    }
     if (step < 3) setStep(step + 1);
   };
 
@@ -132,7 +144,8 @@ const ContactForm = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="8401-8401-42"
+                    placeholder="9876543210"
+                    maxLength={10}
                     disabled={step > 1}
                     className="w-full bg-transparent border-none focus:ring-0 text-[#262626] text-[15px] p-1 h-8 disabled:opacity-70"
                   />

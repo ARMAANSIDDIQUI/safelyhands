@@ -23,6 +23,7 @@ function BookingContent() {
         date: '',
         time: '',
         frequency: 'One-time',
+        weeklyDays: [],
         notes: ''
     });
     const [submitting, setSubmitting] = useState(false);
@@ -79,7 +80,7 @@ function BookingContent() {
 
             if (res.ok) {
                 toast.success('Booking request submitted successfully!');
-                router.push('/dashboard');
+                router.push('/dashboard/bookings');
             } else {
                 const data = await res.json();
                 toast.error(data.message || 'Failed to create booking');
@@ -183,7 +184,7 @@ function BookingContent() {
                         <div id="booking-date-time" className="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                                    <Calendar size={16} /> Preferred Date
+                                    <Calendar size={16} /> Start Date
                                 </label>
                                 <input
                                     type="date"
@@ -223,8 +224,42 @@ function BookingContent() {
                             >
                                 <option value="One-time">One Time</option>
                                 <option value="Daily">Daily</option>
+                                <option value="Weekly">Weekly</option>
                                 <option value="Live-in">Live-in</option>
                             </select>
+
+                            {/* Weekly Days Selector */}
+                            {formData.frequency === 'Weekly' && (
+                                <div className="mt-4 animate-in fade-in slide-in-from-top-2">
+                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                        Select Days
+                                    </label>
+                                    <div className="flex gap-2 flex-wrap">
+                                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, index) => (
+                                            <button
+                                                key={day}
+                                                type="button"
+                                                onClick={() => {
+                                                    const currentDays = formData.weeklyDays || [];
+                                                    const newDays = currentDays.includes(index)
+                                                        ? currentDays.filter(d => d !== index)
+                                                        : [...currentDays, index];
+                                                    setFormData({ ...formData, weeklyDays: newDays });
+                                                }}
+                                                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${(formData.weeklyDays || []).includes(index)
+                                                    ? 'bg-blue-600 text-white shadow-md scale-105'
+                                                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                                    }`}
+                                            >
+                                                {day.charAt(0)}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {(!formData.weeklyDays || formData.weeklyDays.length === 0) && (
+                                        <p className="text-xs text-red-500 mt-1">Please select at least one day</p>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {/* Notes */}

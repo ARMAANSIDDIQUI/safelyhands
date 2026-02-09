@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
             saveSession(data, data.token);
             setUser(data);
 
-            router.push("/");
+            router.push("/dashboard");
             return { success: true };
         } catch (error) {
             return { success: false, message: error.message };

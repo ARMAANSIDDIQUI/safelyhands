@@ -161,7 +161,7 @@ export default function DashboardPage() {
                     </CardHeader>
                     <CardContent className="space-y-2">
                         <Button className="w-full justify-start" variant="outline" asChild>
-                            <Link href="/broomit">
+                            <Link href="/quick-book">
                                 <Calendar className="mr-2 h-4 w-4" /> Book New Service
                             </Link>
                         </Button>

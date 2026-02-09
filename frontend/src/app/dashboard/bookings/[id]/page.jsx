@@ -34,9 +34,7 @@ export default function BookingDetailPage() {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("overview");
 
-    // Attendance State
-    const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0]);
-    const [attendanceLoading, setAttendanceLoading] = useState(false);
+
 
     // Review State
     const [reviewRating, setReviewRating] = useState(5);
@@ -65,41 +63,9 @@ export default function BookingDetailPage() {
         }
     }, [user, id, router]);
 
-    const getDailyAttendanceStatus = (booking) => {
-        const dateToCheck = attendanceDate || new Date().toISOString().split('T')[0];
-        const logDateStr = new Date(dateToCheck).toLocaleDateString();
-        const log = booking.attendanceLogs?.find(l => new Date(l.date).toLocaleDateString() === logDateStr);
-        return log?.status || 'not_marked';
-    };
 
-    const handleMarkAttendance = async (status) => {
-        if (!booking?.assignedWorker) return;
-        setAttendanceLoading(true);
-        try {
-            const token = getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${booking._id}/attendance`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    attendanceStatus: status,
-                    date: attendanceDate
-                })
-            });
 
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.message);
 
-            toast.success(`Marked as ${status}`);
-            fetchBooking();
-        } catch (error) {
-            toast.error(error.message || "Failed to mark attendance");
-        } finally {
-            setAttendanceLoading(false);
-        }
-    };
 
     const handleSubmitReview = async () => {
         if (!booking?.assignedWorker) return;
@@ -182,76 +148,18 @@ export default function BookingDetailPage() {
                         </CardContent>
                     </Card>
 
-                    <Tabs defaultValue="attendance" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="attendance">Mark Attendance</TabsTrigger>
-                            <TabsTrigger value="history">Bill History</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="attendance" className="mt-4">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Daily Attendance</CardTitle>
-                                    <CardDescription>Mark your worker's presence for the day.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    {booking.assignedWorker ? (
-                                        <div className="space-y-4">
-                                            <div className="flex items-center gap-4">
-                                                <input
-                                                    type="date"
-                                                    className="border p-2 rounded-md"
-                                                    value={attendanceDate}
-                                                    onChange={(e) => setAttendanceDate(e.target.value)}
-                                                />
-                                            </div>
-                                            <div className="flex gap-4">
-                                                {(() => {
-                                                    const status = getDailyAttendanceStatus(booking);
-                                                    return (
-                                                        <>
-                                                            <Button
-                                                                className={`w-full ${status === 'present' ? 'bg-green-700 shadow-inner' : 'bg-green-600 hover:bg-green-700'}`}
-                                                                onClick={() => handleMarkAttendance('present')}
-                                                                disabled={attendanceLoading}
-                                                            >
-                                                                {attendanceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="mr-2 w-4 h-4" />}
-                                                                {status === 'present' ? 'Present ✓' : 'Present'}
-                                                            </Button>
-                                                            <Button
-                                                                className={`w-full ${status === 'absent' ? 'bg-red-700 shadow-inner' : ''}`}
-                                                                variant="destructive"
-                                                                onClick={() => handleMarkAttendance('absent')}
-                                                                disabled={attendanceLoading}
-                                                            >
-                                                                {attendanceLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="mr-2 w-4 h-4" />}
-                                                                {status === 'absent' ? 'Absent ✗' : 'Absent'}
-                                                            </Button>
-                                                        </>
-                                                    );
-                                                })()}
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="text-center py-8 text-gray-500">
-                                            No worker assigned yet.
-                                        </div>
-                                    )}
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                        <TabsContent value="history" className="mt-4">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Billing History</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-center py-8 text-gray-500">
-                                        No invoices generated yet.
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                    </Tabs>
+                    <div className="w-full mt-6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Billing History</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-center py-8 text-gray-500">
+                                    No invoices generated yet.
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
 
                 {/* Sidebar / Worker Info */}

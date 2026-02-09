@@ -15,6 +15,8 @@ const serviceSchema = new mongoose.Schema({
     reviewCount: { type: Number, default: 0 },
     badge: { type: String }, // e.g. 'Popular', 'Trending', 'Most Popular'
     category: { type: String }, // e.g. 'cooking', 'cleaning', 'childcare'
+    shift: { type: String }, // e.g. '24 Hrs Live In', '8 Hrs - Day'
+    gender: { type: String, enum: ['Male', 'Female', 'Both'], default: 'Both' },
     availability: { type: String }, // e.g. 'Part-time and Full-time'
     verificationStatus: { type: String }, // e.g. 'Fully verified with background checks'
     isActive: { type: Boolean, default: true },

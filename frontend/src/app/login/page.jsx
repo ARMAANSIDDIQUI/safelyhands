@@ -33,18 +33,19 @@ function LoginContent() {
                 // Save session using centralized utility
                 saveSession(user, token);
 
-                toast.success(`Welcome back, ${user.name}!`);
+                toast.success(`Welcome, ${user.name}!`);
 
-                // Redirect based on role after short delay
+                // Redirect based on role - use window.location for full page reload
+                // This ensures AuthContext properly loads the user state
                 setTimeout(() => {
                     if (user.role === 'worker') {
-                        router.push('/worker/dashboard');
+                        window.location.href = '/worker/dashboard';
                     } else if (user.role === 'admin') {
-                        router.push('/admin');
+                        window.location.href = '/admin';
                     } else {
-                        router.push('/dashboard');
+                        window.location.href = '/dashboard';
                     }
-                }, 500);
+                }, 300);
             } catch (err) {
                 console.error('Error parsing OAuth data:', err);
                 toast.error('Authentication error. Please try logging in again.');

@@ -20,15 +20,15 @@ const HeroSection = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-500"></span>
               </span>
-              India's Trusted Home Makers
+              Har zaroorat ke liye ek bharosemand haath
             </div>
 
-            <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-bold font-display tracking-tight text-slate-900 mb-6 leading-[1.1]">
-              Maid for House at <br />
-              <span className="text-gradient">your Doorsteps</span>
+            <h1 id="hero-title" className="text-5xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight text-slate-900 mb-6 leading-[1.05]">
+              India&apos;s trusted care and <br />
+              <span className="text-gradient">staffing services</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+            <p className="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto lg:mx-0 leading-relaxed font-medium">
               Find trusted help in your city. Hire a babysitter for your child, hire a chef for delicious meals and reliable household services.
             </p>
 

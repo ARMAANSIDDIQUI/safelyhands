@@ -49,10 +49,10 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
-        ? "bg-[#f0f9ff] py-3 shadow-md border-b border-blue-100"
+        ? "bg-[#f0f9ff] py-5 shadow-md border-b border-blue-100"
         : isScrolled
-          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-3 shadow-md border-b border-blue-100"
-          : "bg-transparent py-5"
+          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-4 shadow-md border-b border-blue-100"
+          : "bg-transparent py-8"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}
@@ -81,19 +81,19 @@ const Header = () => {
           <div className="w-10 h-10 bg-gradient-brand rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform">
             S
           </div>
-          <span className={`text-xl font-bold font-display tracking-tight ${isScrolled ? 'text-slate-900' : 'text-slate-900'}`}>
+          <span className={`text-2xl font-bold font-display tracking-tight ${isScrolled ? 'text-slate-900' : 'text-slate-900'}`}>
             Safely Hands
           </span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8">
-          <Link href="/" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
+          <Link href="/" className="text-base font-bold text-slate-800 hover:text-blue-600 transition-colors">
             Home
           </Link>
           <div className="relative group">
-            <Link href="/services" className="flex items-center gap-1 text-sm font-semibold text-slate-600 group-hover:text-blue-600 transition-colors">
-              Services <ChevronDown size={14} />
+            <Link href="/services" className="flex items-center gap-1 text-base font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+              Services <ChevronDown size={14} strokeWidth={3} />
             </Link>
             {/* Dropdown Menu */}
             <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -101,8 +101,8 @@ const Header = () => {
                 services.map((service) => (
                   <Link
                     key={service._id}
-                    href={`/services/${service.slug}`}
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    href={`/services/${service.slug || service._id}`} // Fallback to ID if slug missing
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                   >
                     <ChefHat size={16} className="text-blue-500" />
                     {service.title}
@@ -110,35 +110,35 @@ const Header = () => {
                 ))
               ) : (
                 <>
-                  <Link href="/services/babysitter" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                  <Link href="/services/babysitter" className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
                     <Baby size={16} className="text-blue-500" />
                     Babysitters
                   </Link>
-                  <Link href="/services/cooks" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                  <Link href="/services/cooks" className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
                     <ChefHat size={16} className="text-blue-500" />
                     Cooks & Chefs
                   </Link>
-                  <Link href="/services/domestic-help" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                  <Link href="/services/domestic-help" className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
                     <Home size={16} className="text-blue-500" />
                     Domestic Help
                   </Link>
-                  <Link href="/services/elderly-care" className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                  <Link href="/services/elderly-care" className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
                     <HeartPulse size={16} className="text-blue-500" />
                     Elderly Care
                   </Link>
                 </>
               )}
               <div className="border-t border-slate-100 mt-2 pt-2">
-                <Link href="/services" className="block px-4 py-2.5 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">
+                <Link href="/services" className="block px-4 py-2.5 text-sm font-extrabold text-blue-600 hover:bg-blue-50 transition-colors">
                   View All Services →
                 </Link>
               </div>
             </div>
           </div>
-          <Link href="/about" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
+          <Link href="/about" className="text-base font-bold text-slate-800 hover:text-blue-600 transition-colors">
             About Us
           </Link>
-          <Link href="/contact" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
+          <Link href="/contact" className="text-base font-bold text-slate-800 hover:text-blue-600 transition-colors">
             Contact
           </Link>
         </nav>
@@ -217,7 +217,7 @@ const Header = () => {
               </Link>
               <Link
                 href="/quick-book"
-                className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-300"
+                className="bg-slate-900 text-white px-8 py-3 rounded-full text-base font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Book Now
               </Link>
@@ -340,7 +340,7 @@ const Header = () => {
                 Log in
               </Link>
               <Link
-                href="/broomit"
+                href="/quick-book"
                 className="flex items-center justify-center w-full bg-slate-900 text-white py-3 rounded-xl font-semibold shadow-lg"
                 onClick={() => setIsMenuOpen(false)}
               >

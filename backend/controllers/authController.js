@@ -52,7 +52,9 @@ const registerUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                phone: user.phone,
                 isGoogleUser: !!user.googleId,
+                profilePicture: user.profilePicture,
                 token: generateToken(user._id),
             });
         } else {
@@ -80,7 +82,9 @@ const loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                phone: user.phone,
                 isGoogleUser: !!user.googleId,
+                profilePicture: user.profilePicture,
                 token: generateToken(user._id),
             });
         } else {
@@ -111,12 +115,19 @@ const googleAuth = async (req, res) => {
         let user = await User.findOne({ email });
 
         if (user) {
+            // Update profile picture if changed
+            if (picture && user.profilePicture !== picture) {
+                user.profilePicture = picture;
+                await user.save();
+            }
             return res.json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                phone: user.phone,
                 isGoogleUser: !!user.googleId,
+                profilePicture: user.profilePicture,
                 token: generateToken(user._id),
             });
         }
@@ -140,7 +151,9 @@ const googleAuth = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                phone: user.phone,
                 isGoogleUser: !!user.googleId,
+                profilePicture: user.profilePicture,
                 token: generateToken(user._id),
             });
         }
@@ -200,14 +213,23 @@ const googleAuthCallback = async (req, res) => {
         // Generate JWT token
         const token = generateToken(user._id);
 
+        // Update profile picture if user exists and picture changed
+        if (user.profilePicture !== picture) {
+            user.profilePicture = picture;
+            await user.save();
+        }
+
         // Redirect to frontend with token
         res.redirect(`${process.env.FRONTEND_URL}/login?token=${token}&user=${encodeURIComponent(JSON.stringify({
             _id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
-            isGoogleUser: !!user.googleId
+            phone: user.phone,
+            isGoogleUser: !!user.googleId,
+            profilePicture: user.profilePicture
         }))}`);
+
 
     } catch (error) {
         console.error("Google OAuth Callback Error:", error);
@@ -224,7 +246,10 @@ const updateProfile = async (req, res) => {
 
         if (user) {
             user.name = req.body.name || user.name;
-            user.phone = req.body.phone || user.phone;
+            // Use !== undefined to allow empty string for phone
+            if (req.body.phone !== undefined) {
+                user.phone = req.body.phone;
+            }
 
             // If email update is allowed in future, add here (careful with auth)
             // user.email = req.body.email || user.email;
@@ -243,12 +268,14 @@ const updateProfile = async (req, res) => {
                 phone: updatedUser.phone,
                 role: updatedUser.role,
                 isGoogleUser: !!updatedUser.googleId,
+                profilePicture: updatedUser.profilePicture,
                 token: generateToken(updatedUser._id),
             });
         } else {
             res.status(404).json({ message: 'User not found' });
         }
     } catch (error) {
+        console.error("Profile update error:", error);
         res.status(500).json({ message: 'Server error' });
     }
 };

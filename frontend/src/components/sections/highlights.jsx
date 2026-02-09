@@ -17,14 +17,14 @@ const Highlights = () => {
 
         {/* Centered Card */}
         <div className="max-w-4xl mx-auto">
-          {/* Card: 15 Mins Promise */}
+          {/* Card: Quality Guarantee */}
           <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-blue-600 via-blue-700 to-slate-900 shadow-xl group cursor-pointer border-4 border-white shadow-blue-100 h-64">
             <div className="absolute inset-0 p-10 flex flex-col justify-center items-center text-center">
               <div className="w-14 h-14 rounded-2xl bg-yellow-400 text-slate-900 flex items-center justify-center mb-6 shadow-lg shadow-yellow-400/20">
-                <Clock size={28} strokeWidth={2.5} />
+                <ShieldCheck size={28} strokeWidth={2.5} />
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">Instant Help in 15 Mins</h3>
-              <p className="text-blue-100 text-base md:text-lg max-w-2xl font-medium">No more waiting. Get reliable help at your doorstep faster than pizza delivery.</p>
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">Trusted Service Guarantee</h3>
+              <p className="text-blue-100 text-base md:text-lg max-w-2xl font-medium">Every professional is background checked and trained to ensure the highest standards of safety and quality for your home.</p>
             </div>
           </div>
         </div>

@@ -3,11 +3,16 @@ const mongoose = require('mongoose');
 const bookingSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     serviceType: { type: String, required: true },
-    frequency: { type: String, enum: ['One-time', 'Daily', 'Live-in'], required: true },
+    genderPreference: { type: String },
+    shift: { type: String },
+    babyDOB: { type: Date },
+    frequency: { type: String, enum: ['One-time', 'Daily', 'Weekly', 'Live-in', 'Day-shift', 'Part-time'], required: true },
+    weeklyDays: [{ type: Number, min: 0, max: 6 }], // 0=Sunday, 1=Monday, ... 6=Saturday
     date: { type: Date, required: true },
     address: { type: String, required: true },
     notes: { type: String },
     status: { type: String, enum: ['pending', 'approved', 'rejected', 'completed'], default: 'pending' },
+    serviceStatus: { type: String, enum: ['active', 'completed', 'cancelled'], default: 'active' },
     paymentProofUrl: { type: String }, // Cloudinary URL
     paymentStatus: { type: String, enum: ['unpaid', 'pending_approval', 'paid'], default: 'unpaid' },
     time: { type: String }, // e.g., "10:00 AM"
@@ -20,6 +25,7 @@ const bookingSchema = new mongoose.Schema({
     startDate: { type: Date },
     endDate: { type: Date }, // For subscription duration
     totalAmount: { type: Number },
+    showAllocationDetails: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }
 });
 

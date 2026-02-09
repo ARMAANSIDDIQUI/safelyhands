@@ -1,6 +1,6 @@
 import Header from "@/components/sections/header";
 import HeroSection from "@/components/sections/hero";
-import CTACards from "@/components/sections/cta-cards";
+import WorkerBenefitCards from "@/components/sections/worker-benefits-cards";
 import AppPromotion from "@/components/sections/app-promotion";
 import Footer from "@/components/sections/footer";
 import ChatWidget from "@/components/sections/chat-widget";
@@ -27,6 +27,7 @@ export default function Home() {
             <CustomerTestimonial />
             <CTACards />
             <FAQs />
+            <WorkerBenefitCards />
             <AppPromotion />
             <Footer />
             <ChatWidget />

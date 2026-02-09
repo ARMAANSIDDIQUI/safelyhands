@@ -5,19 +5,36 @@ const Booking = require('../models/Booking');
 // @access  Private
 const createBooking = async (req, res) => {
     try {
-        const { serviceType, frequency, date, time, address, notes, totalAmount, paymentProofUrl } = req.body;
+        const { serviceType, frequency, date, time, address, notes, totalAmount, paymentProofUrl, weeklyDays, genderPreference, shift, babyDOB } = req.body;
+
+        let startDate = new Date(date);
+        let endDate = new Date(date);
+
+        if (frequency === 'One-time') {
+            // End date is same as start date (already set)
+        } else {
+            // For Daily, Weekly, Live-in, default to 30 days active if not specified
+            endDate.setDate(endDate.getDate() + 30);
+        }
 
         const booking = await Booking.create({
             user: req.user._id,
             serviceType,
             frequency,
+            weeklyDays: frequency === 'Weekly' ? weeklyDays : [],
             date,
+            startDate,
+            endDate,
             time,
             address,
             notes,
             totalAmount,
-            paymentProofUrl, // Optional initially
-            status: 'pending'
+            paymentProofUrl,
+            genderPreference,
+            shift,
+            babyDOB,
+            status: 'pending',
+            serviceStatus: 'active'
         });
 
         res.status(201).json(booking);
@@ -32,7 +49,9 @@ const createBooking = async (req, res) => {
 // @access  Private
 const getMyBookings = async (req, res) => {
     try {
-        const bookings = await Booking.find({ user: req.user._id }).sort({ createdAt: -1 });
+        const bookings = await Booking.find({ user: req.user._id })
+            .populate('assignedWorker', 'name profilePicture')
+            .sort({ createdAt: -1 });
         res.json(bookings);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
@@ -227,9 +246,16 @@ const updateBooking = async (req, res) => {
         // Update fields
         booking.serviceType = req.body.serviceType || booking.serviceType;
         booking.frequency = req.body.frequency || booking.frequency;
+
+        if (req.body.frequency === 'Weekly') {
+            booking.weeklyDays = req.body.weeklyDays || booking.weeklyDays;
+        }
+
         booking.date = req.body.date || booking.date;
         booking.address = req.body.address || booking.address;
         booking.notes = req.body.notes || booking.notes;
+        booking.genderPreference = req.body.genderPreference || booking.genderPreference;
+        booking.shift = req.body.shift || booking.shift;
 
         const updatedBooking = await booking.save();
         res.json(updatedBooking);
