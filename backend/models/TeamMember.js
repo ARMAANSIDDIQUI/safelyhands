@@ -9,4 +9,4 @@ const teamMemberSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('TeamMember', teamMemberSchema);
+module.exports = mongoose.models.TeamMember || mongoose.model('TeamMember', teamMemberSchema);

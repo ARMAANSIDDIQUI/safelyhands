@@ -10,4 +10,4 @@ const subscriptionSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Subscription', subscriptionSchema);
+module.exports = mongoose.models.Subscription || mongoose.model('Subscription', subscriptionSchema);

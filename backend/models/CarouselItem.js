@@ -6,4 +6,4 @@ const carouselItemSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('CarouselItem', carouselItemSchema);
+module.exports = mongoose.models.CarouselItem || mongoose.model('CarouselItem', carouselItemSchema);

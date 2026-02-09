@@ -8,4 +8,4 @@ const investorSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Investor', investorSchema);
+module.exports = mongoose.models.Investor || mongoose.model('Investor', investorSchema);
