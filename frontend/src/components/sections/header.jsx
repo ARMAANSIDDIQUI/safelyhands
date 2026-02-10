@@ -77,34 +77,6 @@ const Header = () => {
         </div>
       )}
 
-      {/* Tagline Ticker - Only on Home Page */}
-      {pathname === "/" && (
-        <div className={`w-full overflow-hidden whitespace-nowrap py-1 bg-blue-600/10 border-b border-blue-200/50 transition-all duration-500 ${isScrolled ? 'opacity-0 h-0 py-0' : 'opacity-100 h-auto'}`}>
-          <div className="inline-block animate-ticker">
-            <span className="inline-flex items-center gap-2 px-8 text-blue-800 font-extrabold text-sm uppercase tracking-widest italic">
-              <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
-              Har zaroorat ke liye ek bharosemand haath
-              <span className="mx-8">|</span>
-              Trusted Care & Staffing Services
-              <span className="mx-8">|</span>
-              Verified Professional Help
-              <span className="mx-8">|</span>
-              Har zaroorat ke liye ek bharosemand haath
-            </span>
-            <span className="inline-flex items-center gap-2 px-8 text-blue-800 font-extrabold text-sm uppercase tracking-widest italic">
-              <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
-              Har zaroorat ke liye ek bharosemand haath
-              <span className="mx-8">|</span>
-              Trusted Care & Staffing Services
-              <span className="mx-8">|</span>
-              Verified Professional Help
-              <span className="mx-8">|</span>
-              Har zaroorat ke liye ek bharosemand haath
-            </span>
-          </div>
-        </div>
-      )}
-
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
@@ -263,6 +235,34 @@ const Header = () => {
           <Menu size={24} />
         </button>
       </div>
+
+      {/* Tagline Ticker - Only on Home Page */}
+      {pathname === "/" && (
+        <div className={`w-full overflow-hidden whitespace-nowrap py-2 bg-blue-600/5 border-t border-blue-200/30 transition-all duration-500 ${isScrolled ? 'opacity-0 h-0 py-0 overflow-hidden' : 'opacity-100 h-auto'}`}>
+          <div className="inline-block animate-ticker">
+            <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em]">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+              Har zaroorat ke liye ek bharosemand haath
+              <span className="mx-12 opacity-30">•</span>
+              Trusted Care & Staffing Services
+              <span className="mx-12 opacity-30">•</span>
+              Verified Professional Help
+              <span className="mx-12 opacity-30">•</span>
+              Har zaroorat ke liye ek bharosemand haath
+            </span>
+            <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em]">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+              Har zaroorat ke liye ek bharosemand haath
+              <span className="mx-12 opacity-30">•</span>
+              Trusted Care & Staffing Services
+              <span className="mx-12 opacity-30">•</span>
+              Verified Professional Help
+              <span className="mx-12 opacity-30">•</span>
+              Har zaroorat ke liye ek bharosemand haath
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Mobile Drawer */}
       <div
