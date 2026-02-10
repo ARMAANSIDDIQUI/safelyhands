@@ -81,7 +81,6 @@ const isServiceActive = (booking) => {
     return today <= endDate;
 };
 
-const Attendance = require('../models/Attendance'); // Ensure Attendance model is imported (at top usually)
 
 // @desc    Mark attendance
 // @route   POST /api/attendance
