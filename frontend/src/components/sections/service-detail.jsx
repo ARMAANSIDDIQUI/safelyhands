@@ -68,7 +68,7 @@ export default function ServiceDetail({ initialData, slug }) {
                     </p>
                     <div className="mt-10">
                         <Link
-                            href="/broomit"
+                            href="/booking"
                             className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-500 transition-all hover:scale-105 shadow-lg shadow-blue-900/50"
                         >
                             Book {data.title} <ArrowRight size={20} />
@@ -126,7 +126,7 @@ export default function ServiceDetail({ initialData, slug }) {
             <section className="py-16 bg-slate-50 border-t border-slate-200">
                 <div className="container mx-auto px-6 text-center">
                     <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
-                    <Link href="/broomit" className="text-blue-600 font-bold hover:underline text-lg">
+                    <Link href="/booking" className="text-blue-600 font-bold hover:underline text-lg">
                         Book your {data.title.toLowerCase()} today &rarr;
                     </Link>
                 </div>

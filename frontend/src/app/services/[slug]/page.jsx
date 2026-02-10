@@ -45,7 +45,7 @@ export default function ServicePage() {
     }, [params.slug, router]);
 
     const handleBookNow = () => {
-        router.push(`/booking?service=${service.slug}&title=${encodeURIComponent(service.title)}`);
+        router.push(`/booking?service=${service.slug}`);
     };
 
     if (loading) {

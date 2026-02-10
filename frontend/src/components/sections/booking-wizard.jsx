@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Check, Calendar, MapPin, User, ChevronRight, ChevronLeft, Loader2, Star, Plus, ArrowLeft } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 export default function BookingWizard() {
     const { user } = useAuth();
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(true);
     const [services, setServices] = useState([]);
@@ -60,7 +61,7 @@ export default function BookingWizard() {
     const [showPeonModal, setShowPeonModal] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Fetch services from backend API
+    // Fetch services and auto-select if slug in URL
     useEffect(() => {
         const fetchServices = async () => {
             try {
@@ -69,6 +70,15 @@ export default function BookingWizard() {
                 if (res.ok) {
                     const data = await res.json();
                     setServices(data);
+
+                    // Auto-select service from URL
+                    const serviceSlug = searchParams.get('service');
+                    if (serviceSlug) {
+                        const preSelected = data.find(s => s.slug === serviceSlug);
+                        if (preSelected) {
+                            handleServiceSelect(preSelected);
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Failed to fetch services', error);
@@ -78,7 +88,7 @@ export default function BookingWizard() {
         };
 
         fetchServices();
-    }, []);
+    }, [searchParams]);
 
     const handleNext = () => setStep((prev) => Math.min(prev + 1, 3));
     const handleBack = () => setStep((prev) => Math.max(prev - 1, 1));
@@ -129,7 +139,7 @@ export default function BookingWizard() {
     const handleSubmit = async () => {
         if (!user) {
             toast.error("Please login to complete your booking");
-            router.push("/login?redirect=/quick-book");
+            router.push("/login?redirect=/booking");
             return;
         }
 
