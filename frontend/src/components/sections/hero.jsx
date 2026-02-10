@@ -15,13 +15,6 @@ const HeroSection = () => {
 
           {/* Content */}
           <div className="flex-1 text-center lg:text-left z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-bold mb-8 animate-fade-in-up shadow-sm">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-500"></span>
-              </span>
-              Har zaroorat ke liye ek bharosemand haath
-            </div>
 
             <h1 id="hero-title" className="text-5xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight text-slate-900 mb-6 leading-[1.05]">
               India&apos;s trusted care and <br />

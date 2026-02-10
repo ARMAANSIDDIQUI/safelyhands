@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, User, LogOut, LayoutDashboard, Baby, ChefHat, Home, HeartPulse, Clock } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 // import { Button } from "@/components/ui/button";
 
@@ -13,6 +14,7 @@ const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [equalizerBars, setEqualizerBars] = useState([]);
   const [services, setServices] = useState([]);
+  const pathname = usePathname();
 
   useEffect(() => {
     setEqualizerBars(
@@ -72,6 +74,34 @@ const Header = () => {
               }}
             />
           ))}
+        </div>
+      )}
+
+      {/* Tagline Ticker - Only on Home Page */}
+      {pathname === "/" && (
+        <div className={`w-full overflow-hidden whitespace-nowrap py-1 bg-blue-600/10 border-b border-blue-200/50 transition-all duration-500 ${isScrolled ? 'opacity-0 h-0 py-0' : 'opacity-100 h-auto'}`}>
+          <div className="inline-block animate-ticker">
+            <span className="inline-flex items-center gap-2 px-8 text-blue-800 font-extrabold text-sm uppercase tracking-widest italic">
+              <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+              Har zaroorat ke liye ek bharosemand haath
+              <span className="mx-8">|</span>
+              Trusted Care & Staffing Services
+              <span className="mx-8">|</span>
+              Verified Professional Help
+              <span className="mx-8">|</span>
+              Har zaroorat ke liye ek bharosemand haath
+            </span>
+            <span className="inline-flex items-center gap-2 px-8 text-blue-800 font-extrabold text-sm uppercase tracking-widest italic">
+              <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+              Har zaroorat ke liye ek bharosemand haath
+              <span className="mx-8">|</span>
+              Trusted Care & Staffing Services
+              <span className="mx-8">|</span>
+              Verified Professional Help
+              <span className="mx-8">|</span>
+              Har zaroorat ke liye ek bharosemand haath
+            </span>
+          </div>
         </div>
       )}
 
@@ -350,6 +380,24 @@ const Header = () => {
           )}
         </div>
       </div>
+      <style jsx>{`
+        @keyframes ticker {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+          display: inline-block;
+          animation: ticker 25s linear infinite;
+        }
+        @keyframes equalizer {
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(0.4); }
+        }
+        .animate-equalizer {
+          animation: equalizer 2s ease-in-out infinite;
+          transform-origin: top;
+        }
+      `}</style>
     </header>
   );
 };
