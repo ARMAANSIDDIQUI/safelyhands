@@ -49,7 +49,7 @@ const getServiceBySlug = async (req, res) => {
 // @access  Private/Admin
 const createService = async (req, res) => {
     try {
-        const { title, slug, description, basePrice, minPrice, maxPrice, features, imageUrl, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
+        const { title, slug, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
 
         const serviceExists = await Service.findOne({ slug });
         if (serviceExists) {
@@ -67,6 +67,10 @@ const createService = async (req, res) => {
             },
             features,
             imageUrl,
+            icon,
+            subtitle,
+            gradientFrom: gradientFrom || 'blue-100',
+            gradientTo: gradientTo || 'blue-200',
             rating,
             reviewCount,
             badge,
@@ -88,7 +92,7 @@ const createService = async (req, res) => {
 // @access  Private/Admin
 const updateService = async (req, res) => {
     try {
-        const { title, description, basePrice, minPrice, maxPrice, features, imageUrl, isActive, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
+        const { title, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, isActive, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
 
         const service = await Service.findById(req.params.id);
 
@@ -102,6 +106,10 @@ const updateService = async (req, res) => {
             };
             service.features = features || service.features;
             service.imageUrl = imageUrl || service.imageUrl;
+            service.icon = icon || service.icon;
+            service.subtitle = subtitle || service.subtitle;
+            service.gradientFrom = gradientFrom || service.gradientFrom;
+            service.gradientTo = gradientTo || service.gradientTo;
             service.isActive = isActive !== undefined ? isActive : service.isActive;
             service.rating = rating !== undefined ? rating : service.rating;
             service.reviewCount = reviewCount !== undefined ? reviewCount : service.reviewCount;

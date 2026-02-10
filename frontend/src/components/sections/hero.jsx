@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Star, Shield, Clock, Heart } from 'lucide-react';
+import HeroRevolver from './hero-revolver';
 
 const HeroSection = () => {
   return (
@@ -18,11 +19,11 @@ const HeroSection = () => {
 
             <h1 id="hero-title" className="text-5xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight text-slate-900 mb-6 leading-[1.05]">
               India&apos;s trusted care and <br />
-              <span className="text-gradient">staffing services</span>
+              <span className="text-gradient">safe-living hands</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto lg:mx-0 leading-relaxed font-medium">
-              Find trusted help in your city. Hire a babysitter for your child, hire a chef for delicious meals and reliable household services.
+              Experience the premium standard in household management. From professional chefs to compassionate elderly care, we provide the bharosemand hath your family deserves.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -49,37 +50,9 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Visuals - Enhanced Blue Styling */}
-          <div className="flex-1 w-full max-w-[600px] lg:max-w-none relative perspective-1000">
-            <div className="relative aspect-square md:aspect-[4/3] lg:aspect-square group">
-              {/* Main Image Container */}
-              <div className="absolute inset-0 bg-gradient-brand rounded-[40px] rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500"></div>
-              <div className="absolute inset-0 bg-transparent rounded-[40px] overflow-hidden shadow-2xl rotate-0 transition-transform duration-500 z-10 flex items-center justify-center">
-                <Image
-                  src="https://placehold.co/800x800/e0f2fe/0ea5e9?text=Happy+Home+Services"
-                  alt="Happy family with domestic help"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent"></div>
-              </div>
-
-              {/* Floating Cards - Blue Themed */}
-              <div className="absolute -top-6 -right-6 md:right-[-20px] bg-white/60 backdrop-blur-sm p-5 rounded-2xl shadow-float z-20 hover:animate-zoom border border-blue-50/80 transition-all duration-300">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
-                    <Shield className="text-blue-600" size={24} strokeWidth={2.5} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900">100% Safe</div>
-                    <div className="text-xs text-slate-500">Background Verified</div>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
+          {/* Visuals - Hero Revolver Implementation */}
+          <div className="flex-1 w-full relative h-[600px]">
+            <HeroRevolver />
           </div>
         </div>
       </div>

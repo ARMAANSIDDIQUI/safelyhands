@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
-    slug: { type: String, required: true, unique: true }, // e.g. 'cooks'
+    slug: { type: String, required: true, unique: true },
     title: { type: String, required: true },
+    subtitle: { type: String }, // For Revolver Hero
     description: { type: String, required: true },
-    imageUrl: { type: String }, // Image URL from broomees.com
+    imageUrl: { type: String },
+    icon: { type: String }, // For Revolver Hero (Lucide icon name or URL)
+    gradientFrom: { type: String, default: 'blue-100' }, // For Revolver Hero
+    gradientTo: { type: String, default: 'blue-200' },   // For Revolver Hero
     features: [{ type: String }],
     basePrice: { type: Number },
     priceRange: {
@@ -13,12 +17,12 @@ const serviceSchema = new mongoose.Schema({
     },
     rating: { type: Number, default: 4.8, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },
-    badge: { type: String }, // e.g. 'Popular', 'Trending', 'Most Popular'
-    category: { type: String }, // e.g. 'cooking', 'cleaning', 'childcare'
-    shift: { type: String }, // e.g. '24 Hrs Live In', '8 Hrs - Day'
+    badge: { type: String },
+    category: { type: String },
+    shift: { type: String },
     gender: { type: String, enum: ['Male', 'Female', 'Both'], default: 'Both' },
-    availability: { type: String }, // e.g. 'Part-time and Full-time'
-    verificationStatus: { type: String }, // e.g. 'Fully verified with background checks'
+    availability: { type: String },
+    verificationStatus: { type: String },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now }
 });
