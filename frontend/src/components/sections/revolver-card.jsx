@@ -6,36 +6,36 @@ import Image from "next/image";
 
 const variants = {
     top: {
-        y: -220,
-        z: -350,
-        rotateX: 55,
-        opacity: 0.3,
-        scale: 0.85,
+        y: -240,
+        z: -400,
+        rotateX: 65,
+        opacity: 0.2,
+        scale: 0.8,
         zIndex: 10
     },
     center: {
         y: 0,
-        z: 100,
+        z: 150,
         rotateX: 0,
         opacity: 1,
         scale: 1,
         zIndex: 50
     },
     bottom: {
-        y: 220,
-        z: -350,
-        rotateX: -55,
-        opacity: 0.3,
-        scale: 0.85,
+        y: 240,
+        z: -400,
+        rotateX: -65,
+        opacity: 0.2,
+        scale: 0.8,
         zIndex: 10
     }
 };
 
 const gradientMap = [
-    { from: "from-blue-100/80", to: "to-blue-200/80" },
-    { from: "from-sky-100/80", to: "to-sky-200/80" },
-    { from: "from-cyan-100/80", to: "to-cyan-200/80" },
-    { from: "from-indigo-100/80", to: "to-indigo-200/80" }
+    "from-blue-500/20",
+    "from-sky-500/20",
+    "from-cyan-500/20",
+    "from-indigo-500/20"
 ];
 
 export default function RevolverCard({ service, slot, index }) {
@@ -50,60 +50,51 @@ export default function RevolverCard({ service, slot, index }) {
                 initial={false}
                 animate={slot}
                 whileHover={slot === 'center' ? {
-                    scale: 1.02,
-                    z: 150,
-                    boxShadow: "0 40px 70px -15px rgba(14, 165, 233, 0.4)",
+                    scale: 1.05,
+                    z: 200,
+                    boxShadow: "0 0 80px 20px rgba(14, 165, 233, 0.3)",
                     transition: { duration: 0.3 }
                 } : {}}
                 transition={{
                     type: "spring",
-                    stiffness: 100,
-                    damping: 22,
-                    mass: 1
+                    stiffness: 90,
+                    damping: 20,
+                    mass: 1.2
                 }}
                 style={{ transformStyle: "preserve-3d" }}
                 className={`
-          relative w-[340px] md:w-[450px] h-[220px]
-          rounded-[2.5rem] shadow-2xl border border-white/40
-          bg-gradient-to-br ${gradient.from} ${gradient.to}
-          backdrop-blur-xl
-          flex items-center p-6 gap-6
+          relative w-[280px] h-[280px] md:w-[320px] md:h-[320px]
+          rounded-full shadow-2xl border-4 border-white/40
+          bg-gradient-to-br ${gradient} to-transparent
+          backdrop-blur-2xl
+          flex items-center justify-center
           cursor-pointer overflow-hidden
+          group
         `}
             >
-                {/* Service Image - The "Magazine" Visual */}
-                <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-[2rem] overflow-hidden shadow-inner bg-white/50 border border-white/20">
+                {/* Service Image - Circular Magazine visual */}
+                <div className="absolute inset-2 rounded-full overflow-hidden border-2 border-white/30">
                     <Image
-                        src={service.imageUrl || "https://placehold.co/400x400/e0f2fe/0ea5e9?text=Service"}
+                        src={service.imageUrl || "https://placehold.co/600x600/e0f2fe/0ea5e9?text=Service"}
                         alt={service.title}
                         fill
-                        className="object-cover transition-transform duration-500 hover:scale-110"
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+                    {/* Dark Gradient Overlay for text legibility */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
                 </div>
 
-                {/* Content */}
-                <div className="flex flex-col gap-2 flex-1">
-                    <div className="flex flex-col">
-                        <span className="text-blue-600 font-bold text-xs uppercase tracking-widest mb-1 opacity-70">
-                            Premium Service
-                        </span>
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight leading-tight">
-                            {service.title}
-                        </h3>
-                    </div>
-
-                    <p className="text-slate-600 font-medium text-sm md:text-base leading-snug line-clamp-3">
-                        {service.subtitle || service.description || "Bharat ke bharosemand care and staffing services."}
-                    </p>
-
-                    <div className="flex items-center gap-2 mt-2">
-                        <div className="h-1.5 w-12 bg-blue-500 rounded-full"></div>
-                        <div className="h-1.5 w-4 bg-blue-300 rounded-full"></div>
-                    </div>
+                {/* Floating Content Overlay */}
+                <div className="absolute bottom-10 left-0 right-0 px-6 text-center transform translate-z-10">
+                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight leading-tight drop-shadow-lg mb-1">
+                        {service.title}
+                    </h3>
+                    <div className="h-1 w-12 bg-blue-400 mx-auto rounded-full shadow-lg"></div>
                 </div>
 
-                {/* Glossy Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"></div>
+                {/* Magazine Chamber Hole Effect */}
+                <div className="absolute inset-0 rounded-full shadow-inner pointer-events-none ring-1 ring-white/20"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_70%,rgba(0,0,0,0.1)_100%)] pointer-events-none"></div>
             </motion.div>
         </Link>
     );

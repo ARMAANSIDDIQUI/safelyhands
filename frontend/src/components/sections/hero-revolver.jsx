@@ -52,11 +52,11 @@ export default function HeroRevolver() {
         <div
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            className="relative h-[650px] w-full flex items-center justify-center overflow-visible perspective-[2000px]"
+            className="relative h-[700px] w-full flex items-center justify-center overflow-visible perspective-[2500px]"
         >
 
             {/* Intense Dynamic Glow */}
-            <div className="absolute top-[40%] left-1/2 -translate-x-1/2 w-[600px] h-[150px] bg-blue-500/10 blur-[120px] rounded-full -z-10 animate-pulse"></div>
+            <div className="absolute top-[40%] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/10 blur-[150px] rounded-full -z-10 animate-pulse"></div>
 
             {/* TOP CARD */}
             <RevolverCard
@@ -68,12 +68,12 @@ export default function HeroRevolver() {
 
             {/* TAGLINE - Floating in front of the cylinder */}
             <motion.div
-                initial={{ opacity: 0, z: 200 }}
-                animate={{ opacity: 1, z: 400 }}
-                className="absolute top-[40%] md:top-[38%] z-[100] pointer-events-none"
+                initial={{ opacity: 0, z: 200, scale: 0.9 }}
+                animate={{ opacity: 1, z: 400, scale: 1 }}
+                className="absolute top-[40%] md:top-[42%] z-[100] pointer-events-none"
             >
-                <div className="bg-white/60 backdrop-blur-2xl px-10 py-3 rounded-full border border-blue-200/50 shadow-2xl shadow-blue-500/10 transform-gpu">
-                    <span className="text-blue-700 font-extrabold text-sm md:text-xl tracking-[0.2em] uppercase block text-center drop-shadow-sm">
+                <div className="bg-white/40 backdrop-blur-3xl px-12 py-4 rounded-full border border-white/40 shadow-[0_20px_50px_rgba(14,165,233,0.3)] transform-gpu">
+                    <span className="text-blue-800 font-black text-sm md:text-2xl tracking-[0.3em] uppercase block text-center drop-shadow-md">
                         Har zaroorat ke liye ek bharosemand haath
                     </span>
                 </div>
