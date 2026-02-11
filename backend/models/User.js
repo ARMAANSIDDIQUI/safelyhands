@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true }, // Hashed
     role: { type: String, enum: ['customer', 'admin', 'worker'], default: 'customer' },
     googleId: { type: String }, // For OAuth
+    profilePicture: { type: String }, // User profile image URL
     phone: { type: String },
     otp: { type: String },
     otpExpires: { type: Date },

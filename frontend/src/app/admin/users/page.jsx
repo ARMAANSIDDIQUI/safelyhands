@@ -84,11 +84,11 @@ export default function UserList() {
                                     <tr key={u._id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="p-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 overflow-hidden">
+                                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 overflow-hidden border border-blue-100">
                                                     {u.profilePicture ? (
                                                         <img src={u.profilePicture} alt={u.name} className="w-full h-full object-cover" />
                                                     ) : (
-                                                        <UserCircle size={24} />
+                                                        <span className="font-bold text-sm">{u.name?.charAt(0).toUpperCase()}</span>
                                                     )}
                                                 </div>
                                                 <div>

@@ -186,7 +186,7 @@ export default function MyBookingsPage() {
             const data = await res.json();
 
             if (res.ok) {
-                toast.success("Review submitted! It will be visible after admin approval.");
+                toast.success("Review submitted successfully!");
                 setIsReviewDialogOpen(false);
                 // We don't need to refresh bookings here since review state isn't shown yet
             } else {

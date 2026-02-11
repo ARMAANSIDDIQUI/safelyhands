@@ -165,9 +165,17 @@ export default function AdminLayout({ children }) {
                         <h2 className="text-lg font-semibold text-slate-800">Admin Dashboard</h2>
                     </div>
                     <div className="flex items-center gap-2 md:gap-4">
-                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
-                            {user?.name?.charAt(0).toUpperCase()}
-                        </div>
+                        {user.profilePicture ? (
+                            <img
+                                src={user.profilePicture}
+                                alt={user.name}
+                                className="w-8 h-8 rounded-full object-cover border border-slate-200"
+                            />
+                        ) : (
+                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                                {user?.name?.charAt(0).toUpperCase()}
+                            </div>
+                        )}
                         <span className="text-sm font-medium text-slate-600 hidden sm:block">{user?.name}</span>
                     </div>
                 </header>

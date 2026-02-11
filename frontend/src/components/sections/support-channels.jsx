@@ -10,9 +10,9 @@ const SupportChannels = () => {
     },
     {
       label: 'E-mail ID',
-      value: 'armaansiddiqui.mbd@gmail.com',
+      value: 'Safelyhands@gmail.com',
       icon: <Mail size={24} className="text-white" />,
-      link: 'mailto:armaansiddiqui.mbd@gmail.com',
+      link: 'mailto:Safelyhands@gmail.com',
     },
     {
       label: 'Whatsapp',

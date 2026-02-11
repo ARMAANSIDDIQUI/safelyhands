@@ -162,8 +162,12 @@ export default function DashboardLayout({ children }) {
                         <Menu size={24} />
                     </button>
                     <span className="font-semibold text-gray-800">Dashboard</span>
-                    <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold text-sm">
-                        {user?.name?.charAt(0).toUpperCase()}
+                    <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold text-sm overflow-hidden">
+                        {user.profilePicture ? (
+                            <img src={user.profilePicture} alt={user.name} className="w-full h-full object-cover" />
+                        ) : (
+                            user?.name?.charAt(0).toUpperCase()
+                        )}
                     </div>
                 </header>
 

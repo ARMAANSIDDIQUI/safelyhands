@@ -58,7 +58,7 @@ const createReview = async (req, res) => {
         // await Worker.findByIdAndUpdate(workerId, { rating: avgRating });
 
         res.status(201).json({
-            message: 'Review submitted for approval',
+            message: 'Review submitted successfully',
             review
         });
     } catch (error) {
