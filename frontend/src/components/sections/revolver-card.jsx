@@ -3,33 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-
-const variants = {
-    top: {
-        y: -240,
-        z: -400,
-        rotateX: 65,
-        opacity: 0.2,
-        scale: 0.8,
-        zIndex: 10
-    },
-    center: {
-        y: 0,
-        z: 150,
-        rotateX: 0,
-        opacity: 1,
-        scale: 1,
-        zIndex: 50
-    },
-    bottom: {
-        y: 240,
-        z: -400,
-        rotateX: -65,
-        opacity: 0.2,
-        scale: 0.8,
-        zIndex: 10
-    }
-};
+import { useState, useEffect } from "react";
 
 const gradientMap = [
     "from-blue-500/20",
@@ -41,14 +15,73 @@ const gradientMap = [
 export default function RevolverCard({ service, slot, index }) {
     if (!service) return null;
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    const variants = {
+        enter: {
+            x: isMobile ? 150 : 350,
+            y: 0,
+            z: -800,
+            opacity: 0,
+            scale: 0.4,
+            rotateY: 0,
+        },
+        top: { // prev
+            x: isMobile ? 120 : 300,
+            y: isMobile ? -140 : -220,
+            z: -200,
+            rotateX: 0,
+            rotateY: 0,
+            opacity: 0.85,
+            scale: isMobile ? 0.55 : 0.7,
+            zIndex: 20
+        },
+        center: { // active
+            x: isMobile ? -100 : -240,
+            y: 0,
+            z: 150,
+            rotateX: 0,
+            rotateY: 0,
+            opacity: 1,
+            scale: isMobile ? 0.75 : 1,
+            zIndex: 50
+        },
+        bottom: { // next
+            x: isMobile ? 120 : 300,
+            y: isMobile ? 140 : 220,
+            z: -200,
+            rotateX: 0,
+            rotateY: 0,
+            opacity: 0.85,
+            scale: isMobile ? 0.55 : 0.7,
+            zIndex: 20
+        },
+        exit: {
+            x: isMobile ? 150 : 350,
+            y: 0,
+            z: -800,
+            opacity: 0,
+            scale: 0.4,
+            rotateY: 0,
+        }
+    };
+
     const gradient = gradientMap[index % gradientMap.length];
 
     return (
         <Link href={`/services/${service.slug || service._id}`} className="absolute z-[inherit] transform-gpu">
             <motion.div
                 variants={variants}
-                initial={false}
+                initial="enter"
                 animate={slot}
+                exit="exit"
                 whileHover={slot === 'center' ? {
                     scale: 1.05,
                     z: 200,
@@ -63,14 +96,14 @@ export default function RevolverCard({ service, slot, index }) {
                 }}
                 style={{ transformStyle: "preserve-3d" }}
                 className={`
-          relative w-[280px] h-[280px] md:w-[320px] md:h-[320px]
+          relative w-[210px] h-[210px] md:w-[280px] md:h-[280px] lg:w-[320px] lg:h-[320px]
           rounded-full shadow-2xl border-4 border-white/40
           bg-gradient-to-br ${gradient} to-transparent
           backdrop-blur-2xl
           flex items-center justify-center
           cursor-pointer overflow-hidden
           group
-        `}
+    `}
             >
                 {/* Service Image - Circular Magazine visual */}
                 <div className="absolute inset-2 rounded-full overflow-hidden border-2 border-white/30">

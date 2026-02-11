@@ -1,0 +1,7 @@
+--- Services ---
+
+Service: Babysitter
+  - 2-12 months: Babycare services for the well-being of your little one (₹25000/month starting)
+
+Service: 24 Hrs - Elderly Care
+  - Elderly Care: Assistance for elders, verified staff. (₹25000/month starting)

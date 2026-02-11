@@ -1,0 +1,50 @@
+--- Services ---
+Title: Cooks & Chefs
+Slug: cooks
+Has Questions: true
+Subcategories: 1
+[
+  "Cook"
+]
+----------------
+Title: Domestic Help
+Slug: domestic-help
+Has Questions: false
+Subcategories: 0
+----------------
+Title: Babysitter
+Slug: babysitter
+Has Questions: true
+Subcategories: 1
+[
+  "Babysitter"
+]
+----------------
+Title: All Rounder
+Slug: all-rounder
+Has Questions: true
+Subcategories: 0
+----------------
+Title: 24 Hrs - Elderly Care
+Slug: elderly-care
+Has Questions: true
+Subcategories: 1
+[
+  "Elderly Care"
+]
+----------------
+Title: 24 Hrs - Live In
+Slug: 24-hour-live-in
+Has Questions: false
+Subcategories: 0
+----------------
+Title: Patient Care
+Slug: patient-care
+Has Questions: true
+Subcategories: 0
+----------------
+Title: Peon
+Slug: peon
+Has Questions: true
+Subcategories: 0
+----------------

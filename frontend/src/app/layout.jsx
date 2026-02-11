@@ -9,12 +9,14 @@ export const metadata = {
 
 import { Providers } from "@/providers";
 import GlobalBackground from "@/components/global-background";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 
 export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="antialiased">
                 <Providers>
+                    <ScrollToTop />
                     <GlobalBackground />
                     {children}
                 </Providers>

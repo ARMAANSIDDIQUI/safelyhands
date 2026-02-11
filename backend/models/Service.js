@@ -20,10 +20,37 @@ const serviceSchema = new mongoose.Schema({
     badge: { type: String },
     category: { type: String },
     shift: { type: String },
+    selectionMode: { type: String, enum: ['single', 'multiple'], default: 'single' }, // single = select 1, multiple = select one or more
     gender: { type: String, enum: ['Male', 'Female', 'Both'], default: 'Both' },
     availability: { type: String },
     verificationStatus: { type: String },
     isActive: { type: Boolean, default: true },
+    subcategories: [{
+        name: { type: String },
+        image: { type: String },
+        price: { type: String }, // e.g. "₹15000/month starting"
+        description: { type: String }, // e.g. "Complete floor cleaning..."
+        features: [{ type: String }]  // e.g. "+All services inclusive"
+    }],
+    subcategoryImage: { type: String }, // New: visual representation for subcategory
+    questions: [{ // New: Dynamic Question Schema
+        stepTitle: { type: String, default: "Details" },
+        fields: [{
+            name: { type: String, required: true }, // Key for formData
+            label: { type: String, required: true }, // Display label
+            type: { type: String, enum: ['radio', 'select', 'checkbox', 'text', 'date'], default: 'radio' },
+            options: [{
+                label: String,
+                value: String,
+                priceChange: { type: Number, default: 0 } // Additional cost
+            }],
+            required: { type: Boolean, default: true },
+            condition: { // Conditional visibility logic
+                key: String,
+                value: String
+            }
+        }]
+    }],
     createdAt: { type: Date, default: Date.now }
 });
 

@@ -8,6 +8,14 @@ export default function HeroRevolver() {
     const [services, setServices] = useState([]);
     const [active, setActive] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -30,8 +38,8 @@ export default function HeroRevolver() {
         if (services.length < 2 || isPaused) return;
 
         const interval = setInterval(() => {
-            setActive(i => (i + 1) % services.length);
-        }, 4500);
+            setActive(i => (i - 1 + services.length) % services.length);
+        }, 5000);
 
         return () => clearInterval(interval);
     }, [services, isPaused]);
@@ -52,48 +60,40 @@ export default function HeroRevolver() {
         <div
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            className="relative h-[700px] w-full flex items-center justify-center overflow-visible perspective-[2500px]"
+            className="relative h-[400px] md:h-[600px] lg:h-[700px] w-full flex items-center justify-center overflow-visible perspective-[2500px]"
         >
 
-            {/* Intense Dynamic Glow */}
-            <div className="absolute top-[40%] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/10 blur-[150px] rounded-full -z-10 animate-pulse"></div>
-
-            {/* TOP CARD */}
-            <RevolverCard
-                key={`top-${services[getPrev()]._id}`}
-                service={services[getPrev()]}
-                slot="top"
-                index={getPrev()}
-            />
-
-            {/* TAGLINE - Floating in front of the cylinder */}
+            {/* TAGLINE - Narrowed to 3 lines and shifted right to eliminate overlap */}
             <motion.div
-                initial={{ opacity: 0, z: 200, scale: 0.9 }}
-                animate={{ opacity: 1, z: 400, scale: 1 }}
-                className="absolute top-[40%] md:top-[42%] z-[100] pointer-events-none"
+                initial={{ opacity: 0, x: isMobile ? 80 : 120, scale: isMobile ? 0.7 : 0.9 }}
+                animate={{ opacity: 1, x: isMobile ? 80 : 120, scale: isMobile ? 0.8 : 1 }}
+                className="absolute top-1/2 -translate-y-1/2 z-[100] pointer-events-none"
             >
-                <div className="bg-white/40 backdrop-blur-3xl px-12 py-4 rounded-full border border-white/40 shadow-[0_20px_50px_rgba(14,165,233,0.3)] transform-gpu">
-                    <span className="text-blue-800 font-black text-sm md:text-2xl tracking-[0.3em] uppercase block text-center drop-shadow-md">
-                        Har zaroorat ke liye ek bharosemand haath
+                <div className="max-w-[180px] md:max-w-[320px] text-center">
+                    <span className="text-blue-900/80 font-black text-xs md:text-xl lg:text-2xl tracking-[0.1em] md:tracking-[0.15em] uppercase block drop-shadow-sm leading-tight">
+                        Har zaroorat <br />
+                        ke liye ek <br />
+                        bharosemand haath
                     </span>
+                    <div className="h-0.5 w-8 md:w-12 bg-blue-400 mx-auto mt-2 rounded-full opacity-50"></div>
                 </div>
             </motion.div>
 
-            {/* CENTER CARD */}
-            <RevolverCard
-                key={`center-${services[active]._id}`}
-                service={services[active]}
-                slot="center"
-                index={active}
-            />
-
-            {/* BOTTOM CARD */}
-            <RevolverCard
-                key={`bottom-${services[getNext()]._id}`}
-                service={services[getNext()]}
-                slot="bottom"
-                index={getNext()}
-            />
+            <AnimatePresence mode="popLayout">
+                {/* Symmetrical Magazine Cards: S2 (top), S1 (center), S3 (bottom) */}
+                {[
+                    { id: services[getPrev()]._id, service: services[getPrev()], slot: 'top', index: getPrev() },
+                    { id: services[active]._id, service: services[active], slot: 'center', index: active },
+                    { id: services[getNext()]._id, service: services[getNext()], slot: 'bottom', index: getNext() }
+                ].map((item) => (
+                    <RevolverCard
+                        key={item.id}
+                        service={item.service}
+                        slot={item.slot}
+                        index={item.index}
+                    />
+                ))}
+            </AnimatePresence>
 
         </div>
     );

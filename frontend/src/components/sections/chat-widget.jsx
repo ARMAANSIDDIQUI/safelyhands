@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, Minus, MessageCircle, Send, Loader2, PlayCircle } from "lucide-react";
+import { X, Minus, MessageCircle, Send, Loader2, PlayCircle, ChevronUp } from "lucide-react";
 import { useTutorial } from "@/context/TutorialContext";
 import { usePathname } from "next/navigation";
 
@@ -34,10 +34,18 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState([
     { text: "Hello! How can I assist you today with Safely Hands services?", sender: "bot", time: new Date() }
   ]);
-  const [input, setInput] = useState("");
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
   const { startTutorial } = useTutorial();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Hide ChatWidget on specific pages
   if (pathname.includes("/dashboard") || pathname.includes("/booking") || pathname.includes("/profile") || pathname.includes("/admin")) {
@@ -54,12 +62,11 @@ export default function ChatWidget() {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  const handleSend = async (text = input) => {
-    if (!text.trim()) return;
+  const handleSend = async (text) => {
+    if (!text || !text.trim()) return;
 
     const userMsg = { text, sender: "user", time: new Date() };
     setMessages(prev => [...prev, userMsg]);
-    setInput("");
     setIsTyping(true);
 
     // Simulate bot response delay
@@ -85,12 +92,6 @@ export default function ChatWidget() {
       }
 
       setMessages(prev => [...prev, { text: responseText, sender: "bot", time: new Date() }]);
-
-      // Auto-trigger tour offer if keyword matches
-      if (lowerText.includes("help") || lowerText.includes("guide") || lowerText.includes("tutorial") || lowerText.includes("tour")) {
-        // Optional: could auto-start, but button is better
-      }
-
       setIsTyping(false);
     }, 1000);
   };
@@ -186,37 +187,34 @@ export default function ChatWidget() {
             )}
           </div>
 
-          {/* Input */}
-          <div className="p-4 bg-white border-t border-[#E5E5E5] flex items-center gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask a question..."
-              className="flex-1 bg-[#F8F9FA] border border-[#E5E5E5] rounded-full px-4 py-2 text-[14px] focus:outline-none focus:border-[#72bcd4] focus:ring-1 focus:ring-[#72bcd4]"
-            />
-            <button
-              onClick={() => handleSend()}
-              disabled={!input.trim() || isTyping}
-              className="bg-[#72bcd4] p-2.5 rounded-full text-white hover:bg-[#5E9BB3] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isTyping ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-            </button>
-          </div>
+          {/* Input Area Removed as per request */}
         </div>
       )}
 
-      {/* Trigger Button */}
-      <button
-        onClick={toggleChat}
-        className="pointer-events-auto relative flex items-center justify-center w-[60px] h-[60px] rounded-full bg-[#72bcd4] shadow-lg hover:scale-110 transition-transform duration-200 group"
-      >
-        <div className="z-10 text-[#212529]">
-          {isOpen ? <X className="w-7 h-7" /> : <MessageCircle className="w-7 h-7 fill-white text-white" />}
-        </div>
-        {!isOpen && <div className="absolute inset-0 rounded-full animate-ping bg-[#72bcd4]/50"></div>}
-      </button>
+      {/* Action Buttons (Scroll to Top + Chat Toggle) */}
+      <div className="flex flex-col gap-3 pointer-events-auto items-center">
+        {/* Scroll to Top Button */}
+        {showScrollTop && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-slate-900 border-2 border-white/20 text-white shadow-lg hover:bg-slate-800 hover:scale-110 transition-all duration-300 animate-in fade-in zoom-in"
+            title="Scroll to Top"
+          >
+            <ChevronUp className="w-6 h-6" />
+          </button>
+        )}
+
+        {/* Chat Trigger Button */}
+        <button
+          onClick={toggleChat}
+          className="relative flex items-center justify-center w-[60px] h-[60px] rounded-full bg-[#72bcd4] shadow-lg hover:scale-110 transition-transform duration-200 group"
+        >
+          <div className="z-10 text-[#212529]">
+            {isOpen ? <X className="w-7 h-7" /> : <MessageCircle className="w-7 h-7 fill-white text-white" />}
+          </div>
+          {!isOpen && <div className="absolute inset-0 rounded-full animate-ping bg-[#72bcd4]/50"></div>}
+        </button>
+      </div>
     </div>
   );
 }

@@ -49,7 +49,7 @@ const getServiceBySlug = async (req, res) => {
 // @access  Private/Admin
 const createService = async (req, res) => {
     try {
-        const { title, slug, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
+        const { title, slug, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus, subcategories } = req.body;
 
         const serviceExists = await Service.findOne({ slug });
         if (serviceExists) {
@@ -78,7 +78,8 @@ const createService = async (req, res) => {
             shift,
             gender: gender || 'Both',
             availability,
-            verificationStatus
+            verificationStatus,
+            subcategories: subcategories || []
         });
 
         res.status(201).json(service);
@@ -92,7 +93,7 @@ const createService = async (req, res) => {
 // @access  Private/Admin
 const updateService = async (req, res) => {
     try {
-        const { title, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, isActive, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus } = req.body;
+        const { title, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, isActive, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus, subcategories, questions } = req.body;
 
         const service = await Service.findById(req.params.id);
 
@@ -119,6 +120,8 @@ const updateService = async (req, res) => {
             service.gender = gender || service.gender;
             service.availability = availability || service.availability;
             service.verificationStatus = verificationStatus || service.verificationStatus;
+            service.subcategories = subcategories || service.subcategories;
+            service.questions = questions || service.questions;
 
             const updatedService = await service.save();
             res.json(updatedService);
