@@ -54,7 +54,18 @@ export default function DashboardPage() {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-blue-600 to-indigo-600 p-8 rounded-3xl text-white shadow-lg relative overflow-hidden">
                 <div className="relative z-10">
-                    <h2 className="text-3xl font-bold tracking-tight mb-2 flex items-center gap-2">
+                    <h2 className="text-3xl font-bold tracking-tight mb-2 flex items-center gap-3">
+                        {user.profilePicture ? (
+                            <img
+                                src={user.profilePicture}
+                                alt={user.name}
+                                className="w-10 h-10 rounded-full object-cover border-2 border-white/20 shadow-sm"
+                            />
+                        ) : (
+                            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white border-2 border-white/20">
+                                <span className="text-lg font-bold">{user?.name?.charAt(0).toUpperCase()}</span>
+                            </div>
+                        )}
                         Welcome back, {user?.name?.split(' ')[0]} <Sparkles className="h-6 w-6 text-yellow-300" />
                     </h2>
                     <p className="text-blue-100 max-w-xl">

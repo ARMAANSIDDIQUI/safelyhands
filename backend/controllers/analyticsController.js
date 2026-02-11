@@ -25,15 +25,58 @@ const getDashboardStats = async (req, res) => {
 
         // 4. Bookings by Service Type
         const bookingsByService = await Booking.aggregate([
-            { $group: { _id: '$serviceType', count: { $sum: 1 } } }
+            {
+                $lookup: {
+                    from: 'subcategories',
+                    localField: 'items.subCategory',
+                    foreignField: '_id',
+                    as: 'subCategoryDetails'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'services',
+                    localField: 'subCategoryDetails.service',
+                    foreignField: '_id',
+                    as: 'serviceDetails'
+                }
+            },
+            {
+                $project: {
+                    serviceName: {
+                        $ifNull: [
+                            "$serviceType",
+                            { $arrayElemAt: ["$serviceDetails.title", 0] },
+                            "Other"
+                        ]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: "$serviceName",
+                    count: { $sum: 1 }
+                }
+            }
         ]);
 
-        // 5. Recent Activity
-        const recentBookings = await Booking.find()
+        // 5. Recent Activity with proper service name fallback
+        const rawRecentBookings = await Booking.find()
             .sort({ createdAt: -1 })
             .limit(5)
             .populate('user', 'name')
-            .select('serviceType status createdAt user');
+            .populate({
+                path: 'items.subCategory',
+                populate: { path: 'service', select: 'title' }
+            });
+
+        const recentBookings = rawRecentBookings.map(b => ({
+            _id: b._id,
+            user: b.user,
+            status: b.status,
+            createdAt: b.createdAt,
+            serviceType: b.serviceType || (b.items?.[0]?.subCategory?.service?.title) || 'Other'
+        }));
 
         // 6. Monthly Revenue (Last 6 Months)
         const sixMonthsAgo = new Date();

@@ -92,10 +92,6 @@ export default function ServicePage() {
                                         <span className="text-2xl font-bold text-slate-900">{service.rating}</span>
                                         <span className="text-slate-600">({service.reviewCount}+ reviews)</span>
                                     </div>
-
-                                    <div className="text-3xl font-bold text-blue-600">
-                                        ₹{(service.basePrice || 0).toLocaleString()}/mo
-                                    </div>
                                 </div>
 
                                 <button
