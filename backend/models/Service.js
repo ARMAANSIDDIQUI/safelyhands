@@ -26,6 +26,17 @@ const serviceSchema = new mongoose.Schema({
     verificationStatus: { type: String },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now }
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+});
+
+// Virtual populate
+serviceSchema.virtual('subcategories', {
+    ref: 'SubCategory',
+    localField: '_id',
+    foreignField: 'service',
+    justOne: false
 });
 
 module.exports = mongoose.models.Service || mongoose.model('Service', serviceSchema);

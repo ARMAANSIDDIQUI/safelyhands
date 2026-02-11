@@ -5,7 +5,7 @@ const Service = require('../models/Service');
 // @access  Public
 const getServices = async (req, res) => {
     try {
-        const services = await Service.find({});
+        const services = await Service.find({}).populate('subcategories');
         res.json(services);
     } catch (error) {
         res.status(500).json({ message: error.message });

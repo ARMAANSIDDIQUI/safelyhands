@@ -52,10 +52,10 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
-        ? "bg-[#f0f9ff] py-5 shadow-md border-b border-blue-100"
+        ? "bg-[#f0f9ff] py-4 shadow-md border-b border-blue-100"
         : isScrolled
-          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-4 shadow-md border-b border-blue-100"
-          : "bg-transparent py-8"
+          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-3 shadow-md border-b border-blue-100"
+          : "bg-transparent py-4"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}
@@ -82,7 +82,7 @@ const Header = () => {
         {/* Logo */}
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative w-40 h-10 transition-transform group-hover:scale-105">
+          <div className="relative w-64 h-20 transition-transform group-hover:scale-105"> {/* Increased to w-64 h-20 */}
             <Image
               src="/headerlogo.png"
               alt="Safely Hands"
@@ -95,11 +95,11 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8">
-          <Link href="/" className="text-base font-bold text-slate-800 hover:text-blue-600 transition-colors">
+          <Link href="/" className="text-lg font-bold text-slate-800 hover:text-blue-600 transition-colors"> {/* Increased text-base to text-lg */}
             Home
           </Link>
           <div className="relative group">
-            <Link href="/services" className="flex items-center gap-1 text-base font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+            <Link href="/services" className="flex items-center gap-1 text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"> {/* Increased text-base to text-lg */}
               Services <ChevronDown size={14} strokeWidth={3} />
             </Link>
             {/* Dropdown Menu */}
@@ -142,10 +142,10 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <Link href="/about" className="text-base font-bold text-slate-800 hover:text-blue-600 transition-colors">
+          <Link href="/about" className="text-lg font-bold text-slate-800 hover:text-blue-600 transition-colors">
             About Us
           </Link>
-          <Link href="/contact" className="text-base font-bold text-slate-800 hover:text-blue-600 transition-colors">
+          <Link href="/contact" className="text-lg font-bold text-slate-800 hover:text-blue-600 transition-colors">
             Contact
           </Link>
         </nav>
@@ -156,7 +156,7 @@ const Header = () => {
             <>
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors"
+                className="flex items-center gap-2 text-base font-bold text-slate-600 hover:text-blue-600 transition-colors"
               >
                 <LayoutDashboard size={18} />
                 Dashboard
@@ -164,7 +164,7 @@ const Header = () => {
               {user.role === 'admin' && (
                 <Link
                   href="/admin"
-                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-sm font-bold hover:shadow-lg hover:shadow-purple-200 hover:-translate-y-0.5 transition-all duration-300"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-base font-bold hover:shadow-lg hover:shadow-purple-200 hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <LayoutDashboard size={18} />
                   Admin Panel
@@ -176,7 +176,7 @@ const Header = () => {
                   className="flex items-center gap-2 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-full transition-colors"
                 >
                   <User size={18} className="text-blue-600" />
-                  <span className="text-sm font-semibold text-slate-700">{user.name}</span>
+                  <span className="text-base font-semibold text-slate-700">{user.name}</span>
                   <ChevronDown size={14} className="text-slate-600" />
                 </button>
 
@@ -184,7 +184,7 @@ const Header = () => {
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-50">
                     <Link
                       href="/dashboard/profile"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-base text-slate-700 hover:bg-blue-50 transition-colors"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       <User size={16} />
@@ -193,7 +193,7 @@ const Header = () => {
                     {user.role === 'admin' && (
                       <Link
                         href="/admin"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 text-base text-purple-600 hover:bg-purple-50 transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         <LayoutDashboard size={16} />
@@ -218,13 +218,13 @@ const Header = () => {
             <>
               <Link
                 href="/login"
-                className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors"
+                className="text-base font-bold text-slate-600 hover:text-blue-600 transition-colors"
               >
                 Log in
               </Link>
               <Link
                 href="/quick-book"
-                className="bg-slate-900 text-white px-8 py-3 rounded-full text-base font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-300"
+                className="bg-slate-900 text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Book Now
               </Link>
