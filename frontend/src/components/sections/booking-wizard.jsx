@@ -279,7 +279,7 @@ export default function BookingWizard() {
                                 <h2 className="text-3xl font-bold text-slate-900 mb-3">Where are you located?</h2>
                                 <p className="text-slate-500">Select your city to see available services</p>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-4 relative">
                                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
                                 <select
                                     value={selectedCity}
