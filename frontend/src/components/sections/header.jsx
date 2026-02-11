@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, User, LogOut, LayoutDashboard, Baby, ChefHat, Home, HeartPulse, Clock } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 // import { Button } from "@/components/ui/button";
@@ -79,13 +80,17 @@ const Header = () => {
 
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-gradient-brand rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform">
-            S
+          <div className="relative w-40 h-10 transition-transform group-hover:scale-105">
+            <Image
+              src="/headerlogo.png"
+              alt="Safely Hands"
+              fill
+              className="object-contain object-left"
+              priority
+            />
           </div>
-          <span className={`text-2xl font-bold font-display tracking-tight ${isScrolled ? 'text-slate-900' : 'text-slate-900'}`}>
-            Safely Hands
-          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -247,8 +252,6 @@ const Header = () => {
               Trusted Care & Staffing Services
               <span className="mx-12 opacity-30">•</span>
               Verified Professional Help
-              <span className="mx-12 opacity-30">•</span>
-              Har zaroorat ke liye ek bharosemand haath
             </span>
             <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em]">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
@@ -257,8 +260,7 @@ const Header = () => {
               Trusted Care & Staffing Services
               <span className="mx-12 opacity-30">•</span>
               Verified Professional Help
-              <span className="mx-12 opacity-30">•</span>
-              Har zaroorat ke liye ek bharosemand haath
+
             </span>
           </div>
         </div>

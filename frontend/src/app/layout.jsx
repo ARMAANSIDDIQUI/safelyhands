@@ -5,6 +5,11 @@ import { Toaster } from "sonner";
 export const metadata = {
     title: "Safely Hands - Trusted Home Makers in Moradabad",
     description: "Find trusted help in Moradabad. Hire a babysitter, chef, or maid service near you.",
+    icons: {
+        icon: '/favicon.png',
+        shortcut: '/favicon.png',
+        apple: '/favicon.png',
+    }
 };
 
 import { Providers } from "@/providers";
