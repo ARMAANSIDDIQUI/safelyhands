@@ -92,7 +92,7 @@ export default function AttendancePage() {
                 body: JSON.stringify({
                     booking: selectedBooking._id,
                     status,
-                    date: new Date()
+                    date: calendarDate
                 })
             });
 
@@ -180,7 +180,7 @@ export default function AttendancePage() {
                 <Card className="md:col-span-2">
                     <CardHeader>
                         <CardTitle className="flex justify-between items-center">
-                            <span>Today's Attendance</span>
+                            <span>Attendance for Selected Date</span>
                             <Badge variant={selectedBooking?.isActive ? "outline" : "secondary"}>
                                 {selectedBooking?.isActive ? (
                                     <span className="flex items-center gap-1 text-green-600">
@@ -194,67 +194,86 @@ export default function AttendancePage() {
                             </Badge>
                         </CardTitle>
                         <CardDescription>
-                            {format(new Date(), "EEEE, MMMM do, yyyy")}
+                            {format(calendarDate, "EEEE, MMMM do, yyyy")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {!selectedBooking?.isActive ? (
-                            <div className="flex flex-col items-center justify-center py-8 text-center border-2 border-dashed rounded-xl bg-slate-50">
-                                <AlertCircle className="w-10 h-10 text-slate-300 mb-2" />
-                                <h4 className="font-semibold text-slate-900">Service Completed</h4>
-                                <p className="text-sm text-slate-500 mt-1">
-                                    Attendance marking is closed for this service.
-                                </p>
-                            </div>
-                        ) : selectedBooking?.canMarkToday ? (
-                            selectedBooking.todayStatus ? (
-                                <div className="flex flex-col items-center justify-center py-8 text-center border rounded-xl bg-slate-50">
-                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${selectedBooking.todayStatus === 'present' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
-                                        }`}>
-                                        {selectedBooking.todayStatus === 'present' ? <Check size={24} /> : <X size={24} />}
+                        {/* Logic for Selected Date */
+                            (() => {
+                                const isFutureDate = calendarDate > new Date();
+                                const isToday = isSameDay(calendarDate, new Date());
+                                const dateStatus = getDateStatus(calendarDate);
+                                const isValidDate = validDates.some(d => isSameDay(d, calendarDate));
+
+                                if (!isValidDate) {
+                                    return (
+                                        <div className="flex flex-col items-center justify-center py-8 text-center border-2 border-dashed rounded-xl bg-slate-50">
+                                            <CalendarIcon className="w-10 h-10 text-slate-300 mb-2" />
+                                            <h4 className="font-semibold text-slate-900">No Attendance Required</h4>
+                                            <p className="text-sm text-slate-500 mt-1">
+                                                {format(calendarDate, "MMM do")} is not a scheduled service day.
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                if (isFutureDate && !isToday) {
+                                    return (
+                                        <div className="flex flex-col items-center justify-center py-8 text-center border-2 border-dashed rounded-xl bg-slate-50">
+                                            <Clock className="w-10 h-10 text-slate-300 mb-2" />
+                                            <h4 className="font-semibold text-slate-900">Future Date</h4>
+                                            <p className="text-sm text-slate-500 mt-1">
+                                                You cannot mark attendance for future dates.
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                if (dateStatus) {
+                                    return (
+                                        <div className="flex flex-col items-center justify-center py-8 text-center border rounded-xl bg-slate-50">
+                                            <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${dateStatus === 'present' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                                                }`}>
+                                                {dateStatus === 'present' ? <Check size={24} /> : <X size={24} />}
+                                            </div>
+                                            <h4 className="font-semibold text-lg">
+                                                Marked as {dateStatus === 'present' ? 'Present' : 'Absent'}
+                                            </h4>
+                                            <p className="text-sm text-muted-foreground">
+                                                Attendance for {format(calendarDate, "MMM do")} has been recorded.
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                // If valid, past/today, and not marked:
+                                return (
+                                    <div className="space-y-4">
+                                        <p className="text-sm text-slate-600">
+                                            Was <strong>{selectedBooking.assignedWorker?.name}</strong> present on {format(calendarDate, "MMM do")}?
+                                        </p>
+                                        <div className="flex gap-4">
+                                            <Button
+                                                size="lg"
+                                                className="flex-1 bg-green-600 hover:bg-green-700"
+                                                onClick={() => handleMarkAttendance('present')}
+                                                disabled={marking}
+                                            >
+                                                <Check className="mr-2 w-4 h-4" /> Present
+                                            </Button>
+                                            <Button
+                                                size="lg"
+                                                variant="destructive"
+                                                className="flex-1"
+                                                onClick={() => handleMarkAttendance('absent')}
+                                                disabled={marking}
+                                            >
+                                                <X className="mr-2 w-4 h-4" /> Absent
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <h4 className="font-semibold text-lg">
-                                        Marked as {selectedBooking.todayStatus === 'present' ? 'Present' : 'Absent'}
-                                    </h4>
-                                    <p className="text-sm text-muted-foreground">
-                                        Attendance for today has been recorded.
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className="space-y-4">
-                                    <p className="text-sm text-slate-600">
-                                        Is <strong>{selectedBooking.assignedWorker?.name}</strong> present today?
-                                    </p>
-                                    <div className="flex gap-4">
-                                        <Button
-                                            size="lg"
-                                            className="flex-1 bg-green-600 hover:bg-green-700"
-                                            onClick={() => handleMarkAttendance('present')}
-                                            disabled={marking}
-                                        >
-                                            <Check className="mr-2 w-4 h-4" /> Present
-                                        </Button>
-                                        <Button
-                                            size="lg"
-                                            variant="destructive"
-                                            className="flex-1"
-                                            onClick={() => handleMarkAttendance('absent')}
-                                            disabled={marking}
-                                        >
-                                            <X className="mr-2 w-4 h-4" /> Absent
-                                        </Button>
-                                    </div>
-                                </div>
-                            )
-                        ) : (
-                            <div className="flex flex-col items-center justify-center py-8 text-center border-2 border-dashed rounded-xl bg-slate-50">
-                                <CalendarIcon className="w-10 h-10 text-slate-300 mb-2" />
-                                <h4 className="font-semibold text-slate-900">No Attendance Required</h4>
-                                <p className="text-sm text-slate-500 mt-1">
-                                    Today is not a scheduled service day.
-                                </p>
-                            </div>
-                        )}
+                                );
+                            })()}
                     </CardContent>
                 </Card>
 
