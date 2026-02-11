@@ -151,11 +151,71 @@ const deleteService = async (req, res) => {
     }
 };
 
+const SubCategory = require('../models/SubCategory');
+
+// @desc    Get subcategories for a service
+// @route   GET /api/services/:id/subcategories
+// @access  Public
+const getSubCategories = async (req, res) => {
+    try {
+        const subcategories = await SubCategory.find({ service: req.params.id });
+        res.json(subcategories);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getSubCategoryById = async (req, res) => {
+    try {
+        const subcategory = await SubCategory.findById(req.params.id);
+        if (subcategory) {
+            res.json(subcategory);
+        } else {
+            res.status(404).json({ message: 'SubCategory not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const createSubCategory = async (req, res) => {
+    try {
+        const { service } = req.body;
+        // Verify service exists
+        const serviceObj = await Service.findById(service);
+        if (!serviceObj) return res.status(404).json({ message: "Service not found" });
+
+        const subCategory = await SubCategory.create(req.body);
+        res.status(201).json(subCategory);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const updateSubCategory = async (req, res) => {
+    try {
+        const subCategory = await SubCategory.findById(req.params.id);
+        if (subCategory) {
+            Object.assign(subCategory, req.body);
+            const updated = await subCategory.save();
+            res.json(updated);
+        } else {
+            res.status(404).json({ message: 'SubCategory not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getServices,
     getServiceById,
     getServiceBySlug,
     createService,
     updateService,
-    deleteService
+    deleteService,
+    getSubCategories,
+    getSubCategoryById,
+    createSubCategory,
+    updateSubCategory
 };

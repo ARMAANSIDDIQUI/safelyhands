@@ -2,9 +2,13 @@ const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    serviceType: { type: String, required: true },
+    items: [{
+        subCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory' },
+        quantity: { type: Number, default: 1 },
+        answers: { type: Map, of: String }, // Dynamic answers for this item
+        price: { type: Number }
+    }],
     genderPreference: { type: String },
-    shift: { type: String },
     babyDOB: { type: Date },
     frequency: { type: String, enum: ['One-time', 'Daily', 'Weekly', 'Live-in', 'Day-shift', 'Part-time'], required: true },
     weeklyDays: [{ type: Number, min: 0, max: 6 }], // 0=Sunday, 1=Monday, ... 6=Saturday

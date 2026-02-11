@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function DynamicServiceModal({ isOpen, onClose, service, onConfirm, initialData = {}, activeShift }) {
+export default function DynamicServiceModal({ isOpen, onClose, subCategory, onConfirm, initialData = {} }) {
     // 1. Initialize State
     const [answers, setAnswers] = useState(initialData);
-    const [price, setPrice] = useState(service?.basePrice || 0);
+    const [price, setPrice] = useState(subCategory?.price || 0);
 
     // 2. Initialize defaults on open
     useEffect(() => {
-        if (isOpen && service?.questions) {
+        if (isOpen && subCategory?.questions) {
             const defaults = { ...initialData };
-            let initialPrice = service.basePrice || 0;
+            let initialPrice = subCategory.price || 0;
 
-            service.questions.forEach(step => {
+            subCategory.questions.forEach(step => {
                 step.fields.forEach(field => {
                     // Set default if not present
                     if (defaults[field.name] === undefined && field.options?.[0]) {
@@ -22,16 +22,17 @@ export default function DynamicServiceModal({ isOpen, onClose, service, onConfir
                 });
             });
             setAnswers(defaults);
+            setPrice(initialPrice); // Reset price base
         }
-    }, [isOpen, service]);
+    }, [isOpen, subCategory]);
 
 
     // 3. Calculate Price whenever answers change
     useEffect(() => {
-        if (!service?.questions) return;
+        if (!subCategory?.questions) return;
 
-        let newPrice = service.basePrice || 0;
-        service.questions.forEach(step => {
+        let newPrice = subCategory.price || 0;
+        subCategory.questions.forEach(step => {
             step.fields.forEach(field => {
                 const selectedValue = answers[field.name];
                 // Find selected option
@@ -42,9 +43,9 @@ export default function DynamicServiceModal({ isOpen, onClose, service, onConfir
             });
         });
         setPrice(newPrice);
-    }, [answers, service]);
+    }, [answers, subCategory]);
 
-    if (!isOpen || !service) return null;
+    if (!isOpen || !subCategory) return null;
 
     const handleConfirm = () => {
         onConfirm(answers, price);
@@ -67,10 +68,10 @@ export default function DynamicServiceModal({ isOpen, onClose, service, onConfir
                 </div>
 
                 <div className="p-10 overflow-y-auto custom-scrollbar flex-1">
-                    <h2 className="text-2xl font-bold text-slate-900 mb-8 border-b pb-4">{service.title} Details</h2>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-8 border-b pb-4">{subCategory.name} Details</h2>
 
                     <div className="space-y-10">
-                        {service.questions?.map((step, stepIndex) => (
+                        {subCategory.questions?.map((step, stepIndex) => (
                             <div key={stepIndex} className="space-y-8">
                                 {step.fields.map((field, fieldIndex) => (
                                     <div key={fieldIndex}>
@@ -87,7 +88,7 @@ export default function DynamicServiceModal({ isOpen, onClose, service, onConfir
                                                     className={cn(
                                                         "px-6 py-3 rounded-xl border-2 font-bold transition-all text-left",
                                                         answers[field.name] === option.value
-                                                            ? "border-orange-500 bg-orange-50 text-orange-600 shadow-sm"
+                                                            ? "border-sky-500 bg-sky-50 text-sky-600 shadow-sm"
                                                             : "border-slate-100 text-slate-400"
                                                     )}
                                                 >
@@ -104,6 +105,16 @@ export default function DynamicServiceModal({ isOpen, onClose, service, onConfir
                                 ))}
                             </div>
                         ))}
+
+                        {/* Inclusions Section */}
+                        {subCategory.inclusions && (
+                            <div className="mt-10 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                <h3 className="text-lg font-bold text-slate-800 mb-3">Inclusions</h3>
+                                <p className="text-sm text-slate-600 leading-relaxed">
+                                    {subCategory.inclusions}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -112,25 +123,14 @@ export default function DynamicServiceModal({ isOpen, onClose, service, onConfir
                     <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
                         <div>
                             <p className="text-[13px] text-slate-500 font-medium mb-1">
-                                Monthly Salary <span className="text-orange-400 font-bold">~₹{price}.00</span> approx.
+                                Monthly Salary <span className="text-sky-400 font-bold">~₹{price}.00</span> approx.
                             </p>
                             <p className="text-sm text-slate-400">*estimate varies with workload</p>
-                        </div>
-                        <div className="hidden lg:block">
-                            <p className="text-[13px] text-slate-500 font-medium mb-1">
-                                Daily Working Hours <span className="text-orange-400 font-bold">~{(() => {
-                                    if (activeShift === "Hourly" && service.title?.toLowerCase().includes('hour')) {
-                                        return service.title.split(' ')[0] + ':00';
-                                    }
-                                    if (service.slug?.includes('24hr')) return "24:00";
-                                    return "12:00";
-                                })()}</span> approx.
-                            </p>
                         </div>
                     </div>
                     <button
                         onClick={handleConfirm}
-                        className="w-full md:w-auto px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-all shadow-lg shadow-orange-100"
+                        className="w-full md:w-auto px-12 py-4 bg-sky-500 text-white rounded-xl font-bold text-lg hover:bg-sky-600 transition-all shadow-lg shadow-sky-100"
                     >
                         Confirm & Done
                     </button>

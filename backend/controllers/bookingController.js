@@ -33,6 +33,7 @@ const createBooking = async (req, res) => {
             genderPreference,
             shift,
             babyDOB,
+            items: req.body.items, // CHANGED: Include items to save subcategories & answers
             status: 'pending',
             serviceStatus: 'active'
         });

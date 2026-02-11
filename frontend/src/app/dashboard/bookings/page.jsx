@@ -271,24 +271,33 @@ export default function MyBookingsPage() {
                         <Card key={booking._id} className="overflow-hidden">
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 gap-4">
                                 <div className="space-y-1">
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="font-semibold text-lg capitalize">{booking.serviceType} Service</h3>
+                                    <div className="flex flex-col gap-1">
+                                        <h3 className="font-semibold text-lg capitalize">{(booking.serviceType || 'Service').replace('-', ' ')}</h3>
+                                        <div className="flex flex-col gap-1 text-sm text-slate-600 bg-slate-50 p-2 rounded-lg">
+                                            {booking.items && booking.items.length > 0 ? (
+                                                booking.items.map((item, idx) => (
+                                                    <div key={idx} className="flex justify-between items-start border-b border-slate-100 last:border-0 pb-1 last:pb-0">
+                                                        <span>{item.subCategory?.name || 'Service'} (x{item.quantity})</span>
+                                                        <span className="font-medium text-slate-800">₹{item.price}</span>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <span className="italic text-slate-400">Standard Service</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2 mt-2">
                                         <Badge variant={booking.status === 'completed' ? 'default' : 'secondary'}>
                                             {booking.status}
                                         </Badge>
+                                        <span className="text-xs text-muted-foreground">{format(new Date(booking.date), "PPP")} at {booking.time}</span>
                                     </div>
-                                    <p className="text-sm text-muted-foreground">
-                                        Frequency: <span className="font-medium text-foreground">{booking.frequency}</span> •
-                                        Date: {booking.date ? format(new Date(booking.date), "PPP") : "N/A"}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground truncate max-w-md">
-                                        Address: {booking.address}
-                                    </p>
-
-
                                 </div>
 
-                                <div className="flex flex-col items-end gap-2 text-right">
+                                <div className="space-y-1 text-right">
+                                    <div className="text-sm font-medium">
+                                        Total: <span className="font-bold text-lg">₹{booking.totalAmount || booking.items?.reduce((sum, i) => sum + i.price, 0) || 0}</span>
+                                    </div>
                                     <div className="text-sm font-medium">
                                         Payment: <span className={
                                             booking.paymentStatus === 'paid' ? 'text-green-600' :

@@ -78,6 +78,7 @@ app.use('/api/contact', require('./routes/contactRoutes'));
 app.use('/api/carousel', require('./routes/carouselRoutes'));
 app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
 app.use('/api/cities', require('./routes/cityRoutes'));
+app.use('/api/subcategories', require('./routes/subCategoryRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Check, X, Eye, Loader2, Calendar as CalendarIcon, MapPin, Search, Pencil, Trash2, Clock, History } from "lucide-react";
+import { Check, X, Eye, Loader2, Calendar as CalendarIcon, MapPin, Search, Pencil, Trash2, Clock, History, FileText } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -27,6 +27,8 @@ export default function AdminBookings() {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [workersWithAvailability, setWorkersWithAvailability] = useState({});
     const [editingBooking, setEditingBooking] = useState(null);
+    const [viewingBooking, setViewingBooking] = useState(null);
+    const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [deletingId, setDeletingId] = useState(null);
     const [editFormData, setEditFormData] = useState({
@@ -281,15 +283,28 @@ export default function AdminBookings() {
                                     <tr key={booking._id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="p-4 font-mono text-xs text-slate-500">#{booking._id.slice(-6)}</td>
                                         <td className="p-4">
-                                            <div className="font-medium text-slate-900 capitalize">{booking.serviceType.replace('-', ' ')}</div>
-                                            <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
+                                            <div className="font-medium text-slate-900 capitalize mb-1">{(booking.serviceType || 'Unknown Service').replace('-', ' ')}</div>
+
+                                            {/* Sub-items list */}
+                                            {booking.items && booking.items.length > 0 && (
+                                                <div className="flex flex-col gap-0.5 mb-2">
+                                                    {booking.items.map((item, idx) => (
+                                                        <div key={idx} className="text-[11px] text-slate-600 flex justify-between bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">
+                                                            <span>• {item.subCategory?.name || 'Service'}</span>
+                                                            <span className="font-mono text-slate-500">x{item.quantity}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            <div className="flex items-center gap-1 text-xs text-slate-500">
                                                 <CalendarIcon size={12} />
                                                 {formatDate(booking.date)}
                                             </div>
                                             {booking.time && (
                                                 <div className="flex items-center gap-1 text-[10px] text-blue-500 font-bold mt-0.5">
                                                     <Clock size={10} />
-                                                    {booking.time} ({booking.frequency})
+                                                    {booking.time}
                                                 </div>
                                             )}
                                         </td>
@@ -514,6 +529,18 @@ export default function AdminBookings() {
                                                         Mark Done
                                                     </button>
                                                 )}
+                                                {/* View Details Button */}
+                                                <button
+                                                    onClick={() => {
+                                                        setViewingBooking(booking);
+                                                        setIsDetailsDialogOpen(true);
+                                                    }}
+                                                    className="p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 border border-sky-100"
+                                                    title="View Full Details"
+                                                >
+                                                    <Eye size={16} />
+                                                </button>
+
                                                 {/* Edit Button */}
                                                 <button
                                                     onClick={() => handleOpenEdit(booking)}
@@ -637,6 +664,137 @@ export default function AdminBookings() {
                             <Button type="submit">Update Booking</Button>
                         </DialogFooter>
                     </form>
+                </DialogContent>
+            </Dialog>
+
+            {/* View Details Dialog */}
+            <Dialog open={isDetailsDialogOpen} onOpenChange={setIsDetailsDialogOpen}>
+                <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <FileText className="w-5 h-5 text-sky-500" />
+                            Booking #{viewingBooking?._id?.slice(-6)} Details
+                        </DialogTitle>
+                        <DialogDescription>
+                            Complete information for this booking request.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    {viewingBooking && (
+                        <div className="space-y-6 pt-4">
+                            {/* Customer & Status */}
+                            <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <div>
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-1">Customer</h4>
+                                    <p className="font-medium text-slate-900">{viewingBooking.user?.name || 'Guest'}</p>
+                                    <p className="text-sm text-slate-500">{viewingBooking.user?.email}</p>
+                                    <p className="text-sm text-slate-500">{viewingBooking.user?.phone}</p>
+                                </div>
+                                <div className="text-right">
+                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-1">Status</h4>
+                                    <div className="flex flex-col items-end gap-1">
+                                        <span className={`inline-flex px-2 py-1 rounded-full text-xs font-bold capitalize
+                                            ${viewingBooking.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                                viewingBooking.status === 'approved' ? 'bg-blue-100 text-blue-700' :
+                                                    viewingBooking.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                                                        'bg-amber-100 text-amber-700'}`}>
+                                            {viewingBooking.status}
+                                        </span>
+                                        <span className={`text-xs font-medium ${viewingBooking.paymentStatus === 'paid' ? 'text-green-600' : 'text-slate-500'}`}>
+                                            Payment: {viewingBooking.paymentStatus || 'unpaid'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Schedule & Address */}
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <h4 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                        <CalendarIcon size={14} className="text-sky-500" /> Schedule
+                                    </h4>
+                                    <div className="bg-white border border-slate-200 p-3 rounded-lg text-sm">
+                                        <div className="flex justify-between py-1 border-b border-slate-50">
+                                            <span className="text-slate-500">Date:</span>
+                                            <span className="font-medium">{formatDate(viewingBooking.date)}</span>
+                                        </div>
+                                        <div className="flex justify-between py-1 border-b border-slate-50">
+                                            <span className="text-slate-500">Time:</span>
+                                            <span className="font-medium">{viewingBooking.time}</span>
+                                        </div>
+                                        <div className="flex justify-between py-1">
+                                            <span className="text-slate-500">Frequency:</span>
+                                            <span className="font-medium">{viewingBooking.frequency}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                        <MapPin size={14} className="text-red-500" /> Address
+                                    </h4>
+                                    <div className="bg-white border border-slate-200 p-3 rounded-lg text-sm h-full">
+                                        <p className="text-slate-600 leading-relaxed">{viewingBooking.address}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Service Items (The Core Detail) */}
+                            <div>
+                                <h4 className="text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
+                                    <Check size={14} className="text-emerald-500" /> Selected Services
+                                </h4>
+                                <div className="space-y-3">
+                                    {viewingBooking.items?.map((item, idx) => (
+                                        <div key={idx} className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+                                            <div className="bg-slate-50 px-4 py-2 border-b border-slate-100 flex justify-between items-center">
+                                                <span className="font-bold text-sm text-slate-800">{item.subCategory?.name || viewingBooking.serviceType}</span>
+                                                <span className="text-xs font-mono bg-white px-2 py-0.5 rounded border border-slate-200">Price: ₹{item.price}</span>
+                                            </div>
+                                            <div className="p-4 grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                                                {item.answers && Object.entries(item.answers).length > 0 ? (
+                                                    Object.entries(item.answers).map(([key, value]) => (
+                                                        <div key={key} className="flex flex-col border-b border-slate-50 last:border-0 pb-1 last:pb-0">
+                                                            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-0.5">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                                                            <span className="text-slate-700 font-medium">{value}</span>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p className="text-slate-400 italic text-xs">No specific details provided</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                    {/* Fallback for legacy bookings without items */}
+                                    {(!viewingBooking.items || viewingBooking.items.length === 0) && (
+                                        <div className="p-4 bg-slate-50 rounded-lg text-center text-slate-500 text-sm italic">
+                                            Legacy booking format. No itemized details available.
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Notes */}
+                            {viewingBooking.notes && (
+                                <div>
+                                    <h4 className="text-sm font-bold text-slate-700 mb-1">Customer Notes</h4>
+                                    <div className="bg-amber-50 border border-amber-100 p-3 rounded-lg text-sm text-amber-800">
+                                        {viewingBooking.notes}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Total Footer */}
+                            <div className="flex justify-between items-center pt-4 border-t border-slate-100">
+                                <span className="text-slate-500 font-medium">Total Amount</span>
+                                <span className="text-2xl font-bold text-slate-900">₹{viewingBooking.totalAmount || 0}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <DialogFooter>
+                        <Button onClick={() => setIsDetailsDialogOpen(false)}>Close</Button>
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
 

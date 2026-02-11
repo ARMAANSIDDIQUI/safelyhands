@@ -94,7 +94,7 @@ export default function ServicePage() {
                                     </div>
 
                                     <div className="text-3xl font-bold text-blue-600">
-                                        ₹{service.basePrice.toLocaleString()}/mo
+                                        ₹{(service.basePrice || 0).toLocaleString()}/mo
                                     </div>
                                 </div>
 
@@ -109,7 +109,7 @@ export default function ServicePage() {
                             {/* Image */}
                             <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
                                 <Image
-                                    src={service.imageUrl}
+                                    src={service.imageUrl || "/placeholder.jpg"}
                                     alt={service.title}
                                     fill
                                     className="object-cover"
