@@ -218,39 +218,64 @@ const servicesData = [
         gradientFrom: "slate-100",
         gradientTo: "slate-200",
         selectionMode: "single"
+    },
+    {
+        title: "Japa (Newborn Care)",
+        slug: "japa",
+        subtitle: "Mother & Baby Care",
+        description: "Specialized care for newborns and mothers, including massage and recovery support.",
+        imageUrl: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/cd253c39bd16fcdf8835ff502fec9273-3.jpg", // Reusing Babysitter image
+        icon: "Baby",
+        gradientFrom: "pink-100",
+        gradientTo: "pink-200",
+        selectionMode: "single"
     }
 ];
 
 const subCategoriesData = {
     "housekeeper": [
         {
-            name: "Morning Shift (8am - 8pm)",
-            price: 5000,
-            description: "Daily cleaning in the morning.",
-            features: ["Brooming", "Mopping", "Dishwashing", "Dusting"],
+            name: "Brooming, Mopping",
+            price: 3500,
+            features: ["All services inclusive"],
+            description: "Complete floor cleaning and sanitization for a sparkling clean space",
             questions: [
                 {
                     stepTitle: "House Details",
                     fields: [
                         {
                             name: "houseSize",
-                            label: "House Size",
+                            label: "Select house size (Please describe the area of ONLY 1 floor)",
                             type: "select",
                             options: [
-                                { label: "1 BHK", value: "1bhk", priceChange: 0 },
-                                { label: "2 BHK", value: "2bhk", priceChange: 500 },
-                                { label: "3 BHK", value: "3bhk", priceChange: 1000 },
-                                { label: "4 BHK+", value: "4bhk", priceChange: 1500 }
+                                { label: "1 BHK", value: "1bhk" },
+                                { label: "2 BHK", value: "2bhk" },
+                                { label: "3 BHK", value: "3bhk" },
+                                { label: "4 BHK", value: "4bhk" },
+                                { label: "5 BHK", value: "5bhk" },
+                                { label: "6 BHK", value: "6bhk" }
                             ]
                         },
                         {
-                            name: "bathroomCount",
-                            label: "Number of Bathrooms",
+                            name: "floorCount",
+                            label: "How many such floors?",
                             type: "select",
                             options: [
-                                { label: "1", value: "1", priceChange: 0 },
-                                { label: "2", value: "2", priceChange: 200 },
-                                { label: "3+", value: "3plus", priceChange: 400 }
+                                { label: "1 floor only", value: "1" },
+                                { label: "2 floors", value: "2" },
+                                { label: "3 floors", value: "3" },
+                                { label: "4 floors", value: "4" },
+                                { label: "5 floors", value: "5" }
+                            ]
+                        },
+                        {
+                            name: "pets",
+                            label: "Do you have pets at home ?",
+                            type: "radio",
+                            options: [
+                                { label: "No", value: "no" },
+                                { label: "Dog(s)", value: "dogs" },
+                                { label: "Cat(s)", value: "cats" }
                             ]
                         }
                     ]
@@ -258,21 +283,74 @@ const subCategoriesData = {
             ]
         },
         {
-            name: "Live-in (24 Hrs)",
-            price: 18000,
-            description: "24/7 support for your home.",
-            features: ["Cleaning", "Cooking Support", "Laundry"],
+            name: "Bathroom cleaning",
+            price: 500,
+            features: ["All services inclusive"],
+            description: "Thorough bathroom cleaning for a hygienic space",
+            inclusions: "Floor, slab and basin cleaning only\n\nPots will NOT be cleaned by Broomees. Cleaning chemicals, agents etc have to be provided by client",
             questions: [
                 {
-                    stepTitle: "Accommodation",
+                    stepTitle: "Bathroom Details",
                     fields: [
                         {
-                            name: "servantQuarter",
-                            label: "Do you have a servant quarter?",
-                            type: "radio",
+                            name: "bathroomCount",
+                            label: "For how many bathrooms? (Pots will NOT be cleaned by Broomees)",
+                            type: "select",
                             options: [
-                                { label: "Yes", value: "yes" },
-                                { label: "No (Adjust in home)", value: "no" }
+                                { label: "1-2 bathrooms", value: "1-2" },
+                                { label: "3-4 bathrooms", value: "3-4" },
+                                { label: "5-6 bathrooms", value: "5-6" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Dusting",
+            price: 800,
+            features: ["All services inclusive"],
+            description: "Professional dusting service for a spotless dust-free home",
+            questions: [
+                {
+                    stepTitle: "Dusting Details",
+                    fields: [
+                        {
+                            name: "dustingDuration",
+                            label: "For how long?",
+                            type: "select",
+                            options: [
+                                { label: "30 mins", value: "30_mins" },
+                                { label: "1 hour", value: "1_hour" },
+                                { label: "1.5 hrs", value: "1.5_hours" },
+                                { label: "2 hours", value: "2_hours" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Dish-washing",
+            price: 500,
+            features: ["All services inclusive"],
+            description: "Expert dishwashing service ensuring spotless and sanitized dishes",
+            questions: [
+                {
+                    stepTitle: "Dish-washing Details",
+                    fields: [
+                        {
+                            name: "peopleCount",
+                            label: "How many people are there at home?",
+                            type: "select",
+                            options: [
+                                { label: "1 person only", value: "1" },
+                                { label: "2 people", value: "2" },
+                                { label: "3 people", value: "3" },
+                                { label: "4 people", value: "4" },
+                                { label: "5 people", value: "5" },
+                                { label: "6 people", value: "6" },
+                                { label: "7+ people", value: "7_plus" }
                             ]
                         }
                     ]
@@ -408,56 +486,7 @@ const subCategoriesData = {
                 }
             ]
         },
-        {
-            name: "Japa",
-            price: 33000,
-            description: "Professional child care service, ensuring the safety & well-being of both mother and child",
-            features: ["All services Inclusive", "Verified Staff", "Newborn Care"],
-            inclusions: "Expert care for newborns including massage, bathing, and mother's recovery support.\n\nServices include: Massage for baby and mother, bathing, burping, sleep training, and overall newborn care.",
-            questions: [
-                {
-                    stepTitle: "Japa Details",
-                    fields: [
-                        {
-                            name: "babyAge",
-                            label: "Please select your baby's age",
-                            type: "select",
-                            options: [
-                                { label: "0-2 months", value: "0-2m" }
-                            ]
-                        },
-                        {
-                            name: "numberOfKids",
-                            label: "No of kids",
-                            type: "radio",
-                            options: [
-                                { label: "Single", value: "single" },
-                                { label: "Twins", value: "twins", priceChange: 5000 }
-                            ]
-                        },
-                        {
-                            name: "servantQuarter",
-                            label: "Servant quarter availaible ?",
-                            type: "radio",
-                            options: [
-                                { label: "Yes", value: "yes" },
-                                { label: "No", value: "no" }
-                            ]
-                        },
-                        {
-                            name: "pets",
-                            label: "Do you have pets at home ?",
-                            type: "radio",
-                            options: [
-                                { label: "No", value: "no" },
-                                { label: "Dog(s)", value: "dogs" },
-                                { label: "Cat(s)", value: "cats" }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
+
     ],
     "elderly-care": [
         {
@@ -628,51 +657,7 @@ const subCategoriesData = {
                 }
             ]
         },
-        {
-            name: "Japa Maid",
-            price: 30000,
-            features: ["Newborn Care", "Postpartum Care", "Baby Massage", "Mother Support"],
-            description: "Specialized care for newborns and new mothers (Japa care).",
-            questions: [
-                {
-                    stepTitle: "Baby Details",
-                    fields: [
-                        {
-                            name: "babyDOB",
-                            label: "Baby's Date of Birth (or Expected)",
-                            type: "date",
-                        },
-                        {
-                            name: "massage",
-                            label: "Baby Massage Required?",
-                            type: "radio",
-                            options: [
-                                { label: "Yes", value: "yes" },
-                                { label: "No", value: "no" }
-                            ]
-                        },
-                        {
-                            name: "motherCare",
-                            label: "Mother's Massage/Care Required?",
-                            type: "radio",
-                            options: [
-                                { label: "Yes", value: "yes", priceChange: 2000 },
-                                { label: "No", value: "no" }
-                            ]
-                        },
-                        {
-                            name: "servantQuarter",
-                            label: "Servant quarter availaible ?",
-                            type: "radio",
-                            options: [
-                                { label: "Yes", value: "yes" },
-                                { label: "No", value: "no" }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
+
         {
             name: "Cook",
             price: 17000,
@@ -991,6 +976,98 @@ const subCategoriesData = {
                             type: "radio",
                             options: [
                                 { label: "Yes", value: "yes", priceChange: 500 },
+                                { label: "No", value: "no" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "japa": [
+        {
+            name: "12 Hour Japa",
+            price: 25000,
+            features: ["Day or Night Shift", "Baby Massage", "Mother Care", "Bathing & Hygiene"],
+            description: "12-hour specialized care for newborn and mother.",
+            questions: [
+                {
+                    stepTitle: "Care Details",
+                    fields: [
+                        {
+                            name: "babyDOB",
+                            label: "Baby's Date of Birth (or Expected)",
+                            type: "date",
+                        },
+                        {
+                            name: "massage",
+                            label: "Baby Massage Required?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes" },
+                                { label: "No", value: "no" }
+                            ]
+                        },
+                        {
+                            name: "motherCare",
+                            label: "Mother's Massage/Care Required?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes", priceChange: 2000 },
+                                { label: "No", value: "no" }
+                            ]
+                        },
+                        {
+                            name: "shiftType",
+                            label: "Preferred Shift",
+                            type: "radio",
+                            options: [
+                                { label: "Day Shift (8am - 8pm)", value: "day" },
+                                { label: "Night Shift (8pm - 8am)", value: "night" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "24 Hour Live-in Japa",
+            price: 35000,
+            features: ["Round-the-clock Care", "Baby Massage", "Mother Care", "Night Support"],
+            description: "24/7 dedicated support for newborn and mother.",
+            questions: [
+                {
+                    stepTitle: "Care Details",
+                    fields: [
+                        {
+                            name: "babyDOB",
+                            label: "Baby's Date of Birth (or Expected)",
+                            type: "date",
+                        },
+                        {
+                            name: "massage",
+                            label: "Baby Massage Required?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes" },
+                                { label: "No", value: "no" }
+                            ]
+                        },
+                        {
+                            name: "motherCare",
+                            label: "Mother's Massage/Care Required?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes", priceChange: 2000 },
+                                { label: "No", value: "no" }
+                            ]
+                        },
+                        {
+                            name: "servantQuarter",
+                            label: "Servant quarter availaible ?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes" },
                                 { label: "No", value: "no" }
                             ]
                         }

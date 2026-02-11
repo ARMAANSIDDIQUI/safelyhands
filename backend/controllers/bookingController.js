@@ -52,6 +52,10 @@ const getMyBookings = async (req, res) => {
     try {
         const bookings = await Booking.find({ user: req.user._id })
             .populate('assignedWorker', 'name profilePicture')
+            .populate({
+                path: 'items.subCategory',
+                select: 'name price'
+            })
             .sort({ createdAt: -1 });
         res.json(bookings);
     } catch (error) {
@@ -64,7 +68,13 @@ const getMyBookings = async (req, res) => {
 // @access  Private/Admin
 const getBookings = async (req, res) => {
     try {
-        const bookings = await Booking.find({}).populate('user', 'id name email').sort({ createdAt: -1 });
+        const bookings = await Booking.find({})
+            .populate('user', 'id name email')
+            .populate({
+                path: 'items.subCategory',
+                select: 'name price'
+            })
+            .sort({ createdAt: -1 });
         res.json(bookings);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
@@ -122,7 +132,11 @@ const getBookingById = async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id)
             .populate('assignedWorker')
-            .populate('user', 'name email phone');
+            .populate('user', 'name email phone')
+            .populate({
+                path: 'items.subCategory',
+                select: 'name price description'
+            });
 
         if (booking) {
             // Verify ownership or admin
