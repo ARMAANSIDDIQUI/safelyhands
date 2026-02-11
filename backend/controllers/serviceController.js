@@ -207,6 +207,15 @@ const updateSubCategory = async (req, res) => {
     }
 };
 
+const getAllSubCategories = async (req, res) => {
+    try {
+        const subcategories = await SubCategory.find({}).populate('service', 'title');
+        res.json(subcategories);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getServices,
     getServiceById,
@@ -217,5 +226,6 @@ module.exports = {
     getSubCategories,
     getSubCategoryById,
     createSubCategory,
-    updateSubCategory
+    updateSubCategory,
+    getAllSubCategories
 };

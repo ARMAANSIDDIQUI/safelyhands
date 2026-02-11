@@ -89,9 +89,7 @@ export default function AdminServicesPage() {
                         <thead className="bg-slate-50 text-slate-500 font-bold text-sm uppercase tracking-wider">
                             <tr>
                                 <th className="px-6 py-4">Service</th>
-                                <th className="px-6 py-4">Slug</th>
-                                <th className="px-6 py-4">Category</th>
-                                <th className="px-6 py-4">Form Steps</th>
+                                <th className="px-6 py-4">Price Range</th>
                                 <th className="px-6 py-4">Subcats</th>
                                 <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
@@ -99,22 +97,36 @@ export default function AdminServicesPage() {
                         <tbody className="divide-y divide-slate-100">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="6" className="text-center py-8 text-slate-500">Loading...</td>
+                                    <td colSpan="4" className="text-center py-8 text-slate-500">Loading...</td>
                                 </tr>
                             ) : filteredServices.map((service) => (
                                 <tr key={service._id} className="hover:bg-slate-50 transition-colors">
-                                    <td className="px-6 py-4 font-bold text-slate-800">{service.title}</td>
-                                    <td className="px-6 py-4 text-slate-500 font-mono text-sm">{service.slug}</td>
                                     <td className="px-6 py-4">
-                                        <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold uppercase tracking-wider">
-                                            {service.category}
+                                        <div className="flex items-center gap-3">
+                                            {service.imageUrl ? (
+                                                <div className="w-10 h-10 rounded-lg overflow-hidden relative">
+                                                    <img src={service.imageUrl} alt="" className="object-cover w-full h-full" />
+                                                </div>
+                                            ) : (
+                                                <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                                                    <span className="text-xs font-bold">IMG</span>
+                                                </div>
+                                            )}
+                                            <div>
+                                                <div className="font-bold text-slate-800">{service.title}</div>
+                                                <div className="text-xs text-slate-400 font-mono">{service.slug}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="text-sm font-bold text-slate-700">
+                                            {service.priceRange?.min ? `₹${service.priceRange.min} - ₹${service.priceRange.max}` : `₹${service.basePrice}`}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <span className="bg-blue-50 text-blue-600 px-2 py-1 rounded-md text-xs font-bold">
+                                            {service.subcategories?.length || 0} items
                                         </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-slate-600">
-                                        {service.questions?.length || 0} steps
-                                    </td>
-                                    <td className="px-6 py-4 text-slate-600">
-                                        {service.subcategories?.length || 0} items
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">

@@ -189,6 +189,8 @@ export default function BookingWizard() {
     // Helper to calculate total
     const calculatedTotal = cart.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
 
+    const [bookingSuccess, setBookingSuccess] = useState(null); // Stores booking ID on success
+
     // Submission
     const handleSubmit = async () => {
         if (!user) {
@@ -235,8 +237,10 @@ export default function BookingWizard() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.message || "Booking failed");
 
-            toast.success("Booking Request Sent!");
-            router.push("/dashboard/bookings");
+            // Success: Show success screen instead of redirect
+            setBookingSuccess(data._id);
+            // Optional: Scroll to top to ensure visibility
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
         } catch (error) {
             toast.error(error.message);
@@ -272,283 +276,324 @@ export default function BookingWizard() {
                 {/* Content */}
                 <div className="flex-1 p-6 md:p-10 relative">
 
-                    {/* STEP 1: CITY */}
-                    {step === 1 && (
-                        <div className="animate-in fade-in slide-in-from-right-8 duration-500 max-w-lg mx-auto">
-                            <div className="text-center mb-10">
-                                <h2 className="text-3xl font-bold text-slate-900 mb-3">Where are you located?</h2>
-                                <p className="text-slate-500">Select your city to see available services</p>
+                    {/* SUCCESS SCREEN */}
+                    {bookingSuccess ? (
+                        <div className="flex flex-col items-center justify-center text-center py-10 animate-in fade-in zoom-in duration-500">
+                            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 text-green-600 shadow-sm">
+                                <Check size={48} strokeWidth={3} />
                             </div>
-                            <div className="space-y-4 relative">
-                                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
-                                <select
-                                    value={selectedCity}
-                                    onChange={(e) => setSelectedCity(e.target.value)}
-                                    className="w-full pl-12 pr-12 py-4 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all appearance-none cursor-pointer hover:bg-slate-100/50"
-                                >
-                                    <option value="" disabled>Choose a city...</option>
-                                    {cities.map(c => <option key={c._id} value={c.slug}>{c.name}</option>)}
-                                </select>
-                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
-                            </div>
-                            {cities.find(c => c.slug === selectedCity)?.isOther && (
-                                <input
-                                    type="text"
-                                    placeholder="Enter your region..."
-                                    value={regionInput}
-                                    onChange={(e) => setRegionInput(e.target.value)}
-                                    className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-xl"
-                                />
-                            )}
-                        </div>
-                    )}
+                            <h2 className="text-3xl font-bold text-slate-900 mb-2">Booking Confirmed!</h2>
+                            <p className="text-slate-500 max-w-md mb-8">
+                                Your booking request has been received. Our team will review it and assign a professional shortly.
+                            </p>
 
-                    {/* STEP 2: SERVICE */}
-                    {step === 2 && (
-                        <div className="animate-in fade-in slide-in-from-right-8 duration-500">
-                            <h2 className="text-xl font-bold text-slate-800 mb-6">Choose a Service</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {services.map(service => (
-                                    <div
-                                        key={service._id}
-                                        onClick={() => setSelectedService(service)}
-                                        className={cn(
-                                            "group relative bg-white rounded-2xl p-4 shadow-sm border-2 transition-all cursor-pointer flex gap-4 hover:border-sky-200",
-                                            selectedService?._id === service._id ? "border-sky-500 bg-sky-50/10" : "border-slate-100"
+                            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8 max-w-sm w-full">
+                                <p className="text-sm text-slate-500 font-medium mb-1">Booking Reference ID</p>
+                                <p className="text-xl font-mono font-bold text-slate-800 tracking-wider">
+                                    #{bookingSuccess.slice(-6).toUpperCase()}
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                                <button
+                                    onClick={() => router.push("/dashboard/bookings")}
+                                    className="flex-1 bg-sky-500 hover:bg-sky-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-sky-100 transition-all"
+                                >
+                                    Go to My Bookings
+                                </button>
+                                <button
+                                    onClick={() => window.location.reload()}
+                                    className="flex-1 bg-white border-2 border-slate-100 hover:bg-slate-50 text-slate-600 py-4 rounded-xl font-bold text-lg transition-all"
+                                >
+                                    Book Another
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+
+                            {/* STEP 1: CITY */}
+                            {step === 1 && (
+                                <div className="animate-in fade-in slide-in-from-right-8 duration-500 max-w-lg mx-auto">
+                                    <div className="text-center mb-10">
+                                        <h2 className="text-3xl font-bold text-slate-900 mb-3">Where are you located?</h2>
+                                        <p className="text-slate-500">Select your city to see available services</p>
+                                    </div>
+                                    <div className="space-y-4 relative">
+                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
+                                        <select
+                                            value={selectedCity}
+                                            onChange={(e) => setSelectedCity(e.target.value)}
+                                            className="w-full pl-12 pr-12 py-4 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all appearance-none cursor-pointer hover:bg-slate-100/50"
+                                        >
+                                            <option value="" disabled>Choose a city...</option>
+                                            {cities.map(c => <option key={c._id} value={c.slug}>{c.name}</option>)}
+                                        </select>
+                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
+                                    </div>
+                                    {cities.find(c => c.slug === selectedCity)?.isOther && (
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your region..."
+                                            value={regionInput}
+                                            onChange={(e) => setRegionInput(e.target.value)}
+                                            className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-xl"
+                                        />
+                                    )}
+                                </div>
+                            )}
+
+                            {/* STEP 2: SERVICE */}
+                            {step === 2 && (
+                                <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+                                    <h2 className="text-xl font-bold text-slate-800 mb-6">Choose a Service</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {services.map(service => (
+                                            <div
+                                                key={service._id}
+                                                onClick={() => setSelectedService(service)}
+                                                className={cn(
+                                                    "group relative bg-white rounded-2xl p-4 shadow-sm border-2 transition-all cursor-pointer flex gap-4 hover:border-sky-200",
+                                                    selectedService?._id === service._id ? "border-sky-500 bg-sky-50/10" : "border-slate-100"
+                                                )}
+                                            >
+                                                <div className="w-20 h-20 relative rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                                                    <Image src={service.imageUrl || "/placeholder.jpg"} alt={service.title} fill className="object-cover" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-bold text-slate-900">{service.title}</h3>
+                                                    <p className="text-xs text-slate-500 line-clamp-2 mt-1">{service.description}</p>
+                                                </div>
+                                                <div className={cn(
+                                                    "w-6 h-6 rounded-full border-2 flex items-center justify-center mt-1",
+                                                    selectedService?._id === service._id ? "border-sky-500 bg-sky-500 text-white" : "border-slate-300"
+                                                )}>
+                                                    {selectedService?._id === service._id && <Check size={14} />}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* STEP 3: SUB-CATEGORIES (CART) */}
+                            {step === 3 && (
+                                <div className="animate-in fade-in slide-in-from-right-8 duration-500 flex flex-col md:flex-row gap-8 min-h-[500px]">
+                                    {/* Left: Options */}
+                                    <div className="flex-1 space-y-6">
+                                        <div className="flex justify-between items-center">
+                                            <h2 className="text-xl font-bold text-slate-800">Available Options</h2>
+                                            <span className="text-xs font-bold px-3 py-1 bg-sky-100 text-sky-600 rounded-full">
+                                                {selectedService?.selectionMode === 'multiple' ? 'Multi-Select' : 'Single Select'}
+                                            </span>
+                                        </div>
+
+                                        {selectedService?.slug === 'babysitter' && (
+                                            <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl mb-6">
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Baby's Date of Birth</label>
+                                                <div className="flex gap-4 items-center">
+                                                    <input
+                                                        type="date"
+                                                        value={babyDOB}
+                                                        onChange={(e) => setBabyDOB(e.target.value)}
+                                                        className="px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-orange-400"
+                                                    />
+                                                    {showJapaAlert && (
+                                                        <div className="text-sm text-orange-600 font-bold bg-orange-100 px-3 py-1 rounded-full animate-pulse">
+                                                            Results updated for newborn care (Japa)
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
                                         )}
-                                    >
-                                        <div className="w-20 h-20 relative rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                                            <Image src={service.imageUrl || "/placeholder.jpg"} alt={service.title} fill className="object-cover" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-bold text-slate-900">{service.title}</h3>
-                                            <p className="text-xs text-slate-500 line-clamp-2 mt-1">{service.description}</p>
-                                        </div>
-                                        <div className={cn(
-                                            "w-6 h-6 rounded-full border-2 flex items-center justify-center mt-1",
-                                            selectedService?._id === service._id ? "border-sky-500 bg-sky-500 text-white" : "border-slate-300"
-                                        )}>
-                                            {selectedService?._id === service._id && <Check size={14} />}
+
+                                        <div className="grid grid-cols-1 gap-4">
+                                            {filteredSubCategories.map(sub => {
+                                                const isInCart = cart.some(item => item.subCategory._id === sub._id);
+                                                return (
+                                                    <div key={sub._id} className="bg-white border border-slate-200 rounded-2xl p-4 flex gap-4 transition-all hover:shadow-md">
+                                                        <div className="w-24 h-24 relative rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                                                            <Image src={sub.image || selectedService.imageUrl} alt={sub.name} fill className="object-cover" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h3 className="font-bold text-slate-900">{sub.name}</h3>
+                                                            <p className="text-sm text-sky-500 font-bold">₹{sub.price}</p>
+                                                            <p className="text-xs text-slate-500 mt-1 line-clamp-2">{sub.description}</p>
+                                                            <div className="flex flex-wrap gap-2 mt-2">
+                                                                {sub.features.slice(0, 2).map((feat, i) => (
+                                                                    <span key={i} className="text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-600">{feat}</span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-col justify-center">
+                                                            <button
+                                                                onClick={() => initAddSubCat(sub)}
+                                                                disabled={selectedService.selectionMode === 'single' && isInCart && false} // Allow replacing in single mode logic?
+                                                                className="w-10 h-10 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all font-bold text-xl"
+                                                            >
+                                                                <Plus size={20} />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
 
-                    {/* STEP 3: SUB-CATEGORIES (CART) */}
-                    {step === 3 && (
-                        <div className="animate-in fade-in slide-in-from-right-8 duration-500 flex flex-col md:flex-row gap-8 min-h-[500px]">
-                            {/* Left: Options */}
-                            <div className="flex-1 space-y-6">
-                                <div className="flex justify-between items-center">
-                                    <h2 className="text-xl font-bold text-slate-800">Available Options</h2>
-                                    <span className="text-xs font-bold px-3 py-1 bg-sky-100 text-sky-600 rounded-full">
-                                        {selectedService?.selectionMode === 'multiple' ? 'Multi-Select' : 'Single Select'}
-                                    </span>
-                                </div>
+                                    {/* Right: Cart Summary */}
+                                    <div className="w-full md:w-80 flex-shrink-0">
+                                        <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 sticky top-4">
+                                            <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                                <div className="w-2 h-2 rounded-full bg-sky-500" />
+                                                Your Package
+                                            </h3>
 
-                                {selectedService?.slug === 'babysitter' && (
-                                    <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl mb-6">
-                                        <label className="block text-sm font-bold text-slate-700 mb-2">Baby's Date of Birth</label>
-                                        <div className="flex gap-4 items-center">
-                                            <input
-                                                type="date"
-                                                value={babyDOB}
-                                                onChange={(e) => setBabyDOB(e.target.value)}
-                                                className="px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-orange-400"
-                                            />
-                                            {showJapaAlert && (
-                                                <div className="text-sm text-orange-600 font-bold bg-orange-100 px-3 py-1 rounded-full animate-pulse">
-                                                    Results updated for newborn care (Japa)
+                                            {cart.length === 0 ? (
+                                                <div className="text-center py-8 text-slate-400 text-sm">
+                                                    No items selected
+                                                </div>
+                                            ) : (
+                                                <div className="space-y-4 mb-6">
+                                                    {cart.map((item) => (
+                                                        <div key={item._tempId} className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm relative group">
+                                                            <div className="flex justify-between items-start mb-1">
+                                                                <span className="font-bold text-sm text-slate-800 leading-tight">{item.subCategory.name}</span>
+                                                                <span className="font-bold text-xs text-sky-500">₹{item.price}</span>
+                                                            </div>
+                                                            <div className="text-[10px] text-slate-500 space-y-1">
+                                                                {Object.entries(item.answers).map(([key, val]) => (
+                                                                    <div key={key} className="flex justify-between">
+                                                                        <span className="capitalize">{key}:</span>
+                                                                        <span className="font-medium">{val}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                            <button
+                                                                onClick={() => removeFromCart(item._tempId)}
+                                                                className="absolute -top-2 -right-2 bg-red-100 text-red-500 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                                                            >
+                                                                <X size={12} />
+                                                            </button>
+                                                        </div>
+                                                    ))}
+
+                                                    <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
+                                                        <span className="font-bold text-slate-700">Total</span>
+                                                        <span className="font-bold text-xl text-sky-600">₹{calculatedTotal}</span>
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
                                     </div>
-                                )}
+                                </div>
+                            )}
 
-                                <div className="grid grid-cols-1 gap-4">
-                                    {filteredSubCategories.map(sub => {
-                                        const isInCart = cart.some(item => item.subCategory._id === sub._id);
-                                        return (
-                                            <div key={sub._id} className="bg-white border border-slate-200 rounded-2xl p-4 flex gap-4 transition-all hover:shadow-md">
-                                                <div className="w-24 h-24 relative rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                                                    <Image src={sub.image || selectedService.imageUrl} alt={sub.name} fill className="object-cover" />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <h3 className="font-bold text-slate-900">{sub.name}</h3>
-                                                    <p className="text-sm text-sky-500 font-bold">₹{sub.price}</p>
-                                                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">{sub.description}</p>
-                                                    <div className="flex flex-wrap gap-2 mt-2">
-                                                        {sub.features.slice(0, 2).map((feat, i) => (
-                                                            <span key={i} className="text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-600">{feat}</span>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col justify-center">
-                                                    <button
-                                                        onClick={() => initAddSubCat(sub)}
-                                                        disabled={selectedService.selectionMode === 'single' && isInCart && false} // Allow replacing in single mode logic?
-                                                        className="w-10 h-10 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all font-bold text-xl"
-                                                    >
-                                                        <Plus size={20} />
-                                                    </button>
+
+                            {/* STEP 4: DETAILS */}
+                            {step === 4 && (
+                                <div className="animate-in fade-in slide-in-from-right-8 duration-500 max-w-2xl mx-auto">
+                                    <h2 className="text-2xl font-bold text-slate-900 mb-6">Final Details</h2>
+
+                                    <div className="space-y-6">
+                                        {/* Date & Time */}
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Start Date</label>
+                                                <div className="relative">
+                                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                                                    <input
+                                                        type="date"
+                                                        value={formData.date}
+                                                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500"
+                                                    />
                                                 </div>
                                             </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-
-                            {/* Right: Cart Summary */}
-                            <div className="w-full md:w-80 flex-shrink-0">
-                                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 sticky top-4">
-                                    <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-sky-500" />
-                                        Your Package
-                                    </h3>
-
-                                    {cart.length === 0 ? (
-                                        <div className="text-center py-8 text-slate-400 text-sm">
-                                            No items selected
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-4 mb-6">
-                                            {cart.map((item) => (
-                                                <div key={item._tempId} className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm relative group">
-                                                    <div className="flex justify-between items-start mb-1">
-                                                        <span className="font-bold text-sm text-slate-800 leading-tight">{item.subCategory.name}</span>
-                                                        <span className="font-bold text-xs text-sky-500">₹{item.price}</span>
-                                                    </div>
-                                                    <div className="text-[10px] text-slate-500 space-y-1">
-                                                        {Object.entries(item.answers).map(([key, val]) => (
-                                                            <div key={key} className="flex justify-between">
-                                                                <span className="capitalize">{key}:</span>
-                                                                <span className="font-medium">{val}</span>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                    <button
-                                                        onClick={() => removeFromCart(item._tempId)}
-                                                        className="absolute -top-2 -right-2 bg-red-100 text-red-500 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
-                                                    >
-                                                        <X size={12} />
-                                                    </button>
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Preferred Time</label>
+                                                <div className="relative">
+                                                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                                                    <input
+                                                        type="time"
+                                                        value={formData.time}
+                                                        onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500"
+                                                    />
                                                 </div>
-                                            ))}
-
-                                            <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
-                                                <span className="font-bold text-slate-700">Total Monthly</span>
-                                                <span className="font-bold text-xl text-sky-600">₹{calculatedTotal}</span>
                                             </div>
                                         </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
-
-                    {/* STEP 4: DETAILS */}
-                    {step === 4 && (
-                        <div className="animate-in fade-in slide-in-from-right-8 duration-500 max-w-2xl mx-auto">
-                            <h2 className="text-2xl font-bold text-slate-900 mb-6">Final Details</h2>
-
-                            <div className="space-y-6">
-                                {/* Date & Time */}
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-2">Start Date</label>
-                                        <div className="relative">
-                                            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                                            <input
-                                                type="date"
-                                                value={formData.date}
-                                                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500"
+                                        {/* Address */}
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2">Complete Address</label>
+                                            <textarea
+                                                value={formData.address}
+                                                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                                placeholder="House No, Street, Landmark..."
+                                                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
                                             />
                                         </div>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-2">Preferred Time</label>
-                                        <div className="relative">
-                                            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                                            <input
-                                                type="time"
-                                                value={formData.time}
-                                                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                                                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500"
+
+                                        {/* Shared Gender Pref (if applicable) */}
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2">Preferred Gender of Worker</label>
+                                            <div className="flex gap-4">
+                                                {['Female', 'Male', 'Any'].map(g => (
+                                                    <button
+                                                        key={g}
+                                                        onClick={() => setFormData({ ...formData, genderPreference: g })}
+                                                        className={cn(
+                                                            "flex-1 py-3 rounded-xl border font-bold transition-all",
+                                                            formData.genderPreference === g ? "bg-slate-800 text-white border-slate-800" : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+                                                        )}
+                                                    >
+                                                        {g}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Notes */}
+                                        <div>
+                                            <label className="block text-sm font-bold text-slate-700 mb-2">Additional Notes</label>
+                                            <textarea
+                                                value={formData.notes}
+                                                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                                                placeholder="Any specific requirements..."
+                                                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
                                             />
                                         </div>
                                     </div>
                                 </div>
+                            )}
 
-                                {/* Address */}
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2">Complete Address</label>
-                                    <textarea
-                                        value={formData.address}
-                                        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                        placeholder="House No, Street, Landmark..."
-                                        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
-                                    />
-                                </div>
-
-                                {/* Shared Gender Pref (if applicable) */}
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2">Preferred Gender of Worker</label>
-                                    <div className="flex gap-4">
-                                        {['Female', 'Male', 'Any'].map(g => (
-                                            <button
-                                                key={g}
-                                                onClick={() => setFormData({ ...formData, genderPreference: g })}
-                                                className={cn(
-                                                    "flex-1 py-3 rounded-xl border font-bold transition-all",
-                                                    formData.genderPreference === g ? "bg-slate-800 text-white border-slate-800" : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
-                                                )}
-                                            >
-                                                {g}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Notes */}
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2">Additional Notes</label>
-                                    <textarea
-                                        value={formData.notes}
-                                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                                        placeholder="Any specific requirements..."
-                                        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                        </>
                     )}
 
                 </div>
 
                 {/* Footer Actions */}
-                <div className="p-6 bg-white border-t border-slate-100 flex justify-between items-center">
-                    <div className="hidden md:block">
-                        {step === 3 && (
-                            <p className="text-sm text-slate-500">
-                                Total Estimate: <span className="font-bold text-slate-900">₹{calculatedTotal}</span>
-                            </p>
-                        )}
+                {!bookingSuccess && (
+                    <div className="p-6 bg-white border-t border-slate-100 flex justify-between items-center">
+                        <div className="hidden md:block">
+                            {step === 3 && (
+                                <p className="text-sm text-slate-500">
+                                    Total Estimate: <span className="font-bold text-slate-900">₹{calculatedTotal}</span>
+                                </p>
+                            )}
+                        </div>
+                        <div className="flex gap-4 w-full md:w-auto">
+                            <button
+                                onClick={step === 4 ? handleSubmit : handleNext}
+                                disabled={isSubmitting}
+                                className="flex-1 md:w-48 h-12 bg-sky-500 text-white rounded-xl font-bold hover:bg-sky-600 transition-all shadow-lg flex items-center justify-center gap-2"
+                            >
+                                {isSubmitting ? <Loader2 className="animate-spin" /> : (step === 4 ? "Confirm Booking" : "Next")}
+                                {!isSubmitting && step < 4 && <ChevronRight size={18} />}
+                            </button>
+                        </div>
                     </div>
-                    <div className="flex gap-4 w-full md:w-auto">
-                        <button
-                            onClick={step === 4 ? handleSubmit : handleNext}
-                            disabled={isSubmitting}
-                            className="flex-1 md:w-48 h-12 bg-sky-500 text-white rounded-xl font-bold hover:bg-sky-600 transition-all shadow-lg flex items-center justify-center gap-2"
-                        >
-                            {isSubmitting ? <Loader2 className="animate-spin" /> : (step === 4 ? "Confirm Booking" : "Next")}
-                            {!isSubmitting && step < 4 && <ChevronRight size={18} />}
-                        </button>
-                    </div>
-                </div>
+                )}
 
             </div>
 
@@ -559,6 +604,6 @@ export default function BookingWizard() {
                 subCategory={currentSubCategory}
                 onConfirm={handleModalConfirm}
             />
-        </div >
+        </div>
     );
 }

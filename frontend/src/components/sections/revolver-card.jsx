@@ -98,15 +98,31 @@ export default function RevolverCard({ service, slot, index }) {
                 className={`
           relative w-[210px] h-[210px] md:w-[280px] md:h-[280px] lg:w-[320px] lg:h-[320px]
           rounded-full shadow-2xl border-4 border-white/40
-          bg-gradient-to-br ${gradient} to-transparent
           backdrop-blur-2xl
           flex items-center justify-center
           cursor-pointer overflow-hidden
           group
     `}
             >
+                {/* Rotating Colorful Gradient Background - SHINY & COLORFUL */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${gradient} to-transparent opacity-50 z-0`}></div>
+
+                {/* Conic Gradient for rotation */}
+                <motion.div
+                    className="absolute inset-[-50%] opacity-60 z-0"
+                    style={{
+                        background: "conic-gradient(from 0deg, transparent 0deg, #38bdf8 60deg, #818cf8 120deg, #c084fc 180deg, #f472b6 240deg, #38bdf8 360deg)",
+                        filter: "blur(20px)"
+                    }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                />
+
+                {/* Shiny Ring Overlay */}
+                {/* Shiny Ring Overlay - Removed */}
+
                 {/* Service Image - Circular Magazine visual */}
-                <div className="absolute inset-2 rounded-full overflow-hidden border-2 border-white/30">
+                <div className="absolute inset-2 rounded-full overflow-hidden border-2 border-white/30 z-10">
                     <Image
                         src={service.imageUrl || "https://placehold.co/600x600/e0f2fe/0ea5e9?text=Service"}
                         alt={service.title}
@@ -118,7 +134,7 @@ export default function RevolverCard({ service, slot, index }) {
                 </div>
 
                 {/* Floating Content Overlay */}
-                <div className="absolute bottom-10 left-0 right-0 px-6 text-center transform translate-z-10">
+                <div className="absolute bottom-10 left-0 right-0 px-6 text-center transform translate-z-10 z-20">
                     <h3 className="text-xl md:text-2xl font-black text-white tracking-tight leading-tight drop-shadow-lg mb-1">
                         {service.title}
                     </h3>
@@ -126,8 +142,8 @@ export default function RevolverCard({ service, slot, index }) {
                 </div>
 
                 {/* Magazine Chamber Hole Effect */}
-                <div className="absolute inset-0 rounded-full shadow-inner pointer-events-none ring-1 ring-white/20"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_70%,rgba(0,0,0,0.1)_100%)] pointer-events-none"></div>
+                <div className="absolute inset-0 rounded-full shadow-inner pointer-events-none ring-1 ring-white/20 z-30"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_70%,rgba(0,0,0,0.1)_100%)] pointer-events-none z-30"></div>
             </motion.div>
         </Link>
     );

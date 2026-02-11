@@ -175,7 +175,7 @@ export default function EditServicePage({ params }) {
             </div>
 
             {/* Subcategories Editor */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
+            <div id="subcategories" className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-800">Subcategories</h2>
                     <button onClick={addSubcategory} className="text-orange-500 font-bold text-sm flex items-center gap-1 hover:bg-orange-50 px-3 py-1.5 rounded-lg transition-colors">

@@ -283,7 +283,7 @@ export default function AdminBookings() {
                                     <tr key={booking._id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="p-4 font-mono text-xs text-slate-500">#{booking._id.slice(-6)}</td>
                                         <td className="p-4">
-                                            <div className="font-medium text-slate-900 capitalize mb-1">{(booking.serviceType || 'Unknown Service').replace('-', ' ')}</div>
+                                            <div className="font-medium text-slate-900 capitalize mb-1">{(booking.serviceType || booking.items?.[0]?.subCategory?.name || 'Unknown Service').replace('-', ' ')}</div>
 
                                             {/* Sub-items list */}
                                             {booking.items && booking.items.length > 0 && (

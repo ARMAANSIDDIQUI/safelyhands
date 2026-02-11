@@ -8,7 +8,7 @@ import HeroRevolver from './hero-revolver';
 
 const HeroSection = () => {
   return (
-    <section className="relative pt-40 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-transparent">
+    <section className="relative pt-40 pb-20 lg:pt-36 lg:pb-32 overflow-hidden bg-transparent">
       {/* Dynamic Background Elements - Handled by GlobalBackground */}
 
       <div className="container mx-auto px-4 md:px-6">
