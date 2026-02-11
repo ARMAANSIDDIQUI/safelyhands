@@ -196,6 +196,28 @@ const servicesData = [
         gradientFrom: "indigo-100",
         gradientTo: "indigo-200",
         selectionMode: "single"
+    },
+    {
+        title: "Patient Care",
+        slug: "patient-care",
+        subtitle: "Dedicated support for recovery",
+        description: "Specialized care for patients recovering from illness or surgery.",
+        imageUrl: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/safely hands workersElederlyCare1-2.jpg", // Reusing Elderly Care image
+        icon: "Stethoscope",
+        gradientFrom: "cyan-100",
+        gradientTo: "cyan-200",
+        selectionMode: "single"
+    },
+    {
+        title: "Peon Service",
+        slug: "peon-service",
+        subtitle: "Office and pantry assistance",
+        description: "Reliable staff for office maintenance, pantry management, and errands.",
+        imageUrl: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/e6c33f1f-26f1-4bf2-92ba-b28a162e87df-broomees-com/assets/images/allrounderImag_08_11_24-4.png", // Reusing All-Rounder image
+        icon: "Briefcase",
+        gradientFrom: "slate-100",
+        gradientTo: "slate-200",
+        selectionMode: "single"
     }
 ];
 
@@ -607,6 +629,51 @@ const subCategoriesData = {
             ]
         },
         {
+            name: "Japa Maid",
+            price: 30000,
+            features: ["Newborn Care", "Postpartum Care", "Baby Massage", "Mother Support"],
+            description: "Specialized care for newborns and new mothers (Japa care).",
+            questions: [
+                {
+                    stepTitle: "Baby Details",
+                    fields: [
+                        {
+                            name: "babyDOB",
+                            label: "Baby's Date of Birth (or Expected)",
+                            type: "date",
+                        },
+                        {
+                            name: "massage",
+                            label: "Baby Massage Required?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes" },
+                                { label: "No", value: "no" }
+                            ]
+                        },
+                        {
+                            name: "motherCare",
+                            label: "Mother's Massage/Care Required?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes", priceChange: 2000 },
+                                { label: "No", value: "no" }
+                            ]
+                        },
+                        {
+                            name: "servantQuarter",
+                            label: "Servant quarter availaible ?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes" },
+                                { label: "No", value: "no" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             name: "Cook",
             price: 17000,
             features: ["Authentic Indian Cooking", "Verified Staff", "Healthy Meals"],
@@ -756,6 +823,180 @@ const subCategoriesData = {
             features: ["Complete household management", "Verified Staff", "All services inclusive"],
             description: "Complete household management, taking care of cooking, cleaning and more",
             questions: getAllRounderQuestions()
+        }
+    ],
+    "patient-care": [
+        {
+            name: "12 Hours Patient Care",
+            price: 22000,
+            features: ["Day or Night Shift", "Medication Management", "Mobility Assistance", "Vitals Monitoring"],
+            description: "Professional patient care for 12-hour shifts to assist with recovery and daily needs.",
+            questions: [
+                {
+                    stepTitle: "Patient Details",
+                    fields: [
+                        {
+                            name: "patientAge",
+                            label: "Patient's Age",
+                            type: "text",
+                            placeholder: "e.g. 65 years"
+                        },
+                        {
+                            name: "gender",
+                            label: "Patient's Gender",
+                            type: "radio",
+                            options: [
+                                { label: "Male", value: "male" },
+                                { label: "Female", value: "female" }
+                            ]
+                        },
+                        {
+                            name: "mobility",
+                            label: "Mobility Status",
+                            type: "select",
+                            options: [
+                                { label: "Walking / Independent", value: "walking" },
+                                { label: "Semi-mobile (Needs support)", value: "semi_mobile" },
+                                { label: "Bedridden", value: "bedridden", priceChange: 2000 }
+                            ]
+                        },
+                        {
+                            name: "medicalCondition",
+                            label: "Medical Condition (Brief)",
+                            type: "text",
+                            placeholder: "e.g. Post-surgery, Stroke recovery..."
+                        },
+                        {
+                            name: "shiftType",
+                            label: "Preferred Shift",
+                            type: "radio",
+                            options: [
+                                { label: "Day Shift (8am - 8pm)", value: "day" },
+                                { label: "Night Shift (8pm - 8am)", value: "night" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "24 Hours Patient Care",
+            price: 35000,
+            features: ["Round-the-clock Care", "Medication Management", "Mobility Assistance", "Emergency Support"],
+            description: "24/7 dedicated care for patients requiring constant attention and support.",
+            questions: [
+                {
+                    stepTitle: "Patient Details",
+                    fields: [
+                        {
+                            name: "patientAge",
+                            label: "Patient's Age",
+                            type: "text",
+                            placeholder: "e.g. 65 years"
+                        },
+                        {
+                            name: "gender",
+                            label: "Patient's Gender",
+                            type: "radio",
+                            options: [
+                                { label: "Male", value: "male" },
+                                { label: "Female", value: "female" }
+                            ]
+                        },
+                        {
+                            name: "mobility",
+                            label: "Mobility Status",
+                            type: "select",
+                            options: [
+                                { label: "Walking / Independent", value: "walking" },
+                                { label: "Semi-mobile (Needs support)", value: "semi_mobile" },
+                                { label: "Bedridden", value: "bedridden", priceChange: 3000 }
+                            ]
+                        },
+                        {
+                            name: "medicalCondition",
+                            label: "Medical Condition (Brief)",
+                            type: "text",
+                            placeholder: "e.g. Post-surgery, Stroke recovery..."
+                        },
+                        {
+                            name: "accommodation",
+                            label: "Staff Accommodation Available?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes" },
+                                { label: "No", value: "no" } // Might imply higher cost or unserviceable, but keeping simple
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "peon-service": [
+        {
+            name: "Office Boy (8-10 Hours)",
+            price: 15000,
+            features: ["Files Management", "Bank Work", "General Errand", "Office Cleaning"],
+            description: "Standard office boy for daily office chores and errands.",
+            questions: [
+                {
+                    stepTitle: "Office Details",
+                    fields: [
+                        {
+                            name: "staffCount",
+                            label: "Number of Staff",
+                            type: "select",
+                            options: [
+                                { label: "1-10", value: "1-10" },
+                                { label: "11-20", value: "11-20", priceChange: 1000 },
+                                { label: "20+", value: "20_plus", priceChange: 2000 }
+                            ]
+                        },
+                        {
+                            name: "dutyType",
+                            label: "Primary Duties",
+                            type: "radio",
+                            options: [
+                                { label: "Cleaning Only", value: "cleaning" },
+                                { label: "Cleaning + Errands", value: "all_rounder", priceChange: 1000 }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Pantry Boy (8-10 Hours)",
+            price: 16000,
+            features: ["Tea/Coffee Service", "Pantry Maintenance", "Guest Hospitality", "Snacks Management"],
+            description: "Dedicated pantry boy for serving refreshments and maintaining pantry hygiene.",
+            questions: [
+                {
+                    stepTitle: "Pantry Requirements",
+                    fields: [
+                        {
+                            name: "beverageCount",
+                            label: "Approx. Beverages per Day",
+                            type: "select",
+                            options: [
+                                { label: "Up to 50", value: "50" },
+                                { label: "50-100", value: "100", priceChange: 1000 },
+                                { label: "100+", value: "100_plus", priceChange: 2000 }
+                            ]
+                        },
+                        {
+                            name: "dishwashing",
+                            label: "Dishwashing Included?",
+                            type: "radio",
+                            options: [
+                                { label: "Yes", value: "yes", priceChange: 500 },
+                                { label: "No", value: "no" }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 };

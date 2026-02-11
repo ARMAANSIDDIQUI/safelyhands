@@ -187,7 +187,7 @@ export default function BookingWizard() {
     };
 
     // Helper to calculate total
-    const cartTotal = cart.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
+    const calculatedTotal = cart.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
 
     // Submission
     const handleSubmit = async () => {
@@ -218,7 +218,7 @@ export default function BookingWizard() {
             address: `${formData.address}${regionInput ? `, ${regionInput}` : ''}`,
             city: selectedCity,
             notes: formData.notes,
-            totalAmount: cartTotal, // Include calculated total
+            totalAmount: calculatedTotal, // Include calculated total
             frequency: 'One-time',
         };
 
@@ -439,7 +439,7 @@ export default function BookingWizard() {
 
                                             <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
                                                 <span className="font-bold text-slate-700">Total Monthly</span>
-                                                <span className="font-bold text-xl text-sky-600">₹{cartTotal}</span>
+                                                <span className="font-bold text-xl text-sky-600">₹{calculatedTotal}</span>
                                             </div>
                                         </div>
                                     )}
@@ -534,7 +534,7 @@ export default function BookingWizard() {
                     <div className="hidden md:block">
                         {step === 3 && (
                             <p className="text-sm text-slate-500">
-                                Total Estimate: <span className="font-bold text-slate-900">₹{cartTotal}</span>
+                                Total Estimate: <span className="font-bold text-slate-900">₹{calculatedTotal}</span>
                             </p>
                         )}
                     </div>
