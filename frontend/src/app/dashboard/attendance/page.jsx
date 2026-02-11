@@ -17,65 +17,48 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchMyBookings, selectAllBookings, selectBookingStatus } from "@/store/slices/bookingSlice";
+import { fetchBookingAttendance, selectAttendanceData, invalidateAttendance } from "@/store/slices/attendanceSlice";
 
 export default function AttendancePage() {
-    const [bookings, setBookings] = useState([]);
+    // Redux
+    const dispatch = useAppDispatch();
+    const bookings = useAppSelector(selectAllBookings);
+    const bookingsStatus = useAppSelector(selectBookingStatus);
+
     const [selectedBooking, setSelectedBooking] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [marking, setMarking] = useState(false);
-    const [validDates, setValidDates] = useState([]);
-    const [history, setHistory] = useState([]);
     const [calendarDate, setCalendarDate] = useState(new Date());
 
+    // Attendance Data from Redux
+    const attendanceData = useAppSelector(selectAttendanceData(selectedBooking?._id));
+    const validDates = attendanceData?.validDates?.map(d => new Date(d)) || [];
+    const history = attendanceData?.markedDates || [];
+
     useEffect(() => {
-        fetchBookings();
-    }, []);
+        if (bookingsStatus === 'idle') {
+            dispatch(fetchMyBookings());
+        }
+    }, [bookingsStatus, dispatch]);
+
+    useEffect(() => {
+        if (bookings.length > 0 && !selectedBooking) {
+            setSelectedBooking(bookings[0]);
+        }
+    }, [bookings, selectedBooking]);
 
     useEffect(() => {
         if (selectedBooking) {
-            fetchBookingDetails(selectedBooking._id);
+            dispatch(fetchBookingAttendance(selectedBooking._id));
         }
-    }, [selectedBooking]);
+    }, [selectedBooking, dispatch]);
 
-    const fetchBookings = async () => {
-        try {
-            const token = getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/my-bookings`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const data = await res.json();
+    // Removed local fetchBookings and fetchBookingDetails functions as they are replaced by Redux
 
-            if (res.ok) {
-                setBookings(data);
-                if (data.length > 0) {
-                    setSelectedBooking(data[0]);
-                }
-            }
-        } catch (error) {
-            console.error("Error fetching bookings:", error);
-            toast.error("Failed to load bookings");
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    const fetchBookingDetails = async (bookingId) => {
-        try {
-            const token = getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/valid-dates/${bookingId}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const data = await res.json();
+    // fetchBookingDetails replaced by Redux dispatch
 
-            if (res.ok) {
-                // Parse valid dates string to Date objects
-                setValidDates(data.validDates.map(d => new Date(d)));
-                setHistory(data.markedDates);
-            }
-        } catch (error) {
-            console.error("Error fetching details:", error);
-        }
-    };
 
     const handleMarkAttendance = async (status) => {
         if (!selectedBooking) return;
@@ -100,9 +83,10 @@ export default function AttendancePage() {
 
             if (res.ok) {
                 toast.success(`Marked as ${status}`);
-                // Refresh data
-                fetchBookings();
-                fetchBookingDetails(selectedBooking._id);
+                toast.success(`Marked as ${status}`);
+                // Refresh data via Redux
+                dispatch(invalidateAttendance(selectedBooking._id));
+                dispatch(fetchBookingAttendance(selectedBooking._id));
             } else {
                 toast.error(data.message || "Failed to mark attendance");
             }

@@ -3,6 +3,8 @@
 import { useAuth } from "@/context/AuthContext";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchMyBookings, selectAllBookings, selectBookingStatus } from "@/store/slices/bookingSlice";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,23 +14,31 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Eye, Loader2, FileText, Pencil, Trash2, Calendar as CalendarIcon, Star, MessageSquare } from "lucide-react";
+import { Eye, Loader2, FileText, Pencil, Trash2, Calendar as CalendarIcon, Star, MessageSquare, Clock, MapPin, ArrowRight, User, CheckCircle2, RefreshCcw } from "lucide-react";
 import { toast } from "sonner";
 import { Calendar } from "@/components/ui/calendar";
 
 import { getToken } from "@/lib/auth";
+import { invalidateBookings } from "@/store/slices/bookingSlice";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MyBookingsPage() {
     const { user } = useAuth();
-    const [bookings, setBookings] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useAppDispatch();
+    const bookings = useAppSelector(selectAllBookings);
+    const status = useAppSelector(selectBookingStatus);
+    const loading = status === 'loading';
+
+    // Filter State
+    const [activeTab, setActiveTab] = useState('active'); // 'new', 'active', 'history'
+
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [editingBooking, setEditingBooking] = useState(null);
     const [editFormData, setEditFormData] = useState({
         serviceType: "",
         frequency: "",
+        weeklyDays: [],
         date: "",
         address: "",
         notes: ""
@@ -45,6 +55,12 @@ export default function MyBookingsPage() {
     const [reviewForm, setReviewForm] = useState({ rating: 5, comment: "" });
     const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchMyBookings());
+        }
+    }, [status, dispatch]);
+
     const getDailyAttendanceStatus = (booking, date) => {
         if (!booking || !booking.attendanceLogs) return null;
         const log = booking.attendanceLogs.find(l =>
@@ -53,55 +69,32 @@ export default function MyBookingsPage() {
         return log?.status === 'present' ? 'present' : log?.status === 'absent' ? 'absent' : null;
     };
 
+    // Initial fetch handled by Redux useEffect above
     useEffect(() => {
-        if (attendanceBooking && isAttendanceDialogOpen) {
-            const fetchDates = async () => {
+        const fetchDates = async () => {
+            if (attendanceBooking && isAttendanceDialogOpen) {
                 try {
                     const token = getToken();
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/valid-dates/${attendanceBooking._id}`, {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${attendanceBooking._id}/valid-dates`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     if (res.ok) {
                         const data = await res.json();
                         setScheduledDates(data.validDates.map(d => new Date(d)));
+                    } else {
+                        const errorData = await res.json();
+                        console.error("Failed to fetch valid dates:", errorData.message);
+                        toast.error(errorData.message || "Failed to fetch valid dates");
                     }
                 } catch (error) {
                     console.error("Failed to fetch valid dates", error);
+                    toast.error("Error fetching valid dates");
                 }
-            };
-            fetchDates();
-        }
+            }
+        };
+        fetchDates();
     }, [attendanceBooking, isAttendanceDialogOpen]);
 
-    const fetchBookings = async () => {
-        try {
-            const token = getToken();
-            if (!token) {
-                setBookings([]);
-                setLoading(false);
-                return;
-            }
-
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/mybookings`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            if (!res.ok) throw new Error('Failed to fetch bookings');
-
-            const data = await res.json();
-            setBookings(Array.isArray(data) ? data : []);
-        } catch (error) {
-            console.error("Failed to fetch bookings", error);
-            setBookings([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (user) fetchBookings();
-        else setLoading(false);
-    }, [user]);
 
     const handleDelete = async (id) => {
         if (!confirm("Are you sure you want to cancel this booking?")) return;
@@ -114,8 +107,9 @@ export default function MyBookingsPage() {
             });
 
             if (res.ok) {
-                setBookings(prev => prev.filter(b => b._id !== id));
                 toast.success("Booking cancelled successfully");
+                dispatch(invalidateBookings()); // Force refresh
+                dispatch(fetchMyBookings());
             } else {
                 const data = await res.json();
                 toast.error(data.message || "Failed to cancel");
@@ -154,7 +148,8 @@ export default function MyBookingsPage() {
             if (res.ok) {
                 toast.success("Booking updated!");
                 setIsEditDialogOpen(false);
-                fetchBookings();
+                dispatch(invalidateBookings()); // Force refresh
+                dispatch(fetchMyBookings());
             } else {
                 toast.error("Update failed");
             }
@@ -204,6 +199,14 @@ export default function MyBookingsPage() {
         }
     };
 
+    // Filter Logic
+    const filteredBookings = bookings.filter(booking => {
+        if (activeTab === 'new') return booking.status === 'pending';
+        if (activeTab === 'active') return booking.status === 'approved' || booking.status === 'in_progress';
+        if (activeTab === 'history') return ['completed', 'cancelled', 'rejected'].includes(booking.status);
+        return true;
+    });
+
     if (loading) {
         return (
             <div className="space-y-6">
@@ -244,30 +247,82 @@ export default function MyBookingsPage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">My Bookings</h2>
                     <p className="text-muted-foreground">Manage your service history and status.</p>
                 </div>
-                <Button asChild>
-                    <Link href="/quick-book">Book New</Link>
-                </Button>
+                <div className="flex items-center gap-3">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                            toast.info("Refreshing bookings...");
+                            dispatch(invalidateBookings());
+                            dispatch(fetchMyBookings());
+                        }}
+                        className="gap-2"
+                    >
+                        <RefreshCcw size={16} className={loading ? "animate-spin" : ""} />
+                        Refresh
+                    </Button>
+                    <Button asChild>
+                        <Link href="/quick-book">Book New</Link>
+                    </Button>
+                </div>
+            </div>
+
+            {/* Filter Tabs */}
+            <div className="flex bg-slate-100 p-1 rounded-lg w-fit">
+                <button
+                    onClick={() => setActiveTab('new')}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'new'
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                >
+                    New Requests
+                </button>
+                <button
+                    onClick={() => setActiveTab('active')}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'active'
+                        ? 'bg-white text-emerald-600 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                >
+                    Active
+                </button>
+                <button
+                    onClick={() => setActiveTab('history')}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${activeTab === 'history'
+                        ? 'bg-white text-slate-900 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                >
+                    History
+                </button>
             </div>
 
             <div className="grid gap-4">
-                {bookings.length === 0 ? (
+                {filteredBookings.length === 0 ? (
                     <div className="text-center py-12 bg-white rounded-lg border border-gray-100 shadow-sm">
                         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
                             <FileText size={32} />
                         </div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No bookings yet</h3>
-                        <p className="text-sm text-gray-500 mb-4">Book your first service with Safely Hands today!</p>
-                        <Link href="/quick-book" className="text-primary-600 font-medium hover:underline">
-                            Book Now
-                        </Link>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">No {activeTab} bookings</h3>
+                        <p className="text-sm text-gray-500 mb-4">
+                            {activeTab === 'new' && "You don't have any pending requests."}
+                            {activeTab === 'active' && "You don't have any active services."}
+                            {activeTab === 'history' && "No past booking history found."}
+                        </p>
+                        {activeTab !== 'history' && (
+                            <Link href="/quick-book" className="text-primary-600 font-medium hover:underline">
+                                Book Now
+                            </Link>
+                        )}
                     </div>
                 ) : (
-                    bookings.map((booking) => (
+                    filteredBookings.map((booking) => (
                         <Card key={booking._id} className="overflow-hidden">
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 gap-4">
                                 <div className="space-y-1">

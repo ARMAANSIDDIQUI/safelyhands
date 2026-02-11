@@ -1,0 +1,16 @@
+import { configureStore } from '@reduxjs/toolkit';
+
+import serviceReducer from './slices/serviceSlice';
+import authReducer from './slices/authSlice';
+import bookingReducer from './slices/bookingSlice';
+import attendanceReducer from './slices/attendanceSlice';
+
+export const store = configureStore({
+    reducer: {
+        services: serviceReducer,
+        auth: authReducer,
+        bookings: bookingReducer,
+        attendance: attendanceReducer,
+    },
+    devTools: process.env.NODE_ENV !== 'production',
+});

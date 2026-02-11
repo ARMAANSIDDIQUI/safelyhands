@@ -15,15 +15,18 @@ export const metadata = {
 import { Providers } from "@/providers";
 import GlobalBackground from "@/components/global-background";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import { ReduxProvider } from "@/components/providers/ReduxProvider";
 
 export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="antialiased">
                 <Providers>
-                    <ScrollToTop />
-                    <GlobalBackground />
-                    {children}
+                    <ReduxProvider>
+                        <ScrollToTop />
+                        <GlobalBackground />
+                        {children}
+                    </ReduxProvider>
                 </Providers>
                 <Toaster
                     position="top-center"

@@ -23,7 +23,7 @@ export default function AdminBookings() {
     const [workers, setWorkers] = useState([]);
     const [selectedWorker, setSelectedWorker] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [filter, setFilter] = useState('all');
+    const [filter, setFilter] = useState('new');
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [workersWithAvailability, setWorkersWithAvailability] = useState({});
     const [editingBooking, setEditingBooking] = useState(null);
@@ -235,7 +235,14 @@ export default function AdminBookings() {
         return todayLog?.status || 'not_marked';
     };
 
-    const filteredBookings = bookings.filter(b => filter === 'all' || b.status === filter);
+
+
+    const filteredBookings = bookings.filter(b => {
+        if (filter === 'new') return b.status === 'pending';
+        if (filter === 'active') return ['approved', 'in_progress'].includes(b.status);
+        if (filter === 'history') return ['completed', 'cancelled', 'rejected'].includes(b.status);
+        return true; // 'all'
+    });
 
     if (isLoading) return <div className="flex justify-center p-10"><Loader2 className="animate-spin text-blue-600" /></div>;
 
@@ -243,17 +250,43 @@ export default function AdminBookings() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h1 className="text-2xl font-bold text-slate-900">Bookings Management</h1>
-                <div className="flex gap-2">
-                    {['all', 'pending', 'approved', 'completed', 'cancelled'].map(status => (
-                        <button
-                            key={status}
-                            onClick={() => setFilter(status)}
-                            className={`px-3 py-1.5 rounded-full text-xs font-medium capitalize ${filter === status ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 border hover:bg-slate-50'
-                                }`}
-                        >
-                            {status}
-                        </button>
-                    ))}
+                <div className="flex bg-white border border-slate-200 p-1 rounded-lg">
+                    <button
+                        onClick={() => setFilter('new')}
+                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'new'
+                            ? 'bg-blue-50 text-blue-600 shadow-sm'
+                            : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                    >
+                        New Requests
+                    </button>
+                    <button
+                        onClick={() => setFilter('active')}
+                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'active'
+                            ? 'bg-emerald-50 text-emerald-600 shadow-sm'
+                            : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                    >
+                        Active
+                    </button>
+                    <button
+                        onClick={() => setFilter('history')}
+                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'history'
+                            ? 'bg-slate-100 text-slate-900 shadow-sm'
+                            : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                    >
+                        History
+                    </button>
+                    <button
+                        onClick={() => setFilter('all')}
+                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'all'
+                            ? 'bg-slate-100 text-slate-900 shadow-sm'
+                            : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                    >
+                        All
+                    </button>
                 </div>
             </div>
 

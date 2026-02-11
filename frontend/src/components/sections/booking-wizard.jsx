@@ -8,6 +8,8 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import DynamicServiceModal from "./DynamicServiceModal";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchServices, selectAllServices, selectServiceStatus } from "@/store/slices/serviceSlice";
 
 export default function BookingWizard() {
     const { user } = useAuth();
@@ -19,7 +21,6 @@ export default function BookingWizard() {
     const [loading, setLoading] = useState(true);
 
     // Data
-    const [services, setServices] = useState([]);
     const [cities, setCities] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
 
@@ -48,29 +49,36 @@ export default function BookingWizard() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Redux
+    const dispatch = useAppDispatch();
+    const services = useAppSelector(selectAllServices);
+    const servicesStatus = useAppSelector(selectServiceStatus);
+
     // Initial Fetch
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const [servicesRes, citiesRes] = await Promise.all([
-                    fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`),
-                    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cities`)
-                ]);
 
-                if (servicesRes.ok) setServices(await servicesRes.json());
+                // Fetch Cities (Local for now)
+                const citiesRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cities`);
                 if (citiesRes.ok) setCities((await citiesRes.json()).filter(c => c.isActive));
+
+                // Fetch Services (Redux)
+                if (servicesStatus === 'idle') {
+                    await dispatch(fetchServices()).unwrap();
+                }
 
             } catch (error) {
                 console.error('Failed to fetch data', error);
-                toast.error("Failed to load services");
+                toast.error("Failed to load data");
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, []);
+    }, [dispatch, servicesStatus]);
 
     // Handle URL Service Pre-selection
     useEffect(() => {

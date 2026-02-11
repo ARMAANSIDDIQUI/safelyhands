@@ -1,46 +1,43 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import Link from "next/link";
 import Image from 'next/image';
-import { Star } from 'lucide-react';
+import { Star, ArrowUpRight } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchServices, selectAllServices, selectServiceStatus, selectServiceError } from '@/store/slices/serviceSlice';
 
 const ServicesGrid = () => {
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const services = useAppSelector(selectAllServices);
+  const status = useAppSelector(selectServiceStatus);
+  const error = useAppSelector(selectServiceError);
 
   useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
-        if (!res.ok) {
-          console.warn("Failed to fetch services");
-          return;
-        }
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setServices(data.map(s => ({
-            id: s._id,
-            title: s.title,
-            rating: "4.8", // Mock rating
-            imageUrl: s.imageUrl || 'https://placehold.co/800x450/e0f2fe/0ea5e9?text=Service',
-            link: `/services/${s.slug}` // Dynamic link
-          })));
-        }
-      } catch (error) {
-        console.warn("Failed to fetch services grid", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchServices();
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchServices());
+    }
+  }, [status, dispatch]);
 
-  if (loading) {
+  if (status === 'loading') {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="h-96 bg-slate-100 rounded-3xl animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (status === 'failed') {
+    return (
+      <section className="py-20 bg-white text-center">
+        <p className="text-red-500">Failed to load services: {error}</p>
+      </section>
     );
   }
 
@@ -58,15 +55,15 @@ const ServicesGrid = () => {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-[30px] gap-y-[30px] justify-items-center">
           {services.map((service) => (
-            <a
-              key={service.id}
-              href={service.link}
+            <Link
+              key={service._id}
+              href={`/services/${service.slug}`}
               className="group relative w-full max-w-[540px] overflow-hidden rounded-[20px] transition-transform duration-200 hover:scale-[1.02] shadow-[0_4px_15px_rgba(0,0,0,0.08)] cursor-pointer"
             >
               <div className="relative aspect-[16/9] w-full">
                 {/* Service Image */}
                 <Image
-                  src={service.imageUrl}
+                  src={service.imageUrl || 'https://placehold.co/800x450/e0f2fe/0ea5e9?text=Service'}
                   alt={service.title}
                   fill
                   className="object-cover"
@@ -77,7 +74,7 @@ const ServicesGrid = () => {
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-[5px] flex items-center shadow-sm z-10">
                   <Star size={14} fill="#fbbf24" className="text-[#fbbf24] mr-1" />
                   <span className="text-[14px] font-bold text-[#212529]">
-                    {service.rating}
+                    4.8
                   </span>
                 </div>
 
@@ -95,7 +92,7 @@ const ServicesGrid = () => {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
