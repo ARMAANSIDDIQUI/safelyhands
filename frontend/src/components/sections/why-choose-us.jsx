@@ -29,27 +29,29 @@ const WhyChooseUs = () => {
             <div className="absolute right-0 top-1/4 w-1/3 h-1/2 bg-slate-50 rounded-l-[100px] -z-10" />
 
             <div className="container mx-auto px-6 max-w-6xl">
-                <div className="flex flex-col md:flex-row gap-16 items-center">
+                <div className="flex flex-col gap-12 items-center">
 
-                    {/* Left Content */}
-                    <div className="w-full md:w-1/3">
+                    {/* Top Content (Centered) */}
+                    <div className="w-full max-w-3xl text-center mx-auto">
                         <h2 className="text-3xl md:text-5xl font-bold font-display text-slate-800 mb-6 leading-tight">
                             Why <span className="text-primary">Choose Us</span>
                         </h2>
                         <p className="text-slate-600 text-lg mb-8 leading-relaxed">
                             We're redefining the domestic help industry with trust, transparency, and technology.
                         </p>
-                        <button className="px-8 py-3 bg-slate-900 text-white rounded-full font-semibold hover:bg-slate-800 transition-all shadow-lg hover:translate-y-[-2px]">
-                            Get Started
-                        </button>
+                        <div className="flex justify-center">
+                            <button className="px-8 py-3 bg-slate-900 text-white rounded-full font-semibold hover:bg-slate-800 transition-all shadow-lg hover:translate-y-[-2px]">
+                                Get Started
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Right Grid */}
-                    <div className="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Bottom Grid (3 Columns) */}
+                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
                         {features.map((feature, index) => (
                             <div
                                 key={index}
-                                className={`p-8 rounded-3xl border border-slate-100 bg-white hover:shadow-xl transition-all duration-300 group ${index === 2 ? 'md:col-span-2' : ''}`}
+                                className="p-8 rounded-3xl border border-slate-100 bg-white hover:shadow-xl transition-all duration-300 group"
                             >
                                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${feature.color} group-hover:scale-110 transition-transform duration-300`}>
                                     {feature.icon}
