@@ -12,42 +12,31 @@ import { getToken } from "@/lib/auth";
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchAnalytics, selectAnalyticsData, selectAnalyticsStatus } from "@/store/slices/analyticsSlice";
+
+// ... (charts imports)
+
 export default function AdminOverview() {
     const { user } = useAuth();
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useAppDispatch();
+    const data = useAppSelector(selectAnalyticsData);
+    const status = useAppSelector(selectAnalyticsStatus);
+    const loading = status === 'loading' || status === 'idle';
 
     useEffect(() => {
-        const fetchAnalytics = async () => {
-            try {
-                const token = getToken();
+        if (status === 'idle') {
+            dispatch(fetchAnalytics());
+        }
+    }, [status, dispatch]);
 
-                if (!token) {
-                    console.error("No token found");
-                    setLoading(false);
-                    return;
-                }
-
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/analytics`, {
-                    headers: { "Authorization": `Bearer ${token}` }
-                });
-                const result = await res.json();
-                setData(result);
-            } catch (err) {
-                console.error("Failed to fetch analytics", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        if (user) fetchAnalytics();
-    }, [user]);
-
-    if (loading) return <div className="p-8">Loading analytics...</div>;
+    if (loading && !data) return <div className="p-8">Loading analytics...</div>;
     if (!data) return <div className="p-8">Failed to load data.</div>;
 
     const { stats, charts, recentActivity } = data;
 
     return (
+        // ... (rest of the component remains same)
         <div className="space-y-8">
             <div>
                 <h1 className="text-3xl font-display font-bold text-slate-900">Dashboard Overview</h1>

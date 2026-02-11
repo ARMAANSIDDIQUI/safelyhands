@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Check, X, Eye, Loader2, Calendar as CalendarIcon, MapPin, Search, Pencil, Trash2, Clock, History, FileText } from "lucide-react";
+import { Check, X, Eye, Loader2, Calendar as CalendarIcon, MapPin, Search, Pencil, Trash2, Clock, History, FileText, RefreshCcw } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -17,12 +18,23 @@ import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+    fetchAllBookings,
+    selectAdminBookings,
+    selectAdminBookingStatus,
+    invalidateAdminBookings
+} from "@/store/slices/bookingSlice";
+
 export default function AdminBookings() {
-    const { user, loading } = useAuth();
-    const [bookings, setBookings] = useState([]);
+    const { user } = useAuth();
+    const dispatch = useAppDispatch();
+    const bookings = useAppSelector(selectAdminBookings);
+    const status = useAppSelector(selectAdminBookingStatus);
+    const isLoading = status === 'loading';
+
     const [workers, setWorkers] = useState([]);
     const [selectedWorker, setSelectedWorker] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState('new');
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [workersWithAvailability, setWorkersWithAvailability] = useState({});
@@ -40,22 +52,11 @@ export default function AdminBookings() {
         totalAmount: 0
     });
 
-    const fetchBookings = async () => {
-        try {
-            const token = getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-            const data = await res.json();
-            if (Array.isArray(data)) {
-                setBookings(data);
-            }
-            setIsLoading(false);
-        } catch (err) {
-            toast.error("Failed to fetch bookings");
-            setIsLoading(false);
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchAllBookings());
         }
-    };
+    }, [status, dispatch]);
 
     const fetchWorkers = async () => {
         try {
@@ -99,7 +100,8 @@ export default function AdminBookings() {
 
             if (res.ok) {
                 toast.success("Booking deleted permanently");
-                fetchBookings();
+                dispatch(invalidateAdminBookings());
+                dispatch(fetchAllBookings());
                 setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete booking");
@@ -137,7 +139,8 @@ export default function AdminBookings() {
             if (res.ok) {
                 toast.success("Booking updated!");
                 setIsEditDialogOpen(false);
-                fetchBookings();
+                dispatch(invalidateAdminBookings());
+                dispatch(fetchAllBookings());
             } else {
                 toast.error("Update failed");
             }
@@ -147,15 +150,10 @@ export default function AdminBookings() {
     };
 
     useEffect(() => {
-        if (!loading) {
-            if (user) {
-                fetchBookings();
-                fetchWorkers();
-            } else {
-                setIsLoading(false);
-            }
+        if (user) {
+            fetchWorkers();
         }
-    }, [user, loading]);
+    }, [user]);
 
     const handleAssignWorker = async (bookingId) => {
         const workerId = selectedWorker[bookingId];
@@ -176,7 +174,8 @@ export default function AdminBookings() {
 
             if (res.ok) {
                 toast.success("Worker assigned & booking approved!");
-                fetchBookings();
+                dispatch(invalidateAdminBookings());
+                dispatch(fetchAllBookings());
             } else {
                 throw new Error("Failed to assign");
             }
@@ -198,7 +197,8 @@ export default function AdminBookings() {
 
             if (res.ok) {
                 toast.success(`Booking marked as ${status}`);
-                fetchBookings();
+                dispatch(invalidateAdminBookings());
+                dispatch(fetchAllBookings());
             } else {
                 throw new Error("Failed to update status");
             }
@@ -220,7 +220,8 @@ export default function AdminBookings() {
 
             if (res.ok) {
                 toast.success(`Attendance marked`);
-                fetchBookings();
+                dispatch(invalidateAdminBookings());
+                dispatch(fetchAllBookings());
             } else {
                 throw new Error("Failed to update attendance");
             }
@@ -236,7 +237,6 @@ export default function AdminBookings() {
     };
 
 
-
     const filteredBookings = bookings.filter(b => {
         if (filter === 'new') return b.status === 'pending';
         if (filter === 'active') return ['approved', 'in_progress'].includes(b.status);
@@ -244,50 +244,67 @@ export default function AdminBookings() {
         return true; // 'all'
     });
 
-    if (isLoading) return <div className="flex justify-center p-10"><Loader2 className="animate-spin text-blue-600" /></div>;
+    if (isLoading && bookings.length === 0) return <div className="flex justify-center p-10"><Loader2 className="animate-spin text-blue-600" /></div>;
 
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h1 className="text-2xl font-bold text-slate-900">Bookings Management</h1>
-                <div className="flex bg-white border border-slate-200 p-1 rounded-lg">
-                    <button
-                        onClick={() => setFilter('new')}
-                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'new'
-                            ? 'bg-blue-50 text-blue-600 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
-                            }`}
+                <div className="flex items-center gap-3">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                            toast.info("Refreshing...");
+                            dispatch(invalidateAdminBookings());
+                            dispatch(fetchAllBookings());
+                        }}
+                        className="gap-2"
                     >
-                        New Requests
-                    </button>
-                    <button
-                        onClick={() => setFilter('active')}
-                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'active'
-                            ? 'bg-emerald-50 text-emerald-600 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
-                            }`}
-                    >
-                        Active
-                    </button>
-                    <button
-                        onClick={() => setFilter('history')}
-                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'history'
-                            ? 'bg-slate-100 text-slate-900 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
-                            }`}
-                    >
-                        History
-                    </button>
-                    <button
-                        onClick={() => setFilter('all')}
-                        className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'all'
-                            ? 'bg-slate-100 text-slate-900 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
-                            }`}
-                    >
-                        All
-                    </button>
+                        <RefreshCcw size={16} className={isLoading ? "animate-spin" : ""} />
+                        Refresh
+                    </Button>
                 </div>
+            </div>
+
+            {/* Filter Tabs - Inserted below header */}
+            <div className="flex bg-white border border-slate-200 p-1 rounded-lg w-fit mb-4">
+                <button
+                    onClick={() => setFilter('new')}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'new'
+                        ? 'bg-blue-50 text-blue-600 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                >
+                    New Requests
+                </button>
+                <button
+                    onClick={() => setFilter('active')}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'active'
+                        ? 'bg-emerald-50 text-emerald-600 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                >
+                    Active
+                </button>
+                <button
+                    onClick={() => setFilter('history')}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'history'
+                        ? 'bg-slate-100 text-slate-900 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                >
+                    History
+                </button>
+                <button
+                    onClick={() => setFilter('all')}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${filter === 'all'
+                        ? 'bg-slate-100 text-slate-900 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                >
+                    All
+                </button>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -316,7 +333,7 @@ export default function AdminBookings() {
                                     <tr key={booking._id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="p-4 font-mono text-xs text-slate-500">#{booking._id.slice(-6)}</td>
                                         <td className="p-4">
-                                            <div className="font-medium text-slate-900 capitalize mb-1">{(booking.serviceType || booking.items?.[0]?.subCategory?.name || 'Unknown Service').replace('-', ' ')}</div>
+                                            <div className="font-medium text-slate-900 capitalize mb-1">{(booking.serviceType || booking.items?.[0]?.subCategory?.service?.title || booking.items?.[0]?.subCategory?.name || 'Unknown Service').replace('-', ' ')}</div>
 
                                             {/* Sub-items list */}
                                             {booking.items && booking.items.length > 0 && (
@@ -838,7 +855,7 @@ export default function AdminBookings() {
                 title="Permanently Delete Booking?"
                 description="This action cannot be undone. The booking will be removed from the system forever."
                 confirmText="Delete Permanently"
-                loading={loading}
+                loading={isLoading}
             />
         </div >
     );

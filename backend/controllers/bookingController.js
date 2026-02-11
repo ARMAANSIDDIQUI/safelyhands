@@ -54,7 +54,11 @@ const getMyBookings = async (req, res) => {
             .populate('assignedWorker', 'name profilePicture')
             .populate({
                 path: 'items.subCategory',
-                select: 'name price'
+                select: 'name price service',
+                populate: {
+                    path: 'service',
+                    select: 'title'
+                }
             })
             .sort({ createdAt: -1 });
         res.json(bookings);
@@ -72,7 +76,11 @@ const getBookings = async (req, res) => {
             .populate('user', 'id name email')
             .populate({
                 path: 'items.subCategory',
-                select: 'name price'
+                select: 'name price service',
+                populate: {
+                    path: 'service',
+                    select: 'title'
+                }
             })
             .sort({ createdAt: -1 });
         res.json(bookings);

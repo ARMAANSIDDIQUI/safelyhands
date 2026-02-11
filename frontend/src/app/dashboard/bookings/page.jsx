@@ -327,7 +327,7 @@ export default function MyBookingsPage() {
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 gap-4">
                                 <div className="space-y-1">
                                     <div className="flex flex-col gap-1">
-                                        <h3 className="font-semibold text-lg capitalize">{(booking.serviceType || 'Service').replace('-', ' ')}</h3>
+                                        <h3 className="font-semibold text-lg capitalize">{(booking.serviceType || booking.items?.[0]?.subCategory?.service?.title || 'Service').replace('-', ' ')}</h3>
                                         <div className="flex flex-col gap-1 text-sm text-slate-600 bg-slate-50 p-2 rounded-lg">
                                             {booking.items && booking.items.length > 0 ? (
                                                 booking.items.map((item, idx) => (
