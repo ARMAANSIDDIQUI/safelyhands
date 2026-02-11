@@ -31,11 +31,12 @@ export default function RootLayout({ children }) {
                 <Toaster
                     position="top-center"
                     toastOptions={{
-                        className: 'rounded-full border-2 border-blue-100 shadow-xl !bg-white !text-slate-800',
+                        className: 'rounded-[20px] border-2 border-blue-100 shadow-2xl !bg-white !text-slate-900 text-lg font-medium',
                         style: {
-                            borderRadius: '50px',
-                            padding: '12px 24px',
-                            boxShadow: '0 10px 30px -10px rgba(59, 130, 246, 0.3)'
+                            padding: '16px 32px',
+                            minWidth: '350px',
+                            fontSize: '18px',
+                            boxShadow: '0 20px 40px -15px rgba(59, 130, 246, 0.4)'
                         }
                     }}
                 />
