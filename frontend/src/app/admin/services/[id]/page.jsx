@@ -6,6 +6,8 @@ import { ArrowLeft, Plus, Save, Trash2, ChevronDown, ChevronUp } from 'lucide-re
 import { toast } from 'sonner';
 import Image from 'next/image';
 
+import { getToken } from '@/lib/auth';
+
 export default function EditServicePage({ params }) {
     const router = useRouter();
     const { id } = use(params);
@@ -50,7 +52,7 @@ export default function EditServicePage({ params }) {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${getToken()}`
                 },
                 body: JSON.stringify(service)
             });
@@ -116,7 +118,7 @@ export default function EditServicePage({ params }) {
                 <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="bg-orange-500 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-600 transition-colors disabled:opacity-50"
+                    className="bg-blue-500 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-600 transition-colors disabled:opacity-50"
                 >
                     <Save size={20} />
                     {saving ? "Saving..." : "Save Changes"}
@@ -131,7 +133,7 @@ export default function EditServicePage({ params }) {
                         <label className="block text-sm font-bold text-slate-700 mb-2">Title</label>
                         <input
                             type="text"
-                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
                             value={service.title}
                             onChange={(e) => setService({ ...service, title: e.target.value })}
                         />
@@ -149,7 +151,7 @@ export default function EditServicePage({ params }) {
                         <label className="block text-sm font-bold text-slate-700 mb-2">Base Price</label>
                         <input
                             type="number"
-                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
                             value={service.basePrice}
                             onChange={(e) => setService({ ...service, basePrice: parseFloat(e.target.value) })}
                         />
@@ -158,7 +160,7 @@ export default function EditServicePage({ params }) {
                         <label className="block text-sm font-bold text-slate-700 mb-2">Category</label>
                         <input
                             type="text"
-                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
                             value={service.category}
                             onChange={(e) => setService({ ...service, category: e.target.value })}
                         />
@@ -166,7 +168,7 @@ export default function EditServicePage({ params }) {
                     <div className="md:col-span-2">
                         <label className="block text-sm font-bold text-slate-700 mb-2">Description</label>
                         <textarea
-                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500 h-24 resize-none"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 h-24 resize-none"
                             value={service.description}
                             onChange={(e) => setService({ ...service, description: e.target.value })}
                         />
@@ -178,7 +180,7 @@ export default function EditServicePage({ params }) {
             <div id="subcategories" className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-slate-800">Subcategories</h2>
-                    <button onClick={addSubcategory} className="text-orange-500 font-bold text-sm flex items-center gap-1 hover:bg-orange-50 px-3 py-1.5 rounded-lg transition-colors">
+                    <button onClick={addSubcategory} className="text-blue-500 font-bold text-sm flex items-center gap-1 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">
                         <Plus size={16} /> Add New
                     </button>
                 </div>
@@ -201,7 +203,7 @@ export default function EditServicePage({ params }) {
                                     <label className="block text-xs font-bold text-slate-500 mb-1">Name</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
+                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                                         value={sub.name}
                                         onChange={(e) => updateSubcategory(index, 'name', e.target.value)}
                                     />
@@ -210,7 +212,7 @@ export default function EditServicePage({ params }) {
                                     <label className="block text-xs font-bold text-slate-500 mb-1">Price Label</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
+                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                                         value={sub.price}
                                         onChange={(e) => updateSubcategory(index, 'price', e.target.value)}
                                         placeholder="e.g. ₹25000/month"
@@ -220,7 +222,7 @@ export default function EditServicePage({ params }) {
                                     <label className="block text-xs font-bold text-slate-500 mb-1">Description</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
+                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                                         value={sub.description}
                                         onChange={(e) => updateSubcategory(index, 'description', e.target.value)}
                                     />
@@ -229,7 +231,7 @@ export default function EditServicePage({ params }) {
                                     <label className="block text-xs font-bold text-slate-500 mb-1">Image URL</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
+                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                                         value={sub.image}
                                         onChange={(e) => updateSubcategory(index, 'image', e.target.value)}
                                     />
@@ -238,7 +240,7 @@ export default function EditServicePage({ params }) {
                                     <label className="block text-xs font-bold text-slate-500 mb-1">Features (comma separated)</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"
+                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                                         value={sub.features?.join(', ')}
                                         onChange={(e) => updateSubcategory(index, 'features', e.target.value)}
                                     />
@@ -261,7 +263,7 @@ export default function EditServicePage({ params }) {
                             ...prev,
                             questions: [...(prev.questions || []), { stepTitle: "New Step", fields: [] }]
                         }))}
-                        className="text-orange-500 font-bold text-sm flex items-center gap-1 hover:bg-orange-50 px-3 py-1.5 rounded-lg transition-colors"
+                        className="text-blue-500 font-bold text-sm flex items-center gap-1 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
                     >
                         <Plus size={16} /> Add Step
                     </button>
@@ -275,7 +277,7 @@ export default function EditServicePage({ params }) {
                                 <span className="bg-slate-200 text-slate-600 font-bold px-3 py-1 rounded text-xs">Step {stepIndex + 1}</span>
                                 <input
                                     type="text"
-                                    className="flex-1 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-orange-500 focus:outline-none font-bold text-slate-800 text-lg px-2 py-1 transition-colors"
+                                    className="flex-1 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-blue-500 focus:outline-none font-bold text-slate-800 text-lg px-2 py-1 transition-colors"
                                     value={step.stepTitle}
                                     placeholder="Step Title (e.g. Details)"
                                     onChange={(e) => {
@@ -307,7 +309,7 @@ export default function EditServicePage({ params }) {
                                                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Label</label>
                                                     <input
                                                         type="text"
-                                                        className="w-full bg-slate-50 border border-slate-100 rounded px-2 py-1.5 text-sm focus:border-orange-500 focus:outline-none"
+                                                        className="w-full bg-slate-50 border border-slate-100 rounded px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
                                                         value={field.label}
                                                         onChange={(e) => {
                                                             const updated = [...service.questions];
@@ -320,7 +322,7 @@ export default function EditServicePage({ params }) {
                                                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">JSON Key</label>
                                                     <input
                                                         type="text"
-                                                        className="w-full bg-slate-50 border border-slate-100 rounded px-2 py-1.5 text-sm focus:border-orange-500 focus:outline-none font-mono"
+                                                        className="w-full bg-slate-50 border border-slate-100 rounded px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none font-mono"
                                                         value={field.name}
                                                         onChange={(e) => {
                                                             const updated = [...service.questions];
@@ -332,7 +334,7 @@ export default function EditServicePage({ params }) {
                                                 <div>
                                                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Type</label>
                                                     <select
-                                                        className="w-full bg-slate-50 border border-slate-100 rounded px-2 py-1.5 text-sm focus:border-orange-500 focus:outline-none"
+                                                        className="w-full bg-slate-50 border border-slate-100 rounded px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
                                                         value={field.type}
                                                         onChange={(e) => {
                                                             const updated = [...service.questions];
@@ -357,7 +359,7 @@ export default function EditServicePage({ params }) {
                                                                 updated[stepIndex].fields[fieldIndex].required = e.target.checked;
                                                                 setService({ ...service, questions: updated });
                                                             }}
-                                                            className="rounded text-orange-500 focus:ring-orange-500"
+                                                            className="rounded text-blue-500 focus:ring-blue-500"
                                                         />
                                                         <span className="text-xs font-bold text-slate-600">Required</span>
                                                     </label>
@@ -397,7 +399,7 @@ export default function EditServicePage({ params }) {
                                                             <input
                                                                 type="text"
                                                                 placeholder="Label"
-                                                                className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-orange-500 focus:outline-none"
+                                                                className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-blue-500 focus:outline-none"
                                                                 value={opt.label}
                                                                 onChange={(e) => {
                                                                     const updated = [...service.questions];
@@ -408,7 +410,7 @@ export default function EditServicePage({ params }) {
                                                             <input
                                                                 type="text"
                                                                 placeholder="Value"
-                                                                className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-orange-500 focus:outline-none font-mono"
+                                                                className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-blue-500 focus:outline-none font-mono"
                                                                 value={opt.value}
                                                                 onChange={(e) => {
                                                                     const updated = [...service.questions];
@@ -421,7 +423,7 @@ export default function EditServicePage({ params }) {
                                                                 <input
                                                                     type="number"
                                                                     placeholder="Price"
-                                                                    className="w-full bg-white border border-slate-200 rounded pl-5 pr-2 py-1 text-xs focus:border-orange-500 focus:outline-none"
+                                                                    className="w-full bg-white border border-slate-200 rounded pl-5 pr-2 py-1 text-xs focus:border-blue-500 focus:outline-none"
                                                                     value={opt.priceChange}
                                                                     onChange={(e) => {
                                                                         const updated = [...service.questions];
@@ -460,7 +462,7 @@ export default function EditServicePage({ params }) {
                                         });
                                         setService({ ...service, questions: updated });
                                     }}
-                                    className="w-full py-2 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 font-bold text-sm hover:border-orange-400 hover:text-orange-500 transition-all flex items-center justify-center gap-2"
+                                    className="w-full py-2 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 font-bold text-sm hover:border-blue-400 hover:text-blue-500 transition-all flex items-center justify-center gap-2"
                                 >
                                     <Plus size={16} /> Add Field
                                 </button>

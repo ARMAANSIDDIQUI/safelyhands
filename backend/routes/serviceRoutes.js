@@ -12,21 +12,17 @@ const {
 } = require('../controllers/serviceController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
-router.route('/')
-    .get(getServices)
-    .post(protect, admin, createService);
+// Public routes
+router.get('/', getServices);
+router.get('/slug/:slug', getServiceBySlug);
+router.get('/:id', getServiceById);
+router.get('/:id/subcategories', getSubCategories);
 
-router.route('/slug/:slug')
-    .get(getServiceBySlug);
-
-router.route('/:id')
-    .get(getServiceById)
-    .put(protect, admin, updateService)
-    .delete(protect, admin, deleteService);
-
-router.route('/:id/subcategories')
-    .get(getSubCategories)
-    .post(protect, admin, createSubCategory);
+// Protected routes
+router.post('/', protect, admin, createService);
+router.put('/:id', protect, admin, updateService);
+router.delete('/:id', protect, admin, deleteService);
+router.post('/:id/subcategories', protect, admin, createSubCategory);
 
 // We need a separate router for /api/subcategories if we want to access by subCategory ID nicely
 // But since this file is mounted at /api/services, we might need a new route file for /api/subcategories

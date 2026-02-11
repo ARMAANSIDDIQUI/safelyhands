@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Edit, Search, Trash2, Layers, ArrowUpRight } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { getToken } from '@/lib/auth';
+
 export default function AdminSubCategoriesPage() {
     const [subcategories, setSubcategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -48,7 +50,7 @@ export default function AdminSubCategoriesPage() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subcategories/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${getToken()}`
                 }
             });
 
@@ -73,7 +75,7 @@ export default function AdminSubCategoriesPage() {
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-800 flex items-center gap-3">
-                        <Layers className="text-orange-500" />
+                        <Layers className="text-blue-500" />
                         Subcategories Management
                     </h1>
                     <p className="text-slate-500">Manage all subcategories across services</p>
@@ -91,7 +93,7 @@ export default function AdminSubCategoriesPage() {
                         <input
                             type="text"
                             placeholder="Search subcategories or services..."
-                            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-orange-500 transition-colors"
+                            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -124,7 +126,7 @@ export default function AdminSubCategoriesPage() {
                                                     <img src={sub.image} alt="" className="object-cover w-full h-full" />
                                                 </div>
                                             ) : (
-                                                <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-400">
+                                                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-400">
                                                     <Layers size={20} />
                                                 </div>
                                             )}
@@ -150,7 +152,7 @@ export default function AdminSubCategoriesPage() {
                                         <div className="flex items-center justify-end gap-2">
                                             <Link
                                                 href={`/admin/services/${sub.service?._id}#subcategories`}
-                                                className="p-2 hover:bg-orange-50 text-slate-400 hover:text-orange-500 rounded-lg transition-colors"
+                                                className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-500 rounded-lg transition-colors"
                                             >
                                                 <Edit size={18} />
                                             </Link>

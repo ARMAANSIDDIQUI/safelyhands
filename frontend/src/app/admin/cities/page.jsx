@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, X, Check, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { getToken } from '@/lib/auth';
+
 export default function AdminCitiesPage() {
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -42,7 +44,7 @@ export default function AdminCitiesPage() {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${getToken()}`
                 },
                 body: JSON.stringify(formData)
             });
@@ -67,7 +69,7 @@ export default function AdminCitiesPage() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cities/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${getToken()}`
                 }
             });
 
@@ -107,7 +109,7 @@ export default function AdminCitiesPage() {
                 </div>
                 <button
                     onClick={() => openModal()}
-                    className="bg-orange-500 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-600 transition-colors"
+                    className="bg-blue-500 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-600 transition-colors"
                 >
                     <Plus size={20} />
                     Add New City
@@ -137,7 +139,7 @@ export default function AdminCitiesPage() {
                             ) : cities.map((city) => (
                                 <tr key={city._id} className="hover:bg-slate-50 transition-colors">
                                     <td className="px-6 py-4 font-bold text-slate-800 flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-500">
+                                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
                                             <MapPin size={16} />
                                         </div>
                                         {city.name}
@@ -150,7 +152,7 @@ export default function AdminCitiesPage() {
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <button onClick={() => openModal(city)} className="p-2 hover:bg-orange-50 text-slate-400 hover:text-orange-500 rounded-lg transition-colors">
+                                            <button onClick={() => openModal(city)} className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-500 rounded-lg transition-colors">
                                                 <Edit size={18} />
                                             </button>
                                             <button onClick={() => handleDelete(city._id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors">
@@ -183,7 +185,7 @@ export default function AdminCitiesPage() {
                                 <input
                                     type="text"
                                     required
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     placeholder="e.g. New Delhi"
@@ -193,7 +195,7 @@ export default function AdminCitiesPage() {
                                 <label className="block text-sm font-bold text-slate-700 mb-2">Slug</label>
                                 <input
                                     type="text"
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500 font-mono text-sm"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 font-mono text-sm"
                                     value={formData.slug}
                                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                                     placeholder="e.g. new-delhi (auto-generated if empty)"
@@ -201,7 +203,7 @@ export default function AdminCitiesPage() {
                             </div>
                             <div className="flex items-center gap-3 pt-2">
                                 <label className="flex items-center gap-2 cursor-pointer select-none">
-                                    <div className={`w-6 h-6 rounded border flex items-center justify-center transition-colors ${formData.isActive ? 'bg-orange-500 border-orange-500 text-white' : 'bg-white border-slate-300'}`}>
+                                    <div className={`w-6 h-6 rounded border flex items-center justify-center transition-colors ${formData.isActive ? 'bg-blue-500 border-blue-500 text-white' : 'bg-white border-slate-300'}`}>
                                         {formData.isActive && <Check size={14} strokeWidth={3} />}
                                     </div>
                                     <input
@@ -216,7 +218,7 @@ export default function AdminCitiesPage() {
                             <div className="pt-4">
                                 <button
                                     type="submit"
-                                    className="w-full bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors"
+                                    className="w-full bg-blue-500 text-white py-3 rounded-xl font-bold hover:bg-blue-600 transition-colors"
                                 >
                                     {currentCity ? 'Update City' : 'Create City'}
                                 </button>

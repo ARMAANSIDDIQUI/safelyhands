@@ -151,7 +151,7 @@ export default function EditServicePage() {
                                 </div>
                             </div>
                             <div className="pt-4">
-                                <button type="submit" className="bg-orange-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-orange-600 flex items-center gap-2">
+                                <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-600 flex items-center gap-2">
                                     <Save size={18} /> Save Changes
                                 </button>
                             </div>
@@ -164,7 +164,7 @@ export default function EditServicePage() {
                     <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-bold text-slate-800">Sub-Categories</h2>
-                            <Link href={`/dashboard/admin/services/${id}/subcategories/new`} className="text-orange-500 hover:bg-orange-50 p-2 rounded-lg">
+                            <Link href={`/dashboard/admin/services/${id}/subcategories/new`} className="text-blue-500 hover:bg-blue-50 p-2 rounded-lg">
                                 <Plus size={20} />
                             </Link>
                         </div>

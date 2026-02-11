@@ -190,7 +190,7 @@ export default function NewSubCategoryPage() {
                                         </button>
                                     </div>
                                 ))}
-                                <button type="button" onClick={addFeature} className="text-sm font-bold text-orange-500 hover:text-orange-600">
+                                <button type="button" onClick={addFeature} className="text-sm font-bold text-blue-500 hover:text-blue-600">
                                     + Add Feature
                                 </button>
                             </div>

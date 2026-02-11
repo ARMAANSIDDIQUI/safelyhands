@@ -52,7 +52,7 @@ export default function ServicesPage() {
         <div className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-slate-800">Services</h1>
-                <Link href="/dashboard/admin/services/new" className="bg-orange-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-orange-600">
+                <Link href="/dashboard/admin/services/new" className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600">
                     <Plus size={18} /> Add New
                 </Link>
             </div>
@@ -66,7 +66,7 @@ export default function ServicesPage() {
                             placeholder="Search services..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-orange-500"
+                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"
                         />
                     </div>
                 </div>

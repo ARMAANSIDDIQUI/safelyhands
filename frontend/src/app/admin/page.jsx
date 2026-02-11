@@ -77,8 +77,8 @@ export default function AdminOverview() {
                 <StatCard
                     title="Total Users"
                     value={stats.totalUsers}
-                    icon={<Activity className="text-orange-600" size={24} />}
-                    color="bg-orange-50"
+                    icon={<Activity className="text-blue-600" size={24} />}
+                    color="bg-blue-50"
                 />
             </div>
 

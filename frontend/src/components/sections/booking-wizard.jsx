@@ -389,17 +389,17 @@ export default function BookingWizard() {
                                         </div>
 
                                         {selectedService?.slug === 'babysitter' && (
-                                            <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl mb-6">
+                                            <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl mb-6">
                                                 <label className="block text-sm font-bold text-slate-700 mb-2">Baby's Date of Birth</label>
                                                 <div className="flex gap-4 items-center">
                                                     <input
                                                         type="date"
                                                         value={babyDOB}
                                                         onChange={(e) => setBabyDOB(e.target.value)}
-                                                        className="px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-orange-400"
+                                                        className="px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-blue-400"
                                                     />
                                                     {showJapaAlert && (
-                                                        <div className="text-sm text-orange-600 font-bold bg-orange-100 px-3 py-1 rounded-full animate-pulse">
+                                                        <div className="text-sm text-blue-600 font-bold bg-blue-100 px-3 py-1 rounded-full animate-pulse">
                                                             Results updated for newborn care (Japa)
                                                         </div>
                                                     )}

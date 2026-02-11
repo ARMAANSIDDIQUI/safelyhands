@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Edit, Plus, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { getToken } from '@/lib/auth';
+
 export default function AdminServicesPage() {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ export default function AdminServicesPage() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming token is here
+                    'Authorization': `Bearer ${getToken()}` // Assuming token is here
                 }
             });
 
@@ -62,7 +64,7 @@ export default function AdminServicesPage() {
                     <h1 className="text-3xl font-bold text-slate-800">Services Management</h1>
                     <p className="text-slate-500">Manage all services, subcategories, and dynamic forms</p>
                 </div>
-                <Link href="/admin/services/new" className="bg-orange-500 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-orange-600 transition-colors">
+                <Link href="/admin/services/new" className="bg-blue-500 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-600 transition-colors">
                     <Plus size={20} />
                     Add New Service
                 </Link>
@@ -76,7 +78,7 @@ export default function AdminServicesPage() {
                         <input
                             type="text"
                             placeholder="Search services..."
-                            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-orange-500 transition-colors"
+                            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 transition-colors"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -130,7 +132,7 @@ export default function AdminServicesPage() {
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <Link href={`/admin/services/${service._id}`} className="p-2 hover:bg-orange-50 text-slate-400 hover:text-orange-500 rounded-lg transition-colors">
+                                            <Link href={`/admin/services/${service._id}`} className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-500 rounded-lg transition-colors">
                                                 <Edit size={18} />
                                             </Link>
                                             <button onClick={() => handleDelete(service._id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors">

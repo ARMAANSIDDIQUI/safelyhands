@@ -128,7 +128,7 @@ const CustomerTestimonial = () => {
                           <Star
                             key={i}
                             size={16}
-                            className={`${i < item.rating ? 'text-orange-400' : 'text-slate-600'}`}
+                            className={`${i < item.rating ? 'text-blue-400' : 'text-slate-600'}`}
                             fill={i < item.rating ? "currentColor" : "none"}
                           />
                         ))}

@@ -91,7 +91,7 @@ export default function BookingDetailPage() {
                                     <div key={i} className="border border-slate-100 rounded-xl p-4 bg-slate-50">
                                         <div className="flex justify-between items-start mb-2">
                                             <h3 className="font-bold text-slate-900">{item.subCategory?.name || "Unknown Item"}</h3>
-                                            <span className="font-bold text-orange-500">₹{item.price}</span>
+                                            <span className="font-bold text-blue-500">₹{item.price}</span>
                                         </div>
                                         {/* Display Answers */}
                                         <div className="grid grid-cols-2 gap-2 text-sm text-slate-600">
@@ -114,7 +114,7 @@ export default function BookingDetailPage() {
                         <h2 className="text-lg font-bold text-slate-800 mb-4">Scheduling</h2>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
+                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
                                     <Calendar size={20} />
                                 </div>
                                 <div>
