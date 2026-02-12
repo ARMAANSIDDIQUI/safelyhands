@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
@@ -100,6 +100,7 @@ const STEPS = [
 export function TutorialProvider({ children }) {
     const [isActive, setIsActive] = useState(false);
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
+    const isAdvancingRef = useRef(false); // Prevent rapid multiple advances
     const router = useRouter();
     const pathname = usePathname();
     const auth = useAuth();
@@ -152,7 +153,7 @@ export function TutorialProvider({ children }) {
 
     // Auto-navigate logic
     useEffect(() => {
-        if (isActive) {
+        if (isActive && !isAdvancingRef.current) {
             const currentStepPath = STEPS[currentStepIndex].path;
 
             // Build current URL from pathname
@@ -168,6 +169,9 @@ export function TutorialProvider({ children }) {
                 const pathsAreDifferent = nextStepPath !== currentStepPath;
 
                 if (isOnNextStep && pathsAreDifferent) {
+                    // Set flag to prevent rapid multiple advances
+                    isAdvancingRef.current = true;
+
                     // Advance to next step
                     setCurrentStepIndex(currentStepIndex + 1);
 
@@ -175,6 +179,12 @@ export function TutorialProvider({ children }) {
                     if (pathname === nextStepBasePath && nextStepPath.includes('?') && currentUrl !== nextStepPath) {
                         router.push(nextStepPath);
                     }
+
+                    // Reset flag after a short delay
+                    setTimeout(() => {
+                        isAdvancingRef.current = false;
+                    }, 500);
+
                     return;
                 }
             }
