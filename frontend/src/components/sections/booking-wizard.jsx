@@ -272,11 +272,11 @@ export default function BookingWizard() {
     };
 
     return (
-        <div className="container mx-auto px-4 max-w-5xl py-8">
-            <div className="bg-white/10 backdrop-blur-xl rounded-[24px] shadow-2xl overflow-hidden min-h-[600px] flex flex-col border border-white/20">
+        <div className="w-full max-w-5xl mx-auto md:py-8">
+            <div className="bg-white/80 backdrop-blur-xl md:rounded-[24px] shadow-2xl overflow-hidden min-h-[600px] flex flex-col border-y md:border border-white/20">
 
                 {/* Header */}
-                <div className="p-6 border-b border-white/10">
+                <div className="p-4 md:p-6 border-b border-slate-100">
                     <div className="flex items-center gap-4 mb-4">
                         {step > 1 && (
                             <button onClick={handleBack} className="p-2 hover:bg-slate-50 rounded-full transition-colors">
@@ -296,7 +296,7 @@ export default function BookingWizard() {
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 p-6 md:p-10 relative">
+                <div className="flex-1 p-4 md:p-10 relative bg-white/50">
 
                     {/* SUCCESS SCREEN */}
                     {bookingSuccess ? (
