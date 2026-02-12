@@ -58,6 +58,18 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
@@ -266,7 +278,7 @@ const Header = () => {
       />
 
       <div
-        className={`fixed top-0 right-0 w-[280px] h-full bg-white shadow-2xl z-[1001] transition-transform duration-300 transform lg:hidden flex flex-col border-l border-slate-200 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 w-[280px] h-[100dvh] bg-white shadow-2xl z-[1001] transition-transform duration-300 transform lg:hidden flex flex-col border-l border-slate-200 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
         <div className="p-5 flex items-center justify-between border-b border-slate-100">

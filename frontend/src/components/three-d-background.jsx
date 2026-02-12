@@ -24,18 +24,18 @@ export default function ThreeDBackground() {
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
       {/* Gradient base */}
-      <div className="absolute inset-0 bg-gradient-to-br from-sky-100/70 via-blue-50/40 to-white" />
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-50/30 via-blue-50/20 to-white md:from-sky-100/70 md:via-blue-50/40" />
 
       {/* Large pulsating gradient blobs - optimized */}
-      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-300/50 rounded-full blur-[100px] animate-blob will-change-transform" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky-200/60 rounded-full blur-[80px] animate-blob animation-delay-2000 will-change-transform" />
+      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-300/20 md:bg-sky-300/50 rounded-full blur-[100px] animate-blob will-change-transform" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky-200/25 md:bg-sky-200/60 rounded-full blur-[80px] animate-blob animation-delay-2000 will-change-transform" />
 
       {/* Animated floating circles */}
       <div className="absolute inset-0">
         {circles.map((circle) => (
           <div
             key={circle.id}
-            className="absolute rounded-full bg-sky-400/50 blur-xl animate-float"
+            className="absolute rounded-full bg-sky-400/20 md:bg-sky-400/50 blur-xl animate-float"
             style={{
               width: circle.width,
               height: circle.height,
