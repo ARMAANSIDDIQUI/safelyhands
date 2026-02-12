@@ -52,10 +52,10 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
-        ? "bg-[#f0f9ff] py-4 shadow-md border-b border-blue-100"
+        ? "bg-[#f0f9ff] py-3 shadow-md border-b border-blue-100"
         : isScrolled
-          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-3 shadow-md border-b border-blue-100"
-          : "bg-transparent py-4"
+          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-2 shadow-md border-b border-blue-100"
+          : "bg-transparent py-3"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}
@@ -82,7 +82,7 @@ const Header = () => {
         {/* Logo */}
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative w-64 h-20 transition-transform group-hover:scale-105"> {/* Increased to w-64 h-20 */}
+          <div className="relative w-56 h-16 transition-transform group-hover:scale-105"> {/* Reduced from h-20 to h-16 */}
             <Image
               src="/headerlogo.png"
               alt="Safely Hands"
@@ -243,7 +243,7 @@ const Header = () => {
 
       {/* Tagline Ticker - Only on Home Page */}
       {pathname === "/" && (
-        <div className={`w-full overflow-hidden whitespace-nowrap py-2 bg-blue-600/5 border-t border-blue-200/30 transition-all duration-500 ${isScrolled ? 'opacity-0 h-0 py-0 overflow-hidden' : 'opacity-100 h-auto'}`}>
+        <div className={`w-full overflow-hidden whitespace-nowrap py-1 bg-blue-600/5 border-t border-blue-200/30 transition-all duration-500 ${isScrolled ? 'opacity-0 h-0 py-0 overflow-hidden' : 'opacity-100 h-auto'}`}>
           <div className="inline-block animate-ticker">
             <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em]">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
@@ -292,7 +292,7 @@ const Header = () => {
             {['Home', 'Services', 'About Us', 'Contact'].map((item) => (
               <Link
                 key={item}
-                href={`/${item.toLowerCase().replace(' ', '-') === 'home' ? '' : item.toLowerCase().replace(' ', '-')}`}
+                href={item === 'About Us' ? '/about' : `/${item.toLowerCase().replace(' ', '-') === 'home' ? '' : item.toLowerCase().replace(' ', '-')}`}
                 className="block px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
