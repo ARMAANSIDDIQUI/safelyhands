@@ -195,9 +195,11 @@ export default function TutorialOverlay() {
                         <div></div>
                     )}
 
-                    <Button size="sm" onClick={nextStep} className="flex items-center gap-1 bg-blue-600 text-white hover:bg-blue-700">
-                        {stepIndex === totalSteps - 1 ? 'Finish' : 'Next'} <ChevronRight size={14} />
-                    </Button>
+                    {!currentStep.disableNext && (
+                        <Button size="sm" onClick={nextStep} className="flex items-center gap-1 bg-blue-600 text-white hover:bg-blue-700">
+                            {stepIndex === totalSteps - 1 ? 'Finish' : 'Next'} <ChevronRight size={14} />
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>

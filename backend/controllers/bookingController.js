@@ -5,7 +5,8 @@ const Booking = require('../models/Booking');
 // @access  Private
 const createBooking = async (req, res) => {
     try {
-        const { serviceType, frequency, date, time, address, notes, totalAmount, paymentProofUrl, weeklyDays, genderPreference, shift, babyDOB } = req.body;
+        const { serviceType, date, time, address, notes, totalAmount, paymentProofUrl, weeklyDays, genderPreference, shift, babyDOB } = req.body;
+        const frequency = req.body.frequency || 'Daily'; // Default to 'Daily' if not provided
 
         let startDate = new Date(date);
         let endDate = new Date(date);

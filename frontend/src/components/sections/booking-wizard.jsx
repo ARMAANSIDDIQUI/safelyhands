@@ -80,13 +80,26 @@ export default function BookingWizard() {
         fetchData();
     }, [dispatch, servicesStatus]);
 
-    // Handle URL Service Pre-selection
+    // URL Step & Service Synchronization for Tour/Deep-linking
     useEffect(() => {
         const serviceSlug = searchParams.get('service');
+        const stepParam = searchParams.get('step');
+
         if (serviceSlug && services.length > 0) {
             const preSelected = services.find(s => s.slug === serviceSlug);
             if (preSelected) {
                 setSelectedService(preSelected);
+            }
+        }
+
+        if (stepParam) {
+            const targetStep = parseInt(stepParam);
+            if (targetStep >= 1 && targetStep <= 4) {
+                setStep(targetStep);
+
+                // Helper: if forcing a step, ensure minimum state exists to prevent crash
+                if (targetStep >= 2 && !selectedCity) setSelectedCity('moradabad'); // Default for tour
+                if (targetStep >= 3 && !selectedService && services.length > 0) setSelectedService(services[0]); // Default for tour
             }
         }
     }, [searchParams, services]);
@@ -229,7 +242,8 @@ export default function BookingWizard() {
             city: selectedCity,
             notes: formData.notes,
             totalAmount: calculatedTotal, // Include calculated total
-            frequency: 'One-time',
+            totalAmount: calculatedTotal, // Include calculated total
+            frequency: 'Daily',
         };
 
         try {
@@ -327,7 +341,7 @@ export default function BookingWizard() {
                                         <h2 className="text-3xl font-bold text-slate-900 mb-3">Where are you located?</h2>
                                         <p className="text-slate-500">Select your city to see available services</p>
                                     </div>
-                                    <div className="space-y-4 relative">
+                                    <div className="space-y-4 relative" id="booking-city-select">
                                         <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
                                         <select
                                             value={selectedCity}
@@ -415,7 +429,7 @@ export default function BookingWizard() {
                                             </div>
                                         )}
 
-                                        <div className="grid grid-cols-1 gap-4">
+                                        <div className="grid grid-cols-1 gap-4" id="booking-subcategory-list">
                                             {filteredSubCategories.map(sub => {
                                                 const isInCart = cart.some(item => item.subCategory._id === sub._id);
                                                 return (
@@ -449,7 +463,7 @@ export default function BookingWizard() {
                                     </div>
 
                                     {/* Right: Cart Summary */}
-                                    <div className="w-full md:w-80 flex-shrink-0">
+                                    <div className="w-full md:w-80 flex-shrink-0" id="booking-cart-summary">
                                         <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 sticky top-4">
                                             <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
                                                 <div className="w-2 h-2 rounded-full bg-sky-500" />
@@ -614,6 +628,6 @@ export default function BookingWizard() {
                 subCategory={currentSubCategory}
                 onConfirm={handleModalConfirm}
             />
-        </div>
+        </div >
     );
 }

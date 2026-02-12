@@ -21,40 +21,63 @@ const STEPS = [
         targetId: 'hero-book-btn',
         path: '/',
         title: 'Ready to Book?',
-        content: 'Click here or navigate to the booking page to start hiring your professional help.',
-        position: 'bottom'
+        content: 'Click "Book Now" to start the booking process!',
+        position: 'bottom',
+        disableNext: true // User must click the button to proceed
+    },
+    {
+        id: 'booking-city-step',
+        targetId: 'booking-city-select',
+        path: '/booking?step=1',
+        title: 'Select Your City',
+        content: 'Choose your city from the dropdown and click Next to continue.',
+        position: 'bottom',
+        disableNext: true
     },
     {
         id: 'booking-service-step',
         targetId: 'booking-service-type',
-        path: '/booking',
+        path: '/booking?step=2',
         title: 'Choose a Service',
-        content: 'Select the type of help you need. We offer cooks, babysitters, and more!',
-        position: 'bottom'
+        content: 'Select the type of help you need, then click Next.',
+        position: 'bottom',
+        disableNext: true
+    },
+    {
+        id: 'booking-subcategory-step',
+        targetId: 'booking-subcategory-list',
+        path: '/booking?step=3',
+        title: 'Customize Your Package',
+        content: 'Add services to your cart by clicking the + button, then click Next.',
+        position: 'bottom',
+        disableNext: true
     },
     {
         id: 'booking-address-step',
         targetId: 'booking-address',
-        path: '/booking',
-        title: 'Where do you need us?',
-        content: 'Provide your full address so our team can reach you easily.',
-        position: 'bottom'
+        path: '/booking?step=4',
+        title: 'Enter Your Address',
+        content: 'Provide your complete address where the service is needed.',
+        position: 'bottom',
+        disableNext: true
     },
     {
         id: 'booking-date-step',
         targetId: 'booking-date-time',
-        path: '/booking',
+        path: '/booking?step=4',
         title: 'Set Date & Time',
-        content: 'Choose your preferred date and time for the service to start.',
-        position: 'bottom'
+        content: 'Choose when you need the service to start.',
+        position: 'bottom',
+        disableNext: true
     },
     {
         id: 'booking-submit-step',
         targetId: 'booking-submit-btn',
-        path: '/booking',
-        title: 'Confirm Booking',
-        content: 'Finalize your request by clicking the submit button. We\'ll handle the rest!',
-        position: 'top'
+        path: '/booking?step=4',
+        title: 'Confirm Your Booking',
+        content: 'Review your details and click "Confirm Booking" to submit!',
+        position: 'top',
+        disableNext: true
     },
     {
         id: 'dashboard-step',
@@ -127,12 +150,42 @@ export function TutorialProvider({ children }) {
         }
     };
 
-    // Auto-navigate to correct path if tutorial is active but user navigated away
+    // Auto-navigate logic
     useEffect(() => {
         if (isActive) {
-            const targetPath = STEPS[currentStepIndex].path;
-            if (pathname !== targetPath) {
-                router.push(targetPath);
+            const currentStepPath = STEPS[currentStepIndex].path;
+
+            // Build current URL from pathname
+            const currentUrl = typeof window !== 'undefined' ? pathname + window.location.search : pathname;
+
+            // Check if user has navigated to the NEXT step's path
+            if (currentStepIndex < STEPS.length - 1) {
+                const nextStepPath = STEPS[currentStepIndex + 1].path;
+                const nextStepBasePath = nextStepPath.split('?')[0]; // e.g., '/booking' from '/booking?step=1'
+
+                // Check if user navigated to next step (exact match or base path match)
+                const isOnNextStep = currentUrl === nextStepPath || pathname === nextStepBasePath;
+                const pathsAreDifferent = nextStepPath !== currentStepPath;
+
+                if (isOnNextStep && pathsAreDifferent) {
+                    // Advance to next step
+                    setCurrentStepIndex(currentStepIndex + 1);
+
+                    // If they're on base path but next step needs query params, redirect
+                    if (pathname === nextStepBasePath && nextStepPath.includes('?') && currentUrl !== nextStepPath) {
+                        router.push(nextStepPath);
+                    }
+                    return;
+                }
+            }
+
+            // Enforce current path if we're off-track (but not if we just advanced)
+            if (currentUrl !== currentStepPath) {
+                const currentBasePath = currentStepPath.split('?')[0];
+                // Don't redirect if we're on the right base path (query params might be loading)
+                if (pathname !== currentBasePath) {
+                    router.push(currentStepPath);
+                }
             }
         }
     }, [isActive, currentStepIndex, pathname, router]);

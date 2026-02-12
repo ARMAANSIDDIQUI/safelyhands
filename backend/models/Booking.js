@@ -11,7 +11,7 @@ const bookingSchema = new mongoose.Schema({
     genderPreference: { type: String },
     serviceType: { type: String }, // Stores the main service name (e.g., "Babysitter", "Cook")
     babyDOB: { type: Date },
-    frequency: { type: String, enum: ['One-time', 'Daily', 'Weekly', 'Live-in', 'Day-shift', 'Part-time'], required: true },
+    frequency: { type: String, enum: ['One-time', 'Daily', 'Weekly', 'Live-in', 'Day-shift', 'Part-time'], default: 'Daily', required: true },
     weeklyDays: [{ type: Number, min: 0, max: 6 }], // 0=Sunday, 1=Monday, ... 6=Saturday
     date: { type: Date, required: true },
     address: { type: String, required: true },

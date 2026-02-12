@@ -16,7 +16,7 @@ const FeaturedServices = () => {
       loop: true,
       align: 'start',
       skipSnaps: false,
-      slidesToScroll: 4,
+      slidesToScroll: 1,
     },
     [Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })]
   );

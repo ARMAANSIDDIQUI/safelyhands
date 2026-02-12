@@ -19,7 +19,14 @@ import {
 } from "@/components/ui/select";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchMyBookings, selectAllBookings, selectBookingStatus } from "@/store/slices/bookingSlice";
-import { fetchBookingAttendance, selectAttendanceData, invalidateAttendance } from "@/store/slices/attendanceSlice";
+import {
+    fetchBookingAttendance,
+    selectAttendanceData,
+    invalidateAttendance,
+    fetchAttendanceOverview,
+    selectAttendanceOverview,
+    selectAttendanceOverviewStatus
+} from "@/store/slices/attendanceSlice";
 
 export default function AttendancePage() {
     // Redux
@@ -35,6 +42,16 @@ export default function AttendancePage() {
     const attendanceData = useAppSelector(selectAttendanceData(selectedBooking?._id));
     const validDates = attendanceData?.validDates?.map(d => new Date(d)) || [];
     const history = attendanceData?.markedDates || [];
+
+    // Overview Data
+    const overview = useAppSelector(selectAttendanceOverview);
+    const overviewStatus = useAppSelector(selectAttendanceOverviewStatus);
+
+    useEffect(() => {
+        if (overviewStatus === 'idle') {
+            dispatch(fetchAttendanceOverview());
+        }
+    }, [overviewStatus, dispatch]);
 
     useEffect(() => {
         if (bookingsStatus === 'idle') {
@@ -86,6 +103,7 @@ export default function AttendancePage() {
                 // Refresh data via Redux
                 dispatch(invalidateAttendance(selectedBooking._id));
                 dispatch(fetchBookingAttendance(selectedBooking._id));
+                dispatch(fetchAttendanceOverview()); // Refresh overview as well
             } else {
                 toast.error(data.message || "Failed to mark attendance");
             }
@@ -94,6 +112,39 @@ export default function AttendancePage() {
             toast.error("Failed to mark attendance");
         } finally {
             setMarking(false);
+        }
+    };
+
+    const handleQuickMark = async (bookingId, status) => {
+        try {
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    booking: bookingId,
+                    status,
+                    date: new Date() // Always today for quick mark
+                })
+            });
+
+            if (res.ok) {
+                toast.success(`Marked as ${status}`);
+                dispatch(fetchAttendanceOverview());
+                // If the quick-marked booking is currently selected, refresh its details too
+                if (selectedBooking && selectedBooking._id === bookingId) {
+                    dispatch(invalidateAttendance(bookingId));
+                    dispatch(fetchBookingAttendance(bookingId));
+                }
+            } else {
+                toast.error("Failed to mark attendance");
+            }
+        } catch (error) {
+            console.error("Error marking attendance:", error);
+            toast.error("Failed to mark attendance");
         }
     };
 
@@ -157,6 +208,48 @@ export default function AttendancePage() {
                     </SelectContent>
                 </Select>
             </div>
+
+            {/* Today's Overview Section */}
+            {
+                overviewStatus === 'succeeded' && overview.some(b => b.canMarkToday && !b.todayStatus) && (
+                    <div className="mb-8">
+                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <AlertCircle className="w-5 h-5 text-blue-600" />
+                            Pending Today
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {overview.filter(b => b.canMarkToday && !b.todayStatus).map(booking => (
+                                <Card key={booking._id} className="border-blue-100 bg-blue-50/50 hover:bg-blue-50 transition-colors">
+                                    <CardContent className="p-5">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div>
+                                                <h4 className="font-bold text-slate-900 text-lg">{booking.serviceType}</h4>
+                                                <p className="text-slate-600 font-medium">{booking.assignedWorker?.name || "Assigning..."}</p>
+                                            </div>
+                                            <Badge className="bg-white text-blue-700 border-blue-200 hover:bg-white">Today</Badge>
+                                        </div>
+                                        <div className="flex gap-3">
+                                            <Button
+                                                className="flex-1 bg-green-600 hover:bg-green-700 text-white shadow-sm"
+                                                onClick={() => handleQuickMark(booking._id, 'present')}
+                                            >
+                                                <Check className="mr-2 w-4 h-4" /> Present
+                                            </Button>
+                                            <Button
+                                                variant="destructive"
+                                                className="flex-1 shadow-sm"
+                                                onClick={() => handleQuickMark(booking._id, 'absent')}
+                                            >
+                                                <X className="mr-2 w-4 h-4" /> Absent
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                )
+            }
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Status Card */}
@@ -266,10 +359,12 @@ export default function AttendancePage() {
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="flex justify-between items-center pb-2 border-b">
-                            <span className="text-sm text-slate-500">Frequency</span>
-                            <span className="font-medium">{selectedBooking?.frequency}</span>
-                        </div>
+                        {selectedBooking?.frequency !== 'Daily' && (
+                            <div className="flex justify-between items-center pb-2 border-b">
+                                <span className="text-sm text-slate-500">Frequency</span>
+                                <span className="font-medium">{selectedBooking?.frequency}</span>
+                            </div>
+                        )}
                         {selectedBooking?.frequency === 'Weekly' && (
                             <div className="flex justify-between items-center pb-2 border-b">
                                 <span className="text-sm text-slate-500">Days</span>
@@ -287,7 +382,9 @@ export default function AttendancePage() {
                             </span>
                         </div>
                         <div className="flex justify-between items-center pb-2 border-b">
-                            <span className="text-sm text-slate-500">End Date</span>
+                            <span className="text-sm text-slate-500">
+                                {selectedBooking?.frequency === 'Daily' ? 'Renews On' : 'End Date'}
+                            </span>
                             <span className="font-medium">
                                 {selectedBooking?.endDate ? format(new Date(selectedBooking.endDate), 'MMM d, yyyy') : 'N/A'}
                             </span>
