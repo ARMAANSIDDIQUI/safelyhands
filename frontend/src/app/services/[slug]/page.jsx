@@ -162,9 +162,23 @@ export default function ServicePage() {
                                     {service.title}
                                 </h1>
 
-                                <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+                                <p className="text-xl text-slate-600 mb-4 leading-relaxed">
                                     {service.description}
                                 </p>
+
+                                {/* Price Range */}
+                                <div className="mb-8">
+                                    <span className="text-3xl font-bold text-blue-600">
+                                        {service.priceRange?.min ? (
+                                            `₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}`
+                                        ) : service.basePrice ? (
+                                            `₹${service.basePrice.toLocaleString()}`
+                                        ) : (
+                                            'Price on request'
+                                        )}
+                                    </span>
+                                    <span className="text-slate-500 ml-2">per month</span>
+                                </div>
 
                                 <div className="flex items-center gap-6 mb-8">
                                     <div className="flex items-center gap-2">
@@ -182,14 +196,25 @@ export default function ServicePage() {
                                 </button>
                             </div>
 
-                            {/* Image */}
+                            {/* Video or Image */}
                             <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
-                                <Image
-                                    src={service.imageUrl || "/placeholder.jpg"}
-                                    alt={service.title}
-                                    fill
-                                    className="object-cover"
-                                />
+                                {service.video ? (
+                                    <video
+                                        src={service.video}
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <Image
+                                        src={service.imageUrl || "/placeholder.jpg"}
+                                        alt={service.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Search, Trash2, Layers, ArrowUpRight } from 'lucide-react';
+import { Edit, Search, Trash2, Layers, ArrowUpRight, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { getToken } from '@/lib/auth';
@@ -80,9 +80,13 @@ export default function AdminSubCategoriesPage() {
                     </h1>
                     <p className="text-slate-500">Manage all subcategories across services</p>
                 </div>
-                {/* No 'Add New' here because it requires selecting a service first. 
-                    Better to redirect to Services page or have a modal to select service. 
-                    For now, keep it simple. */}
+                <Link
+                    href="/admin/subcategories/new"
+                    className="bg-blue-500 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-600 transition-colors"
+                >
+                    <Plus size={20} />
+                    Add New Subcategory
+                </Link>
             </div>
 
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -151,7 +155,7 @@ export default function AdminSubCategoriesPage() {
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
                                             <Link
-                                                href={`/admin/services/${sub.service?._id}#subcategories`}
+                                                href={`/admin/subcategories/${sub._id}`}
                                                 className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-500 rounded-lg transition-colors"
                                             >
                                                 <Edit size={18} />

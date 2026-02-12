@@ -94,10 +94,15 @@ const FeaturedServices = () => {
                     <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/20 transition-colors duration-300" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
 
-                    <div className="absolute bottom-4 left-4 text-white">
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
                       <h3 className="text-lg font-bold mb-1 leading-tight group-hover:text-blue-100 transition-colors">
                         {service.title}
                       </h3>
+                      <div className="flex items-center justify-between gap-2 text-xs mb-2">
+                        <span className="text-sm font-bold text-blue-100">
+                          {service.priceRange?.min ? `₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}` : service.basePrice ? `₹${service.basePrice.toLocaleString()}` : 'Price on request'}
+                        </span>
+                      </div>
                       <div className="flex items-center gap-2 text-xs">
                         <span className="flex items-center gap-1 bg-white/20 backdrop-blur-md px-2 py-0.5 rounded text-white font-semibold">
                           <Star size={12} fill="currentColor" className="text-yellow-400" /> {service.rating}

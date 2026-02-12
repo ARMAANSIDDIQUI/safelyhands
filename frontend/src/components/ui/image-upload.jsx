@@ -8,10 +8,22 @@ import { getToken } from "@/lib/auth";
 
 export default function ImageUpload({ value, onChange, disabled }) {
     const [isUploading, setIsUploading] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
 
-    const handleUpload = async (e) => {
-        const file = e.target.files?.[0];
+    const uploadFile = async (file) => {
         if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+            toast.error("Please upload an image or video file");
+            return;
+        }
+
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+            toast.error("File size must be less than 10MB");
+            return;
+        }
 
         setIsUploading(true);
         const formData = new FormData();
@@ -34,18 +46,50 @@ export default function ImageUpload({ value, onChange, disabled }) {
             }
 
             onChange(data.imageUrl);
-            toast.success("Image uploaded successfully");
+            toast.success(file.type.startsWith('video/') ? "Video uploaded successfully" : "Image uploaded successfully");
         } catch (error) {
             console.error("Upload error:", error);
-            toast.error("Failed to upload image");
+            toast.error("Failed to upload file");
         } finally {
             setIsUploading(false);
         }
     };
 
+    const handleUpload = async (e) => {
+        const file = e.target.files?.[0];
+        await uploadFile(file);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!disabled && !isUploading) {
+            setIsDragging(true);
+        }
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        if (disabled || isUploading) return;
+
+        const file = e.dataTransfer.files?.[0];
+        await uploadFile(file);
+    };
+
     const handleRemove = () => {
         onChange("");
     };
+
+    const isVideo = value && (value.includes('.mp4') || value.includes('.webm') || value.includes('.mov'));
 
     return (
         <div className="flex flex-col gap-4">
@@ -62,31 +106,49 @@ export default function ImageUpload({ value, onChange, disabled }) {
                             <X className="h-4 w-4" />
                         </Button>
                     </div>
-                    <img
-                        src={value}
-                        alt="Upload"
-                        className="w-full h-full object-cover"
-                    />
+                    {isVideo ? (
+                        <video
+                            src={value}
+                            controls
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <img
+                            src={value}
+                            alt="Upload"
+                            className="w-full h-full object-cover"
+                        />
+                    )}
                 </div>
             ) : (
                 <div className="flex items-center justify-center w-full">
-                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-300 border-dashed rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+                    <label
+                        className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-all ${isDragging
+                                ? 'border-blue-500 bg-blue-50'
+                                : 'border-slate-300 bg-slate-50 hover:bg-slate-100'
+                            }`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                    >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                             {isUploading ? (
                                 <Loader2 className="h-8 w-8 text-slate-400 animate-spin mb-2" />
                             ) : (
-                                <Upload className="h-8 w-8 text-slate-400 mb-2" />
+                                <Upload className={`h-8 w-8 mb-2 ${isDragging ? 'text-blue-500' : 'text-slate-400'}`} />
                             )}
                             <p className="mb-2 text-sm text-slate-500">
-                                <span className="font-semibold">Click to upload</span>
+                                <span className="font-semibold">
+                                    {isDragging ? 'Drop file here' : 'Click to upload or drag and drop'}
+                                </span>
                             </p>
                             <p className="text-xs text-slate-500">
-                                SVG, PNG, JPG or GIF (MAX. 5MB)
+                                Images or Videos (MAX. 10MB)
                             </p>
                         </div>
                         <input
                             type="file"
-                            accept="image/*"
+                            accept="image/*,video/*"
                             className="hidden"
                             onChange={handleUpload}
                             disabled={disabled || isUploading}

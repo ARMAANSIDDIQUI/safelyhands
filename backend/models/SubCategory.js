@@ -4,7 +4,6 @@ const subCategorySchema = new mongoose.Schema({
     service: { type: mongoose.Schema.Types.ObjectId, ref: 'Service', required: true },
     name: { type: String, required: true },
     image: { type: String }, // Cloudinary URL
-    video: { type: String }, // Cloudinary URL for video
     price: { type: Number, required: true }, // Base price for this subcategory
     description: { type: String },
     features: [{ type: String }],

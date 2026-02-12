@@ -47,8 +47,7 @@ const STEPS = [
         path: '/booking?step=3',
         title: 'Customize Your Package',
         content: 'Add services to your cart by clicking the + button, then click the \"Next\" button at the bottom.',
-        position: 'bottom',
-        disableNext: true
+        position: 'bottom'
     },
     {
         id: 'booking-address-step',
