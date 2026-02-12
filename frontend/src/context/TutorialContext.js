@@ -31,8 +31,7 @@ const STEPS = [
         path: '/booking?step=1',
         title: 'Select Your City',
         content: 'Choose your city from the dropdown, then click the "Next" button at the bottom to continue.',
-        position: 'bottom',
-        disableNext: true
+        position: 'bottom'
     },
     {
         id: 'booking-service-step',
@@ -40,15 +39,14 @@ const STEPS = [
         path: '/booking?step=2',
         title: 'Choose a Service',
         content: 'Click on a service card to select it, then click the "Next" button to proceed.',
-        position: 'bottom',
-        disableNext: true
+        position: 'bottom'
     },
     {
         id: 'booking-subcategory-step',
         targetId: 'booking-subcategory-list',
         path: '/booking?step=3',
         title: 'Customize Your Package',
-        content: 'Add services to your cart by clicking the + button, then click Next.',
+        content: 'Add services to your cart by clicking the + button, then click the \"Next\" button at the bottom.',
         position: 'bottom',
         disableNext: true
     },
