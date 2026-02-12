@@ -18,7 +18,7 @@ const STEPS = [
     },
     {
         id: 'booking-start-step',
-        targetId: 'book-now-btn',
+        targetId: 'hero-book-btn',
         path: '/',
         title: 'Ready to Book?',
         content: 'Click here or navigate to the booking page to start hiring your professional help.',

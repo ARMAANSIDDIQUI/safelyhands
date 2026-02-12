@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { Check, Flag, ArrowUpRight } from "lucide-react";
+import { Check, Flag, MessageSquareMore } from "lucide-react";
 
 const categories = [
   "Service-Complaints",
@@ -99,7 +99,7 @@ const ContactForm = () => {
 
   const tickGreenIcon = <Check size={18} className="text-[#128807]" />;
   const flagIcon = <Flag size={16} className="text-[#262626]" />;
-  const arrowIcon = <ArrowUpRight size={40} className="text-blue-400 opacity-60" />;
+  const contactIcon = <MessageSquareMore size={40} className="text-blue-400 opacity-60" />;
 
   return (
     <div className="w-full flex justify-center py-10 px-4">
@@ -108,7 +108,7 @@ const ContactForm = () => {
         {/* Header Section */}
         <div className="text-center mb-6">
           <div className="flex justify-center mb-2">
-            {arrowIcon}
+            {contactIcon}
           </div>
           <h2 className="text-[20px] font-bold text-[#262626] leading-tight font-display">
             Fill the form to contact us quicker!

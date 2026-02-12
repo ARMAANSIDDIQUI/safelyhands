@@ -11,7 +11,7 @@ const Footer = () => {
     { title: 'Babysitter', slug: 'babysitter' },
     { title: 'Elderly Care', slug: 'elderly-care' },
     { title: 'All-Rounder', slug: 'all-rounder' },
-    { title: '24 Hrs Live-in', slug: '24-hour-house-help' },
+    { title: '24 Hrs Live-in', slug: '24-hour-live-in' },
   ];
 
   return (

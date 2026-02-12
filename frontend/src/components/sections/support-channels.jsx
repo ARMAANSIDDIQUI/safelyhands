@@ -61,12 +61,7 @@ const SupportChannels = () => {
               ))}
             </div>
 
-            {/* Sub-links */}
-            <div className="flex flex-wrap gap-x-8 gap-y-2 mt-4">
-              <a href="#" className="text-[14px] text-[#666666] hover:text-[#262626] transition-colors">Terms & Conditions</a>
-              <a href="#" className="text-[14px] text-[#666666] hover:text-[#262626] transition-colors">Privacy Policy</a>
-              <a href="#" className="text-[14px] text-[#666666] hover:text-[#262626] transition-colors">Refund Policy</a>
-            </div>
+
           </div>
 
           {/* Illustrative Graphic Area (Empty placeholder to match layout) */}

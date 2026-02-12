@@ -21,6 +21,8 @@ const getValidAttendanceDates = (booking) => {
 
         case 'Daily':
         case 'Live-in':
+        case 'Day-shift':
+        case 'Part-time':
             // Every day from start to end
             let current = new Date(startDate);
             while (current <= endDate) {
@@ -78,7 +80,12 @@ const isServiceActive = (booking) => {
         return today <= bookingDate;
     }
 
-    return today <= endDate;
+    // If today is within service period, it's definitely active
+    if (today <= endDate) return true;
+
+    // If today is past end date, we still allow marking for valid days that were missed
+    // This is handled by isValidAttendanceDate check later
+    return true;
 };
 
 

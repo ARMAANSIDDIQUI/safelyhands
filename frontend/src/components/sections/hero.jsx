@@ -28,8 +28,8 @@ const HeroSection = () => {
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link
-                id="book-now-btn"
-                href="/services"
+                id="hero-book-btn"
+                href="/booking"
                 className="w-full sm:w-auto px-8 py-4 bg-gradient-primary text-white rounded-full font-bold text-lg hover:shadow-glow-blue hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-sky-200"
               >
                 Book Now <ArrowRight size={20} />

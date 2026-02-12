@@ -1,42 +1,82 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useTutorial } from '@/context/TutorialContext';
 import { Button } from '@/components/ui/button';
 import { X, ChevronRight, ChevronLeft } from 'lucide-react';
 
 export default function TutorialOverlay() {
+    const pathname = usePathname();
     const { isActive, currentStep, totalSteps, stepIndex, nextStep, prevStep, endTutorial } = useTutorial();
     const [targetRect, setTargetRect] = useState(null);
 
     useEffect(() => {
         if (isActive && currentStep) {
+            let retryCount = 0;
+            const maxRetries = 10;
+
             const updatePosition = () => {
                 const element = document.getElementById(currentStep.targetId);
                 if (element) {
                     const rect = element.getBoundingClientRect();
+
+                    // If element has no size, it might be hidden/animating
+                    if (rect.width === 0 && retryCount < maxRetries) {
+                        retryCount++;
+                        setTimeout(updatePosition, 100);
+                        return;
+                    }
+
                     setTargetRect({
                         top: rect.top,
                         left: rect.left,
                         width: rect.width,
                         height: rect.height,
                     });
-                    // Scroll element into view
-                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    // If element not found, retry after a short delay (for page transitions)
-                    setTimeout(updatePosition, 500);
+
+                    // Scroll element into view if it's not well-visible
+                    const isVisible = (
+                        rect.top >= 0 &&
+                        rect.bottom <= window.innerHeight
+                    );
+
+                    if (!isVisible) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Re-check position after scroll animation (approx)
+                        setTimeout(() => {
+                            const newRect = element.getBoundingClientRect();
+                            setTargetRect({
+                                top: newRect.top,
+                                left: newRect.left,
+                                width: newRect.width,
+                                height: newRect.height,
+                            });
+                        }, 500);
+                    }
+                } else if (retryCount < maxRetries) {
+                    retryCount++;
+                    setTimeout(updatePosition, 200);
                 }
             };
 
             // Initial update
             updatePosition();
 
+            // Additional update after a short delay to catch final layout
+            const timer = setTimeout(updatePosition, 1000);
+
             // Update on resize
             window.addEventListener('resize', updatePosition);
-            return () => window.removeEventListener('resize', updatePosition);
+            window.addEventListener('scroll', updatePosition, { passive: true });
+
+            return () => {
+                window.removeEventListener('resize', updatePosition);
+                window.removeEventListener('scroll', updatePosition);
+                clearTimeout(timer);
+            };
         }
-    }, [isActive, currentStep, stepIndex]); // Re-run when step changes
+    }, [isActive, currentStep, stepIndex, pathname]); // Re-run when step or path changes
 
     if (!isActive || !currentStep || !targetRect) return null;
 

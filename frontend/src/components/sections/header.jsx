@@ -14,7 +14,7 @@ const SERVICE_ICONS = {
   'domestic-help': Home,
   'elderly-care': HeartPulse,
   'all-rounder': Clock,
-  '24-hour-house-help': Clock,
+  '24-hour-live-in': Clock,
 };
 
 const Header = () => {
@@ -214,8 +214,8 @@ const Header = () => {
                 Log in
               </Link>
               <Link
-                href="/quick-book"
-                id="book-now-btn"
+                href="/booking"
+                id="header-book-btn"
                 className="bg-slate-900 text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Book Now
@@ -364,7 +364,7 @@ const Header = () => {
                 Log in
               </Link>
               <Link
-                href="/quick-book"
+                href="/booking"
                 className="flex items-center justify-center w-full bg-slate-900 text-white py-3 rounded-xl font-semibold shadow-lg"
                 onClick={() => setIsMenuOpen(false)}
               >

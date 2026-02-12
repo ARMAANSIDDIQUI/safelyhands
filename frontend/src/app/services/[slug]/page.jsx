@@ -10,6 +10,81 @@ import Footer from '@/components/sections/footer';
 import ChatWidget from '@/components/sections/chat-widget';
 
 // Real service data from broomees.com
+const FALLBACK_FEATURES = {
+    'domestic-help': [
+        "Deep floor cleaning & mopping",
+        "Thorough dusting & cobweb removal",
+        "Kitchen cleaning & sanitization",
+        "Bathroom deep cleaning",
+        "Window & balcony cleaning",
+        "Cabinet & drawer cleaning"
+    ],
+    'cooks': [
+        "Authentic home-style cooking",
+        "Expert in multiple cuisines",
+        "Vegetarian & Non-vegetarian options",
+        "Kitchen hygiene maintenance",
+        "Grocery management assistance",
+        "Customized meal planning"
+    ],
+    'babysitter': [
+        "Infant & child care specialized",
+        "Diapering & feeding assistance",
+        "Safe & engaging play activities",
+        "Nap schedule management",
+        "Basic baby food preparation",
+        "Safety first supervision"
+    ],
+    'all-rounder': [
+        "Brooming & mopping support",
+        "Dishwashing & kitchen help",
+        "Basic home-style cooking",
+        "Laundry & folding clothes",
+        "General home organization",
+        "Multi-tasking household help"
+    ],
+    'elderly-care': [
+        "Medication management & reminders",
+        "Mobility & walking assistance",
+        "Vital signs monitoring support",
+        "Companionship & emotional care",
+        "Personal hygiene assistance",
+        "Nutritious meal preparation"
+    ],
+    '24-hour-live-in': [
+        "Round-the-clock live-in support",
+        "All household chores included",
+        "Continuous availability & safety",
+        "Flexible work arrangements",
+        "Experienced live-in staff",
+        "Complete peace of mind"
+    ],
+    'patient-care': [
+        "Post-operative recovery support",
+        "Proper wound care assistance",
+        "Feeding & medication help",
+        "Dedicated nursing assistance",
+        "Hygiene & grooming care",
+        "Continuous patient monitoring"
+    ],
+    'peon': [
+        "Office cleaning & maintenance",
+        "Pantry & beverage management",
+        "Document filing & management",
+        "Errands & courier help",
+        "Professional guest reception",
+        "General office support"
+    ],
+    'japa': [
+        "Expert newborn baby massage",
+        "Post-delivery mother massage",
+        "Newborn bathing & hygiene",
+        "Lactation support & guidance",
+        "Healthy postpartum diet prep",
+        "Dedicated mother & baby care"
+    ]
+};
+
 export default function ServicePage() {
     const params = useParams();
     const router = useRouter();
@@ -60,13 +135,18 @@ export default function ServicePage() {
         return null;
     }
 
+    // Determine which features to show
+    const displayFeatures = (service.features && service.features.length > 0)
+        ? service.features
+        : (FALLBACK_FEATURES[service.slug] || ["Professional & verified staff", "Quality service guarantee", "Punctual & reliable", "Safety-first approach", "Customized as per your needs"]);
+
     return (
-        <main className="min-h-screen">
+        <main className="min-h-screen bg-transparent">
             <Header />
-            <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+            <div className="min-h-screen bg-transparent">
                 {/* Hero Section */}
                 <section className="relative pt-32 pb-20 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-cyan-600/10 -z-10" />
+                    {/* Background gradient removed to match Home bg */}
 
                     <div className="container mx-auto px-6">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -116,22 +196,22 @@ export default function ServicePage() {
                 </section>
 
                 {/* Features Section */}
-                <section className="py-20 bg-white/40 backdrop-blur-sm">
+                <section className="py-20 bg-white/10 backdrop-blur-[2px]">
                     <div className="container mx-auto px-6">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">
-                            What's Included
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center font-display">
+                            What&apos;s Included
                         </h2>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                            {service.features.map((feature, index) => (
+                            {displayFeatures.map((feature, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-start gap-3 p-4 rounded-xl hover:bg-slate-50 transition-colors"
+                                    className="flex items-start gap-3 p-4 rounded-xl hover:bg-white/20 transition-all border border-transparent hover:border-white/30 backdrop-blur-[1px]"
                                 >
-                                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <div className="w-6 h-6 rounded-full bg-blue-100/50 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
                                         <Check className="w-4 h-4 text-blue-600" />
                                     </div>
-                                    <span className="text-slate-700">{feature}</span>
+                                    <span className="text-slate-700 font-medium">{feature}</span>
                                 </div>
                             ))}
                         </div>

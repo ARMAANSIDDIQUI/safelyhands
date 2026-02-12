@@ -275,6 +275,20 @@ const updateBooking = async (req, res) => {
         }
 
         booking.date = req.body.date || booking.date;
+
+        // Recalculate start and end dates if frequency or date changed
+        if (req.body.date || req.body.frequency) {
+            const newStartDate = new Date(booking.date);
+            const newEndDate = new Date(booking.date);
+
+            if (booking.frequency !== 'One-time') {
+                newEndDate.setDate(newEndDate.getDate() + 30);
+            }
+
+            booking.startDate = newStartDate;
+            booking.endDate = newEndDate;
+        }
+
         booking.address = req.body.address || booking.address;
         booking.notes = req.body.notes || booking.notes;
         booking.genderPreference = req.body.genderPreference || booking.genderPreference;

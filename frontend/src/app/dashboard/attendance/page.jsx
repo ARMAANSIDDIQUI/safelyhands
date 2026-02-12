@@ -83,7 +83,6 @@ export default function AttendancePage() {
 
             if (res.ok) {
                 toast.success(`Marked as ${status}`);
-                toast.success(`Marked as ${status}`);
                 // Refresh data via Redux
                 dispatch(invalidateAttendance(selectedBooking._id));
                 dispatch(fetchBookingAttendance(selectedBooking._id));
@@ -116,7 +115,7 @@ export default function AttendancePage() {
         return record ? record.status : null;
     };
 
-    if (loading) {
+    if (bookingsStatus === 'loading') {
         return <AttendanceSkeleton />;
     }
 
@@ -284,13 +283,13 @@ export default function AttendancePage() {
                         <div className="flex justify-between items-center pb-2 border-b">
                             <span className="text-sm text-slate-500">Start Date</span>
                             <span className="font-medium">
-                                {selectedBooking?.startDate && format(new Date(selectedBooking.startDate), 'MMM d, yyyy')}
+                                {selectedBooking?.startDate ? format(new Date(selectedBooking.startDate), 'MMM d, yyyy') : 'N/A'}
                             </span>
                         </div>
                         <div className="flex justify-between items-center pb-2 border-b">
                             <span className="text-sm text-slate-500">End Date</span>
                             <span className="font-medium">
-                                {selectedBooking?.endDate && format(new Date(selectedBooking.endDate), 'MMM d, yyyy')}
+                                {selectedBooking?.endDate ? format(new Date(selectedBooking.endDate), 'MMM d, yyyy') : 'N/A'}
                             </span>
                         </div>
 

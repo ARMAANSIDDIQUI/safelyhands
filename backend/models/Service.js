@@ -9,7 +9,7 @@ const serviceSchema = new mongoose.Schema({
     icon: { type: String }, // For Revolver Hero (Lucide icon name or URL)
     gradientFrom: { type: String, default: 'blue-100' }, // For Revolver Hero
     gradientTo: { type: String, default: 'blue-200' },   // For Revolver Hero
-    features: [{ type: String }],
+    features: [{ type: String, default: [] }],
     basePrice: { type: Number },
     priceRange: {
         min: { type: Number },
