@@ -30,16 +30,16 @@ const STEPS = [
         targetId: 'booking-city-select',
         path: '/booking?step=1',
         title: 'Select Your City',
-        content: 'Choose your city from the dropdown and click Next to continue.',
+        content: 'Choose your city from the dropdown, then click the "Next" button at the bottom to continue.',
         position: 'bottom',
         disableNext: true
     },
     {
         id: 'booking-service-step',
-        targetId: 'booking-service-type',
+        targetId: 'booking-service-heading',
         path: '/booking?step=2',
         title: 'Choose a Service',
-        content: 'Select the type of help you need, then click Next.',
+        content: 'Click on a service card to select it, then click the "Next" button to proceed.',
         position: 'bottom',
         disableNext: true
     },

@@ -368,7 +368,7 @@ export default function BookingWizard() {
                             {/* STEP 2: SERVICE */}
                             {step === 2 && (
                                 <div className="animate-in fade-in slide-in-from-right-8 duration-500">
-                                    <h2 className="text-xl font-bold text-slate-800 mb-6">Choose a Service</h2>
+                                    <h2 className="text-xl font-bold text-slate-800 mb-6" id="booking-service-heading">Choose a Service</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="booking-service-type">
                                         {services.map(service => (
                                             <div
