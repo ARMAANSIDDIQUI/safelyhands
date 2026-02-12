@@ -23,19 +23,19 @@ export default function ThreeDBackground() {
 
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-      {/* Very light blue gradient base - for a clean, premium feel */}
-      <div className="absolute inset-0 bg-gradient-to-br from-sky-50/50 via-white to-white" />
+      {/* Gradient base */}
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-100/70 via-blue-50/40 to-white" />
 
-      {/* Large gradient blobs like hero section */}
-      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-200/30 rounded-full blur-[100px] animate-blob" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[80px] animate-blob animation-delay-2000" />
+      {/* Large pulsating gradient blobs - optimized */}
+      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-sky-300/50 rounded-full blur-[100px] animate-blob will-change-transform" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-sky-200/60 rounded-full blur-[80px] animate-blob animation-delay-2000 will-change-transform" />
 
       {/* Animated floating circles */}
       <div className="absolute inset-0">
         {circles.map((circle) => (
           <div
             key={circle.id}
-            className="absolute rounded-full bg-blue-400/30 blur-xl animate-float"
+            className="absolute rounded-full bg-sky-400/50 blur-xl animate-float"
             style={{
               width: circle.width,
               height: circle.height,
@@ -49,38 +49,30 @@ export default function ThreeDBackground() {
       </div>
 
       <style jsx>{`
-        @keyframes float {
+        @keyframes pulsate {
           0%, 100% {
-            transform: translate(0, 0) scale(1);
-            opacity: 0.3;
-          }
-          25% {
-            transform: translate(30px, -50px) scale(1.1);
+            transform: scale(1);
             opacity: 0.5;
           }
           50% {
-            transform: translate(-20px, -100px) scale(0.9);
-            opacity: 0.4;
-          }
-          75% {
-            transform: translate(40px, -70px) scale(1.05);
-            opacity: 0.6;
+            transform: scale(1.4);
+            opacity: 0.8;
           }
         }
 
         .animate-float {
-          animation: float linear infinite;
+          animation: pulsate ease-in-out infinite;
         }
 
         @keyframes blob {
           0%, 100% {
-            transform: translate(0, 0) scale(1);
+            transform: translate3d(0, 0, 0) scale(1);
           }
           33% {
-            transform: translate(30px, -50px) scale(1.1);
+            transform: translate3d(30px, -50px, 0) scale(1.1);
           }
           66% {
-            transform: translate(-20px, 20px) scale(0.9);
+            transform: translate3d(-20px, 20px, 0) scale(0.9);
           }
         }
 

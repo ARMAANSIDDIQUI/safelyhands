@@ -76,7 +76,7 @@ const Header = () => {
           {equalizerBars.map((bar, i) => (
             <div
               key={i}
-              className="w-1 md:w-2 bg-blue-500 rounded-b-full mx-[2px] animate-equalizer"
+              className="w-1 md:w-2 bg-sky-400 rounded-b-full mx-[2px] animate-equalizer"
               style={{
                 animationDuration: `${bar.animationDuration}s`,
                 animationDelay: `${bar.animationDelay}s`,
