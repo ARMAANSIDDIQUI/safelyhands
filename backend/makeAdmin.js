@@ -7,11 +7,11 @@ const ADMIN_EMAIL = 'armaansiddiqui.pms@gmail.com';
 
 async function makeAdmin() {
     try {
-        console.log('🔌 Connecting to MongoDB...');
+        console.log('Connecting to MongoDB...');
         await mongoose.connect(MONGODB_URI);
         console.log('✅ Connected to database\n');
 
-        console.log(`🔍 Looking for user: ${ADMIN_EMAIL}`);
+        console.log(`Looking for user: ${ADMIN_EMAIL}`);
         const user = await User.findOne({ email: ADMIN_EMAIL });
 
         if (!user) {
@@ -39,19 +39,19 @@ async function makeAdmin() {
         console.log(`  Name: ${user.name}`);
         console.log(`  Email: ${user.email}`);
         console.log(`  Role: ${user.role}`);
-        console.log(`\n🎉 ${user.name} is now an administrator!`);
+        console.log(`\n${user.name} is now an administrator!`);
 
     } catch (error) {
         console.error('❌ Error:', error.message);
         process.exit(1);
     } finally {
         await mongoose.connection.close();
-        console.log('\n🔌 Database connection closed');
+        console.log('\nDatabase connection closed');
         process.exit(0);
     }
 }
 
-console.log('👑 Make User Admin Script\n');
+console.log('Make User Admin Script\n');
 console.log(`Target Email: ${ADMIN_EMAIL}\n`);
 
 makeAdmin();

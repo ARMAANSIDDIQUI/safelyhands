@@ -9,13 +9,13 @@ const MONGODB_URI = process.env.MONGODB_URI;
 async function updateServicesSurgically() {
     try {
         await mongoose.connect(MONGODB_URI);
-        console.log('✅ Connected to MongoDB');
+        console.log('Connected to MongoDB');
 
         const servicesData = JSON.parse(
             fs.readFileSync(path.join(__dirname, 'data', 'services.json'), 'utf8')
         );
 
-        console.log(`ℹ️  Found ${servicesData.length} services in services.json. Updating...`);
+        console.log(`Found ${servicesData.length} services in services.json. Updating...`);
 
         for (const service of servicesData) {
             const updated = await Service.findOneAndUpdate(
@@ -41,10 +41,10 @@ async function updateServicesSurgically() {
             console.log(`   - Updated/Upserted: ${updated.title} (${updated.slug})`);
         }
 
-        console.log('\n🎉 Surgical service update completed successfully!');
+        console.log('\nSurgical service update completed successfully!');
         process.exit(0);
     } catch (error) {
-        console.error('❌ Error updating services:', error);
+        console.error('Error updating services:', error);
         process.exit(1);
     }
 }

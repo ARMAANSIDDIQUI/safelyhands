@@ -121,7 +121,7 @@ async function seedServices() {
             Investor.deleteMany({}),
             CarouselItem.deleteMany({})
         ]);
-        console.log('🗑️  Cleared existing data');
+        console.log('Cleared existing data');
 
         // Insert new data
         const [servicesResult, teamResult, investorsResult, carouselResult] = await Promise.all([
@@ -131,12 +131,12 @@ async function seedServices() {
             CarouselItem.insertMany(carouselData)
         ]);
 
-        console.log(`✅ Seeded ${servicesResult.length} services from broomees.com`);
-        console.log(`✅ Seeded ${teamResult.length} team members`);
-        console.log(`✅ Seeded ${investorsResult.length} investors`);
-        console.log(`✅ Seeded ${carouselResult.length} carousel items`);
+        console.log(`Seeded ${servicesResult.length} services from broomees.com`);
+        console.log(`Seeded ${teamResult.length} team members`);
+        console.log(`Seeded ${investorsResult.length} investors`);
+        console.log(`Seeded ${carouselResult.length} carousel items`);
 
-        console.log('\n🎉 Seeding completed successfully!');
+        console.log('\nSeeding completed successfully!');
         console.log('\nServices seeded:');
         servicesResult.forEach(s => console.log(`  - ${s.title} (${s.slug})`));
 

@@ -42,6 +42,13 @@ export default function DashboardLayout({ children }) {
         { name: "Profile", href: "/dashboard/profile", icon: User },
     ];
 
+    if (user?.role === 'admin') {
+        navItems.push(
+            { name: "Manage Team", href: "/dashboard/admin/team", icon: User },
+            { name: "Team Categories", href: "/dashboard/admin/team/categories", icon: Settings }
+        );
+    }
+
     return (
         <div className="flex min-h-screen bg-gray-50">
             {/* Mobile Menu Overlay */}

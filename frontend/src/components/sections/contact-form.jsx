@@ -31,7 +31,7 @@ const subjects = {
     "Refund Queries",
   ],
   Others: [
-    "Anything else theat we need to know",
+    "Anything else that we need to know",
   ],
 };
 
@@ -41,8 +41,10 @@ const ContactForm = () => {
     fullName: "",
     phone: "",
     email: "",
+    city: "",
     category: "",
     subject: "",
+    message: "",
   });
 
   const handleInputChange = (e) => {
@@ -81,7 +83,7 @@ const ContactForm = () => {
       const data = await res.json();
       if (res.ok) {
         toast.success("Request submitted successfully!");
-        setFormData({ fullName: "", phone: "", email: "", category: "", subject: "" });
+        setFormData({ fullName: "", phone: "", email: "", city: "", category: "", subject: "", message: "" });
         setStep(1);
       } else {
         toast.error(data.message || "Something went wrong");
@@ -101,7 +103,7 @@ const ContactForm = () => {
 
   return (
     <div className="w-full flex justify-center py-10 px-4">
-      <div className="w-full max-w-[550px] bg-white rounded-[20px] shadow-[0px_4px_30px_rgba(0,0,0,0.08)] p-6 md:p-8 transition-all duration-300">
+      <div className="w-full max-w-[550px] bg-white/80 backdrop-blur-md rounded-[20px] shadow-[0px_4px_30px_rgba(0,0,0,0.08)] p-6 md:p-8 transition-all duration-300">
 
         {/* Header Section */}
         <div className="text-center mb-6">
@@ -156,25 +158,43 @@ const ContactForm = () => {
               </div>
             </div>
 
-            {/* Email Bar */}
-            <div className="p-3 border-t border-[#eeeeee] flex items-center justify-between">
-              <div className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-t border-[#eeeeee]">
+              {/* Email */}
+              <div className="p-3 border-b md:border-b-0 md:border-r border-[#eeeeee]">
                 <label className="text-[12px] text-[#666666] font-medium block ml-1 mb-1">Email ID</label>
                 <input
                   id="email"
                   type="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="example@mail.com"
+                  placeholder="name@example.com"
                   disabled={step > 1}
                   className="w-full bg-transparent border-none focus:ring-0 text-[#262626] text-[15px] p-1 h-8 disabled:opacity-70"
                 />
               </div>
+
+              {/* City */}
+              <div className="p-3">
+                <label className="text-[12px] text-[#666666] font-medium block ml-1 mb-1">City</label>
+                <input
+                  id="city"
+                  type="text"
+                  value={formData.city}
+                  onChange={handleInputChange}
+                  placeholder="Your City"
+                  disabled={step > 1}
+                  className="w-full bg-transparent border-none focus:ring-0 text-[#262626] text-[15px] p-1 h-8 disabled:opacity-70"
+                />
+              </div>
+            </div>
+
+            {/* Continue Bar */}
+            <div className="p-3 border-t border-[#eeeeee] flex items-center justify-end">
               {step === 1 && (
                 <button
                   onClick={nextStep}
-                  disabled={!formData.fullName || !formData.phone || !formData.email}
-                  className="bg-[#262626] text-white text-[14px] font-semibold px-6 py-2 rounded-lg ml-4 hover:bg-black transition-colors disabled:opacity-50"
+                  disabled={!formData.fullName || !formData.phone || !formData.email || !formData.city}
+                  className="bg-[#262626] text-white text-[14px] font-semibold px-6 py-2 rounded-lg hover:bg-black transition-colors disabled:opacity-50"
                 >
                   continue
                 </button>
@@ -231,26 +251,38 @@ const ContactForm = () => {
 
           {/* Step 3: Choose Subject */}
           {step === 3 && (
-            <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-              <h3 className="text-[16px] font-semibold text-[#262626] mb-4">Choose a subject to continue</h3>
-              <div className="flex flex-col md:flex-row gap-4 items-end">
-                <div className="grid grid-cols-2 gap-3 flex-1">
-                  {(subjects[formData.category] || []).map((sub) => (
-                    <div
-                      key={sub}
-                      onClick={() => handleSelection("subject", sub)}
-                      className={`cursor-pointer border rounded-xl p-3 min-h-[60px] flex items-center justify-between transition-all duration-200 ${formData.subject === sub ? "border-[#128807] bg-[#f0f9f0]" : "border-[#eeeeee] hover:border-[#72bcd4]"
-                        }`}
-                    >
-                      <span className="text-[13px] font-medium text-[#262626] leading-tight">{sub}</span>
-                      {formData.subject === sub && tickGreenIcon}
-                    </div>
-                  ))}
-                </div>
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-4">
+              <h3 className="text-[16px] font-semibold text-[#262626] mb-2">Choose a subject & add a message</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {(subjects[formData.category] || []).map((sub) => (
+                  <div
+                    key={sub}
+                    onClick={() => handleSelection("subject", sub)}
+                    className={`cursor-pointer border rounded-xl p-3 min-h-[60px] flex items-center justify-between transition-all duration-200 ${formData.subject === sub ? "border-[#128807] bg-[#f0f9f0]" : "border-[#eeeeee] hover:border-[#72bcd4]"
+                      }`}
+                  >
+                    <span className="text-[13px] font-medium text-[#262626] leading-tight">{sub}</span>
+                    {formData.subject === sub && tickGreenIcon}
+                  </div>
+                ))}
+              </div>
+
+              <div className="w-full">
+                <label className="text-[12px] text-[#666666] font-medium block ml-1 mb-1">Message (Optional)</label>
+                <textarea
+                  id="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="Tell us more about your query..."
+                  className="w-full bg-[#fcfcfc] border border-[#eeeeee] focus:border-[#72bcd4] focus:ring-0 rounded-xl px-4 py-3 text-[#262626] text-[14px] min-h-[100px] resize-none"
+                />
+              </div>
+
+              <div className="flex justify-end">
                 <button
                   type="submit"
                   disabled={!formData.subject}
-                  className="bg-[#262626] text-white text-[14px] font-semibold px-8 py-3 rounded-lg hover:bg-black transition-colors disabled:opacity-50 h-[50px] mb-1 whitespace-nowrap"
+                  className="bg-[#262626] text-white text-[14px] font-semibold px-8 py-3 rounded-xl hover:bg-black transition-all duration-300 disabled:opacity-50 shadow-lg shadow-slate-200"
                 >
                   Submit Request
                 </button>

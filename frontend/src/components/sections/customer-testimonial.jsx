@@ -55,7 +55,7 @@ const CustomerTestimonial = () => {
   if (testimonials.length === 0) return null;
 
   return (
-    <section className="bg-slate-900 py-24 text-white relative overflow-hidden">
+    <section className="bg-transparent py-24 text-slate-900 relative overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-sky-600 rounded-full blur-[100px] opacity-20 transform translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600 rounded-full blur-[100px] opacity-20 transform -translate-x-1/2 translate-y-1/2" />
@@ -69,13 +69,13 @@ const CustomerTestimonial = () => {
               <Star size={12} fill="currentColor" />
               Success Stories
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold font-display leading-tight">
-              Loved by <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">thousands</span> of families.
+            <h2 className="text-4xl lg:text-5xl font-bold font-display leading-tight text-slate-900">
+              Loved by <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-600">thousands</span> of families.
             </h2>
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
-                className="w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center hover:bg-slate-800 transition-colors"
+                className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors"
               >
                 <ArrowLeft size={20} />
               </button>
@@ -99,7 +99,7 @@ const CustomerTestimonial = () => {
                     : 'opacity-0 translate-x-10 scale-95 z-10'
                     }`}
                 >
-                  <div className="bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-3xl p-8 md:p-10 h-full flex flex-col justify-center">
+                  <div className="bg-white/80 backdrop-blur-md border border-slate-100 rounded-3xl p-8 md:p-10 h-full flex flex-col justify-center shadow-sm">
                     <Quote size={40} className="text-sky-500 mb-6 opacity-50" />
                     <p className="text-xl md:text-2xl text-slate-200 leading-relaxed font-light mb-8">
                       &quot;{item.message || item.review}&quot;

@@ -42,15 +42,15 @@ const connectDB = async () => {
     if (cachedConnection) return cachedConnection;
 
     try {
-        console.log('⏳ Connecting to MongoDB...');
+        console.log('Connecting to MongoDB...');
         const conn = await mongoose.connect(MONGODB_URI, {
             serverSelectionTimeoutMS: 5000,
         });
         cachedConnection = conn;
-        console.log('✅ MongoDB Connected Successfully');
+        console.log('MongoDB Connected Successfully');
         return conn;
     } catch (err) {
-        console.error('❌ MongoDB Connection Error:', err.message);
+        console.log('MongoDB Connection Error:', err.message);
     }
 };
 
@@ -79,6 +79,8 @@ app.use('/api/carousel', require('./routes/carouselRoutes'));
 app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
 app.use('/api/cities', require('./routes/cityRoutes'));
 app.use('/api/subcategories', require('./routes/subCategoryRoutes'));
+app.use('/api/team-categories', require('./routes/teamCategoryRoutes'));
+app.use('/api/team-members', require('./routes/teamRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

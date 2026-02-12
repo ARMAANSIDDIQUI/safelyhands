@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Plus, Save, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { toast } from 'sonner';
 import Image from 'next/image';
+import ImageUpload from "@/components/ui/image-upload";
 
 import { getToken } from '@/lib/auth';
 
@@ -19,6 +20,8 @@ export default function EditServicePage({ params }) {
         slug: '',
         category: '',
         description: '',
+        imageUrl: '',
+        icon: '',
         basePrice: 0,
         subcategories: [],
         questions: []
@@ -173,6 +176,25 @@ export default function EditServicePage({ params }) {
                             onChange={(e) => setService({ ...service, description: e.target.value })}
                         />
                     </div>
+                    <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-2">Service Icon (Lucide name or URL)</label>
+                        <input
+                            type="text"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
+                            value={service.icon}
+                            onChange={(e) => setService({ ...service, icon: e.target.value })}
+                            placeholder="e.g. Home, User, Sparkles"
+                        />
+                    </div>
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-bold text-slate-700 mb-2">Service Image</label>
+                        <div className="bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-6">
+                            <ImageUpload
+                                value={service.imageUrl}
+                                onChange={(url) => setService({ ...service, imageUrl: url })}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -228,13 +250,13 @@ export default function EditServicePage({ params }) {
                                     />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-xs font-bold text-slate-500 mb-1">Image URL</label>
-                                    <input
-                                        type="text"
-                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
-                                        value={sub.image}
-                                        onChange={(e) => updateSubcategory(index, 'image', e.target.value)}
-                                    />
+                                    <label className="block text-xs font-bold text-slate-500 mb-1">Subcategory Image</label>
+                                    <div className="bg-slate-50 border border-slate-100 border-dashed rounded-lg p-3">
+                                        <ImageUpload
+                                            value={sub.image}
+                                            onChange={(url) => updateSubcategory(index, 'image', url)}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-xs font-bold text-slate-500 mb-1">Features (comma separated)</label>

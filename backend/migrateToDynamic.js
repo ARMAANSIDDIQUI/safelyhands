@@ -6,7 +6,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const migrate = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI);
-        console.log("✅ Connected to MongoDB");
+        console.log("Connected to MongoDB");
 
         // 1. Elderly Care
         const elderly = await Service.findOne({ title: { $regex: /Elderly Care/i } });

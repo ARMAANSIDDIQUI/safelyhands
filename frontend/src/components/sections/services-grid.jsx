@@ -50,7 +50,7 @@ const ServicesGrid = () => {
   }
 
   return (
-    <section className="bg-white py-[40px] md:py-[80px]">
+    <section className="bg-transparent py-[40px] md:py-[80px]">
       <div className="container mx-auto px-[15px] max-w-[1140px]">
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-[30px] gap-y-[30px] justify-items-center">

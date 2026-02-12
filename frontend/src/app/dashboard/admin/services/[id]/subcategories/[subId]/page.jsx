@@ -5,6 +5,7 @@ import { ArrowLeft, Save, Plus, Trash2 } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import ImageUpload from "@/components/ui/image-upload";
 
 export default function EditSubCategoryPage() {
     const { id, subId } = useParams();
@@ -40,7 +41,7 @@ export default function EditSubCategoryPage() {
                     name: data.name,
                     price: data.price,
                     description: data.description,
-                    imageUrl: data.image || "",
+                    imageUrl: data.image || data.imageUrl || "",
                     features: data.features || [],
                     isActive: data.isActive,
                     questions: data.questions || []
@@ -102,7 +103,7 @@ export default function EditSubCategoryPage() {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${user.token}`
                 },
-                body: JSON.stringify({ ...formData, price: parseFloat(formData.price) })
+                body: JSON.stringify({ ...formData, image: formData.imageUrl, price: parseFloat(formData.price) })
             });
 
             if (res.ok) {
@@ -154,14 +155,14 @@ export default function EditSubCategoryPage() {
                                 className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-1">Image URL</label>
-                            <input
-                                type="text"
-                                value={formData.imageUrl}
-                                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                                className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg"
-                            />
+                        <div className="col-span-2">
+                            <label className="block text-sm font-bold text-slate-700 mb-2">Subcategory Image</label>
+                            <div className="bg-slate-50 border border-slate-200 border-dashed rounded-xl p-4">
+                                <ImageUpload
+                                    value={formData.imageUrl}
+                                    onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                                />
+                            </div>
                         </div>
                         <div className="col-span-2">
                             <label className="block text-sm font-bold text-slate-700 mb-1">Description</label>

@@ -36,7 +36,7 @@ const teamData = [
     role: "CRM - TL",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Pooja",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -44,7 +44,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Vishali",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -52,7 +52,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aakanksha",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -60,7 +60,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nisha",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -68,7 +68,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Payal",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -76,7 +76,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Gourav",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -84,7 +84,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Divyansh",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -92,7 +92,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ritik",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {
@@ -100,7 +100,7 @@ const teamData = [
     role: "Customer Relationship Manager",
     category: "Customer Success",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sanchit",
-    contact: "armaansiddiqui.mbd@gmail.com",
+    contact: "Safelyhands@gmail.com",
     linkedin: "#"
   },
   {

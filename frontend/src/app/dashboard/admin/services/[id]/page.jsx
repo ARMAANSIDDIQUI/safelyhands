@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { useParams } from "next/navigation";
+import ImageUpload from "@/components/ui/image-upload";
 
 export default function EditServicePage() {
     const { id } = useParams();
@@ -20,6 +21,8 @@ export default function EditServicePage() {
         title: "",
         slug: "",
         description: "",
+        imageUrl: "",
+        icon: "",
         isActive: true,
         selectionMode: "single",
         gender: "Both"
@@ -41,6 +44,8 @@ export default function EditServicePage() {
                     title: data.title,
                     slug: data.slug,
                     description: data.description,
+                    imageUrl: data.imageUrl || "",
+                    icon: data.icon || "",
                     isActive: data.isActive,
                     selectionMode: data.selectionMode || "single",
                     gender: data.gender || "Both"
@@ -124,6 +129,25 @@ export default function EditServicePage() {
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                     className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg h-32"
                                 />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-1">Icon (Lucide name)</label>
+                                    <input
+                                        type="text"
+                                        value={formData.icon}
+                                        onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                                        className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg"
+                                        placeholder="e.g. Home, User"
+                                    />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-bold text-slate-700 mb-1">Service Image</label>
+                                    <ImageUpload
+                                        value={formData.imageUrl}
+                                        onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                                    />
+                                </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Plus, Pencil, Trash2, Loader2, Quote } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Quote, Star } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -191,8 +191,14 @@ export default function AdminTestimonials() {
                                     <Badge variant={item.isActive ? "default" : "secondary"}>
                                         {item.isActive ? "Active" : "Hidden"}
                                     </Badge>
-                                    <div className="text-yellow-500 font-bold text-sm">
-                                        {'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}
+                                    <div className="flex gap-0.5">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star
+                                                key={i}
+                                                size={14}
+                                                className={i < item.rating ? "text-yellow-400 fill-yellow-400" : "text-slate-300"}
+                                            />
+                                        ))}
                                     </div>
                                 </div>
                             </CardContent>

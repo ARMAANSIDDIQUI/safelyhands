@@ -5,22 +5,14 @@ import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
-  const [services, setServices] = React.useState([]);
-
-  React.useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data)) setServices(data.slice(0, 6));
-        }
-      } catch (err) {
-        console.error("Failed to fetch services for footer", err);
-      }
-    };
-    fetchServices();
-  }, []);
+  const footerServices = [
+    { title: 'Domestic Help', slug: 'domestic-help' },
+    { title: 'Cook', slug: 'cooks' },
+    { title: 'Babysitter', slug: 'babysitter' },
+    { title: 'Elderly Care', slug: 'elderly-care' },
+    { title: 'All-Rounder', slug: 'all-rounder' },
+    { title: '24 Hrs Live-in', slug: '24-hour-house-help' },
+  ];
 
   return (
     <footer className="bg-slate-900 text-slate-300 pt-20 pb-10 border-t border-slate-800">
@@ -67,22 +59,13 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold mb-6 text-lg">Services</h4>
             <ul className="space-y-4 text-sm">
-              {services.length > 0 ? (
-                services.map((service) => (
-                  <li key={service._id}>
-                    <Link href={`/services/${service.slug}`} className="hover:text-primary transition-colors">
-                      {service.title}
-                    </Link>
-                  </li>
-                ))
-              ) : (
-                <>
-                  <li><Link href="/services/babysitter" className="hover:text-primary transition-colors">Babysitters</Link></li>
-                  <li><Link href="/services/cook" className="hover:text-primary transition-colors">Cooks & Chefs</Link></li>
-                  <li><Link href="/services/domestic-help" className="hover:text-primary transition-colors">Domestic Help</Link></li>
-                  <li><Link href="/services/elderly-care" className="hover:text-primary transition-colors">Elderly Care</Link></li>
-                </>
-              )}
+              {footerServices.map((service) => (
+                <li key={service.slug}>
+                  <Link href={`/services/${service.slug}`} className="hover:text-primary transition-colors">
+                    {service.title}
+                  </Link>
+                </li>
+              ))}
               <li><Link href="/services" className="hover:text-primary transition-colors font-bold mt-2 inline-block">View All →</Link></li>
             </ul>
           </div>

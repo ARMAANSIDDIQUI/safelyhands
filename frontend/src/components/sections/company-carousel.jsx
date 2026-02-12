@@ -111,12 +111,6 @@ const CompanyCarousel = () => {
         </div>
       </div>
 
-      {/* Three-dot pagination indicator */}
-      <div className="flex justify-center items-center gap-2 mt-12 pb-8">
-        <div className="w-[10px] h-[10px] rounded-full bg-[#72bcd4] opacity-30"></div>
-        <div className="w-[10px] h-[10px] rounded-full bg-[#72bcd4]"></div>
-        <div className="w-[10px] h-[10px] rounded-full bg-[#72bcd4] opacity-30"></div>
-      </div>
 
 
     </section>

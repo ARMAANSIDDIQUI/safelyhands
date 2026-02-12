@@ -24,9 +24,9 @@ const WhyChooseUs = () => {
     ];
 
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
+        <section className="py-24 bg-transparent relative overflow-hidden">
             {/* Decorative Elements */}
-            <div className="absolute right-0 top-1/4 w-1/3 h-1/2 bg-slate-50 rounded-l-[100px] -z-10" />
+            {/* Decorative Elements - Removed solid backgrounds */}
 
             <div className="container mx-auto px-6 max-w-6xl">
                 <div className="flex flex-col gap-12 items-center">

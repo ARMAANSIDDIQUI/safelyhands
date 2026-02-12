@@ -10,16 +10,7 @@ import { Quote } from 'lucide-react';
 const MissionSection = () => {
   return (
     <>
-      {/* Decorative separators (dots) as per the HTML structure "radio-sec" */}
-      <div className="container-fluid pt-[16px] pb-[16px]">
-        <div className="container mx-auto">
-          <div className="flex justify-center gap-[10px]">
-            <div className="w-[8px] h-[8px] rounded-full bg-[#72bcd4]"></div>
-            <div className="w-[8px] h-[8px] rounded-full bg-[#72bcd4]"></div>
-            <div className="w-[8px] h-[8px] rounded-full bg-[#72bcd4]"></div>
-          </div>
-        </div>
-      </div>
+      <div className="pt-4 pb-4"></div>
 
       <section className="bg-transparent py-[80px] overflow-hidden">
         <div className="container mx-auto px-[15px] max-w-[1200px]">
@@ -50,16 +41,7 @@ const MissionSection = () => {
         </div>
       </section>
 
-      {/* Decorative separators (dots) as per the HTML structure "radio-sec2" */}
-      <div className="container-fluid py-[16px]">
-        <div className="container mx-auto">
-          <div className="flex justify-center gap-[10px]">
-            <div className="w-[8px] h-[8px] rounded-full bg-[#72bcd4]"></div>
-            <div className="w-[8px] h-[8px] rounded-full bg-[#72bcd4]"></div>
-            <div className="w-[8px] h-[8px] rounded-full bg-[#72bcd4]"></div>
-          </div>
-        </div>
-      </div>
+      <div className="py-4"></div>
     </>
   );
 };

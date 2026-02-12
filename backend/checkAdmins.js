@@ -6,11 +6,11 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 async function checkAdminStatus() {
     try {
-        console.log('🔌 Connecting to MongoDB...');
+        console.log('Connecting to MongoDB...');
         await mongoose.connect(MONGODB_URI);
         console.log('✅ Connected to database\n');
 
-        console.log('📋 Listing all users and their roles:\n');
+        console.log('Listing all users and their roles:\n');
         const users = await User.find({}).select('name email role');
 
         if (users.length === 0) {
@@ -25,17 +25,17 @@ async function checkAdminStatus() {
         }
 
         const adminCount = users.filter(u => u.role === 'admin').length;
-        console.log(`\n👑 Total admins: ${adminCount}`);
-        console.log(`👥 Total users: ${users.length}`);
+        console.log(`\nTotal admins: ${adminCount}`);
+        console.log(`Total users: ${users.length}`);
 
     } catch (error) {
         console.error('❌ Error:', error.message);
     } finally {
         await mongoose.connection.close();
-        console.log('\n🔌 Database connection closed');
+        console.log('\nDatabase connection closed');
         process.exit(0);
     }
 }
 
-console.log('👥 User Status Check\n');
+console.log('User Status Check\n');
 checkAdminStatus();

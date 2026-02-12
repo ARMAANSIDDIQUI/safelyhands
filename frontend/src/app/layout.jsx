@@ -6,10 +6,14 @@ export const metadata = {
     title: "Safely Hands - Trusted Home Makers in Moradabad",
     description: "Find trusted help in Moradabad. Hire a babysitter, chef, or maid service near you.",
     icons: {
-        icon: '/favicon.png',
+        icon: [
+            { url: '/favicon.png' },
+            { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+        ],
         shortcut: '/favicon.png',
         apple: '/favicon.png',
-    }
+    },
+    manifest: '/manifest.json'
 };
 
 import { Providers } from "@/providers";
@@ -38,6 +42,17 @@ export default function RootLayout({ children }) {
                             fontSize: '18px',
                             boxShadow: '0 20px 40px -15px rgba(59, 130, 246, 0.4)'
                         }
+                    }}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            if ('serviceWorker' in navigator) {
+                                window.addEventListener('load', function() {
+                                    navigator.serviceWorker.register('/sw.js');
+                                });
+                            }
+                        `,
                     }}
                 />
             </body>

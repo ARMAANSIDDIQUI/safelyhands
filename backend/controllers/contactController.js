@@ -4,10 +4,10 @@ const nodemailer = require('nodemailer');
 // @route   POST /api/contact
 // @access  Public
 const sendContactEmail = async (req, res) => {
-    const { fullName, phone, email, category, subject } = req.body;
+    const { fullName, phone, email, category, subject, city, message } = req.body;
 
     if (!fullName || !phone || !email || !category || !subject) {
-        return res.status(400).json({ message: 'Please fill all fields' });
+        return res.status(400).json({ message: 'Please fill all required fields' });
     }
 
     try {
@@ -28,8 +28,13 @@ const sendContactEmail = async (req, res) => {
                 <p><strong>Name:</strong> ${fullName}</p>
                 <p><strong>Phone:</strong> ${phone}</p>
                 <p><strong>Email:</strong> ${email}</p>
+                <p><strong>City:</strong> ${city || 'Not provided'}</p>
                 <p><strong>Category:</strong> ${category}</p>
                 <p><strong>Subject:</strong> ${subject}</p>
+                <p><strong>Message:</strong></p>
+                <div style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+                    ${message ? message.replace(/\n/g, '<br/>') : 'No message provided'}
+                </div>
             `,
         };
 

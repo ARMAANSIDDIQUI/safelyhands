@@ -259,7 +259,7 @@ export default function BookingWizard() {
 
     return (
         <div className="container mx-auto px-4 max-w-5xl py-8">
-            <div className="bg-white rounded-[24px] shadow-2xl overflow-hidden min-h-[600px] flex flex-col border border-slate-100">
+            <div className="bg-white/80 backdrop-blur-md rounded-[24px] shadow-2xl overflow-hidden min-h-[600px] flex flex-col border border-slate-100">
 
                 {/* Header */}
                 <div className="p-6 border-b border-slate-100">
@@ -355,7 +355,7 @@ export default function BookingWizard() {
                             {step === 2 && (
                                 <div className="animate-in fade-in slide-in-from-right-8 duration-500">
                                     <h2 className="text-xl font-bold text-slate-800 mb-6">Choose a Service</h2>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="booking-service-type">
                                         {services.map(service => (
                                             <div
                                                 key={service._id}
@@ -507,7 +507,7 @@ export default function BookingWizard() {
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-bold text-slate-700 mb-2">Start Date</label>
-                                                <div className="relative">
+                                                <div className="relative" id="booking-date-time">
                                                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                                                     <input
                                                         type="date"
@@ -535,6 +535,7 @@ export default function BookingWizard() {
                                         <div>
                                             <label className="block text-sm font-bold text-slate-700 mb-2">Complete Address</label>
                                             <textarea
+                                                id="booking-address"
                                                 value={formData.address}
                                                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                                                 placeholder="House No, Street, Landmark..."
@@ -592,6 +593,7 @@ export default function BookingWizard() {
                         </div>
                         <div className="flex gap-4 w-full md:w-auto">
                             <button
+                                id="booking-submit-btn"
                                 onClick={step === 4 ? handleSubmit : handleNext}
                                 disabled={isSubmitting}
                                 className="flex-1 md:w-48 h-12 bg-sky-500 text-white rounded-xl font-bold hover:bg-sky-600 transition-all shadow-lg flex items-center justify-center gap-2"

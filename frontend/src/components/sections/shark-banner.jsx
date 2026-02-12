@@ -31,7 +31,7 @@ const SharkBanner = () => {
           <div className="relative flex items-center cursor-pointer h-full" onClick={() => window.open('https://youtu.be/gaDsZMDG95Q?si=9OOftQSiBptVEBYz', '_blank')}>
             <div className="relative h-[45px] sm:h-[55px] w-[50px] sm:w-[60px]">
               <Image
-                src="https://placehold.co/60x60/003D99/ffffff?text=🦈"
+                src="https://placehold.co/60x60/003D99/ffffff?text=ST2"
                 alt="Shark Tank Animation"
                 fill
                 className="object-contain"

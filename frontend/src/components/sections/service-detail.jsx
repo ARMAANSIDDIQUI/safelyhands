@@ -33,7 +33,7 @@ export default function ServiceDetail({ initialData, slug }) {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-slate-50">
+            <div className="min-h-screen flex items-center justify-center bg-transparent">
                 <div className="text-xl text-slate-600 animate-pulse">Loading service specific details...</div>
             </div>
         );
@@ -41,7 +41,7 @@ export default function ServiceDetail({ initialData, slug }) {
 
     if (error || !data) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
+            <div className="min-h-screen flex flex-col items-center justify-center bg-transparent gap-4">
                 <div className="text-xl text-red-500">Service not found</div>
                 <Link href="/" className="text-blue-600 hover:underline">Return Home</Link>
             </div>
@@ -78,7 +78,7 @@ export default function ServiceDetail({ initialData, slug }) {
             </section>
 
             {/* Details Section */}
-            <section className="py-20 bg-white">
+            <section className="py-20 bg-transparent">
                 <div className="container mx-auto px-6 max-w-6xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
@@ -101,17 +101,17 @@ export default function ServiceDetail({ initialData, slug }) {
 
                         {/* Feature Cards */}
                         <div className="order-1 md:order-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
+                            <div className="bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
                                 <ShieldCheck className="w-10 h-10 text-blue-500 mb-4" />
                                 <h3 className="font-bold text-slate-900 mb-2">Verified Staff</h3>
                                 <p className="text-sm text-slate-500">Every professional undergoes rigorous background checks.</p>
                             </div>
-                            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
+                            <div className="bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
                                 <Clock className="w-10 h-10 text-blue-500 mb-4" />
                                 <h3 className="font-bold text-slate-900 mb-2">Replacements</h3>
                                 <p className="text-sm text-slate-500">Unlimited replacements during your subscription period.</p>
                             </div>
-                            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
+                            <div className="bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
                                 <Star className="w-10 h-10 text-blue-500 mb-4" />
                                 <h3 className="font-bold text-slate-900 mb-2">Top Rated</h3>
                                 <p className="text-sm text-slate-500">{data.rating || 4.8}/5 average rating from happy customers.</p>
@@ -123,7 +123,7 @@ export default function ServiceDetail({ initialData, slug }) {
             </section>
 
             {/* Footer CTA */}
-            <section className="py-16 bg-slate-50 border-t border-slate-200">
+            <section className="py-16 bg-transparent border-t border-slate-200">
                 <div className="container mx-auto px-6 text-center">
                     <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to get started?</h2>
                     <Link href="/booking" className="text-blue-600 font-bold hover:underline text-lg">

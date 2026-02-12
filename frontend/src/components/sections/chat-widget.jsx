@@ -24,7 +24,7 @@ const PREDEFINED_QA = [
   },
   {
     question: "How can I contact support?",
-    answer: "You can reach us at armaansiddiqui.mbd@gmail.com or call us at +91 888 888 8888. Our support team is available Mon-Sat, 9 AM - 6 PM."
+    answer: "You can reach us at Safelyhands@gmail.com or call us at +91 888 888 8888. Our support team is available Mon-Sat, 9 AM - 6 PM."
   }
 ];
 
@@ -100,8 +100,6 @@ export default function ChatWidget() {
     handleSend(question);
   };
 
-  // Asset References
-  const botAvatar = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBEQACEQEDEQH/xAAYAAEAAwEAAAAAAAAAAAAAAAAGBAUHAP/EACwQAAEDAwMCBAYDAAAAAAAAAAECAwQABREGEiETMQdxkaEyUVJTYWIUI0H/xAAbAQADAQADAQAAAAAAAAAAAAADBAUGAAIHAf/EACcRAAIBAwMCBgMAAAAAAAAAAAECAAMEEQUhMRLRIjJhccHxQVGB/9oADAMBAAIRAxEAPwB7XmU0MNak1pb9OuPNy48pxTRa3dJKSP7AsjuR9s58xVG002rdAFCBnPPpjvAVLhafMqYHivp6XKQw63MihZx1XkJ2DzwokelM1NBukUsCD6D6glvaZOI7BBGQcg/6KixydXJyFkwYlw1rdmZ8RiU0IcVQQ+0laQcuc4I78n1qkar0rOmyMQctxt+ov0q1Vgw/A+Zm+un7HfbhBtek7Uhucl1bbnSYSyFHsE8YB7E5PatBpy3FvTardP4cDkkxGuUdgtMbzZ7VGXCtcOI451FsMNtKX9RSkAn2rJVnFSozgckmVEXpUCSqFO0AWnWFif11MLU3cJjUeMwrpqwtwKWCM4/Yc9uauVtPuVslyvlJJ9sCJpXpmqd+cQf4nTtKSm2W7Cw2m4Nvq662mC2Mc5CsgbjnHPPY1V0ileoSa58ONsnMWumpHyczXdNOSXtO2xydu/kritl0r+Iq2jk/mstdhFuHCcZOJRpElBmWDzaXmltL3bVpKTtUUnB+RHIoCkqQRO5GRiF2fDvSrDyHWrapLiFBSVCS7kEcg/FVJtXvGBBfb2HaAFrSG+JIZ0NplmcZqbU2qQVlZU44tY3E5ztUSPahtqd2ydHXt/BPot6QOcRFSEPP/9k=";
 
   return (
     <div className="fixed bottom-[20px] right-[20px] z-[9999] flex flex-col items-end pointer-events-none">
@@ -114,8 +112,8 @@ export default function ChatWidget() {
           {/* Header */}
           <div className="bg-[#72bcd4] p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-[45px] h-[45px] rounded-full overflow-hidden border-2 border-white bg-white">
-                <img src={botAvatar} alt="Support" className="w-full h-full object-cover" />
+              <div className="w-[45px] h-[45px] rounded-full overflow-hidden border-2 border-white bg-white flex items-center justify-center p-1">
+                <img src="/favicon.png" alt="Support" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <h3 className="text-[#212529] font-bold text-[16px] leading-[1.2] m-0">Safely Hands Support</h3>

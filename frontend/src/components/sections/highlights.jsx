@@ -4,7 +4,7 @@ import { Clock, Users, Award, ShieldCheck, Zap, TrendingUp } from 'lucide-react'
 
 const Highlights = () => {
   return (
-    <section className="py-24 bg-slate-50">
+    <section className="py-24 bg-transparent relative">
       <div className="container mx-auto px-6">
 
         {/* Intro */}

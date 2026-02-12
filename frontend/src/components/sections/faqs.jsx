@@ -29,7 +29,7 @@ const FAQs = () => {
     ];
 
     return (
-        <section className="py-24 bg-slate-50">
+        <section className="py-24 bg-transparent">
             <div className="container mx-auto px-6 max-w-4xl">
                 <div className="text-center mb-16">
                     <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky-100 text-primary mb-6 mx-auto">

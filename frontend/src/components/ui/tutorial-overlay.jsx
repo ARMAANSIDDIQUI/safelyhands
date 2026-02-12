@@ -41,26 +41,57 @@ export default function TutorialOverlay() {
     if (!isActive || !currentStep || !targetRect) return null;
 
     // Calculate tooltip position
-    const tooltipStyle = {};
+    const tooltipStyle = {
+        width: '320px',
+        maxWidth: 'calc(100vw - 40px)',
+    };
     const margin = 20;
 
-    if (currentStep.position === 'top') {
-        tooltipStyle.bottom = window.innerHeight - targetRect.top + margin;
-        tooltipStyle.left = targetRect.left + (targetRect.width / 2) - 150;
-    } else if (currentStep.position === 'bottom') {
-        tooltipStyle.top = targetRect.top + targetRect.height + margin;
-        tooltipStyle.left = targetRect.left + (targetRect.width / 2) - 150;
-    } else if (currentStep.position === 'left') {
-        tooltipStyle.top = targetRect.top;
-        tooltipStyle.right = window.innerWidth - targetRect.left + margin;
-    } else { // right
-        tooltipStyle.top = targetRect.top;
-        tooltipStyle.left = targetRect.left + targetRect.width + margin;
+    // Default to bottom if we can't fit anywhere else
+    let pos = currentStep.position || 'bottom';
+
+    // Desktop positioning
+    if (pos === 'top') {
+        const topPos = (targetRect.top - margin - 200); // 200 is approx height
+        if (topPos < 10) pos = 'bottom'; // Flip to bottom if no space at top
+    } else if (pos === 'bottom') {
+        const bottomPos = (targetRect.top + targetRect.height + margin + 200);
+        if (bottomPos > window.innerHeight - 10) pos = 'top'; // Flip to top if no space at bottom
     }
 
-    // Ensure tooltip stays on screen
-    if (tooltipStyle.left < 20) tooltipStyle.left = 20;
-    // (Simplified collision detection)
+    // Simple adaptive positioning for narrow screens
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+    if (isMobile) {
+        // On mobile, mostly center it or put it below/above
+        tooltipStyle.left = '50%';
+        tooltipStyle.transform = 'translateX(-50%)';
+
+        if (pos === 'top') {
+            tooltipStyle.bottom = (window.innerHeight - targetRect.top) + margin;
+        } else {
+            tooltipStyle.top = (targetRect.top + targetRect.height) + margin;
+        }
+    } else {
+        // Desktop positioning
+        if (pos === 'top') {
+            tooltipStyle.bottom = (window.innerHeight - targetRect.top) + margin;
+            tooltipStyle.left = targetRect.left + (targetRect.width / 2);
+            tooltipStyle.transform = 'translateX(-50%)';
+        } else if (pos === 'bottom') {
+            tooltipStyle.top = (targetRect.top + targetRect.height) + margin;
+            tooltipStyle.left = targetRect.left + (targetRect.width / 2);
+            tooltipStyle.transform = 'translateX(-50%)';
+        } else if (pos === 'left') {
+            tooltipStyle.top = targetRect.top + (targetRect.height / 2);
+            tooltipStyle.right = (window.innerWidth - targetRect.left) + margin;
+            tooltipStyle.transform = 'translateY(-50%)';
+        } else { // right
+            tooltipStyle.top = targetRect.top + (targetRect.height / 2);
+            tooltipStyle.left = (targetRect.left + targetRect.width) + margin;
+            tooltipStyle.transform = 'translateY(-50%)';
+        }
+    }
 
     return (
         <div className="fixed inset-0 z-[10000] pointer-events-none">

@@ -4,23 +4,33 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Download } from 'lucide-react';
+import { toast } from "sonner";
 
 const AppPromotion = () => {
     const [deferredPrompt, setDeferredPrompt] = React.useState(null);
     const [isInstalled, setIsInstalled] = React.useState(false);
 
     React.useEffect(() => {
-        // Check if already installed
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            setIsInstalled(true);
-        }
+        // Check if already installed/standalone
+        const checkStandalone = () => {
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                setIsInstalled(true);
+            }
+        };
+
+        checkStandalone();
 
         const handleBeforeInstallPrompt = (e) => {
             e.preventDefault();
             setDeferredPrompt(e);
+            console.log("PWA: beforeinstallprompt fired");
         };
 
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.addEventListener('appinstalled', () => {
+            setIsInstalled(true);
+            setDeferredPrompt(null);
+        });
 
         return () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -28,7 +38,10 @@ const AppPromotion = () => {
     }, []);
 
     const handleInstallClick = async () => {
-        if (!deferredPrompt) return;
+        if (!deferredPrompt) {
+            toast.info("To install: Click the 'Install' icon in your browser's address bar or 'Add to Home Screen' in settings.");
+            return;
+        }
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
@@ -36,7 +49,8 @@ const AppPromotion = () => {
         }
     };
 
-    if (isInstalled) return null; // Remove section if on PWA
+    // If already in PWA (standalone mode), don't show the promotion
+    if (isInstalled) return null;
 
     return (
         <section className="bg-primary pt-24 pb-0 overflow-hidden relative">
@@ -53,26 +67,25 @@ const AppPromotion = () => {
                             Manage your home <br /> from your phone.
                         </h2>
                         <p className="text-blue-100 text-lg mb-8 max-w-md mx-auto md:mx-0">
-                            Download the Safely Hands app to book verified professionals, track attendance, and manage payments effortlessly.
+                            Install the Safely Hands app for a seamless experience. Track attendance, manage payments, and book pros effortlessly.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                            {deferredPrompt && (
-                                <button
-                                    onClick={handleInstallClick}
-                                    className="transform hover:-translate-y-1 transition-transform duration-300"
-                                >
-                                    <div className="px-8 h-[54px] bg-white text-primary rounded-xl flex items-center justify-center border border-white/20 shadow-lg">
-                                        <div className="font-bold text-lg flex items-center gap-2">
-                                            <Download size={20} className="text-blue-600" />
-                                            Install App
-                                        </div>
+                            <button
+                                onClick={handleInstallClick}
+                                className="transform hover:-translate-y-1 transition-transform duration-300 group"
+                            >
+                                <div className="px-8 h-[54px] bg-white text-primary rounded-xl flex items-center justify-center border border-white/20 shadow-lg group-hover:shadow-sky-400/20">
+                                    <div className="font-bold text-lg flex items-center gap-2">
+                                        <Download size={20} className="text-blue-600 animate-bounce" />
+                                        {deferredPrompt ? "Install App" : "How to Install"}
                                     </div>
-                                </button>
-                            )}
+                                </div>
+                            </button>
+
                             {!deferredPrompt && (
-                                <div className="text-white/80 italic">
-                                    Open in Chrome/Edge to install app
+                                <div className="text-white/60 text-sm max-w-[200px] text-left hidden sm:block leading-tight">
+                                    Use Chrome or Edge to enable easy installation
                                 </div>
                             )}
                         </div>
@@ -86,7 +99,14 @@ const AppPromotion = () => {
                             <div className="bg-white w-full h-full relative">
                                 <div className="absolute top-0 left-0 right-0 h-24 bg-primary rounded-b-3xl"></div>
                                 <div className="absolute top-12 left-6 right-6">
-                                    <div className="h-4 w-24 bg-white/30 rounded-full mb-4"></div>
+                                    <div className="h-6 flex items-center mb-4 relative w-36">
+                                        <Image
+                                            src="/headerlogo.png"
+                                            alt="Safely Hands"
+                                            fill
+                                            className="object-contain object-left"
+                                        />
+                                    </div>
                                     <div className="h-8 w-40 bg-white rounded-lg"></div>
                                 </div>
                                 <div className="absolute top-36 left-6 right-6 space-y-4">

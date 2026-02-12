@@ -4,10 +4,10 @@ import React from 'react';
 
 const HeroIntro = () => {
   return (
-    <section className="bg-white pt-12 pb-0 md:pt-16 lg:pt-20 lg:pb-0 overflow-hidden">
+    <section className="bg-transparent pt-12 pb-0 md:pt-16 lg:pt-20 lg:pb-0 overflow-hidden">
       <div className="container mx-auto px-[15px] max-w-[1140px]">
         <div className="text-center">
-          <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-bold text-[#212529] leading-[1.2] tracking-tight">
+          <h1 id="hero-title" className="text-[32px] md:text-[40px] lg:text-[48px] font-bold text-[#212529] leading-[1.2] tracking-tight">
             Want your chores simplified? <br className="hidden md:block" />
             <span
               className="serviceHighlighted block mt-2 md:mt-1"

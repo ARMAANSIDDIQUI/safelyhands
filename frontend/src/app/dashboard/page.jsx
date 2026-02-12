@@ -87,7 +87,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-3" id="dashboard-stats">
                 <Card className="border-none shadow-md bg-white hover:shadow-lg transition-shadow">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500">Active Services</CardTitle>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
                             <CardTitle>Recent Activity</CardTitle>
                             <CardDescription>Your latest booking updates.</CardDescription>
                         </div>
-                        <Button variant="ghost" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50" asChild>
+                        <Button id="dashboard-bookings-link" variant="ghost" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50" asChild>
                             <Link href="/dashboard/bookings">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
                         </Button>
                     </CardHeader>

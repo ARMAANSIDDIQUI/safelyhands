@@ -25,7 +25,7 @@ const FAQ_DATA = [
     question: "What if I’m not satisfied with the services?",
     answer: (
       <p className="m-0">
-        While all our helpers undergo an intensive assessment regime before being certified as a Safely Hands helper, we still believe that there’s always room for improvement. In order to ensure that you obtain the optimum fit for your home, we provide an ‘complimentary replacement policy’ as part of your subscription. Just reach out to your relationship manager or mail us at armaansiddiqui.mbd@gmail.com.
+        While all our helpers undergo an intensive assessment regime before being certified as a Safely Hands helper, we still believe that there’s always room for improvement. In order to ensure that you obtain the optimum fit for your home, we provide an ‘complimentary replacement policy’ as part of your subscription. Just reach out to your relationship manager or mail us at Safelyhands@gmail.com.
       </p>
     ),
   },

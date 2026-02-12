@@ -67,7 +67,7 @@ const HumansOfBroomees = () => {
     }, [testimonials.length]); // Added dependency to reset interval if length changes
 
     return (
-        <section className="bg-slate-50 py-24 overflow-hidden relative">
+        <section className="bg-transparent py-24 overflow-hidden relative">
             {/* Background Patterns */}
             <div className="absolute top-0 left-0 w-64 h-64 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob"></div>
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-100 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob animation-delay-2000"></div>
@@ -82,7 +82,7 @@ const HumansOfBroomees = () => {
                     </p>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl overflow-hidden border border-slate-100">
                     <div className="flex flex-col md:flex-row">
 
                         {/* Image Section */}

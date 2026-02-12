@@ -43,12 +43,8 @@ const SupportChannels = () => {
             <div className="flex flex-col gap-8">
               {contactInfo.map((item, index) => (
                 <div key={index} className="flex items-center gap-4 group bg-transparent">
-                  <div className="w-[50px] h-[50px] flex items-center justify-center bg-[#262626] rounded-xl transition-all duration-300">
-                    <img
-                      src={item.icon}
-                      alt={item.label}
-                      className="w-6 h-6"
-                    />
+                  <div className="w-[50px] h-[50px] flex items-center justify-center bg-[#262626] rounded-xl transition-all duration-300 group-hover:scale-110">
+                    {item.icon}
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[14px] text-[#666666] font-normal leading-tight">
@@ -83,29 +79,6 @@ const SupportChannels = () => {
           </div>
         </div>
 
-        {/* App Download Banner */}
-        <div className="mt-12 w-full border border-[#72bcd4] rounded-[12px] p-6 lg:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-soft">
-          <h2 className="text-[20px] md:text-[24px] font-bold text-[#262626] text-center md:text-left">
-            Download the app and use the LIVE CHAT feature!
-          </h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            {appLinks.map((app, index) => (
-              <a
-                key={index}
-                href={app.link}
-                className="transition-transform duration-300 hover:scale-[1.03]"
-              >
-                <div className="h-[48px] md:h-[56px] px-6 flex items-center gap-3 bg-black text-white rounded-lg">
-                  {app.name === 'App Store' ? <Apple size={24} /> : <PlayCircle size={24} />}
-                  <div className="flex flex-col items-start leading-none">
-                    <span className="text-[10px] opacity-70">Download on</span>
-                    <span className="text-[16px] font-bold">{app.name}</span>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

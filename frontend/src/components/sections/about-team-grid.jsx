@@ -4,28 +4,30 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Linkedin } from 'lucide-react';
 
-const categories = ['All', 'Leadership', 'Tech & Product', 'Operations', 'Business', 'Human Resources'];
-
 // Fallback static data
-const fallbackTeamData = [
-  {
-    id: 1,
-    name: "Armaan Siddiqui",
-    title: "Founder & CEO",
-    category: "Leadership",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Armaan",
-    linkedin: "#"
-  }
-];
+const fallbackCategories = ['All'];
+const fallbackTeamData = [];
 
 export default function AboutTeamGrid() {
+  const [categories, setCategories] = useState(fallbackCategories);
   const [activeCategory, setActiveCategory] = useState('All');
   const [teamData, setTeamData] = useState(fallbackTeamData);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTeam = async () => {
+    const fetchTeamAndCategories = async () => {
       try {
+        setLoading(true);
+        // Fetch Categories
+        const catRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/team-categories`);
+        if (catRes.ok) {
+          const catData = await catRes.json();
+          if (catData && catData.length > 0) {
+            setCategories(['All', ...catData.map(c => c.name)]);
+          }
+        }
+
+        // Fetch Members
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cms/team`);
         if (res.ok) {
           const data = await res.json();
@@ -34,13 +36,12 @@ export default function AboutTeamGrid() {
           }
         }
       } catch (error) {
-        // Silently use fallback data
         console.log("Using fallback team data");
       } finally {
         setLoading(false);
       }
     };
-    fetchTeam();
+    fetchTeamAndCategories();
   }, []);
 
   const filteredTeam = activeCategory === 'All'
@@ -69,7 +70,7 @@ export default function AboutTeamGrid() {
               onClick={() => setActiveCategory(category)}
               className={`px-6 py-2 rounded-full text-sm font-semibold transition-standard border ${activeCategory === category
                 ? 'bg-primary border-primary text-secondary shadow-soft'
-                : 'bg-white border-border text-muted-foreground hover:border-primary'
+                : 'bg-white/50 backdrop-blur-sm border-border text-muted-foreground hover:border-primary'
                 }`}
             >
               {category}
@@ -120,7 +121,7 @@ export default function AboutTeamGrid() {
         </div>
 
         {filteredTeam.length === 0 && (
-          <div className="text-center py-20 bg-muted rounded-xl">
+          <div className="text-center py-10">
             <p className="text-muted-foreground">No members found in this category yet.</p>
           </div>
         )}
