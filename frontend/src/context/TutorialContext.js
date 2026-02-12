@@ -57,27 +57,24 @@ const STEPS = [
         targetId: 'booking-address',
         path: '/booking?step=4',
         title: 'Enter Your Address',
-        content: 'Provide your complete address where the service is needed.',
-        position: 'bottom',
-        disableNext: true
+        content: 'Fill in your address details, then click Next.',
+        position: 'bottom'
     },
     {
         id: 'booking-date-step',
         targetId: 'booking-date-time',
         path: '/booking?step=4',
         title: 'Set Date & Time',
-        content: 'Choose when you need the service to start.',
-        position: 'bottom',
-        disableNext: true
+        content: 'Choose your preferred start date and time, then click Next.',
+        position: 'bottom'
     },
     {
         id: 'booking-submit-step',
         targetId: 'booking-submit-btn',
         path: '/booking?step=4',
         title: 'Confirm Your Booking',
-        content: 'Review your details and click "Confirm Booking" to submit!',
-        position: 'top',
-        disableNext: true
+        content: 'Review all your details and click "Confirm Booking" to complete!',
+        position: 'top'
     },
     {
         id: 'dashboard-step',
