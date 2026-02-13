@@ -43,7 +43,7 @@ const STEPS = [
     },
     {
         id: 'booking-subcategory-step',
-        targetId: 'booking-subcategory-list',
+        targetId: 'booking-subcategory-heading',
         path: '/booking?step=3',
         title: 'Customize Your Package',
         content: 'Add services to your cart by clicking the + button, then click the \"Next\" button at the bottom.',

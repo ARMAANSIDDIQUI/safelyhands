@@ -404,7 +404,7 @@ export default function BookingWizard() {
                                     {/* Left: Options */}
                                     <div className="flex-1 space-y-6">
                                         <div className="flex justify-between items-center">
-                                            <h2 className="text-xl font-bold text-slate-800">Available Options</h2>
+                                            <h2 className="text-xl font-bold text-slate-800" id="booking-subcategory-heading">Available Options</h2>
                                             <span className="text-xs font-bold px-3 py-1 bg-sky-100 text-sky-600 rounded-full">
                                                 {selectedService?.selectionMode === 'multiple' ? 'Multi-Select' : 'Single Select'}
                                             </span>
