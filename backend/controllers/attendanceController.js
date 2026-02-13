@@ -101,8 +101,8 @@ const markAttendance = async (req, res) => {
             return res.status(404).json({ message: 'Booking not found' });
         }
 
-        // Validate service is still active
-        if (!isServiceActive(booking)) {
+        // Validate service is still active (skip for admin)
+        if (req.user.role !== 'admin' && !isServiceActive(booking)) {
             return res.status(400).json({
                 message: 'Service has ended. Attendance cannot be marked.'
             });
@@ -111,8 +111,8 @@ const markAttendance = async (req, res) => {
         const attendanceDate = date ? new Date(date) : new Date();
         attendanceDate.setHours(0, 0, 0, 0); // Normalize date
 
-        // Validate the date is valid for this booking's frequency
-        if (!isValidAttendanceDate(booking, attendanceDate)) {
+        // Validate the date is valid for this booking's frequency (skip for admin)
+        if (req.user.role !== 'admin' && !isValidAttendanceDate(booking, attendanceDate)) {
             return res.status(400).json({
                 message: `Attendance cannot be marked for this date. This is a ${booking.frequency} service.`
             });
