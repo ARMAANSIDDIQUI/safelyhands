@@ -24,7 +24,10 @@ export const AuthProvider = ({ children }) => {
         const currentUser = getUser();
         const token = getToken();
         if (currentUser && token) {
+            console.log("AuthContext: Restoring session. Token present:", !!token);
             setUser({ ...currentUser, token });
+        } else {
+            console.log("AuthContext: No session found in localStorage");
         }
         setLoading(false);
     }, []);
@@ -43,6 +46,7 @@ export const AuthProvider = ({ children }) => {
 
             // Save session using centralized utility
             saveSession(data, data.token);
+            console.log("AuthContext: Login successful. Token:", data.token ? "Yes" : "No");
             setUser(data);
 
             // Redirect based on role
@@ -93,6 +97,7 @@ export const AuthProvider = ({ children }) => {
 
             // Save session using centralized utility
             saveSession(data, data.token);
+            console.log("AuthContext: Email verified. Token:", data.token ? "Yes" : "No");
             setUser(data);
 
             router.push("/dashboard");

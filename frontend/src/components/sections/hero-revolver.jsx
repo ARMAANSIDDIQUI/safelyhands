@@ -39,7 +39,7 @@ export default function HeroRevolver() {
 
         const interval = setInterval(() => {
             setActive(i => (i - 1 + services.length) % services.length);
-        }, 2000);
+        }, 3000);
 
         return () => clearInterval(interval);
     }, [services, isPaused]);

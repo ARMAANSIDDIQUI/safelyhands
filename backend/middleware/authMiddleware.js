@@ -15,7 +15,7 @@ const protect = async (req, res, next) => {
 
             // Check if token exists and is not empty
             if (!token || token === 'undefined' || token === 'null') {
-                console.log('Auth Middleware: Token is undefined/null string');
+                console.log('Auth Middleware: Token is invalid. Value:', token, 'Type:', typeof token);
                 return res.status(401).json({ message: 'Not authorized, invalid token' });
             }
 

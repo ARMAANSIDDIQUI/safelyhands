@@ -7,7 +7,7 @@ import Link from 'next/link';
 const cards = [
     {
         title: "Get Health Insurance",
-        description: "Get your worker the cheapest health insurance in partnership with us & secure their health & future.",
+        description: "We provide our workers with affordable health insurance to secure their health & future.",
         bgColor: "bg-[#fff9e6]",
         titleColor: "text-[#e67e22]",
         btnColor: "bg-[#f39c12]",
@@ -15,7 +15,7 @@ const cards = [
         link: "/services/health-insurance"
     },
     {
-        title: "Register as a worker (Broomee)",
+        title: "Register as a worker",
         description: "Register to work with us! Just fill this form, and we will get back to you.",
         bgColor: "bg-[#fff1f2]",
         titleColor: "text-[#e11d48]",
@@ -24,7 +24,7 @@ const cards = [
         link: "/register/helper"
     },
     {
-        title: "Refer a worker (Broomee)",
+        title: "Refer a worker",
         description: "Do your bit by getting them a job that pays well! Help them register as a Broomee now & get rewards up to Rs. 100",
         bgColor: "bg-[#e0f2fe]",
         titleColor: "text-[#0ea5e9]",
@@ -34,7 +34,7 @@ const cards = [
     },
     {
         title: "Worker Child Education",
-        description: "Empower your worker's children with quality education and support. Help shape a brighter future for the next generation.",
+        description: "We support our workers' children with quality education to help shape a brighter future for the next generation.",
         bgColor: "bg-[#f0fdf4]",
         titleColor: "text-[#16a34a]",
         btnColor: "bg-[#22c55e]",

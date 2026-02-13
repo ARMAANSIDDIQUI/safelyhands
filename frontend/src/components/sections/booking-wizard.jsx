@@ -247,6 +247,8 @@ export default function BookingWizard() {
         };
 
         try {
+            console.log("BookingWizard: Submitting booking. Token:", user.token);
+
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
                 method: "POST",
                 headers: {
@@ -435,7 +437,13 @@ export default function BookingWizard() {
                                                 return (
                                                     <div key={sub._id} className="bg-white border border-slate-200 rounded-2xl p-4 flex gap-4 transition-all hover:shadow-md">
                                                         <div className="w-24 h-24 relative rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                                                            <Image src={sub.image || selectedService.imageUrl} alt={sub.name} fill className="object-cover" />
+                                                            <Image
+                                                                src={sub.image || selectedService.imageUrl}
+                                                                alt={sub.name}
+                                                                fill
+                                                                className="object-cover"
+                                                                sizes="(max-width: 768px) 96px, 128px"
+                                                            />
                                                         </div>
                                                         <div className="flex-1">
                                                             <h3 className="font-bold text-slate-900">{sub.name}</h3>
