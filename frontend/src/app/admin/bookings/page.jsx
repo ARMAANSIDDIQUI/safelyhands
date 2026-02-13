@@ -35,7 +35,8 @@ export default function AdminBookings() {
 
     const [workers, setWorkers] = useState([]);
     const [selectedWorker, setSelectedWorker] = useState({});
-    const [filter, setFilter] = useState('new');
+    const [filter, setFilter] = useState('all');
+    const [searchTerm, setSearchTerm] = useState("");
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [workersWithAvailability, setWorkersWithAvailability] = useState({});
     const [editingBooking, setEditingBooking] = useState(null);
@@ -500,61 +501,70 @@ export default function AdminBookings() {
                                                 {/* Assignment UI */}
                                                 {booking.status === 'pending' && (
                                                     <div className="flex items-center gap-2">
-                                                        <div className="relative group">
-                                                            <select
-                                                                className={`p-2 border rounded-md text-xs w-32 focus:ring-1 focus:ring-blue-500 outline-none
-                                                                    ${workersWithAvailability[booking._id]?.find(w => w._id === selectedWorker[booking._id])?.isAvailable === false ? 'border-red-300 bg-red-50 text-red-700' : 'border-slate-200'}`}
-                                                                onFocus={() => fetchAvailability(booking)}
-                                                                onChange={(e) => setSelectedWorker({ ...selectedWorker, [booking._id]: e.target.value })}
-                                                                value={selectedWorker[booking._id] || ""}
-                                                            >
-                                                                <option value="">Assign Professional</option>
-                                                                {(workersWithAvailability[booking._id] || workers).map(w => (
-                                                                    <option key={w._id} value={w._id} className={w.isAvailable === false ? 'text-red-600 font-bold' : ''}>
-                                                                        {w.name} {w.isAvailable === false ? ' (Busy)' : ''}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-
-                                                            {/* Availability Hover Info */}
-                                                            {selectedWorker[booking._id] && (
-                                                                <div className="absolute right-0 bottom-full mb-2 w-48 bg-white border border-slate-200 shadow-xl rounded-lg p-3 z-50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                                                                    {(() => {
-                                                                        const w = (workersWithAvailability[booking._id] || workers).find(x => x._id === selectedWorker[booking._id]);
-                                                                        if (!w) return null;
-                                                                        return (
-                                                                            <div className="space-y-2 text-left">
-                                                                                <div className="flex items-center justify-between border-b pb-1 mb-1 border-slate-100">
-                                                                                    <span className="text-[10px] font-bold text-slate-400">Schedule Check</span>
-                                                                                    <span className={`text-[10px] font-bold ${w.isAvailable ? 'text-emerald-600' : 'text-rose-600'}`}>
-                                                                                        {w.isAvailable ? 'AVAILABLE' : 'BUSY'}
-                                                                                    </span>
-                                                                                </div>
-                                                                                {w.isAvailable ? (
-                                                                                    <p className="text-[9px] text-slate-500 italic">No direct conflicts found for this slot.</p>
-                                                                                ) : (
-                                                                                    <div className="bg-rose-50 p-1.5 rounded border border-rose-100">
-                                                                                        <p className="text-[9px] font-bold text-rose-700">Conflict:</p>
-                                                                                        <p className="text-[9px] text-rose-600 capitalize">{w.conflict?.serviceType} at {w.conflict?.time}</p>
-                                                                                        <p className="text-[8px] text-rose-400">({w.conflict?.frequency})</p>
-                                                                                    </div>
-                                                                                )}
-                                                                                {w.currentSchedule?.length > 0 && (
-                                                                                    <div className="pt-1">
-                                                                                        <p className="text-[8px] font-bold text-slate-400 uppercase mb-1">Load:</p>
-                                                                                        {w.currentSchedule.slice(0, 2).map((s, idx) => (
-                                                                                            <div key={idx} className="text-[8px] text-slate-600 leading-tight">
-                                                                                                • {s.time} - {s.serviceType}
-                                                                                            </div>
-                                                                                        ))}
-                                                                                    </div>
-                                                                                )}
-                                                                            </div>
-                                                                        );
-                                                                    })()}
+                                                        <Popover>
+                                                            <PopoverTrigger asChild>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    size="sm"
+                                                                    className={`w-36 justify-between text-xs font-normal
+                                                                        ${workersWithAvailability[booking._id]?.find(w => w._id === selectedWorker[booking._id])?.isAvailable === false ? 'border-red-300 bg-red-50 text-red-700' : 'border-slate-200'}`}
+                                                                    onMouseEnter={() => !workersWithAvailability[booking._id] && fetchAvailability(booking)}
+                                                                >
+                                                                    <div className="flex items-center truncate">
+                                                                        {selectedWorker[booking._id] ?
+                                                                            (workersWithAvailability[booking._id] || workers).find(w => w._id === selectedWorker[booking._id])?.name || "Select Professional"
+                                                                            : "Select Prof"}
+                                                                    </div>
+                                                                    <Search className="ml-2 h-3 w-3 opacity-50 shrink-0" />
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-64 p-0 bg-white" align="end shadow-xl border-slate-200">
+                                                                <div className="p-2 border-b">
+                                                                    <div className="flex items-center px-2 py-1 bg-slate-50 rounded-md border">
+                                                                        <Search size={14} className="text-slate-400 mr-2" />
+                                                                        <input
+                                                                            type="text"
+                                                                            placeholder="Search professional..."
+                                                                            value={searchTerm}
+                                                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                                                            className="bg-transparent border-none outline-none text-xs w-full"
+                                                                        />
+                                                                    </div>
                                                                 </div>
-                                                            )}
-                                                        </div>
+                                                                <div className="max-h-60 overflow-y-auto p-1">
+                                                                    {(workersWithAvailability[booking._id] || workers)
+                                                                        .filter(w => w.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                                                                        .map((w) => (
+                                                                            <button
+                                                                                key={w._id}
+                                                                                onClick={() => {
+                                                                                    setSelectedWorker({ ...selectedWorker, [booking._id]: w._id });
+                                                                                    setSearchTerm("");
+                                                                                }}
+                                                                                className={`w-full text-left px-3 py-2 text-xs rounded-md hover:bg-slate-50 flex items-center justify-between
+                                                                                    ${selectedWorker[booking._id] === w._id ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-700'}
+                                                                                    ${w.isAvailable === false ? 'opacity-60 bg-red-50/20' : ''}`}
+                                                                            >
+                                                                                <div className="flex flex-col">
+                                                                                    <span className="truncate">{w.name}</span>
+                                                                                    <span className="text-[10px] text-slate-500">{w.profession || 'Professional'}</span>
+                                                                                </div>
+                                                                                <div className="flex items-center gap-1">
+                                                                                    {w.isAvailable === false && (
+                                                                                        <span className="text-[9px] font-bold text-rose-500 bg-rose-50 px-1 rounded" title={w.conflict ? `${w.conflict.serviceType} at ${w.conflict.time}` : 'Busy'}>BUSY</span>
+                                                                                    )}
+                                                                                    {selectedWorker[booking._id] === w._id && <Check size={12} className="text-blue-600" />}
+                                                                                </div>
+                                                                            </button>
+                                                                        ))}
+                                                                    {(workersWithAvailability[booking._id] || workers)
+                                                                        .filter(w => w.name.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 && (
+                                                                            <p className="p-4 text-center text-xs text-slate-500">No professionals found</p>
+                                                                        )}
+                                                                </div>
+                                                            </PopoverContent>
+                                                        </Popover>
+
                                                         <button
                                                             onClick={() => handleAssignWorker(booking._id)}
                                                             className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 border border-blue-100"
