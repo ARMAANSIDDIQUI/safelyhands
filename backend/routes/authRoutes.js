@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
     registerUser,
+    verifyEmail,
     loginUser,
     googleAuth,
     googleAuthCallback,
@@ -14,6 +15,7 @@ const {
 const { protect, admin } = require('../middleware/authMiddleware');
 
 router.post('/register', registerUser);
+router.post('/verify-email', verifyEmail);
 router.post('/login', loginUser);
 router.put('/profile/password', protect, updatePassword);
 router.put('/profile', protect, updateProfile);

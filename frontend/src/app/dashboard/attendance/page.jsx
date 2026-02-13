@@ -196,7 +196,7 @@ export default function AttendancePage() {
                     value={selectedBooking?._id}
                     onValueChange={(val) => setSelectedBooking(bookings.find(b => b._id === val))}
                 >
-                    <SelectTrigger className="w-[280px]">
+                    <SelectTrigger className="w-full md:w-[280px]">
                         <SelectValue placeholder="Select booking" />
                     </SelectTrigger>
                     <SelectContent>
@@ -410,7 +410,7 @@ export default function AttendancePage() {
                     <CardTitle>Attendance History</CardTitle>
                     <CardDescription>View past attendance records</CardDescription>
                 </CardHeader>
-                <CardContent className="flex justify-center p-6">
+                <CardContent className="flex justify-center p-4 md:p-6 overflow-x-auto">
                     <Calendar
                         mode="single"
                         selected={calendarDate}

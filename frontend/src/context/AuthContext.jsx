@@ -10,6 +10,7 @@ const AuthContext = createContext({
     loading: true,
     login: async () => { },
     register: async () => { },
+    verifyEmail: async () => { },
     logout: () => { }
 });
 
@@ -71,6 +72,25 @@ export const AuthProvider = ({ children }) => {
 
             if (!res.ok) throw new Error(data.message || "Signup failed");
 
+            // Don't log in yet - wait for OTP verification
+            return { success: true, message: data.message, email: data.email };
+        } catch (error) {
+            return { success: false, message: error.message };
+        }
+    };
+
+    const verifyEmail = async (email, otp) => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, otp }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.message || "Verification failed");
+
             // Save session using centralized utility
             saveSession(data, data.token);
             setUser(data);
@@ -89,7 +109,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, setUser, loading, login, register, verifyEmail, logout }}>
             {children}
         </AuthContext.Provider>
     );

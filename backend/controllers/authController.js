@@ -29,40 +29,114 @@ const registerUser = async (req, res) => {
         const { name, email, password, phone } = req.body;
 
         // Check if user exists
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
+        let user = await User.findOne({ email });
 
-        // Hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create user
-        const user = await User.create({
-            name,
-            email,
-            password: hashedPassword,
-            phone,
-        });
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
         if (user) {
-            res.status(201).json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                phone: user.phone,
-                isGoogleUser: !!user.googleId,
-                profilePicture: user.profilePicture,
-                token: generateToken(user._id),
-            });
+            if (user.isVerified) {
+                return res.status(400).json({ message: 'User already exists' });
+            }
+
+            // User exists but not verified - Resend OTP logic
+            if (user.lastOtpRequestDate && user.lastOtpRequestDate >= today) {
+                if (user.otpRequestsToday >= 5) {
+                    return res.status(429).json({ message: 'Daily OTP limit reached (5/day). Please try again tomorrow.' });
+                }
+            } else {
+                user.otpRequestsToday = 0;
+                user.lastOtpRequestDate = today;
+            }
+
+            // Update user details if provided (optional, but good for corrections)
+            if (name) user.name = name;
+            if (password) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(password, salt);
+            }
+            if (phone) user.phone = phone;
+
         } else {
-            res.status(400).json({ message: 'Invalid user data' });
+            // New User
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            user = new User({
+                name,
+                email,
+                password: hashedPassword,
+                phone,
+                otpRequestsToday: 0,
+                lastOtpRequestDate: today
+            });
         }
+
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        user.otp = otp;
+        user.otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes expiry
+        user.otpRequestsToday += 1;
+        user.lastOtpRequestDate = new Date();
+
+        await user.save();
+
+        // Send Email
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: user.email,
+            subject: 'Email Verification OTP - Safely Hands',
+            text: `Your OTP for email verification is: ${otp}\n\nThis OTP is valid for 5 minutes.\n\nNote: You have used ${user.otpRequestsToday}/5 OTP requests today.`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({
+            message: 'OTP sent to your email. Please verify to complete registration.',
+            email: user.email
+        });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Verify Email OTP
+// @route   POST /api/auth/verify-email
+// @access  Public
+const verifyEmail = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        const user = await User.findOne({
+            email,
+            otp,
+            otpExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+
+        user.isVerified = true;
+        user.otp = undefined;
+        user.otpExpires = undefined;
+        await user.save();
+
+        res.status(201).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            phone: user.phone,
+            isGoogleUser: !!user.googleId,
+            profilePicture: user.profilePicture,
+            token: generateToken(user._id),
+        });
+
+    } catch (error) {
+        console.error("Verification Error:", error);
+        res.status(500).json({ message: 'Server error during verification' });
     }
 };
 
@@ -77,6 +151,9 @@ const loginUser = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user && (await bcrypt.compare(password, user.password))) {
+            if (!user.isVerified) {
+                return res.status(401).json({ message: 'Email not verified. Please register again to verify.' });
+            }
             res.json({
                 _id: user._id,
                 name: user.name,
@@ -118,8 +195,12 @@ const googleAuth = async (req, res) => {
             // Update profile picture if changed
             if (picture && user.profilePicture !== picture) {
                 user.profilePicture = picture;
-                await user.save();
             }
+            // Ensure Google users are verified
+            if (!user.isVerified) {
+                user.isVerified = true;
+            }
+            await user.save();
             return res.json({
                 _id: user._id,
                 name: user.name,
@@ -128,6 +209,7 @@ const googleAuth = async (req, res) => {
                 phone: user.phone,
                 isGoogleUser: !!user.googleId,
                 profilePicture: user.profilePicture,
+                isVerified: true,
                 token: generateToken(user._id),
             });
         }
@@ -142,7 +224,8 @@ const googleAuth = async (req, res) => {
             email,
             password: hashedPassword,
             googleId: sub,
-            profilePicture: picture
+            profilePicture: picture,
+            isVerified: true // Google users are automatically verified
         });
 
         if (user) {
@@ -154,6 +237,7 @@ const googleAuth = async (req, res) => {
                 phone: user.phone,
                 isGoogleUser: !!user.googleId,
                 profilePicture: user.profilePicture,
+                isVerified: true,
                 token: generateToken(user._id),
             });
         }
@@ -206,7 +290,8 @@ const googleAuthCallback = async (req, res) => {
                 email,
                 password: hashedPassword,
                 googleId,
-                profilePicture: picture
+                profilePicture: picture,
+                isVerified: true // Google users are automatically verified
             });
         }
 
@@ -227,7 +312,8 @@ const googleAuthCallback = async (req, res) => {
             role: user.role,
             phone: user.phone,
             isGoogleUser: !!user.googleId,
-            profilePicture: user.profilePicture
+            profilePicture: user.profilePicture,
+            isVerified: true
         }))}`);
 
 
@@ -249,6 +335,9 @@ const updateProfile = async (req, res) => {
             // Use !== undefined to allow empty string for phone
             if (req.body.phone !== undefined) {
                 user.phone = req.body.phone;
+            }
+            if (req.body.profilePicture !== undefined) {
+                user.profilePicture = req.body.profilePicture;
             }
 
             // If email update is allowed in future, add here (careful with auth)
@@ -351,7 +440,7 @@ const forgotPassword = async (req, res) => {
 
         // Save OTP and increment counter
         user.otp = otp;
-        user.otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes expiry
+        user.otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes expiry
         user.otpRequestsToday += 1;
         user.lastOtpRequestDate = new Date(); // Update to current time for tracking
         await user.save();
@@ -444,6 +533,7 @@ const getUsers = async (req, res) => {
 
 module.exports = {
     registerUser,
+    verifyEmail,
     loginUser,
     googleAuth,
     googleAuthCallback,

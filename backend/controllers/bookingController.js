@@ -14,8 +14,8 @@ const createBooking = async (req, res) => {
         if (frequency === 'One-time') {
             // End date is same as start date (already set)
         } else {
-            // For Daily, Weekly, Live-in, default to 30 days active if not specified
-            endDate.setDate(endDate.getDate() + 30);
+            // For Daily, Weekly, Live-in, set duration to 1 Month
+            endDate.setMonth(endDate.getMonth() + 1);
         }
 
         const booking = await Booking.create({
@@ -283,7 +283,7 @@ const updateBooking = async (req, res) => {
             const newEndDate = new Date(booking.date);
 
             if (booking.frequency !== 'One-time') {
-                newEndDate.setDate(newEndDate.getDate() + 30);
+                newEndDate.setMonth(newEndDate.getMonth() + 1);
             }
 
             booking.startDate = newStartDate;

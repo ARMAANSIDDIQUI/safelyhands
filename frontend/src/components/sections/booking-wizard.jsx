@@ -499,9 +499,15 @@ export default function BookingWizard() {
                                                         </div>
                                                     ))}
 
-                                                    <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
-                                                        <span className="font-bold text-slate-700">Total</span>
-                                                        <span className="font-bold text-xl text-sky-600">₹{calculatedTotal}</span>
+                                                    <div className="border-t border-slate-200 pt-4">
+                                                        <div className="flex justify-between items-center mb-2">
+                                                            <span className="text-sm font-medium text-slate-600">Duration</span>
+                                                            <span className="text-sm font-bold text-slate-800">1 Month (Daily Service)</span>
+                                                        </div>
+                                                        <div className="flex justify-between items-center">
+                                                            <span className="font-bold text-slate-700">Total</span>
+                                                            <span className="font-bold text-xl text-sky-600">₹{calculatedTotal}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )}
@@ -517,6 +523,17 @@ export default function BookingWizard() {
                                     <h2 className="text-2xl font-bold text-slate-900 mb-6">Final Details</h2>
 
                                     <div className="space-y-6">
+                                        {/* Duration Info */}
+                                        <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3">
+                                            <Info className="text-blue-600 mt-0.5" size={20} />
+                                            <div>
+                                                <h4 className="font-bold text-blue-800 text-sm">Monthly Service Plan</h4>
+                                                <p className="text-xs text-blue-600 mt-1">
+                                                    This booking is for a duration of 30 days. The worker will visit daily at your preferred time.
+                                                </p>
+                                            </div>
+                                        </div>
+
                                         {/* Date & Time */}
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>

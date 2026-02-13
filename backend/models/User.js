@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     otpExpires: { type: Date },
     otpRequestsToday: { type: Number, default: 0 },
     lastOtpRequestDate: { type: Date },
+    isVerified: { type: Boolean, default: false }, // Email verification status
     createdAt: { type: Date, default: Date.now }
 });
 
