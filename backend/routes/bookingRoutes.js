@@ -10,7 +10,8 @@ const {
     getWorkerBookings,
     deleteBooking,
     updateBooking,
-    markAttendance
+    markAttendance,
+    getValidDates
 } = require('../controllers/bookingController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
@@ -23,6 +24,8 @@ router.route('/mybookings').get(protect, getMyBookings);
 router.route('/worker/tasks').get(protect, getWorkerBookings); // New route
 
 router.route('/:id/attendance').put(protect, markAttendance);
+
+router.route('/:id/valid-dates').get(protect, getValidDates);
 
 router.route('/:id')
     .get(protect, getBookingById)

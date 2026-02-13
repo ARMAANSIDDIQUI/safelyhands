@@ -199,7 +199,7 @@ export default function DashboardPage() {
                             className="w-full justify-start h-auto py-4 px-6 bg-blue-600 hover:bg-blue-500 border-none shadow-lg group transition-all transform hover:translate-x-1"
                             asChild
                         >
-                            <Link href="/quick-book">
+                            <Link href="/booking">
                                 <div className="p-2 bg-blue-500 rounded-lg mr-4 group-hover:bg-blue-400 transition-colors">
                                     <Plus className="h-5 w-5 text-white" />
                                 </div>

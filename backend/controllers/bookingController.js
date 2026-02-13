@@ -346,6 +346,46 @@ const markAttendance = async (req, res) => {
     }
 };
 
+// @desc    Get valid scheduled dates for a booking
+// @route   GET /api/bookings/:id/valid-dates
+// @access  Private
+const getValidDates = async (req, res) => {
+    try {
+        const booking = await Booking.findById(req.params.id);
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        const validDates = [];
+        let current = new Date(booking.startDate || booking.date);
+        current.setHours(0, 0, 0, 0);
+
+        const end = booking.endDate ? new Date(booking.endDate) : new Date(current);
+        end.setHours(0, 0, 0, 0);
+
+        if (booking.frequency === 'One-time') {
+            validDates.push(new Date(current));
+        } else {
+            // Loop from startDate to endDate
+            while (current <= end) {
+                if (booking.frequency === 'Daily' || booking.frequency === 'Live-in' || booking.frequency === 'Day-shift' || booking.frequency === 'Part-time') {
+                    validDates.push(new Date(current));
+                } else if (booking.frequency === 'Weekly') {
+                    if (booking.weeklyDays && booking.weeklyDays.includes(current.getDay())) {
+                        validDates.push(new Date(current));
+                    }
+                }
+                current.setDate(current.getDate() + 1);
+            }
+        }
+
+        res.json({ validDates });
+    } catch (error) {
+        console.error('Error fetching valid dates:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     createBooking,
     getMyBookings,
@@ -356,5 +396,6 @@ module.exports = {
     getWorkerBookings,
     deleteBooking,
     updateBooking,
-    markAttendance
+    markAttendance,
+    getValidDates
 };

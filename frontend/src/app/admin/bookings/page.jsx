@@ -196,7 +196,13 @@ export default function AdminBookings() {
             });
 
             if (res.ok) {
-                toast.success(`Booking marked as ${status}`);
+                // If the only thing changed was paymentStatus, show a payment specific toast
+                const booking = bookings.find(b => b._id === bookingId);
+                if (booking && booking.status === status && booking.paymentStatus !== paymentStatus) {
+                    toast.success(`Payment status updated to ${paymentStatus}`);
+                } else {
+                    toast.success(`Booking marked as ${status}`);
+                }
                 dispatch(invalidateAdminBookings());
                 dispatch(fetchAllBookings());
             } else {

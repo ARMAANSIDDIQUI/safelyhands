@@ -177,7 +177,7 @@ export default function MyBookingsPage() {
                 },
                 body: JSON.stringify({
                     bookingId: reviewBooking._id,
-                    workerId: reviewBooking.assignedWorker._id,
+                    workerId: reviewBooking.assignedWorker?._id,
                     rating: reviewForm.rating,
                     comment: reviewForm.comment
                 })
@@ -267,7 +267,7 @@ export default function MyBookingsPage() {
                         Refresh
                     </Button>
                     <Button asChild>
-                        <Link href="/quick-book">Book New</Link>
+                        <Link href="/booking">Book New</Link>
                     </Button>
                 </div>
             </div>
@@ -316,7 +316,7 @@ export default function MyBookingsPage() {
                             {activeTab === 'history' && "No past booking history found."}
                         </p>
                         {activeTab !== 'history' && (
-                            <Link href="/quick-book" className="text-primary-600 font-medium hover:underline">
+                            <Link href="/booking" className="text-primary-600 font-medium hover:underline">
                                 Book Now
                             </Link>
                         )}
