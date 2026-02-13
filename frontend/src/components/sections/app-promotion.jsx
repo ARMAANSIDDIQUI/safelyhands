@@ -21,7 +21,6 @@ const AppPromotion = () => {
         checkStandalone();
 
         const handleBeforeInstallPrompt = (e) => {
-            e.preventDefault();
             setDeferredPrompt(e);
             console.log("PWA: beforeinstallprompt fired");
         };
