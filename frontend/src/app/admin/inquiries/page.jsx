@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { format } from 'date-fns';
 import { Loader2, Search, CheckCircle, XCircle, Clock, Filter, Eye, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import ConfirmationModal from '@/components/ui/confirmation-modal';
 
 export default function AdminInquiriesPage() {
     const { user, loading: authLoading } = useAuth();
@@ -13,6 +14,11 @@ export default function AdminInquiriesPage() {
     const [selectedType, setSelectedType] = useState('All');
     const [selectedStatus, setSelectedStatus] = useState('All');
     const [selectedInquiry, setSelectedInquiry] = useState(null); // For detail modal
+
+    // Delete Confirmation State
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [inquiryToDelete, setInquiryToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const fetchInquiries = async () => {
         try {
@@ -69,15 +75,12 @@ export default function AdminInquiriesPage() {
         }
     };
 
-    const handleDeleteInquiry = async (id, event) => {
-        if (event) event.stopPropagation();
+    const confirmDelete = async () => {
+        if (!inquiryToDelete) return;
 
-        if (!window.confirm("Are you sure you want to delete this inquiry? This action cannot be undone.")) {
-            return;
-        }
-
+        setIsDeleting(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inquiries/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inquiries/${inquiryToDelete}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${user.token}`
@@ -88,17 +91,27 @@ export default function AdminInquiriesPage() {
 
             if (res.ok) {
                 toast.success('Inquiry deleted successfully');
-                setInquiries(prev => prev.filter(item => item._id !== id));
-                if (selectedInquiry?._id === id) {
+                setInquiries(prev => prev.filter(item => item._id !== inquiryToDelete));
+                if (selectedInquiry?._id === inquiryToDelete) {
                     setSelectedInquiry(null);
                 }
+                setDeleteModalOpen(false);
+                setInquiryToDelete(null);
             } else {
                 toast.error(data.message || 'Failed to delete inquiry');
             }
         } catch (error) {
             console.error(error);
             toast.error('Failed to delete inquiry');
+        } finally {
+            setIsDeleting(false);
         }
+    };
+
+    const handleDeleteClick = (id, event) => {
+        if (event) event.stopPropagation();
+        setInquiryToDelete(id);
+        setDeleteModalOpen(true);
     };
 
     if (loading && inquiries.length === 0) {
@@ -185,7 +198,7 @@ export default function AdminInquiriesPage() {
                                                 <Eye size={16} /> View
                                             </button>
                                             <button
-                                                onClick={(e) => handleDeleteInquiry(inquiry._id, e)}
+                                                onClick={(e) => handleDeleteClick(inquiry._id, e)}
                                                 className="text-red-500 hover:text-red-600 font-medium text-sm flex items-center gap-1 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors"
                                                 title="Delete Inquiry"
                                             >
@@ -217,7 +230,7 @@ export default function AdminInquiriesPage() {
                             </div>
                             <div className="flex gap-2">
                                 <button
-                                    onClick={(e) => handleDeleteInquiry(selectedInquiry._id, e)}
+                                    onClick={(e) => handleDeleteClick(selectedInquiry._id, e)}
                                     className="p-2 hover:bg-red-50 text-red-500 rounded-full transition-colors"
                                     title="Delete this inquiry"
                                 >
@@ -282,6 +295,17 @@ export default function AdminInquiriesPage() {
                     </div>
                 </div>
             )}
+
+            <ConfirmationModal
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                onConfirm={confirmDelete}
+                title="Delete Inquiry"
+                message="Are you sure you want to delete this inquiry? This action cannot be undone."
+                confirmText="Delete"
+                isDestructive={true}
+                isLoading={isDeleting}
+            />
         </div>
     );
 }
