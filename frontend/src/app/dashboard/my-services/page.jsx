@@ -51,7 +51,7 @@ export default function MyServicesPage() {
                 },
                 body: JSON.stringify({
                     bookingId: reviewModal._id,
-                    workerId: reviewModal.assignedWorker._id,
+                    workerId: reviewModal.assignedWorker?._id,
                     rating: reviewForm.rating,
                     comment: reviewForm.comment
                 })
@@ -169,7 +169,7 @@ export default function MyServicesPage() {
             {reviewModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl p-6 max-w-md w-full">
-                        <h3 className="text-xl font-bold mb-4">Review {reviewModal.assignedWorker.name}</h3>
+                        <h3 className="text-xl font-bold mb-4">Review {reviewModal?.assignedWorker?.name}</h3>
                         <form onSubmit={submitReview} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-semibold mb-2">Rating</label>

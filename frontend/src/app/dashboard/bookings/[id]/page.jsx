@@ -80,6 +80,7 @@ export default function BookingDetailPage() {
                 },
                 body: JSON.stringify({
                     bookingId: booking._id,
+                    workerId: booking.assignedWorker?._id,
                     rating: reviewRating,
                     comment: reviewComment
                 })
@@ -176,13 +177,13 @@ export default function BookingDetailPage() {
                                         <AvatarFallback>{booking.assignedWorker.name[0]}</AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <h3 className="font-bold text-lg">{booking.assignedWorker.name}</h3>
-                                        <p className="text-sm text-gray-500">{booking.assignedWorker.profession}</p>
+                                        <h3 className="font-bold text-lg">{booking.assignedWorker?.name}</h3>
+                                        <p className="text-sm text-gray-500">{booking.assignedWorker?.profession}</p>
                                     </div>
                                     <div className="flex items-center justify-center gap-1 text-yellow-500">
                                         <Star className="fill-current w-4 h-4" />
-                                        <span className="font-medium text-black">{booking.assignedWorker.rating}</span>
-                                        <span className="text-gray-400 text-xs">({booking.assignedWorker.numReviews || 0} reviews)</span>
+                                        <span className="font-medium text-black">{booking.assignedWorker?.rating}</span>
+                                        <span className="text-gray-400 text-xs">({booking.assignedWorker?.numReviews || 0} reviews)</span>
                                     </div>
                                 </div>
                             ) : (

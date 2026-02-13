@@ -155,7 +155,7 @@ export default function DashboardPage() {
                                     </p>
                                 </div>
                             ) : (
-                                recentBookings.map(booking => (
+                                recentBookings.map(booking => booking && (
                                     <div key={booking._id} className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100 hover:bg-slate-100 transition-colors">
                                         <div className="flex items-center gap-4">
                                             <div className={`w-10 h-10 rounded-full flex items-center justify-center

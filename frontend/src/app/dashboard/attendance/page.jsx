@@ -386,7 +386,7 @@ export default function AttendancePage() {
                                 return (
                                     <div className="space-y-4">
                                         <p className="text-sm text-slate-600">
-                                            Was <strong>{selectedBooking.assignedWorker?.name}</strong> present on {format(calendarDate, "MMM do")}?
+                                            Was <strong>{selectedBooking?.assignedWorker?.name}</strong> present on {format(calendarDate, "MMM do")}?
                                         </p>
                                         <div className="flex gap-4">
                                             <Button
