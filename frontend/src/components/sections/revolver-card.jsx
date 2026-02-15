@@ -18,7 +18,8 @@ export default function RevolverCard({ service, slot, index }) {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        // Breakpoint changed to 768px (md) to support tablets
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
@@ -34,33 +35,33 @@ export default function RevolverCard({ service, slot, index }) {
             rotateY: 0,
         },
         top: { // prev
-            x: isMobile ? 120 : 300,
-            y: isMobile ? -140 : -220,
+            x: isMobile ? 100 : 300, // Reduced from 120 for mobile/tablet combo
+            y: isMobile ? -120 : -220, // Reduced from -140
             z: -200,
             rotateX: 0,
             rotateY: 0,
             opacity: 0.85,
-            scale: isMobile ? 0.55 : 0.7,
+            scale: isMobile ? 0.6 : 0.7, // Slightly larger on mobile
             zIndex: 20
         },
         center: { // active
-            x: isMobile ? -100 : -240,
+            x: isMobile ? -80 : -240, // Adjusted from -100
             y: 0,
             z: 150,
             rotateX: 0,
             rotateY: 0,
             opacity: 1,
-            scale: isMobile ? 0.75 : 1,
+            scale: isMobile ? 0.85 : 1, // Larger on mobile
             zIndex: 50
         },
         bottom: { // next
-            x: isMobile ? 120 : 300,
-            y: isMobile ? 140 : 220,
+            x: isMobile ? 100 : 300, // Reduced from 120
+            y: isMobile ? 120 : 220, // Reduced from 140
             z: -200,
             rotateX: 0,
             rotateY: 0,
             opacity: 0.85,
-            scale: isMobile ? 0.55 : 0.7,
+            scale: isMobile ? 0.6 : 0.7,
             zIndex: 20
         },
         exit: {
@@ -96,7 +97,7 @@ export default function RevolverCard({ service, slot, index }) {
                 }}
                 style={{ transformStyle: "preserve-3d" }}
                 className={`
-          relative w-[210px] h-[210px] md:w-[280px] md:h-[280px] lg:w-[320px] lg:h-[320px]
+          relative w-[180px] h-[180px] md:w-[240px] md:h-[240px] lg:w-[320px] lg:h-[320px]
           rounded-full shadow-2xl border-4 border-white/40
           backdrop-blur-2xl
           flex items-center justify-center

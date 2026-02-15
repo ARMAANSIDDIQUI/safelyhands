@@ -11,7 +11,8 @@ export default function HeroRevolver() {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        // Breakpoint changed to 768px (md) to support tablets
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
@@ -45,7 +46,7 @@ export default function HeroRevolver() {
     }, [services, isPaused]);
 
     if (services.length === 0) return (
-        <div className="h-[520px] flex items-center justify-center">
+        <div className="h-[400px] md:h-[500px] flex items-center justify-center">
             <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
         </div>
     );
@@ -60,22 +61,23 @@ export default function HeroRevolver() {
         <div
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            className="relative h-[400px] md:h-[600px] lg:h-[700px] w-full flex items-center justify-center overflow-visible perspective-[2500px]"
+            className="relative h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] w-full flex items-center justify-center overflow-visible perspective-[1200px] md:perspective-[2500px]"
         >
 
             {/* TAGLINE - Narrowed to 3 lines and shifted right to eliminate overlap */}
             <motion.div
-                initial={{ opacity: 0, x: isMobile ? 80 : 120, scale: isMobile ? 0.7 : 0.9 }}
-                animate={{ opacity: 1, x: isMobile ? 80 : 120, scale: isMobile ? 0.8 : 1 }}
-                className="absolute top-1/2 -translate-y-1/2 z-[100] pointer-events-none"
+                initial={{ opacity: 0, x: isMobile ? 60 : 80, scale: isMobile ? 0.7 : 0.8 }}
+                animate={{ opacity: 1, x: isMobile ? 60 : 80, scale: isMobile ? 0.7 : 1 }}
+                whileInView={{ x: isMobile ? 60 : 100 }}
+                className="absolute top-1/2 -translate-y-1/2 z-[100] pointer-events-none left-[5%] md:left-auto"
             >
-                <div className="max-w-[180px] md:max-w-[320px] text-center">
-                    <span className="text-blue-900/80 font-black text-xs md:text-xl lg:text-2xl tracking-[0.1em] md:tracking-[0.15em] uppercase block drop-shadow-sm leading-tight">
+                <div className="max-w-[140px] md:max-w-[220px] lg:max-w-[320px] text-center">
+                    <span className="text-blue-900/80 font-black text-[10px] md:text-sm lg:text-xl xl:text-2xl tracking-[0.1em] md:tracking-[0.15em] uppercase block drop-shadow-sm leading-tight">
                         Har zaroorat <br />
                         ke liye ek <br />
                         bharosemand haath
                     </span>
-                    <div className="h-0.5 w-8 md:w-12 bg-blue-400 mx-auto mt-2 rounded-full opacity-50"></div>
+                    <div className="h-0.5 w-6 md:w-8 lg:w-12 bg-blue-400 mx-auto mt-2 rounded-full opacity-50"></div>
                 </div>
             </motion.div>
 
