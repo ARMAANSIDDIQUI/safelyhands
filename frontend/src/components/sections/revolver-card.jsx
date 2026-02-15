@@ -97,7 +97,7 @@ export default function RevolverCard({ service, slot, index }) {
                 }}
                 style={{ transformStyle: "preserve-3d" }}
                 className={`
-          relative w-[180px] h-[180px] md:w-[240px] md:h-[240px] lg:w-[320px] lg:h-[320px]
+          relative w-[160px] h-[160px] md:w-[180px] md:h-[180px] lg:w-[240px] lg:h-[240px] xl:w-[280px] xl:h-[280px]
           rounded-full shadow-2xl border-4 border-white/40
           backdrop-blur-2xl
           flex items-center justify-center

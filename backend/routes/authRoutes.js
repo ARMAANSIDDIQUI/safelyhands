@@ -10,7 +10,8 @@ const {
     forgotPassword,
     resetPassword,
     updateProfile,
-    promoteToAdmin
+    promoteToAdmin,
+    resendOtp
 } = require('../controllers/authController');
 const { protect, admin } = require('../middleware/authMiddleware');
 

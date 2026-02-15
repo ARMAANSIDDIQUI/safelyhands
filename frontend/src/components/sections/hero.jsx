@@ -8,7 +8,7 @@ import HeroRevolver from './hero-revolver';
 
 const HeroSection = () => {
   return (
-    <section className="relative pt-40 pb-20 lg:pt-36 lg:pb-32 overflow-hidden bg-transparent">
+    <section className="relative pt-8 pb-2 md:pt-12 md:pb-4 lg:pt-16 lg:pb-8 xl:pt-20 xl:pb-12 overflow-hidden bg-transparent">
       {/* Dynamic Background Elements - Handled by GlobalBackground */}
 
       <div className="container mx-auto px-4 md:px-6">
@@ -17,12 +17,12 @@ const HeroSection = () => {
           {/* Content */}
           <div className="flex-1 text-center lg:text-left z-10 w-full lg:w-auto">
 
-            <h1 id="hero-title" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-display tracking-tight text-slate-900 mb-4 md:mb-6 leading-[1.1] md:leading-[1.05]">
+            <h1 id="hero-title" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-display tracking-tight text-slate-900 mb-4 md:mb-6 leading-[1.1] md:leading-[1.05]">
               India&apos;s trusted care and <br className="hidden sm:block" />
               <span className="text-gradient">staffing services</span>
             </h1>
 
-            <p className="text-lg md:text-xl lg:text-2xl text-slate-600 mb-8 md:mb-10 max-w-2xl lg:max-w-3xl mx-auto lg:mx-0 leading-relaxed font-medium">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 mb-6 md:mb-8 max-w-xl md:max-w-2xl lg:max-w-xl xl:max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
               From Domestic help to office support staff - Hire Trained, Background Verified professionals on demand
             </p>
 
@@ -50,7 +50,7 @@ const HeroSection = () => {
           </div>
 
           {/* Visuals - Hero Revolver Implementation - Visible on MD and up */}
-          <div className="hidden md:block flex-1 w-full relative h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
+          <div className="hidden md:block flex-1 w-full relative h-[350px] md:h-[400px] lg:h-[500px] xl:h-[600px]">
             <HeroRevolver />
           </div>
         </div>

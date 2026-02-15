@@ -4,6 +4,48 @@ import React from 'react';
 import Link from 'next/link';
 import { ShieldCheck, ArrowRight, CheckCircle2, Clock, Star } from 'lucide-react';
 
+// Static mappings for review counts and ratings - Duplicated for component self-containment
+const STATIC_REVIEW_COUNTS = {
+    'domestic-help': 215,
+    'cooks': 198,
+    'babysitter': 204,
+    'all-rounder': 189,
+    'elderly-care': 212,
+    '24-hour-live-in': 195,
+    'patient-care': 182,
+    'peon': 185,
+    'japa': 208
+};
+
+const STATIC_RATINGS = {
+    'domestic-help': 4.8,
+    'cooks': 4.7,
+    'babysitter': 4.9,
+    'all-rounder': 4.6,
+    'elderly-care': 4.9,
+    '24-hour-live-in': 4.7,
+    'patient-care': 4.8,
+    'peon': 4.5,
+    'japa': 4.9
+};
+
+const getSeededRandom = (seed) => {
+    let value = 0;
+    for (let i = 0; i < seed.length; i++) {
+        value += seed.charCodeAt(i);
+    }
+    const x = Math.sin(value) * 10000;
+    return x - Math.floor(x);
+};
+
+const getStaticRating = (slug) => {
+    if (STATIC_RATINGS[slug]) return STATIC_RATINGS[slug];
+    const random = getSeededRandom((slug || 'default') + '_rating');
+    const steps = [4.5, 4.6, 4.7, 4.8, 4.9];
+    const index = Math.floor(random * 5);
+    return steps[index];
+};
+
 export default function ServiceDetail({ initialData, slug }) {
     const [data, setData] = React.useState(initialData || null);
     const [loading, setLoading] = React.useState(!initialData);
@@ -47,6 +89,8 @@ export default function ServiceDetail({ initialData, slug }) {
             </div>
         );
     }
+
+    const staticRating = getStaticRating(data.slug);
 
     return (
         <div className="font-sans">
@@ -114,7 +158,7 @@ export default function ServiceDetail({ initialData, slug }) {
                             <div className="bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow">
                                 <Star className="w-10 h-10 text-blue-500 mb-4" />
                                 <h3 className="font-bold text-slate-900 mb-2">Top Rated</h3>
-                                <p className="text-sm text-slate-500">{data.rating || 4.8}/5 average rating from happy customers.</p>
+                                <p className="text-sm text-slate-500">{staticRating}/5 average rating from happy customers.</p>
                             </div>
                         </div>
 

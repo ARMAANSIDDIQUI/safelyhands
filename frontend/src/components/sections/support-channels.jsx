@@ -1,24 +1,24 @@
-import { Phone, Mail, MessageSquare, Apple, PlayCircle } from 'lucide-react';
+import { Phone, Mail, MessageSquare, Apple, PlayCircle, MapPin } from 'lucide-react';
 
 const SupportChannels = () => {
   const contactInfo = [
     {
       label: 'Phone Number',
-      value: '+91 8401-8401-42',
+      value: '+91 8218303038 / 076183 41297',
       icon: <Phone size={24} className="text-white" />,
-      link: 'tel:+918401840142',
+      link: 'tel:+918218303038',
     },
     {
-      label: 'E-mail ID',
-      value: 'Safelyhands@gmail.com',
-      icon: <Mail size={24} className="text-white" />,
-      link: 'mailto:Safelyhands@gmail.com',
+      label: 'Address',
+      value: 'Near Sai mandir Ramganga vihar MDA Moradabad 244001',
+      icon: <MapPin size={24} className="text-white" />,
+      link: 'https://maps.app.goo.gl/KZY2c7HvkHhAvhG69',
     },
     {
       label: 'Whatsapp',
-      value: '+91 8401-8401-42',
+      value: '+91 8218303038',
       icon: <MessageSquare size={24} className="text-white" />,
-      link: 'https://wa.me/918401840142',
+      link: 'https://wa.me/918218303038',
     },
   ];
 

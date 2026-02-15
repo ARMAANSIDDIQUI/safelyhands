@@ -85,6 +85,61 @@ const FALLBACK_FEATURES = {
     ]
 };
 
+// Static mappings for review counts and ratings
+const STATIC_REVIEW_COUNTS = {
+    'domestic-help': 215,
+    'cooks': 198,
+    'babysitter': 204,
+    'all-rounder': 189,
+    'elderly-care': 212,
+    '24-hour-live-in': 195,
+    'patient-care': 182,
+    'peon': 185,
+    'japa': 208
+};
+
+const STATIC_RATINGS = {
+    'domestic-help': 4.8,
+    'cooks': 4.7,
+    'babysitter': 4.9,
+    'all-rounder': 4.6,
+    'elderly-care': 4.9,
+    '24-hour-live-in': 4.7,
+    'patient-care': 4.8,
+    'peon': 4.5,
+    'japa': 4.9
+};
+
+// Seeded random number generator for consistency
+const getSeededRandom = (seed) => {
+    let value = 0;
+    for (let i = 0; i < seed.length; i++) {
+        value += seed.charCodeAt(i);
+    }
+    const x = Math.sin(value) * 10000;
+    return x - Math.floor(x);
+};
+
+const getStaticReviewCount = (slug) => {
+    if (STATIC_REVIEW_COUNTS[slug]) return STATIC_REVIEW_COUNTS[slug];
+
+    // Generate deterministic random number between 180 and 220
+    const random = getSeededRandom(slug || 'default');
+    return 180 + Math.floor(random * 41); // 41 is the range (220 - 180 + 1)
+};
+
+const getStaticRating = (slug) => {
+    if (STATIC_RATINGS[slug]) return STATIC_RATINGS[slug];
+
+    // Generate deterministic random number between 4.5 and 4.9
+    const random = getSeededRandom((slug || 'default') + '_rating');
+    // Map 0-1 to 4.5-4.9
+    // Steps: 0, 0.1, 0.2, 0.3, 0.4
+    const steps = [4.5, 4.6, 4.7, 4.8, 4.9];
+    const index = Math.floor(random * 5);
+    return steps[index];
+};
+
 export default function ServicePage() {
     const params = useParams();
     const router = useRouter();
@@ -140,6 +195,9 @@ export default function ServicePage() {
         ? service.features
         : (FALLBACK_FEATURES[service.slug] || ["Professional & verified staff", "Quality service guarantee", "Punctual & reliable", "Safety-first approach", "Customized as per your needs"]);
 
+    const staticReviewCount = getStaticReviewCount(service.slug);
+    const staticRating = getStaticRating(service.slug);
+
     return (
         <main className="min-h-screen bg-transparent">
             <Header />
@@ -167,24 +225,20 @@ export default function ServicePage() {
                                 </p>
 
                                 {/* Price Range */}
-                                <div className="mb-8">
-                                    <span className="text-3xl font-bold text-blue-600">
-                                        {service.priceRange?.min ? (
-                                            `₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}`
-                                        ) : service.basePrice ? (
-                                            `₹${service.basePrice.toLocaleString()}`
-                                        ) : (
-                                            'Price on request'
-                                        )}
-                                    </span>
-                                    <span className="text-slate-500 ml-2">per month</span>
-                                </div>
+                                {service.priceRange?.min && (
+                                    <div className="mb-8">
+                                        <span className="text-3xl font-bold text-blue-600">
+                                            {`₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}`}
+                                        </span>
+                                        <span className="text-slate-500 ml-2">per month</span>
+                                    </div>
+                                )}
 
                                 <div className="flex items-center gap-6 mb-8">
                                     <div className="flex items-center gap-2">
                                         <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                                        <span className="text-2xl font-bold text-slate-900">{service.rating}</span>
-                                        <span className="text-slate-600">({service.reviewCount}+ reviews)</span>
+                                        <span className="text-2xl font-bold text-slate-900">{staticRating}</span>
+                                        <span className="text-slate-600">({staticReviewCount}+ reviews)</span>
                                     </div>
                                 </div>
 

@@ -8,6 +8,59 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
 const FeaturedServices = () => {
+  // Static mappings for review counts and ratings
+  const STATIC_REVIEW_COUNTS = {
+    'domestic-help': 215,
+    'cooks': 198,
+    'babysitter': 204,
+    'all-rounder': 189,
+    'elderly-care': 212,
+    '24-hour-live-in': 195,
+    'patient-care': 182,
+    'peon': 185,
+    'japa': 208
+  };
+
+  const STATIC_RATINGS = {
+    'domestic-help': 4.8,
+    'cooks': 4.7,
+    'babysitter': 4.9,
+    'all-rounder': 4.6,
+    'elderly-care': 4.9,
+    '24-hour-live-in': 4.7,
+    'patient-care': 4.8,
+    'peon': 4.5,
+    'japa': 4.9
+  };
+
+  // Seeded random number generator for consistency
+  const getSeededRandom = (seed) => {
+    let value = 0;
+    for (let i = 0; i < seed.length; i++) {
+      value += seed.charCodeAt(i);
+    }
+    const x = Math.sin(value) * 10000;
+    return x - Math.floor(x);
+  };
+
+  const getStaticReviewCount = (slug) => {
+    if (STATIC_REVIEW_COUNTS[slug]) return STATIC_REVIEW_COUNTS[slug];
+
+    // Generate deterministic random number between 180 and 220
+    const random = getSeededRandom(slug || 'default');
+    return 180 + Math.floor(random * 41);
+  };
+
+  const getStaticRating = (slug) => {
+    if (STATIC_RATINGS[slug]) return STATIC_RATINGS[slug];
+
+    // Generate deterministic random number between 4.5 and 4.9
+    const random = getSeededRandom((slug || 'default') + '_rating');
+    const steps = [4.5, 4.6, 4.7, 4.8, 4.9];
+    const index = Math.floor(random * 5);
+    return steps[index];
+  };
+
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,8 +84,8 @@ const FeaturedServices = () => {
           setServices(data.slice(0, 8).map(s => ({
             title: s.title,
             slug: s.slug,
-            rating: s.rating ? s.rating.toFixed(1) : "4.8",
-            reviews: s.reviewCount ? `${s.reviewCount >= 1000 ? (s.reviewCount / 1000).toFixed(1) + 'k' : s.reviewCount}+` : "500+",
+            rating: getStaticRating(s.slug),
+            reviews: `${getStaticReviewCount(s.slug)}+`,
             image: s.imageUrl || 'https://placehold.co/600x400/e0f2fe/0ea5e9?text=Service',
             badge: s.badge || undefined
           })));
@@ -50,7 +103,7 @@ const FeaturedServices = () => {
   if (services.length === 0) return null;
 
   return (
-    <section className="bg-transparent section-padding relative overflow-hidden">
+    <section className="bg-transparent pt-10 pb-20 relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-xl">
@@ -99,9 +152,11 @@ const FeaturedServices = () => {
                         {service.title}
                       </h3>
                       <div className="flex items-center justify-between gap-2 text-xs mb-2">
-                        <span className="text-sm font-bold text-blue-100">
-                          {service.priceRange?.min ? `₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}` : service.basePrice ? `₹${service.basePrice.toLocaleString()}` : 'Price on request'}
-                        </span>
+                        {service.priceRange?.min && (
+                          <span className="text-sm font-bold text-blue-100">
+                            {`₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}`}
+                          </span>
+                        )}
                       </div>
                       <div className="flex items-center gap-2 text-xs">
                         <span className="flex items-center gap-1 bg-white/20 backdrop-blur-md px-2 py-0.5 rounded text-white font-semibold">

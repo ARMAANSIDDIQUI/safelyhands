@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { X, Minus, MessageCircle, Send, Loader2, PlayCircle, ChevronUp } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { useTutorial } from "@/context/TutorialContext";
 import { usePathname } from "next/navigation";
 
@@ -201,6 +202,20 @@ export default function ChatWidget() {
             <ChevronUp className="w-6 h-6" />
           </button>
         )}
+
+        {/* WhatsApp Floating Button */}
+
+
+        {/* WhatsApp Floating Button */}
+        <a
+          href="https://wa.me/918218303038"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-[60px] h-[60px] rounded-full bg-[#25D366] border-2 border-white/20 text-white shadow-lg hover:scale-110 transition-all duration-300 animate-in fade-in zoom-in"
+          title="Chat on WhatsApp"
+        >
+          <FaWhatsapp className="w-7 h-7" />
+        </a>
 
         {/* Chat Trigger Button */}
         <button

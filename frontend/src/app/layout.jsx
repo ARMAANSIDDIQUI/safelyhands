@@ -5,14 +5,7 @@ import { Toaster } from "sonner";
 export const metadata = {
     title: "Safely Hands - Trusted Home Makers in Moradabad",
     description: "Find trusted help in Moradabad. Hire a babysitter, chef, or maid service near you.",
-    icons: {
-        icon: [
-            { url: '/favicon.png' },
-            { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
-        ],
-        shortcut: '/favicon.png',
-        apple: '/favicon.png',
-    },
+
     manifest: '/manifest.json'
 };
 
@@ -20,6 +13,7 @@ import { Providers } from "@/providers";
 import GlobalBackground from "@/components/global-background";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import { ReduxProvider } from "@/components/providers/ReduxProvider";
+
 
 export default function RootLayout({ children }) {
     return (
