@@ -9,7 +9,7 @@ import ThreeDBackground from "@/components/three-d-background";
 
 export default function ServicesPage() {
     return (
-        <main className="min-h-screen bg-transparent pt-[80px]">
+        <main className="min-h-screen bg-transparent pt-[64px]">
             <Header />
             <HeroIntro />
             <ServicesGrid />
