@@ -102,6 +102,61 @@ const registerUser = async (req, res) => {
     }
 };
 
+// @desc    Resend OTP
+// @route   POST /api/auth/resend-otp
+// @access  Public
+const resendOtp = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ message: 'Email already verified' });
+        }
+
+        // Check daily limit
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (user.lastOtpRequestDate && user.lastOtpRequestDate >= today) {
+            if (user.otpRequestsToday >= 5) {
+                return res.status(429).json({ message: 'Daily OTP limit reached. Try again tomorrow.' });
+            }
+        } else {
+            user.otpRequestsToday = 0;
+            user.lastOtpRequestDate = today;
+        }
+
+        // Generate OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        user.otp = otp;
+        user.otpExpires = Date.now() + 5 * 60 * 1000;
+        user.otpRequestsToday += 1;
+
+        await user.save();
+
+        // Send Email
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: user.email,
+            subject: 'Email Verification OTP - Safely Hands',
+            text: `Your new OTP for email verification is: ${otp}\n\nThis OTP is valid for 5 minutes.`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.json({ message: 'OTP resent successfully' });
+
+    } catch (error) {
+        console.error("Resend OTP Error:", error);
+        res.status(500).json({ message: 'Server error sending OTP' });
+    }
+};
+
 // @desc    Verify Email OTP
 // @route   POST /api/auth/verify-email
 // @access  Public
@@ -542,5 +597,6 @@ module.exports = {
     forgotPassword,
     resetPassword,
     promoteToAdmin,
-    getUsers
+    getUsers,
+    resendOtp
 };

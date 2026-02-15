@@ -35,6 +35,10 @@ const createWorker = async (req, res) => {
     try {
         const { name, profession, experienceYears, imageUrl, bio } = req.body;
 
+        if (!name || !profession) {
+            return res.status(400).json({ message: 'Name and Profession are required' });
+        }
+
         const worker = await Worker.create({
             name,
             profession,

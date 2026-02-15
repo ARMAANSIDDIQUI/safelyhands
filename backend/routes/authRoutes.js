@@ -16,6 +16,7 @@ const { protect, admin } = require('../middleware/authMiddleware');
 
 router.post('/register', registerUser);
 router.post('/verify-email', verifyEmail);
+router.post('/resend-otp', resendOtp);
 router.post('/login', loginUser);
 router.put('/profile/password', protect, updatePassword);
 router.put('/profile', protect, updateProfile);

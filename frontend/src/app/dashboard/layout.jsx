@@ -43,10 +43,8 @@ export default function DashboardLayout({ children }) {
     ];
 
     if (user?.role === 'admin') {
-        navItems.push(
-            { name: "Manage Team", href: "/dashboard/admin/team", icon: User },
-            { name: "Team Categories", href: "/dashboard/admin/team/categories", icon: Settings }
-        );
+        // Admin links are now handled in the dedicated Admin Layout
+        // navItems.push(...); 
     }
 
     return (

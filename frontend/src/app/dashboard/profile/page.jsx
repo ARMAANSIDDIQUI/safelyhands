@@ -187,6 +187,55 @@ export default function ProfilePage() {
                 </Button>
             </div>
 
+            {/* Verification Warning */}
+            {!user?.isVerified && !user?.isGoogleUser && (
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0">
+                                <Shield className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                            </div>
+                            <div className="ml-3">
+                                <p className="text-sm text-yellow-700">
+                                    Your email is not verified. Please verify to access all features.
+                                </p>
+                            </div>
+                        </div>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={async () => {
+                                try {
+                                    setLoadingResult(true);
+                                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/resend-otp`, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ email: user.email })
+                                    });
+                                    const data = await res.json();
+                                    if (res.ok) {
+                                        toast.success(data.message);
+                                        // Redirect to OTP verification page or open modal (implementation depends on existing flow)
+                                        // For now, assuming user knows where to enter OTP or we simple redirect
+                                        window.location.href = `/verify-email?email=${encodeURIComponent(user.email)}`;
+                                    } else {
+                                        toast.error(data.message);
+                                    }
+                                } catch (error) {
+                                    toast.error("Failed to send verification email");
+                                } finally {
+                                    setLoadingResult(false);
+                                }
+                            }}
+                            disabled={loadingResult}
+                            className="bg-white text-yellow-700 hover:bg-yellow-50 border-yellow-300"
+                        >
+                            {loadingResult ? "Sending..." : "Verify Email"}
+                        </Button>
+                    </div>
+                </div>
+            )}
+
             <Tabs defaultValue="profile" className="w-full">
                 <TabsList className="grid w-full max-w-md grid-cols-2">
                     <TabsTrigger value="profile">

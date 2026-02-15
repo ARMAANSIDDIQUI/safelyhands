@@ -21,7 +21,7 @@ const CTACards = () => {
 
               <h3 className="text-3xl md:text-4xl font-bold mb-4 font-display text-slate-900">Are you a Helper?</h3>
               <p className="text-slate-600 text-lg mb-10 max-w-md leading-relaxed font-medium">
-                Join Moradabad&apos;s most trusted platform. Get verified, get trained, and find the best employers earning up to ₹25,000/month.
+                Join one of the most trusted platform. Get verified, get trained, and find the best employers earning up to ₹25,000/month.
               </p>
 
               <Link

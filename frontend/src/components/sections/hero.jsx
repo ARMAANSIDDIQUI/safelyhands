@@ -19,11 +19,11 @@ const HeroSection = () => {
 
             <h1 id="hero-title" className="text-5xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight text-slate-900 mb-6 leading-[1.05]">
               India&apos;s trusted care and <br />
-              <span className="text-gradient">safe-living hands</span>
+              <span className="text-gradient">staffing services</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto lg:mx-0 leading-relaxed font-medium">
-              Experience the premium standard in household management. From professional chefs to compassionate elderly care, we provide the bharosemand hath your family deserves.
+              From Domestic help to office support staff - Hire Trained, Background Verified professionals on deemand
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">

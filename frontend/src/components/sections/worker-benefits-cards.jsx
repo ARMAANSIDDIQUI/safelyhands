@@ -25,7 +25,7 @@ const cards = [
     },
     {
         title: "Refer a worker",
-        description: "Do your bit by getting them a job that pays well! Help them register as a Broomee now & get rewards up to Rs. 100",
+        description: "Do your bit by getting them a job that pays well! Help them register as a worker now & get rewards up to Rs. 500",
         bgColor: "bg-[#e0f2fe]",
         titleColor: "text-[#0ea5e9]",
         btnColor: "bg-[#0ea5e9]",
