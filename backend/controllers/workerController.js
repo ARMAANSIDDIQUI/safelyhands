@@ -39,12 +39,21 @@ const createWorker = async (req, res) => {
             return res.status(400).json({ message: 'Name and Profession are required' });
         }
 
+        // Generate unique worker ID if not provided
+        let workerId = req.body.workerId;
+        if (!workerId) {
+            const timestamp = Date.now().toString().slice(-6);
+            const randomStr = Math.random().toString(36).substring(2, 5).toUpperCase();
+            workerId = `WRK-${timestamp}-${randomStr}`;
+        }
+
         const worker = await Worker.create({
             name,
             profession,
             experienceYears,
             imageUrl,
-            bio
+            bio,
+            workerId
         });
 
         res.status(201).json(worker);
