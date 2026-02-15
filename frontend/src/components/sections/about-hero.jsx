@@ -11,7 +11,7 @@ const AboutHero = () => {
   return (
     <section
       id="cover"
-      className="bg-transparent pt-[115px] pb-[40px] md:pt-[100px] md:pb-[50px]"
+      className="bg-transparent pt-8 pb-8 md:pt-12 md:pb-10"
     >
       <div className="container mx-auto px-[15px]">
         <div className="flex flex-col items-center justify-center text-center">

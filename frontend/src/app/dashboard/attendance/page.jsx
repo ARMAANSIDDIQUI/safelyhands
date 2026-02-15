@@ -153,7 +153,7 @@ export default function AttendancePage() {
 
     // Custom modifier for calendar to disable invalid dates
     const isDateDisabled = (date) => {
-        if (!selectedBooking?.isActive) return true;
+        if (selectedBooking?.serviceStatus !== 'active') return true;
 
         // Check if date is in validDates array
         const isValid = validDates.some(validDate =>
@@ -264,8 +264,8 @@ export default function AttendancePage() {
                     <CardHeader>
                         <CardTitle className="flex justify-between items-center">
                             <span>Attendance for Selected Date</span>
-                            <Badge variant={selectedBooking?.isActive ? "outline" : "secondary"}>
-                                {selectedBooking?.isActive ? (
+                            <Badge variant={selectedBooking?.serviceStatus === 'active' ? "outline" : "secondary"}>
+                                {selectedBooking?.serviceStatus === 'active' ? (
                                     <span className="flex items-center gap-1 text-green-600">
                                         <Clock className="w-3 h-3" /> Active Service
                                     </span>

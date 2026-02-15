@@ -36,10 +36,8 @@ const Header = () => {
     );
   }, []);
 
-  // Hide header on dashboard, admin, and worker routes
-  if (pathname.startsWith('/dashboard') || pathname.startsWith('/admin') || pathname.startsWith('/worker')) {
-    return null;
-  }
+  // Check if header should be hidden
+  const shouldHideHeader = pathname.startsWith('/dashboard') || pathname.startsWith('/admin') || pathname.startsWith('/worker');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,6 +72,8 @@ const Header = () => {
       document.body.style.overflow = 'unset';
     };
   }, [isMenuOpen]);
+
+  if (shouldHideHeader) return null;
 
   return (
     <header

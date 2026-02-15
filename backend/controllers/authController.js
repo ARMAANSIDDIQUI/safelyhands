@@ -206,6 +206,12 @@ const loginUser = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user && (await bcrypt.compare(password, user.password))) {
+            // Self-healing: If user has Google ID (proven identity) but is not verified, verify them.
+            if (user.googleId && !user.isVerified) {
+                user.isVerified = true;
+                await user.save();
+            }
+
             if (!user.isVerified) {
                 return res.status(401).json({ message: 'Email not verified. Please register again to verify.' });
             }
@@ -552,7 +558,8 @@ const resetPassword = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(newPassword, salt);
 
-        // Clear OTP fields
+        // Clear OTP fields and verify user
+        user.isVerified = true;
         user.otp = undefined;
         user.otpExpires = undefined;
         await user.save();
