@@ -6,7 +6,7 @@ import ChatWidget from "@/components/sections/chat-widget";
 
 export default function ContactPage() {
     return (
-        <main className="min-h-screen pt-[80px]">
+        <main className="min-h-screen pt-[64px]">
             <Header />
             <div className="py-12">
                 <h1 className="text-center text-4xl font-bold font-display text-slate-800 mb-4">Contact Us</h1>

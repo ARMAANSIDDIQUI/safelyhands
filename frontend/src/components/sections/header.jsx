@@ -73,10 +73,10 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
-        ? "bg-[#f0f9ff] py-3 shadow-md border-b border-blue-100"
+        ? "bg-[#f0f9ff] py-2 shadow-md border-b border-blue-100"
         : isScrolled
-          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-2 shadow-md border-b border-blue-100"
-          : "bg-transparent py-3"
+          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-1 shadow-md border-b border-blue-100"
+          : "bg-transparent py-2"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}
@@ -103,7 +103,7 @@ const Header = () => {
         {/* Logo */}
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative w-56 h-16 transition-transform group-hover:scale-105"> {/* Reduced from h-20 to h-16 */}
+          <div className="relative w-40 h-10 transition-transform group-hover:scale-105"> {/* Reduced from h-16 to h-10, w-56 to w-40 */}
             <Image
               src="/headerlogo.png"
               alt="Safely Hands"

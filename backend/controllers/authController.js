@@ -348,16 +348,30 @@ const googleAuthCallback = async (req, res) => {
                 profilePicture: picture,
                 isVerified: true // Google users are automatically verified
             });
+        } else {
+            // Setup/Update for existing user logging in with Google
+            let needsSave = false;
+
+            if (!user.googleId) {
+                user.googleId = googleId;
+                needsSave = true;
+            }
+            if (!user.isVerified) {
+                user.isVerified = true;
+                needsSave = true;
+            }
+            if (picture && user.profilePicture !== picture) {
+                user.profilePicture = picture;
+                needsSave = true;
+            }
+
+            if (needsSave) {
+                await user.save();
+            }
         }
 
         // Generate JWT token
         const token = generateToken(user._id);
-
-        // Update profile picture if user exists and picture changed
-        if (user.profilePicture !== picture) {
-            user.profilePicture = picture;
-            await user.save();
-        }
 
         // Redirect to frontend with token
         res.redirect(`${process.env.FRONTEND_URL}/login?token=${token}&user=${encodeURIComponent(JSON.stringify({

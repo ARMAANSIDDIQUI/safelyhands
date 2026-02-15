@@ -8,7 +8,7 @@ import ChatWidget from "@/components/sections/chat-widget";
 
 export default function AboutPage() {
     return (
-        <main className="min-h-screen pt-[80px] bg-transparent">
+        <main className="min-h-screen pt-[64px] bg-transparent">
             <Header />
             <AboutHero />
             <CompanyCarousel />
