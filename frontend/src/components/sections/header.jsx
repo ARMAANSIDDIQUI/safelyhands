@@ -36,6 +36,11 @@ const Header = () => {
     );
   }, []);
 
+  // Hide header on dashboard, admin, and worker routes
+  if (pathname.startsWith('/dashboard') || pathname.startsWith('/admin') || pathname.startsWith('/worker')) {
+    return null;
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -75,8 +80,8 @@ const Header = () => {
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isMenuOpen
         ? "bg-[#f0f9ff] py-2 shadow-md border-b border-blue-100"
         : isScrolled
-          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-1 shadow-md border-b border-blue-100"
-          : "bg-transparent py-2"
+          ? "bg-[#f0f9ff]/90 backdrop-blur-md py-0.5 shadow-md border-b border-blue-100"
+          : "bg-transparent py-1.5"
         }`}
     >
       {/* Dynamic Equalizer Bars (Inverted Bass) - Only Visible When Unscrolled */}
@@ -101,9 +106,8 @@ const Header = () => {
 
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative w-40 h-10 transition-transform group-hover:scale-105"> {/* Reduced from h-16 to h-10, w-56 to w-40 */}
+          <div className={`relative transition-all duration-300 group-hover:scale-105 ${isScrolled ? 'w-48 h-12' : 'w-64 h-16'}`}>
             <Image
               src="/headerlogo.png"
               alt="Safely Hands"
@@ -229,7 +233,7 @@ const Header = () => {
               <Link
                 href="/booking"
                 id="header-book-btn"
-                className="bg-slate-900 text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-300"
+                className="bg-slate-900 text-white px-6 py-2 rounded-full text-base font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Book Now
               </Link>
@@ -248,9 +252,9 @@ const Header = () => {
 
       {/* Tagline Ticker - Only on Home Page */}
       {pathname === "/" && (
-        <div className={`w-full overflow-hidden whitespace-nowrap py-1 bg-blue-600/5 border-t border-blue-200/30 transition-all duration-500 ${isScrolled ? 'opacity-0 h-0 py-0 overflow-hidden' : 'opacity-100 h-auto'}`}>
+        <div className={`w-full overflow-hidden whitespace-nowrap py-0 bg-blue-600/5 border-t border-blue-200/30 transition-all duration-500 ${isScrolled ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'}`}>
           <div className="inline-block animate-ticker">
-            <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em]">
+            <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em] py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
               Har zaroorat ke liye ek bharosemand haath
               <span className="mx-12 opacity-30">•</span>
@@ -258,7 +262,7 @@ const Header = () => {
               <span className="mx-12 opacity-30">•</span>
               Verified Professional Help
             </span>
-            <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em]">
+            <span className="inline-flex items-center gap-2 px-8 text-blue-800/80 font-bold text-xs uppercase tracking-[0.2em] py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
               Har zaroorat ke liye ek bharosemand haath
               <span className="mx-12 opacity-30">•</span>

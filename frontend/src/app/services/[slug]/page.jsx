@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Star, Check, ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import Header from '@/components/sections/header';
+import HeroIntro from "@/components/sections/hero-intro";
 import Footer from '@/components/sections/footer';
 import ChatWidget from '@/components/sections/chat-widget';
 
@@ -200,7 +200,6 @@ export default function ServicePage() {
 
     return (
         <main className="min-h-screen bg-transparent">
-            <Header />
             <div className="min-h-screen bg-transparent">
                 {/* Hero Section */}
                 <section className="relative pt-32 pb-20 overflow-hidden">

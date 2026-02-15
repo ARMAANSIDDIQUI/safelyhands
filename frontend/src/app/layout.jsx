@@ -12,6 +12,7 @@ export const metadata = {
 import { Providers } from "@/providers";
 import GlobalBackground from "@/components/global-background";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import Header from "@/components/sections/header";
 import { ReduxProvider } from "@/components/providers/ReduxProvider";
 
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
                     <ReduxProvider>
                         <ScrollToTop />
                         <GlobalBackground />
+                        <Header />
                         {children}
                     </ReduxProvider>
                 </Providers>

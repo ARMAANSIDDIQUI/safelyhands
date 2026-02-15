@@ -2,7 +2,6 @@
 
 import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import Header from "@/components/sections/header";
 import LoginForm from "@/components/sections/login-form";
 import Footer from "@/components/sections/footer";
 import ChatWidget from "@/components/sections/chat-widget";
@@ -81,7 +80,6 @@ function LoginContent() {
 export default function LoginPage() {
     return (
         <main className="min-h-screen">
-            <Header />
             <Suspense fallback={<div className="flex h-screen items-center justify-center"><Loader2 className="animate-spin text-blue-600" /></div>}>
                 <LoginContent />
             </Suspense>

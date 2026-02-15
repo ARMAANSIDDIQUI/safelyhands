@@ -1,4 +1,3 @@
-import Header from "@/components/sections/header";
 import SignupForm from "@/components/sections/signup-form";
 import Footer from "@/components/sections/footer";
 import ChatWidget from "@/components/sections/chat-widget";
@@ -11,7 +10,6 @@ export const metadata = {
 export default function SignupPage() {
     return (
         <main className="min-h-screen">
-            <Header />
             <div className="pt-[100px] pb-12 relative min-h-[calc(100vh-80px)] flex items-center justify-center bg-slate-50/50">
                 {/* Decorative Background Elements */}
                 <div className="absolute top-20 right-10 w-72 h-72 bg-blue-200/20 rounded-full blur-[100px] pointer-events-none" />

@@ -1,4 +1,3 @@
-import Header from "@/components/sections/header";
 import HeroSection from "@/components/sections/hero";
 import WorkerBenefitCards from "@/components/sections/worker-benefits-cards";
 import AppPromotion from "@/components/sections/app-promotion";
@@ -19,7 +18,6 @@ const CTACards = dynamic(() => import("@/components/sections/cta-cards"));
 export default function Home() {
     return (
         <main className="min-h-screen relative">
-            <Header />
             <HeroSection />
             <FeaturedServices />
             <Highlights />

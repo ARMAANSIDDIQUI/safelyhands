@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Mail, Lock, KeyRound, Loader2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
-import Header from "@/components/sections/header"; // Ensure these exist or use generic layout
 import Footer from "@/components/sections/footer";
 
 export default function ForgotPasswordPage() {
@@ -75,10 +74,8 @@ export default function ForgotPasswordPage() {
     };
 
     return (
-        <main className="min-h-screen flex flex-col">
-            <Header />
-
-            <div className="flex-1 flex items-center justify-center bg-slate-50 relative overflow-hidden py-20 px-4">
+        <main className="min-h-screen">
+            <div className="pt-[100px] pb-12 relative min-h-[calc(100vh-80px)] flex items-center justify-center bg-slate-50/50 relative overflow-hidden py-20 px-4">
                 {/* Background Elements */}
                 <div className="absolute top-20 left-[-100px] w-96 h-96 bg-blue-200/20 rounded-full blur-[100px]" />
                 <div className="absolute bottom-20 right-[-100px] w-80 h-80 bg-sky-200/20 rounded-full blur-[100px]" />
