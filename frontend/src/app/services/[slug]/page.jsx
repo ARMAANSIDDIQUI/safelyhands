@@ -224,7 +224,7 @@ export default function ServicePage() {
                                 </p>
 
                                 {/* Price Range */}
-                                {service.priceRange?.min && (
+                                {service.priceRange?.min > 0 && (
                                     <div className="mb-8">
                                         <span className="text-3xl font-bold text-blue-600">
                                             {`₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}`}
