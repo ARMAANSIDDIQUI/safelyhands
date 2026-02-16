@@ -4,7 +4,7 @@ const SupportChannels = () => {
   const contactInfo = [
     {
       label: 'Phone Number',
-      value: '+91 8218303038 / 076183 41297',
+      value: '+91 8218303038 / 76183 41297',
       icon: <Phone size={24} className="text-white" />,
       link: 'tel:+918218303038',
     },
