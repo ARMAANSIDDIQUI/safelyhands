@@ -1,7 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const next = require('next');
 require('dotenv').config();
+
+
+const dev = (process.env.NODE_ENV || '').trim() !== 'production';
+console.log(`Starting Next.js in ${dev ? 'development' : 'production'} mode (NODE_ENV='${process.env.NODE_ENV}')`);
+const nextApp = next({ dev, dir: '../frontend' });
+const handle = nextApp.getRequestHandler();
 
 const app = express();
 const fs = require('fs');
@@ -96,8 +103,9 @@ app.get('/api/health', (req, res) => {
 // Serve Uploads
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-app.get('/', (req, res) => {
-    res.send('Safely Hands Backend API is Running');
+// Serve Next.js frontend for all other routes
+app.all('*', (req, res) => {
+    return handle(req, res);
 });
 
 // Global Error Handler
@@ -123,9 +131,24 @@ const startServer = (port) => {
     });
 };
 
-// Only start server in local development (not on Vercel)
-if (process.env.NODE_ENV !== 'production') {
-    startServer(PORT);
+// Only start server in local development (not on Vercel/Serverless)
+// For single-instance deployment, we start the server after preparing Next.js
+if (process.env.NODE_ENV !== 'production' || process.env.DEPLOYMENT_MODE === 'single-instance') {
+    nextApp.prepare().then(() => {
+        startServer(PORT);
+    }).catch(ex => {
+        console.error(ex.stack);
+        process.exit(1);
+    });
+} else {
+    // Fallback for Vercel-like environments where server.js is imported
+    // Note: To use single-instance in production, set DEPLOYMENT_MODE=single-instance or ensuring the start script runs this file
+    // Check if we are the main module
+    if (require.main === module) {
+        nextApp.prepare().then(() => {
+            startServer(PORT);
+        });
+    }
 }
 
 // Export app for Vercel serverless deployment

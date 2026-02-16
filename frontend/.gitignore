@@ -14,7 +14,9 @@
 /coverage
 
 # next.js
-/.next/
+# .next folder is now included for deployment
+!/.next/
+/.next/cache/
 /out/
 
 # production

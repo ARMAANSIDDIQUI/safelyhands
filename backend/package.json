@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "set \"NODE_ENV=production\" && node server.js",
     "dev": "npx nodemon server.js"
   },
   "dependencies": {
@@ -18,7 +18,10 @@
     "mongoose": "^8.0.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.7",
-    "web-push": "^3.6.7"
+    "web-push": "^3.6.7",
+    "next": "^15.5.11",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
