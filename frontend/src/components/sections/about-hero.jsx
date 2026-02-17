@@ -24,15 +24,7 @@ const AboutHero = () => {
 
           {/* Subtext */}
           <div className="w-full">
-            <p
-              className="font-display text-[16px] md:text-[20px] text-[#212529] opacity-80 max-w-[800px] mx-auto"
-              style={{
-                fontFamily: 'Montserrat, sans-serif',
-                fontWeight: 400,
-                lineHeight: 1.5,
-                marginBottom: 0
-              }}
-            >
+            <p className="font-display text-[16px] md:text-[20px] text-muted-foreground opacity-90 max-w-[800px] mx-auto leading-relaxed">
               A team of go-getters to give you a smooth experience
             </p>
           </div>

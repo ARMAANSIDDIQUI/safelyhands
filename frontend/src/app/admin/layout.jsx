@@ -41,7 +41,7 @@ export default function AdminLayout({ children }) {
         { href: "/admin/testimonials", icon: MessageSquareQuote, label: "Testimonials" },
         { href: "/admin/credibility", icon: Layers, label: "Credibility Badges" },
         { href: "/admin/reviews", icon: MessageSquare, label: "Review Moderation" },
-        { href: "/admin/maintenance", icon: Wrench, label: "Maintenance" },
+
         { href: "/admin/carousel", icon: LayoutDashboard, label: "Carousel" },
         { href: "/admin/inquiries", icon: Briefcase, label: "Inquiries" },
     ];

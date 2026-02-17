@@ -59,6 +59,12 @@ export default function TeamMembersTab() {
         e.preventDefault();
         setSubmitting(true);
 
+        if (!formData.image) {
+            toast.error("Please upload a profile photo");
+            setSubmitting(false);
+            return;
+        }
+
         try {
             const url = currentMember
                 ? `${process.env.NEXT_PUBLIC_API_URL}/team-members/${currentMember._id}`

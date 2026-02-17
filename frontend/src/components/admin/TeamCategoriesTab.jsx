@@ -52,13 +52,19 @@ export default function TeamCategoriesTab() {
 
             const method = currentCategory ? "PUT" : "POST";
 
+            // Generate slug from name
+            const slug = formData.name
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)+/g, '');
+
             const res = await fetch(url, {
                 method,
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${user?.token}`
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ ...formData, slug })
             });
 
             const data = await res.json();

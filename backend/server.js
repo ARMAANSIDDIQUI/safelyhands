@@ -82,6 +82,7 @@ app.use('/api/testimonials', require('./routes/testimonialRoutes'));
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
+app.use('/api/cms', require('./routes/cmsRoutes'));
 app.use('/api/carousel', require('./routes/carouselRoutes'));
 app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
 app.use('/api/cities', require('./routes/cityRoutes'));

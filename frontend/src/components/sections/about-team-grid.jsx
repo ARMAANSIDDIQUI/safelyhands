@@ -100,7 +100,7 @@ export default function AboutTeamGrid() {
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md text-[#0077b5] hover:bg-primary transition-standard"
+                    className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md text-primary hover:bg-primary hover:text-white transition-standard"
                     aria-label={`${member.name}'s LinkedIn profile`}
                   >
                     <Linkedin size={20} fill="currentColor" strokeWidth={0} />
