@@ -43,26 +43,18 @@ const STEPS = [
     },
     {
         id: 'booking-subcategory-step',
-        targetId: 'booking-subcategory-heading',
+        targetId: 'booking-options-header',
         path: '/booking?step=3',
         title: 'Customize Your Package',
         content: 'Add services to your cart by clicking the + button, then click the \"Next\" button at the bottom.',
         position: 'bottom'
     },
     {
-        id: 'booking-address-step',
+        id: 'booking-form-step',
         targetId: 'booking-address',
         path: '/booking?step=4',
-        title: 'Enter Your Address',
-        content: 'Fill in your address details, then click Next.',
-        position: 'bottom'
-    },
-    {
-        id: 'booking-date-step',
-        targetId: 'booking-date-time',
-        path: '/booking?step=4',
-        title: 'Set Date & Time',
-        content: 'Choose your preferred start date and time, then click Next.',
+        title: 'Fill Details',
+        content: 'Fill in all the required details (Date, Time, Address) to complete your booking.',
         position: 'bottom'
     },
     {
@@ -83,11 +75,11 @@ const STEPS = [
     },
     {
         id: 'attendance-step',
-        targetId: 'dashboard-bookings-link',
+        targetId: 'desktop-nav-item-attendance',
         path: '/dashboard',
         title: 'Worker Attendance',
-        content: 'View and mark daily attendance for your helpers directly from this section.',
-        position: 'bottom'
+        content: 'Click here to view and mark attendance logs for your workers.',
+        position: 'right'
     }
 ];
 

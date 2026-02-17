@@ -404,8 +404,8 @@ export default function BookingWizard() {
                             {step === 3 && (
                                 <div className="animate-in fade-in slide-in-from-right-8 duration-500 flex flex-col md:flex-row gap-8 min-h-[500px]">
                                     {/* Left: Options */}
-                                    <div className="flex-1 space-y-6">
-                                        <div className="flex justify-between items-center">
+                                    <div className="flex-1 space-y-6" id="booking-options-container">
+                                        <div className="flex justify-between items-center" id="booking-options-header">
                                             <h2 className="text-xl font-bold text-slate-800" id="booking-subcategory-heading">Available Options</h2>
                                             <span className="text-xs font-bold px-3 py-1 bg-sky-100 text-sky-600 rounded-full">
                                                 {selectedService?.selectionMode === 'multiple' ? 'Multi-Select' : 'Single Select'}

@@ -76,6 +76,7 @@ export default function DashboardLayout({ children }) {
                             <Link
                                 key={item.href}
                                 href={item.href}
+                                id={`nav-item-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isActive
                                     ? "bg-primary-50 text-primary-600"
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
@@ -124,6 +125,7 @@ export default function DashboardLayout({ children }) {
                             <Link
                                 key={item.href}
                                 href={item.href}
+                                id={`desktop-nav-item-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                                 className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive
                                     ? "bg-primary-50 text-primary-600"
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
