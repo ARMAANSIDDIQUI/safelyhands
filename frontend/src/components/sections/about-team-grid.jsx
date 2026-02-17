@@ -54,7 +54,7 @@ export default function AboutTeamGrid() {
     <section className="bg-transparent section-padding">
       <div className="container px-6">
         <div className="text-center mb-12">
-          <h2 className="text-[32px] md:text-[40px] font-bold text-secondary mb-4">
+          <h2 className="text-[32px] md:text-[40px] font-bold text-primary mb-4">
             Meet Our Superstars
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
@@ -109,7 +109,7 @@ export default function AboutTeamGrid() {
               </div>
 
               <div className="text-center">
-                <h3 className="text-xl font-bold text-secondary mb-1">
+                <h3 className="text-xl font-bold text-foreground mb-1">
                   {member.name}
                 </h3>
                 <p className="text-muted-foreground font-medium text-sm uppercase tracking-wider">
