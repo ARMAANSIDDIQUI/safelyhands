@@ -53,8 +53,11 @@ function LoginContent() {
     }, [searchParams, router]);
 
     // Auto-redirect if already logged in
+    // Auto-redirect if already logged in
     useEffect(() => {
-        if (!loading && user) {
+        const token = searchParams.get('token');
+        // Only redirect if not currently processing a login (no token in URL)
+        if (!loading && user && !token) {
             toast.info("You are already logged in");
             if (user.role === 'worker') {
                 router.replace('/worker/dashboard'); // Use replace to prevent back navigation
@@ -64,7 +67,7 @@ function LoginContent() {
                 router.replace('/dashboard');
             }
         }
-    }, [user, loading, router]);
+    }, [user, loading, router, searchParams]);
 
     return (
         <div className="pt-[100px] pb-12 relative min-h-[calc(100vh-80px)] flex items-center justify-center bg-slate-50/50">

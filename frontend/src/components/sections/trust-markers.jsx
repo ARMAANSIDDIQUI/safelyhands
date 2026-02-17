@@ -16,8 +16,8 @@ export default function TrustMarkers() {
                     {markers.map((item, index) => {
                         const Icon = item.icon;
                         return (
-                            <div key={index} className="flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
-                                <div className="p-4 rounded-full text-slate-600 border border-slate-200/30 bg-white/5 backdrop-blur-sm">
+                            <div key={index} className="flex flex-col items-center justify-center gap-4 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300">
+                                <div className="p-4 rounded-full text-blue-600 bg-blue-50">
                                     <Icon size={32} strokeWidth={1.5} />
                                 </div>
                                 <span className="font-medium text-slate-800 text-lg">{item.label}</span>

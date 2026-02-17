@@ -35,9 +35,9 @@ export default function TestimonialCarousel() {
         <section className="py-16 bg-transparent">
             <div className="container mx-auto px-4">
                 <div className="text-left mb-12">
-                    <h2 className="text-amber-400 text-2xl font-medium mb-2">Testimonials</h2>
-                    <h3 className="text-3xl md:text-4xl font-bold text-slate-400 mb-2">Don't Believe Us?</h3>
-                    <h3 className="text-3xl md:text-4xl font-bold text-slate-800">Check What Our Customers Say About Us</h3>
+                    <h2 className="text-blue-600 text-lg font-bold uppercase tracking-wide mb-2">Testimonials</h2>
+                    <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Don't Believe Us?</h3>
+                    <h3 className="text-xl md:text-2xl font-medium text-slate-600">Check What Our Customers Say About Us</h3>
                 </div>
 
                 <Carousel
@@ -50,7 +50,7 @@ export default function TestimonialCarousel() {
                     <CarouselContent className="-ml-4">
                         {testimonials.map((item) => (
                             <CarouselItem key={item._id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                                <div className="p-8 h-full flex flex-col items-center text-center relative mt-12 backdrop-blur-sm bg-white/5 rounded-3xl">
+                                <div className="p-8 h-full flex flex-col items-center text-center relative mt-12 bg-white rounded-3xl shadow-lg border border-slate-100">
                                     <div className="absolute -top-10 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md">
                                         <Image
                                             src={item.imageUrl}
