@@ -450,16 +450,26 @@ export default function AttendancePage() {
                             </span>
                         </div>
 
-                        <div className="pt-2 grid grid-cols-2 gap-2">
-                            <div className="bg-green-50 p-3 rounded-lg text-center">
-                                <div className="text-2xl font-bold text-green-600">{selectedBooking?.presentDays || 0}</div>
-                                <div className="text-xs text-green-700 font-medium">Present</div>
-                            </div>
-                            <div className="bg-red-50 p-3 rounded-lg text-center">
-                                <div className="text-2xl font-bold text-red-600">{selectedBooking?.absentDays || 0}</div>
-                                <div className="text-xs text-red-700 font-medium">Absent</div>
-                            </div>
-                        </div>
+                        {/* CORRECTED: Get stats from overview data */}
+                        {(() => {
+                            const bookingStats = overview.find(b => b._id === selectedBooking?._id);
+                            return (
+                                <div className="pt-2 grid grid-cols-2 gap-2">
+                                    <div className="bg-green-50 p-3 rounded-lg text-center">
+                                        <div className="text-2xl font-bold text-green-600">
+                                            {bookingStats ? bookingStats.presentDays : 0}
+                                        </div>
+                                        <div className="text-xs text-green-700 font-medium">Present</div>
+                                    </div>
+                                    <div className="bg-red-50 p-3 rounded-lg text-center">
+                                        <div className="text-2xl font-bold text-red-600">
+                                            {bookingStats ? bookingStats.absentDays : 0}
+                                        </div>
+                                        <div className="text-xs text-red-700 font-medium">Absent</div>
+                                    </div>
+                                </div>
+                            );
+                        })()}
                     </CardContent>
                 </Card>
             </div>

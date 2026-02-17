@@ -1,31 +1,30 @@
 const mongoose = require('mongoose');
 
-const testimonialSchema = new mongoose.Schema({
+const credibilityLogoSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    designation: {
-        type: String, // e.g., "Parent", "Homeowner"
-        required: true
-    },
-    message: {
+    type: {
         type: String,
+        enum: ['registered', 'backed'],
         required: true
-    },
-    rating: {
-        type: Number,
-        default: 5,
-        min: 1,
-        max: 5
     },
     imageUrl: {
         type: String, // Cloudinary URL
         required: true
     },
+    url: {
+        type: String, // Optional link to the organization's site
+        default: ''
+    },
     isActive: {
         type: Boolean,
         default: true
+    },
+    order: {
+        type: Number,
+        default: 0
     },
     createdAt: {
         type: Date,
@@ -33,4 +32,4 @@ const testimonialSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Testimonial', testimonialSchema);
+module.exports = mongoose.model('CredibilityLogo', credibilityLogoSchema);

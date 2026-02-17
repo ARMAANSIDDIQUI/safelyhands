@@ -14,10 +14,16 @@ cloudinary.config({
 
 // Configure Multer for temporary storage
 // Use /tmp on Vercel (serverless has read-only filesystem except /tmp)
+const os = require('os');
+
 const getUploadPath = () => {
-    if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    // Vercel serverless has read-only filesystem except /tmp
+    if (process.env.VERCEL) {
         return '/tmp';
     }
+
+    // For local development (even in production mode on Windows) or other environments,
+    // use a local uploads directory that we can ensure exists.
     const uploadPath = path.join(__dirname, '..', 'uploads');
     if (!fs.existsSync(uploadPath)) {
         fs.mkdirSync(uploadPath, { recursive: true });

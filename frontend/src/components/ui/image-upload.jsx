@@ -124,8 +124,8 @@ export default function ImageUpload({ value, onChange, disabled }) {
                 <div className="flex items-center justify-center w-full">
                     <label
                         className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-all ${isDragging
-                                ? 'border-blue-500 bg-blue-50'
-                                : 'border-slate-300 bg-slate-50 hover:bg-slate-100'
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-slate-300 bg-slate-50 hover:bg-slate-100'
                             }`}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
@@ -148,7 +148,7 @@ export default function ImageUpload({ value, onChange, disabled }) {
                         </div>
                         <input
                             type="file"
-                            accept="image/*,video/*"
+                            accept="image/*,video/*,.svg"
                             className="hidden"
                             onChange={handleUpload}
                             disabled={disabled || isUploading}

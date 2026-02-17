@@ -6,8 +6,13 @@ import Image from 'next/image';
 import { Star, Check, ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import HeroIntro from "@/components/sections/hero-intro";
+import Link from 'next/link';
 import Footer from '@/components/sections/footer';
 import ChatWidget from '@/components/sections/chat-widget';
+import ServiceStats from "@/components/sections/service-stats";
+import TestimonialCarousel from "@/components/sections/testimonial-carousel";
+import TrustMarkers from "@/components/sections/trust-markers";
+import CredibilityLogos from "@/components/sections/credibility-logos";
 
 // Real service data from broomees.com
 const FALLBACK_FEATURES = {
@@ -295,6 +300,18 @@ export default function ServicePage() {
                         </div>
                     </div>
                 </section>
+
+                {/* 1. Stats Section */}
+                <ServiceStats />
+
+                {/* 2. Testimonials */}
+                <TestimonialCarousel />
+
+                {/* 3. Trust Markers */}
+                <TrustMarkers />
+
+                {/* 4. Credibility Logos */}
+                <CredibilityLogos />
 
                 {/* CTA Section */}
                 <section className="py-20 bg-gradient-to-r from-blue-600 to-cyan-600 text-white">

@@ -88,7 +88,9 @@ app.use('/api/cities', require('./routes/cityRoutes'));
 app.use('/api/subcategories', require('./routes/subCategoryRoutes'));
 app.use('/api/team-categories', require('./routes/teamCategoryRoutes'));
 app.use('/api/team-members', require('./routes/teamRoutes'));
+app.use('/api/testimonials', require('./routes/testimonialRoutes'));
 app.use('/api/inquiries', require('./routes/inquiryRoutes'));
+app.use('/api/credibility', require('./routes/credibilityRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
