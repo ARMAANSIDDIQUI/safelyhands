@@ -2,17 +2,17 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const next = require('next');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 
 const dev = (process.env.NODE_ENV || '').trim() !== 'production';
 console.log(`Starting Next.js in ${dev ? 'development' : 'production'} mode (NODE_ENV='${process.env.NODE_ENV}')`);
-const nextApp = next({ dev, dir: '../frontend' });
+const nextApp = next({ dev, dir: path.join(__dirname, '../frontend') });
 const handle = nextApp.getRequestHandler();
 
 const app = express();
-const fs = require('fs');
-const path = require('path');
 
 // Ensure uploads directory exists (only for local development)
 // Vercel serverless has read-only filesystem except /tmp
