@@ -83,35 +83,21 @@ const HumansOfBroomees = () => {
                 </div>
 
                 <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-                    <div className="flex flex-col md:flex-row">
-
-                        {/* Image Section */}
-                        <div className="md:w-5/12 relative h-64 md:h-auto bg-slate-200">
-                            <Image
-                                src={testimonials[activeIndex].image}
-                                alt={testimonials[activeIndex].name}
-                                fill
-                                className="object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-8">
-                                <div className="text-white">
-                                    <h3 className="text-2xl font-bold">{testimonials[activeIndex].name}</h3>
-                                    <p className="opacity-90">{testimonials[activeIndex].role}</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="flex flex-col">
 
                         {/* Content Section */}
-                        <div className="md:w-7/12 p-8 md:p-12 flex flex-col justify-center relative">
+                        <div className="w-full p-8 md:p-12 flex flex-col justify-center relative min-h-[300px]">
                             <Quote size={48} className="text-sky-100 absolute top-8 right-8" />
 
-                            <div className="mb-8">
+                            <div className="mb-8 text-center">
+                                <h3 className="text-2xl font-bold text-slate-900 mb-2">{testimonials[activeIndex].name}</h3>
+                                <p className="text-primary font-medium mb-6">{testimonials[activeIndex].role}</p>
                                 <p className="text-lg md:text-xl text-slate-600 leading-relaxed italic">
                                     &quot;{testimonials[activeIndex].content}&quot;
                                 </p>
                             </div>
 
-                            <div className="flex items-center gap-4 mt-auto">
+                            <div className="flex items-center justify-center gap-4 mt-auto">
                                 <button
                                     onClick={prevSlide}
                                     className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600"
@@ -124,16 +110,16 @@ const HumansOfBroomees = () => {
                                 >
                                     <ChevronRight size={24} />
                                 </button>
-                                <div className="flex gap-2 ml-4">
-                                    {testimonials.map((_, idx) => (
-                                        <button
-                                            key={idx}
-                                            onClick={() => setActiveIndex(idx)}
-                                            className={`h-2 rounded-full transition-all duration-300 ${activeIndex === idx ? 'w-8 bg-primary' : 'w-2 bg-slate-200'
-                                                }`}
-                                        />
-                                    ))}
-                                </div>
+                            </div>
+                            <div className="flex justify-center gap-2 mt-6">
+                                {testimonials.map((_, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setActiveIndex(idx)}
+                                        className={`h-2 rounded-full transition-all duration-300 ${activeIndex === idx ? 'w-8 bg-primary' : 'w-2 bg-slate-200'
+                                            }`}
+                                    />
+                                ))}
                             </div>
                         </div>
 

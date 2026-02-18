@@ -3,6 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const fallbackTestimonials = [];
 
@@ -101,9 +109,52 @@ const CustomerTestimonial = () => {
                 >
                   <div className="bg-white/80 backdrop-blur-md border border-slate-100 rounded-3xl p-8 md:p-10 h-full flex flex-col justify-center shadow-sm">
                     <Quote size={40} className="text-sky-500 mb-6 opacity-50" />
-                    <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light mb-8">
-                      &quot;{item.message || item.review}&quot;
-                    </p>
+                    <div className="mb-8">
+                      <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light line-clamp-4">
+                        &quot;{item.message || item.review}&quot;
+                      </p>
+                      {(item.message || item.review).length > 200 && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <button className="text-sky-600 hover:text-sky-700 font-medium mt-2 text-sm">
+                              Read full story
+                            </button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <div className="flex items-center gap-4 mb-4">
+                                <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-sky-500 bg-slate-100 shrink-0">
+                                  {item.imageUrl || item.image ? (
+                                    <Image src={item.imageUrl || item.image} alt={item.name} fill className="object-cover" />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-xs font-bold text-slate-500">
+                                      {item.name[0]}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="text-left">
+                                  <DialogTitle>{item.name}</DialogTitle>
+                                  <DialogDescription>{item.role} {item.location && `• ${item.location}`}</DialogDescription>
+                                </div>
+                              </div>
+                            </DialogHeader>
+                            <div className="text-slate-600 leading-relaxed">
+                              &quot;{item.message || item.review}&quot;
+                            </div>
+                            <div className="flex gap-1 mt-4">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  size={16}
+                                  className={`${i < item.rating ? 'text-blue-400' : 'text-slate-600'}`}
+                                  fill={i < item.rating ? "currentColor" : "none"}
+                                />
+                              ))}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )}
+                    </div>
 
                     <div className="flex items-center gap-4 mt-auto">
                       <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-sky-500 bg-slate-100">
