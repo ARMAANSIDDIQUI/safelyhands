@@ -61,10 +61,8 @@ const createService = async (req, res) => {
             slug,
             description,
             basePrice: basePrice || 0,
-            priceRange: {
-                min: minPrice || 0,
-                max: maxPrice || 0
-            },
+            minPrice: minPrice || 0,
+            maxPrice: maxPrice || 0,
             features,
             imageUrl,
             icon,
@@ -101,10 +99,8 @@ const updateService = async (req, res) => {
             service.title = title || service.title;
             service.description = description || service.description;
             service.basePrice = basePrice !== undefined ? basePrice : service.basePrice;
-            service.priceRange = {
-                min: minPrice !== undefined ? minPrice : (service.priceRange?.min || 0),
-                max: maxPrice !== undefined ? maxPrice : (service.priceRange?.max || 0)
-            };
+            service.minPrice = minPrice !== undefined ? minPrice : (service.minPrice || 0);
+            service.maxPrice = maxPrice !== undefined ? maxPrice : (service.maxPrice || 0);
             service.features = features || service.features;
             service.imageUrl = imageUrl || service.imageUrl;
             service.icon = icon || service.icon;

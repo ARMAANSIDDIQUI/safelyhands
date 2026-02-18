@@ -87,7 +87,9 @@ const FeaturedServices = () => {
             rating: getStaticRating(s.slug),
             reviews: `${getStaticReviewCount(s.slug)}+`,
             image: s.imageUrl || 'https://placehold.co/600x400/e0f2fe/0ea5e9?text=Service',
-            badge: s.badge || undefined
+            badge: s.badge || undefined,
+            minPrice: s.minPrice || 0,
+            maxPrice: s.maxPrice || 0
           })));
         }
       } catch (error) {
@@ -152,9 +154,9 @@ const FeaturedServices = () => {
                         {service.title}
                       </h3>
                       <div className="flex items-center justify-between gap-2 text-xs mb-2">
-                        {service.priceRange?.min && (
+                        {service.minPrice > 0 && service.maxPrice > 0 && (
                           <span className="text-sm font-bold text-blue-100">
-                            {`₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}`}
+                            {`₹${service.minPrice.toLocaleString()} - ₹${service.maxPrice.toLocaleString()}`}
                           </span>
                         )}
                       </div>

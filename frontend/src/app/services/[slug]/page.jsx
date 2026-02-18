@@ -229,10 +229,10 @@ export default function ServicePage() {
                                 </p>
 
                                 {/* Price Range */}
-                                {service.priceRange?.min > 0 && (
+                                {service.minPrice > 0 && service.maxPrice > 0 && (
                                     <div className="mb-8">
                                         <span className="text-3xl font-bold text-blue-600">
-                                            {`₹${service.priceRange.min.toLocaleString()} - ₹${service.priceRange.max.toLocaleString()}`}
+                                            {`₹${service.minPrice.toLocaleString()} - ₹${service.maxPrice.toLocaleString()}`}
                                         </span>
                                         <span className="text-slate-500 ml-2">per month</span>
                                     </div>

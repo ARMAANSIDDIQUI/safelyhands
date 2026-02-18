@@ -12,10 +12,8 @@ const serviceSchema = new mongoose.Schema({
     gradientTo: { type: String, default: 'blue-200' },   // For Revolver Hero
     features: [{ type: String, default: [] }],
     basePrice: { type: Number },
-    priceRange: {
-        min: { type: Number },
-        max: { type: Number }
-    },
+    minPrice: { type: Number, default: 0 },
+    maxPrice: { type: Number, default: 0 },
     rating: { type: Number, default: 4.8, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },
     badge: { type: String },

@@ -122,7 +122,7 @@ export default function AdminServicesPage() {
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="text-sm font-bold text-slate-700">
-                                            {service.priceRange?.min ? `₹${service.priceRange.min} - ₹${service.priceRange.max}` : `₹${service.basePrice}`}
+                                            {service.minPrice > 0 ? `₹${service.minPrice.toLocaleString()} - ₹${service.maxPrice.toLocaleString()}` : `₹${service.basePrice?.toLocaleString() || 0}`}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">

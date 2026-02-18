@@ -101,23 +101,23 @@ const CustomerTestimonial = () => {
                 >
                   <div className="bg-white/80 backdrop-blur-md border border-slate-100 rounded-3xl p-8 md:p-10 h-full flex flex-col justify-center shadow-sm">
                     <Quote size={40} className="text-sky-500 mb-6 opacity-50" />
-                    <p className="text-xl md:text-2xl text-slate-200 leading-relaxed font-light mb-8">
+                    <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light mb-8">
                       &quot;{item.message || item.review}&quot;
                     </p>
 
                     <div className="flex items-center gap-4 mt-auto">
-                      <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-sky-500 bg-slate-700">
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-sky-500 bg-slate-100">
                         {item.imageUrl || item.image ? (
                           <Image src={item.imageUrl || item.image} alt={item.name} fill className="object-cover" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs font-bold text-slate-300">
+                          <div className="w-full h-full flex items-center justify-center text-xs font-bold text-slate-500">
                             {item.name[0]}
                           </div>
                         )}
                       </div>
                       <div>
-                        <h4 className="font-bold text-white">{item.name}</h4>
-                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                        <h4 className="font-bold text-slate-900">{item.name}</h4>
+                        <div className="flex items-center gap-2 text-sm text-slate-500">
                           {item.location && <span>{item.location}</span>}
                           {item.location && <span className="w-1 h-1 bg-slate-500 rounded-full" />}
                           <span>{item.role}</span>

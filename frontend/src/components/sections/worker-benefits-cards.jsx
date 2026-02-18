@@ -11,7 +11,7 @@ const cards = [
         bgColor: "bg-[#fff9e6]",
         titleColor: "text-[#e67e22]",
         btnColor: "bg-[#f39c12]",
-        image: "https://placehold.co/600x400/fff9e6/e67e22?text=Health+Insurance",
+        image: "/healthinsurance.png",
         link: "/services/health-insurance"
     },
     {
@@ -20,7 +20,7 @@ const cards = [
         bgColor: "bg-[#fff1f2]",
         titleColor: "text-[#e11d48]",
         btnColor: "bg-[#f43f5e]",
-        image: "https://placehold.co/600x400/fff1f2/e11d48?text=Worker+Registration",
+        image: "/worker.png",
         link: "/register/helper"
     },
     {
@@ -29,7 +29,7 @@ const cards = [
         bgColor: "bg-[#e0f2fe]",
         titleColor: "text-[#0ea5e9]",
         btnColor: "bg-[#0ea5e9]",
-        image: "https://placehold.co/600x400/e0f2fe/0ea5e9?text=Refer+a+Worker",
+        image: "/refer.png",
         link: "/refer-worker"
     },
     {
@@ -38,7 +38,7 @@ const cards = [
         bgColor: "bg-[#f0fdf4]",
         titleColor: "text-[#16a34a]",
         btnColor: "bg-[#22c55e]",
-        image: "https://placehold.co/600x400/f0fdf4/16a34a?text=Child+Education",
+        image: "/child.png",
         link: "/child-education"
     }
 ];
@@ -72,7 +72,7 @@ const WorkerBenefitCards = () => {
                                     src={card.image}
                                     alt={card.title}
                                     fill
-                                    className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                                    className="object-cover transition-all duration-500"
                                 />
                             </div>
                         </div>

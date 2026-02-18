@@ -208,7 +208,7 @@ export default function ChatWidget() {
 
         {/* WhatsApp Floating Button */}
         <a
-          href="https://wa.me/918218303038"
+          href="https://wa.me/917618341297"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center w-[60px] h-[60px] rounded-full bg-[#25D366] border-2 border-white/20 text-white shadow-lg hover:scale-110 transition-all duration-300 animate-in fade-in zoom-in"

@@ -4,9 +4,9 @@ const SupportChannels = () => {
   const contactInfo = [
     {
       label: 'Phone Number',
-      value: '+91 8218303038 / 76183 41297',
+      value: '+91 8218303038 / 7618341297',
       icon: <Phone size={24} className="text-white" />,
-      link: 'tel:+918218303038',
+      link: 'tel:+917618341297',
     },
     {
       label: 'Address',
@@ -16,9 +16,9 @@ const SupportChannels = () => {
     },
     {
       label: 'Whatsapp',
-      value: '+91 8218303038',
+      value: '+91 7618341297',
       icon: <MessageSquare size={24} className="text-white" />,
-      link: 'https://wa.me/918218303038',
+      link: 'https://wa.me/917618341297',
     },
   ];
 

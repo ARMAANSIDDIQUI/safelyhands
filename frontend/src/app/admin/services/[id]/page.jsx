@@ -143,14 +143,8 @@ export default function EditServicePage({ params }) {
                         <input
                             type="number"
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
-                            value={service.priceRange?.min || ''}
-                            onChange={(e) => setService({
-                                ...service,
-                                priceRange: {
-                                    ...service.priceRange,
-                                    min: parseFloat(e.target.value) || 0
-                                }
-                            })}
+                            value={service.minPrice || ''}
+                            onChange={(e) => setService({ ...service, minPrice: parseFloat(e.target.value) || 0 })}
                             placeholder="Minimum price"
                         />
                     </div>
@@ -159,14 +153,8 @@ export default function EditServicePage({ params }) {
                         <input
                             type="number"
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
-                            value={service.priceRange?.max || ''}
-                            onChange={(e) => setService({
-                                ...service,
-                                priceRange: {
-                                    ...service.priceRange,
-                                    max: parseFloat(e.target.value) || 0
-                                }
-                            })}
+                            value={service.maxPrice || ''}
+                            onChange={(e) => setService({ ...service, maxPrice: parseFloat(e.target.value) || 0 })}
                             placeholder="Maximum price"
                         />
                     </div>
