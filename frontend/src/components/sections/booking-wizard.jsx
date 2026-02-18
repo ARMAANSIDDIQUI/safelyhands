@@ -456,13 +456,21 @@ export default function BookingWizard() {
                                                             </div>
                                                         </div>
                                                         <div className="flex flex-col justify-center">
-                                                            <button
-                                                                onClick={() => initAddSubCat(sub)}
-                                                                disabled={selectedService.selectionMode === 'single' && isInCart && false} // Allow replacing in single mode logic?
-                                                                className="w-10 h-10 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all font-bold text-xl"
-                                                            >
-                                                                <Plus size={20} />
-                                                            </button>
+                                                            {isInCart ? (
+                                                                <button
+                                                                    disabled
+                                                                    className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center cursor-not-allowed font-bold text-xl"
+                                                                >
+                                                                    <Check size={20} />
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => initAddSubCat(sub)}
+                                                                    className="w-10 h-10 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all font-bold text-xl"
+                                                                >
+                                                                    <Plus size={20} />
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 );

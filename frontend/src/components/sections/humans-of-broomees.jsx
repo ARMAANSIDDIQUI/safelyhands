@@ -106,7 +106,7 @@ const HumansOfBroomees = () => {
                             {staticTestimonials.map((testimonial, index) => (
                                 <CarouselItem key={index}>
                                     {/* Main Card */}
-                                    <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-14 shadow-2xl border border-white/60 relative overflow-hidden group hover:shadow-sky-200/50 transition-all duration-500 min-h-[400px] flex flex-col justify-center mx-2 my-2">
+                                    <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-14 border border-white/60 relative overflow-hidden group transition-all duration-500 min-h-[400px] flex flex-col justify-center mx-2 my-2">
 
                                         {/* Decorative Large Background Quote */}
                                         <Quote className="absolute top-4 left-8 text-sky-50 w-32 h-32 md:w-48 md:h-48 -z-10 transform -rotate-12 opacity-80" fill="currentColor" />
