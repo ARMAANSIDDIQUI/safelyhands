@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { Star } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 import {
     Carousel,
     CarouselContent,
@@ -13,6 +14,13 @@ import {
 
 export default function TestimonialCarousel() {
     const [testimonials, setTestimonials] = useState([]);
+    const [api, setApi] = useState(null);
+    const [current, setCurrent] = useState(0);
+    const [count, setCount] = useState(0);
+
+    const plugin = useRef(
+        Autoplay({ delay: 3000, stopOnInteraction: true })
+    );
 
     useEffect(() => {
         const fetchTestimonials = async () => {
@@ -29,6 +37,19 @@ export default function TestimonialCarousel() {
         fetchTestimonials();
     }, []);
 
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        setCount(api.scrollSnapList().length);
+        setCurrent(api.selectedScrollSnap() + 1);
+
+        api.on("select", () => {
+            setCurrent(api.selectedScrollSnap() + 1);
+        });
+    }, [api]);
+
     if (testimonials.length === 0) return null;
 
     return (
@@ -36,16 +57,20 @@ export default function TestimonialCarousel() {
             <div className="container mx-auto px-4">
                 <div className="text-left mb-12">
                     <h2 className="text-blue-600 text-lg font-bold uppercase tracking-wide mb-2">Testimonials</h2>
-                    <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Don't Believe Us?</h3>
+                    <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Don&apos;t Believe Us?</h3>
                     <h3 className="text-xl md:text-2xl font-medium text-slate-600">Check What Our Customers Say About Us</h3>
                 </div>
 
                 <Carousel
+                    setApi={setApi}
+                    plugins={[plugin.current]}
                     opts={{
                         align: "start",
                         loop: true,
                     }}
                     className="w-full"
+                    onMouseEnter={plugin.current.stop}
+                    onMouseLeave={plugin.current.reset}
                 >
                     <CarouselContent className="-ml-4">
                         {testimonials.map((item) => (
@@ -73,8 +98,24 @@ export default function TestimonialCarousel() {
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <div className="flex justify-center gap-4 mt-8">
+
+                    {/* Navigation Controls */}
+                    <div className="flex justify-center gap-4 mt-8 items-center">
                         <CarouselPrevious className="static translate-y-0" />
+
+                        {/* Pagination Dots to visualize Index Change */}
+                        <div className="flex gap-2 mx-4">
+                            {[...Array(count)].map((_, index) => (
+                                <button
+                                    key={index}
+                                    className={`h-2 rounded-full transition-all duration-300 ${index + 1 === current ? "w-8 bg-blue-600" : "w-2 bg-slate-300"
+                                        }`}
+                                    onClick={() => api?.scrollTo(index)}
+                                    aria-label={`Go to slide ${index + 1}`}
+                                />
+                            ))}
+                        </div>
+
                         <CarouselNext className="static translate-y-0" />
                     </div>
                 </Carousel>
