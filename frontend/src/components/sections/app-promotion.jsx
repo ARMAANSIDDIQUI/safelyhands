@@ -94,26 +94,17 @@ const AppPromotion = () => {
                     {/* Phone Mockup */}
                     <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
                         <div className="relative w-[300px] md:w-[350px] aspect-[9/19] bg-black rounded-[50px] border-[8px] border-slate-900 shadow-2xl z-20 overflow-hidden transform lg:translate-y-20">
-                            {/* Screen Content Mockup */}
-                            <div className="bg-white w-full h-full relative">
-                                <div className="absolute top-0 left-0 right-0 h-24 bg-primary rounded-b-3xl"></div>
-                                <div className="absolute top-12 left-6 right-6">
-                                    <div className="h-6 flex items-center mb-4 relative w-36">
-                                        <Image
-                                            src="/headerlogo.png"
-                                            alt="Safely Hands"
-                                            fill
-                                            className="object-contain object-left"
-                                        />
-                                    </div>
-                                    <div className="h-8 w-40 bg-white rounded-lg"></div>
-                                </div>
-                                <div className="absolute top-36 left-6 right-6 space-y-4">
-                                    <div className="h-32 bg-slate-100 rounded-2xl shadow-sm"></div>
-                                    <div className="h-32 bg-slate-100 rounded-2xl shadow-sm"></div>
-                                    <div className="h-32 bg-slate-100 rounded-2xl shadow-sm"></div>
-                                </div>
-                                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-50"></div>
+                            {/* Screen Content Mockup - Iframe */}
+                            <div className="bg-white w-full h-full relative overflow-hidden">
+                                <iframe
+                                    src="https://safelyhands.com"
+                                    className="w-full h-full border-0 pointer-events-none"
+                                    title="App Preview"
+                                    scrolling="no"
+                                    tabIndex="-1"
+                                />
+                                {/* Overlay to ensure no interaction */}
+                                <div className="absolute inset-0 z-10"></div>
                             </div>
                         </div>
                         {/* Decorative Element Behind Phone */}
