@@ -49,6 +49,7 @@ const upload = multer({
 // @route   POST /api/upload
 // @access  Private
 router.post('/', (req, res, next) => {
+    console.log(`>>> [UPLOAD] Route hit /api/upload | Method: POST`);
     // Run multer manually so its errors enter Express error chain
     // (which sets CORS headers) instead of sending a bare response
     upload.single('image')(req, res, async (multerErr) => {

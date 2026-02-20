@@ -48,6 +48,10 @@ export default function MediaLibraryPage() {
             setUploads((prev) => [entry, ...prev]);
             toast.success("Uploaded successfully!");
         } catch (err) {
+            console.error("DEBUG [UPLOAD FETCH ERROR]:", err);
+            if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+                console.error("Possible CORS issue or Network failure. If uploading a large file, this likely means Nginx rejected the request with 413.");
+            }
             toast.error(err.message);
         } finally {
             setUploading(false);

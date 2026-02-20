@@ -40,9 +40,14 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Request logger
+// Request logger with detailed payload info
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
+    const contentLength = req.get('content-length');
+    console.log(`>>> [REQUEST] ${new Date().toISOString()} | ${req.method} ${req.url} | Content-Length: ${contentLength || 'unknown'} bytes`);
+
+    if (contentLength && parseInt(contentLength) > 50 * 1024 * 1024) {
+        console.warn(`!!! [WARNING] Payload exceeds 50MB limit: ${contentLength} bytes`);
+    }
     next();
 });
 
@@ -112,11 +117,6 @@ app.get('/api/health', (req, res) => {
 
 // Serve Uploads
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-
-// // Serve Next.js frontend for all other routes
-// app.all('*', (req, res) => {
-//     return handle(req, res);
-// });
 
 // Global Error Handler — always set CORS headers so the browser can read the error too
 app.use((err, req, res, next) => {
