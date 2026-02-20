@@ -109,10 +109,11 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
                         {/* Inclusions Section */}
                         {subCategory.inclusions && (
                             <div className="mt-10 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                <h3 className="text-lg font-bold text-slate-800 mb-3">Inclusions</h3>
-                                <p className="text-sm text-slate-600 leading-relaxed">
-                                    {subCategory.inclusions}
-                                </p>
+                                <h3 className="text-lg font-bold text-slate-800 mb-4">Inclusions</h3>
+                                <div
+                                    className="inclusions-content text-sm text-slate-600 leading-relaxed"
+                                    dangerouslySetInnerHTML={{ __html: subCategory.inclusions }}
+                                />
                             </div>
                         )}
                     </div>
