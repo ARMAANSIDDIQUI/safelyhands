@@ -64,14 +64,27 @@ router.post('/', (req, res, next) => {
 
             console.log(`>>> [UPLOAD] File received: ${req.file.originalname} | Size: ${req.file.size} bytes | Mime: ${req.file.mimetype}`);
 
-            // Upload to Cloudinary
-            console.log(`>>> [UPLOAD] Sending to Cloudinary with resource_type: auto...`);
-            const result = await cloudinary.uploader.upload(req.file.path, {
+            // Upload to Cloudinary - use upload_large for videos to be safe
+            const isVideo = req.file.mimetype.startsWith('video/');
+            console.log(`>>> [UPLOAD] Sending to Cloudinary | Type: ${isVideo ? 'video' : 'image'} | resource_type: auto...`);
+
+            const uploadOptions = {
                 folder: 'safely_hands',
                 use_filename: true,
                 unique_filename: false,
-                resource_type: 'auto', // Handles images AND videos
-            });
+                resource_type: 'auto',
+            };
+
+            let result;
+            if (isVideo) {
+                // Cloudinary recommend upload_large for videos
+                result = await cloudinary.uploader.upload_large(req.file.path, {
+                    ...uploadOptions,
+                    chunk_size: 6000000, // 6MB chunks
+                });
+            } else {
+                result = await cloudinary.uploader.upload(req.file.path, uploadOptions);
+            }
 
             console.log(`>>> [UPLOAD] Cloudinary success! Resource Type: ${result.resource_type} | URL: ${result.secure_url}`);
 
