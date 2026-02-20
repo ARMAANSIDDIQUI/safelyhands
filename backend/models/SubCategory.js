@@ -15,6 +15,7 @@ const subCategorySchema = new mongoose.Schema({
             name: { type: String, required: true }, // Key for formData
             label: { type: String, required: true }, // Display label
             type: { type: String, enum: ['radio', 'select', 'checkbox', 'text', 'date', 'number'], default: 'radio' },
+            isQuantityMultiplier: { type: Boolean, default: false }, // If true, this field's numeric value multiplies other priceChanges
             options: [{
                 label: String,
                 value: String,

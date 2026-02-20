@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const next = require('next');
 const fs = require('fs');
@@ -25,15 +24,17 @@ if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
 
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-const corsOptions = {
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
-app.use(cors(corsOptions));
-// Explicitly handle pre-flight OPTIONS requests for all routes
-app.options('*', cors(corsOptions));
+// Allow ALL origins — no CORS restrictions
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    // Respond immediately to pre-flight OPTIONS requests
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
+    next();
+});
 app.use(express.json());
 
 // Request logger
