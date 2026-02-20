@@ -89,7 +89,15 @@ export default function ImageUpload({ value, onChange, disabled }) {
         onChange("");
     };
 
-    const isVideo = value && (value.includes('.mp4') || value.includes('.webm') || value.includes('.mov'));
+    const isVideo = value && (
+        value.includes('.mp4') ||
+        value.includes('.webm') ||
+        value.includes('.mov') ||
+        value.includes('.ogg') ||
+        value.includes('.m4v') ||
+        value.includes('.avi') ||
+        value.includes('/video/upload/') // Cloudinary specific
+    );
 
     return (
         <div className="flex flex-col gap-4">
@@ -109,8 +117,11 @@ export default function ImageUpload({ value, onChange, disabled }) {
                     {isVideo ? (
                         <video
                             src={value}
-                            controls
-                            className="w-full h-full object-cover"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-full object-cover pointer-events-none"
                         />
                     ) : (
                         <img
