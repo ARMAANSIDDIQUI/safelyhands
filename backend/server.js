@@ -26,11 +26,14 @@ if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors({
+const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
+app.use(cors(corsOptions));
+// Explicitly handle pre-flight OPTIONS requests for all routes
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
 // Request logger
@@ -111,11 +114,15 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 //     return handle(req, res);
 // });
 
-// Global Error Handler
+// Global Error Handler — always set CORS headers so the browser can read the error too
 app.use((err, req, res, next) => {
     console.error('SERVER ERROR:', err);
-    res.status(500).json({
-        message: 'Internal Server Error',
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    const status = err.status || err.statusCode || 500;
+    res.status(status).json({
+        message: err.message || 'Internal Server Error',
         error: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong!'
     });
 });

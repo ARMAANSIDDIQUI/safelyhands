@@ -48,37 +48,44 @@ const upload = multer({
 // @desc    Upload file
 // @route   POST /api/upload
 // @access  Private
-router.post('/', upload.single('image'), async (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({ message: 'No file uploaded' });
+router.post('/', (req, res, next) => {
+    // Run multer manually so its errors enter Express error chain
+    // (which sets CORS headers) instead of sending a bare response
+    upload.single('image')(req, res, async (multerErr) => {
+        if (multerErr) {
+            return next(multerErr); // goes to global error handler with CORS headers
         }
+        try {
+            if (!req.file) {
+                return res.status(400).json({ message: 'No file uploaded' });
+            }
 
-        // Upload to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: 'safely_hands', // Organization folder
-            use_filename: true,
-            unique_filename: false,
-            resource_type: 'auto', // Handles images AND videos
-        });
+            // Upload to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'safely_hands',
+                use_filename: true,
+                unique_filename: false,
+                resource_type: 'auto', // Handles images AND videos
+            });
 
-        // Remove file from local uploads folder
-        fs.unlinkSync(req.file.path);
-
-        res.json({
-            url: result.secure_url,        // Primary field
-            imageUrl: result.secure_url,   // Legacy compat
-            resourceType: result.resource_type,
-            message: 'File uploaded successfully'
-        });
-    } catch (error) {
-        console.error('Upload Error:', error);
-        // Clean up local file if upload fails
-        if (req.file && fs.existsSync(req.file.path)) {
+            // Remove file from local uploads folder
             fs.unlinkSync(req.file.path);
+
+            res.json({
+                url: result.secure_url,        // Primary field
+                imageUrl: result.secure_url,   // Legacy compat
+                resourceType: result.resource_type,
+                message: 'File uploaded successfully'
+            });
+        } catch (error) {
+            console.error('Upload Error:', error);
+            // Clean up local file if upload fails
+            if (req.file && fs.existsSync(req.file.path)) {
+                fs.unlinkSync(req.file.path);
+            }
+            next(error); // goes to global error handler with CORS headers
         }
-        res.status(500).json({ message: 'Server error during upload: ' + (error.message || error.toString() || 'Unknown error') });
-    }
+    });
 });
 
 module.exports = router;
