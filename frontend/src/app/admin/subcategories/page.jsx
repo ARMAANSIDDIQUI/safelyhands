@@ -30,6 +30,28 @@ export default function AdminSubCategoriesPage() {
         }
     };
 
+    const toggleStatus = async (id, currentStatus) => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subcategories/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                },
+                body: JSON.stringify({ isActive: !currentStatus })
+            });
+
+            if (res.ok) {
+                toast.success(`Subcategory marked ${!currentStatus ? 'active' : 'inactive'}`);
+                setSubcategories(prev => prev.map(s => s._id === id ? { ...s, isActive: !currentStatus } : s));
+            } else {
+                toast.error("Failed to update status");
+            }
+        } catch (error) {
+            toast.error("Error updating status");
+        }
+    };
+
     const handleDelete = async (id) => {
         if (!confirm("Are you sure you want to delete this subcategory?")) return;
 
@@ -112,6 +134,7 @@ export default function AdminSubCategoriesPage() {
                                 <th className="px-6 py-4">Subcategory</th>
                                 <th className="px-6 py-4">Parent Service</th>
                                 <th className="px-6 py-4">Price</th>
+                                <th className="px-6 py-4">Status</th>
                                 <th className="px-6 py-4">Features</th>
                                 <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
@@ -148,6 +171,17 @@ export default function AdminSubCategoriesPage() {
                                     </td>
                                     <td className="px-6 py-4 text-slate-700 font-mono text-sm">
                                         ₹{sub.price}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <button
+                                            onClick={() => toggleStatus(sub._id, sub.isActive !== false)}
+                                            className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${sub.isActive !== false
+                                                    ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                                                    : 'bg-red-100 text-red-700 hover:bg-red-200'
+                                                }`}
+                                        >
+                                            {sub.isActive !== false ? 'Active' : 'Inactive'}
+                                        </button>
                                     </td>
                                     <td className="px-6 py-4 text-slate-500 text-xs">
                                         {sub.features?.length || 0} features

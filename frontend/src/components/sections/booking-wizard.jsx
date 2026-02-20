@@ -151,6 +151,9 @@ export default function BookingWizard() {
     }, [selectedService, babyDOB]);
 
     const filteredSubCategories = subCategories.filter(sub => {
+        // Always hide inactive subcategories
+        if (sub.isActive === false) return false;
+
         if (selectedService?.slug !== 'babysitter') return true;
 
         if (showJapaAlert) {

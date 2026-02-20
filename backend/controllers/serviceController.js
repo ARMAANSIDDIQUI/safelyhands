@@ -203,6 +203,20 @@ const updateSubCategory = async (req, res) => {
     }
 };
 
+const deleteSubCategory = async (req, res) => {
+    try {
+        const subCategory = await SubCategory.findById(req.params.id);
+        if (subCategory) {
+            await subCategory.deleteOne();
+            res.json({ message: 'SubCategory removed' });
+        } else {
+            res.status(404).json({ message: 'SubCategory not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const getAllSubCategories = async (req, res) => {
     try {
         const subcategories = await SubCategory.find({}).populate('service', 'title');
@@ -223,5 +237,6 @@ module.exports = {
     getSubCategoryById,
     createSubCategory,
     updateSubCategory,
+    deleteSubCategory,
     getAllSubCategories
 };
