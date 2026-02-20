@@ -42,7 +42,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5000000 }, // 5MB limit
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit (for videos)
 });
 
 // @desc    Upload file
@@ -59,13 +59,16 @@ router.post('/', upload.single('image'), async (req, res) => {
             folder: 'safely_hands', // Organization folder
             use_filename: true,
             unique_filename: false,
+            resource_type: 'auto', // Handles images AND videos
         });
 
         // Remove file from local uploads folder
         fs.unlinkSync(req.file.path);
 
         res.json({
-            imageUrl: result.secure_url,
+            url: result.secure_url,        // Primary field
+            imageUrl: result.secure_url,   // Legacy compat
+            resourceType: result.resource_type,
             message: 'File uploaded successfully'
         });
     } catch (error) {

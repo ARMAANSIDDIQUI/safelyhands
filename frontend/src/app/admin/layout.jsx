@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Users, CalendarCheck, Briefcase, Settings, LogOut, MessageSquareQuote, Home, ShieldCheck, Wrench, Menu, X, MessageSquare, MapPin, Layers } from "lucide-react";
+import { LayoutDashboard, Users, CalendarCheck, Briefcase, Settings, LogOut, MessageSquareQuote, Home, ShieldCheck, Wrench, Menu, X, MessageSquare, MapPin, Layers, ImageIcon } from "lucide-react";
 
 export default function AdminLayout({ children }) {
     const { user, loading, logout } = useAuth();
@@ -44,6 +44,7 @@ export default function AdminLayout({ children }) {
 
         { href: "/admin/carousel", icon: LayoutDashboard, label: "Carousel" },
         { href: "/admin/inquiries", icon: Briefcase, label: "Inquiries" },
+        { href: "/admin/media", icon: ImageIcon, label: "Media Library" },
     ];
 
     return (
