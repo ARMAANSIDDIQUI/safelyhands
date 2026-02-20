@@ -263,7 +263,7 @@ export default function ServicePage() {
                                         loop
                                         muted
                                         playsInline
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover pointer-events-none"
                                     />
                                 ) : (
                                     <Image

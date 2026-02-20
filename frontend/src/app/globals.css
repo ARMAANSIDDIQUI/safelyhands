@@ -397,10 +397,13 @@
 .inclusions-content video {
   max-width: 100%;
   width: 100%;
+  height: auto;
   border-radius: 12px;
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   display: block;
   background: #0f172a;
+  object-fit: cover;
+  pointer-events: none;
 }

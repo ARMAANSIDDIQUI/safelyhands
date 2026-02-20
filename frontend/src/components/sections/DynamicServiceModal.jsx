@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -6,6 +6,7 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
     // 1. Initialize State
     const [answers, setAnswers] = useState(initialData);
     const [price, setPrice] = useState(subCategory?.price || 0);
+    const inclusionsRef = useRef(null);
 
     // 2. Initialize defaults on open
     useEffect(() => {
@@ -44,6 +45,26 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
         });
         setPrice(newPrice);
     }, [answers, subCategory]);
+
+    // 4. Handle dynamic video tags in inclusions
+    useEffect(() => {
+        if (isOpen && inclusionsRef.current) {
+            const videos = inclusionsRef.current.querySelectorAll('video');
+            videos.forEach(video => {
+                video.muted = true;
+                video.autoplay = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.controls = false;
+                video.setAttribute('muted', '');
+                video.setAttribute('autoplay', '');
+                video.setAttribute('loop', '');
+                video.setAttribute('playsinline', '');
+                video.removeAttribute('controls');
+                video.play().catch(e => console.log("Autoplay blocked or failed:", e));
+            });
+        }
+    }, [isOpen, subCategory?.inclusions]);
 
     if (!isOpen || !subCategory) return null;
 
@@ -111,6 +132,7 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
                             <div className="mt-10 bg-slate-50 p-6 rounded-2xl border border-slate-100">
                                 <h3 className="text-lg font-bold text-slate-800 mb-4">Inclusions</h3>
                                 <div
+                                    ref={inclusionsRef}
                                     className="inclusions-content text-sm text-slate-600 leading-relaxed"
                                     dangerouslySetInnerHTML={{ __html: subCategory.inclusions }}
                                 />
