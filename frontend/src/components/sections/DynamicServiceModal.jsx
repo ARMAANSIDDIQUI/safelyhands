@@ -32,18 +32,41 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
     useEffect(() => {
         if (!subCategory?.questions) return;
 
-        let newPrice = subCategory.price || 0;
+        let basePrice = subCategory.price || 0;
+        let additionalPrice = 0;
+
+        // 3a. Find the reference field value
+        let referenceValue = null;
         subCategory.questions.forEach(step => {
             step.fields.forEach(field => {
-                const selectedValue = answers[field.name];
-                // Find selected option
-                const option = field.options?.find(opt => opt.value === selectedValue);
-                if (option?.priceChange) {
-                    newPrice += option.priceChange;
+                if (field.isPricingReference) {
+                    referenceValue = answers[field.name]?.toString();
                 }
             });
         });
-        setPrice(newPrice);
+
+        // 3b. Calculate based on selections and tiers
+        subCategory.questions.forEach(step => {
+            step.fields.forEach(field => {
+                if (field.isPricingReference) return;
+
+                const selectedValue = answers[field.name];
+                const option = field.options?.find(opt => opt.value === selectedValue);
+
+                if (option) {
+                    // Check for a tiered price matching the reference value
+                    const tier = option.tieredPrices?.find(t => t.refValue === referenceValue);
+                    if (tier) {
+                        additionalPrice += tier.price;
+                    } else if (option.priceChange) {
+                        // Fallback to base price change
+                        additionalPrice += option.priceChange;
+                    }
+                }
+            });
+        });
+
+        setPrice(basePrice + additionalPrice);
     }, [answers, subCategory]);
 
     // 4. Handle dynamic video tags in inclusions
@@ -98,30 +121,43 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
                                     <div key={fieldIndex}>
                                         <h3 className="text-lg font-bold text-slate-800 mb-1">{field.label}</h3>
                                         <p className="text-sm text-slate-400 mb-6 font-medium text-slate-500">
-                                            Select 1 out of {field.options.length} options
+                                            {field.type === 'number' ? 'Enter a numeric value' : `Select 1 out of ${field.options?.length || 0} options`}
                                         </p>
 
-                                        <div className="flex flex-wrap gap-3">
-                                            {field.options.map((option) => (
-                                                <button
-                                                    key={option.value}
-                                                    onClick={() => setAnswers({ ...answers, [field.name]: option.value })}
-                                                    className={cn(
-                                                        "px-6 py-3 rounded-xl border-2 font-bold transition-all text-left",
-                                                        answers[field.name] === option.value
-                                                            ? "border-sky-500 bg-sky-50 text-sky-600 shadow-sm"
-                                                            : "border-slate-100 text-slate-400"
-                                                    )}
-                                                >
-                                                    {option.label}
-                                                    {option.priceChange > 0 && (
-                                                        <span className="text-xs ml-2 text-slate-500 opacity-70">
-                                                            (+₹{option.priceChange})
-                                                        </span>
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
+                                        {field.type === 'number' ? (
+                                            <div className="max-w-xs">
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    value={answers[field.name] || ''}
+                                                    onChange={(e) => setAnswers({ ...answers, [field.name]: e.target.value })}
+                                                    placeholder={`Enter ${field.label.toLowerCase()}...`}
+                                                    className="w-full px-6 py-3 rounded-xl border-2 border-slate-100 font-bold focus:border-sky-500 focus:outline-none focus:bg-sky-50 transition-all"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-wrap gap-3">
+                                                {field.options?.map((option) => (
+                                                    <button
+                                                        key={option.value}
+                                                        onClick={() => setAnswers({ ...answers, [field.name]: option.value })}
+                                                        className={cn(
+                                                            "px-6 py-3 rounded-xl border-2 font-bold transition-all text-left",
+                                                            answers[field.name] === option.value
+                                                                ? "border-sky-500 bg-sky-50 text-sky-600 shadow-sm"
+                                                                : "border-slate-100 text-slate-400"
+                                                        )}
+                                                    >
+                                                        {option.label}
+                                                        {option.priceChange > 0 && (
+                                                            <span className="text-xs ml-2 text-slate-500 opacity-70">
+                                                                (+₹{option.priceChange})
+                                                            </span>
+                                                        )}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>

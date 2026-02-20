@@ -15,11 +15,15 @@ const subCategorySchema = new mongoose.Schema({
             name: { type: String, required: true }, // Key for formData
             label: { type: String, required: true }, // Display label
             type: { type: String, enum: ['radio', 'select', 'checkbox', 'text', 'date', 'number'], default: 'radio' },
-            isQuantityMultiplier: { type: Boolean, default: false }, // If true, this field's numeric value multiplies other priceChanges
+            isPricingReference: { type: Boolean, default: false }, // Only one field should be true
             options: [{
                 label: String,
                 value: String,
-                priceChange: { type: Number, default: 0 }
+                priceChange: { type: Number, default: 0 },
+                tieredPrices: [{
+                    refValue: String, // Value of the reference field (e.g., "3")
+                    price: { type: Number, required: true }
+                }]
             }],
             required: { type: Boolean, default: true },
             condition: { // Conditional visibility logic

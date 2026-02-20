@@ -1,0 +1,4656 @@
+{
+  "services": [
+    {
+      "questions": [],
+      "_id": "698cab45b9b4699c70e65943",
+      "slug": "housekeeper",
+      "title": "Domestic Help",
+      "subtitle": "Professional home cleaning",
+      "description": "Book a professional housekeeper for your daily chores like brooming, mopping, dusting, dish-washing.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770907803/safely_hands/image-1770907798219.png",
+      "icon": "Home",
+      "gradientFrom": "orange-100",
+      "gradientTo": "orange-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "multiple",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:05.397Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 4800,
+      "minPrice": 3500,
+      "id": "698cab45b9b4699c70e65943"
+    },
+    {
+      "_id": "698cab45b9b4699c70e65973",
+      "slug": "cook",
+      "title": "Cook",
+      "subtitle": "Delicious home meals",
+      "description": "Professional cooks and chefs to prepare delicious, nutritious home-cooked meals for your family.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770908050/safely_hands/image-1770908044667.png",
+      "icon": "ChefHat",
+      "gradientFrom": "green-100",
+      "gradientTo": "green-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "multiple",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:05.740Z",
+      "__v": 1,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 5000,
+      "minPrice": 3000,
+      "questions": [],
+      "id": "698cab45b9b4699c70e65973"
+    },
+    {
+      "questions": [],
+      "_id": "698cab45b9b4699c70e65990",
+      "slug": "babysitter",
+      "title": "Babysitter",
+      "subtitle": "Caring for your little ones",
+      "description": "Book a reliable babysitter/ japa for your young ones. Babysitters are experienced professionals who can take care of your baby’s day-to-day needs like feeding, playing and putting to sleep. Japa maids are experts who take care of new born babies and mothers.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770908420/safely_hands/image-1770908413908.png",
+      "icon": "Baby",
+      "gradientFrom": "pink-100",
+      "gradientTo": "pink-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "single",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:05.945Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 23800,
+      "minPrice": 8125,
+      "id": "698cab45b9b4699c70e65990"
+    },
+    {
+      "questions": [],
+      "_id": "698cab46b9b4699c70e659a4",
+      "slug": "elderly-care",
+      "title": "Elderly Care",
+      "subtitle": "Compassionate support",
+      "description": "Compassionate and trained caregivers providing dedicated 24-hour support and companionship for senior citizens.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770908627/safely_hands/image-1770908621316.png",
+      "icon": "HeartHandshake",
+      "gradientFrom": "blue-100",
+      "gradientTo": "blue-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "single",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:06.048Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 26000,
+      "minPrice": 25000,
+      "id": "698cab46b9b4699c70e659a4"
+    },
+    {
+      "questions": [],
+      "_id": "698cab46b9b4699c70e659b2",
+      "slug": "all-rounder",
+      "title": "All-Rounder",
+      "subtitle": "Versatile home support",
+      "description": "Versatile all-rounder staff capable of handling multiple household roles including cooking, cleaning, and general household management.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770908799/safely_hands/image-1770908792357.png",
+      "icon": "Layers",
+      "gradientFrom": "purple-100",
+      "gradientTo": "purple-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "single",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:06.150Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 23000,
+      "minPrice": 10000,
+      "id": "698cab46b9b4699c70e659b2"
+    },
+    {
+      "questions": [],
+      "_id": "698cab46b9b4699c70e65a88",
+      "slug": "24-hrs",
+      "title": "24 Hrs Live-in",
+      "subtitle": "Full time support",
+      "description": "Verified and reliable 24 hrs live in workers. Feel free to customize your booking!",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770908940/safely_hands/image-1770908935412.png",
+      "icon": "Clock",
+      "gradientFrom": "indigo-100",
+      "gradientTo": "indigo-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "single",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:06.511Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 21000,
+      "minPrice": 15000,
+      "id": "698cab46b9b4699c70e65a88"
+    },
+    {
+      "questions": [],
+      "_id": "698cab46b9b4699c70e65b1d",
+      "slug": "patient-care",
+      "title": "Patient Care",
+      "subtitle": "Dedicated support for recovery",
+      "description": "Specialized care for patients recovering from illness or surgery.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770909419/safely_hands/image-1770909414759.png",
+      "icon": "Stethoscope",
+      "gradientFrom": "cyan-100",
+      "gradientTo": "cyan-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "single",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:06.816Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 38000,
+      "minPrice": 22000,
+      "id": "698cab46b9b4699c70e65b1d"
+    },
+    {
+      "questions": [],
+      "_id": "698cab46b9b4699c70e65b3d",
+      "slug": "peon-service",
+      "title": "Peon Service",
+      "subtitle": "Office and pantry assistance",
+      "description": "Reliable staff for office maintenance, pantry management, and errands.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770909533/safely_hands/image-1770909526669.png",
+      "icon": "Briefcase",
+      "gradientFrom": "slate-100",
+      "gradientTo": "slate-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "single",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:06.956Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 18500,
+      "minPrice": 15000,
+      "id": "698cab46b9b4699c70e65b3d"
+    },
+    {
+      "questions": [],
+      "_id": "698cab47b9b4699c70e65b53",
+      "slug": "japa",
+      "title": "Japas",
+      "subtitle": "Mother & Baby Care",
+      "description": "Specialized care for newborns and mothers, including massage and recovery support.",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770909234/safely_hands/image-1770909229106.png",
+      "icon": "Baby",
+      "gradientFrom": "pink-100",
+      "gradientTo": "pink-200",
+      "features": [],
+      "rating": 4.8,
+      "reviewCount": 0,
+      "selectionMode": "single",
+      "gender": "Both",
+      "isActive": true,
+      "createdAt": "2026-02-11T16:16:07.070Z",
+      "__v": 0,
+      "priceRange": {
+        "min": 0,
+        "max": 0
+      },
+      "maxPrice": 40000,
+      "minPrice": 33000,
+      "id": "698cab47b9b4699c70e65b53"
+    }
+  ],
+  "subcategories": [
+    {
+      "_id": "698cab45b9b4699c70e65945",
+      "service": "698cab45b9b4699c70e65943",
+      "name": "Brooming, Mopping",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770910414/safely_hands/image-1770910410274.png",
+      "price": 3750,
+      "description": "Complete floor cleaning and sanitization for a sparkling clean space",
+      "features": [
+        "All services inclusive"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "House Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "houseSize",
+              "label": "Select house size (Please describe the area of ONLY 1 floor)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 BHK",
+                  "value": "1bhk",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65948",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 BHK",
+                  "value": "2bhk",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65949",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 BHK",
+                  "value": "3bhk",
+                  "priceChange": 1000,
+                  "_id": "698cab45b9b4699c70e6594a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 BHK",
+                  "value": "4bhk",
+                  "priceChange": 2000,
+                  "_id": "698cab45b9b4699c70e6594b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 BHK",
+                  "value": "5bhk",
+                  "priceChange": 2500,
+                  "_id": "698cab45b9b4699c70e6594c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 BHK",
+                  "value": "6bhk",
+                  "priceChange": 3000,
+                  "_id": "698cab45b9b4699c70e6594d",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e65947"
+            },
+            {
+              "isPricingReference": false,
+              "name": "floorCount",
+              "label": "How many such floors?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 floor only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6594f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 floors",
+                  "value": "2",
+                  "priceChange": 1500,
+                  "_id": "698cab45b9b4699c70e65950",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 floors",
+                  "value": "3",
+                  "priceChange": 3500,
+                  "_id": "698cab45b9b4699c70e65951",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 floors",
+                  "value": "4",
+                  "priceChange": 4250,
+                  "_id": "698cab45b9b4699c70e65952",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 floors",
+                  "value": "5",
+                  "priceChange": 7250,
+                  "_id": "698cab45b9b4699c70e65953",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e6594e"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65955",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65956",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65957",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e65954"
+            }
+          ],
+          "_id": "698cab45b9b4699c70e65946"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:05.497Z",
+      "__v": 2
+    },
+    {
+      "_id": "698cab45b9b4699c70e65959",
+      "service": "698cab45b9b4699c70e65943",
+      "name": "Bathroom cleaning",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770910484/safely_hands/image-1770910480574.png",
+      "price": 500,
+      "description": "Thorough bathroom cleaning for a hygienic space",
+      "features": [
+        "All services inclusive"
+      ],
+      "inclusions": "Floor, slab and basin cleaning only\n\nPots will NOT be cleaned by Broomees. Cleaning chemicals, agents etc have to be provided by client",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Bathroom Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "bathroomCount",
+              "label": "For how many bathrooms? (Pots will NOT be cleaned by Broomees)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1-2 bathrooms",
+                  "value": "1-2",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6595c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3-4 bathrooms",
+                  "value": "3-4",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6595d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 bathrooms",
+                  "value": "5-6",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6595e",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e6595b"
+            }
+          ],
+          "_id": "698cab45b9b4699c70e6595a"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:05.589Z",
+      "__v": 2
+    },
+    {
+      "_id": "698cab45b9b4699c70e65960",
+      "service": "698cab45b9b4699c70e65943",
+      "name": "Dusting",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770910606/safely_hands/image-1770910601990.png",
+      "price": 800,
+      "description": "Professional dusting service for a spotless dust-free home",
+      "features": [
+        "All services inclusive"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Dusting Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "dustingDuration",
+              "label": "For how long?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "30 mins",
+                  "value": "30_mins",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65963",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "1 hour",
+                  "value": "1_hour",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65964",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "1.5 hrs",
+                  "value": "1.5_hours",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65965",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 hours",
+                  "value": "2_hours",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65966",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e65962"
+            }
+          ],
+          "_id": "698cab45b9b4699c70e65961"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:05.637Z",
+      "__v": 1
+    },
+    {
+      "_id": "698cab45b9b4699c70e65968",
+      "service": "698cab45b9b4699c70e65943",
+      "name": "Dish-washing",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770910891/safely_hands/image-1770910886776.png",
+      "price": 500,
+      "description": "Expert dishwashing service ensuring spotless and sanitized dishes",
+      "features": [
+        "All services inclusive"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Dish-washing Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 person only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6596b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6596c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6596d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6596e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 people",
+                  "value": "5",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6596f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 people",
+                  "value": "6",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65970",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7+ people",
+                  "value": "7_plus",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65971",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e6596a"
+            }
+          ],
+          "_id": "698cab45b9b4699c70e65969"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:05.691Z",
+      "__v": 1
+    },
+    {
+      "_id": "698cab45b9b4699c70e65975",
+      "service": "698cab45b9b4699c70e65973",
+      "name": "Home-style food",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911032/safely_hands/image-1770911024992.png",
+      "price": 3000,
+      "description": "Authentic Indian home-style cooking service for delicious meals",
+      "features": [
+        "All services Inclusive",
+        "Verified Staff",
+        "Healthy Meals"
+      ],
+      "inclusions": "Note : Cook will cook 1-2 dish per meal\n<br> \n\n<h2>Menu</h2>\n\n    <h3>Breads</h3>\n    <ul>\n        <li>Roti</li>\n        <li>Poori</li>\n        <li>Plain Paratha</li>\n        <li>Aloo Paratha</li>\n        <li>Gobhi Paratha</li>\n        <li>Pyaaz Paratha</li>\n        <li>Paneer Paratha</li>\n    </ul>\n\n    <h3>Sabzi (Dry)</h3>\n    <ul>\n        <li>Lauki ki sabzi</li>\n        <li>Tindey ki sabzi</li>\n        <li>Kaddu ki sabzi</li>\n        <li>Bhindi ki sabzi</li>\n        <li>Aloo methi</li>\n        <li>Aloo palak</li>\n        <li>Aloo jeera</li>\n        <li>Aloo gobhi</li>\n        <li>Aloo matar</li>\n        <li>Mixed veg</li>\n    </ul>\n\n    <h3>Sabzi (Gravy)</h3>\n    <ul>\n        <li>Aloo pyaaz tamatar</li>\n        <li>Matar paneer</li>\n        <li>Palak paneer</li>\n        <li>Kadi pakoda</li>\n        <li>Aloo soybean</li>\n    </ul>\n\n    <h3>Dal/Lentils</h3>\n    <ul>\n        <li>Dal tadka</li>\n        <li>Rajma</li>\n        <li>Chole</li>\n        <li>Chana aloo</li>\n        <li>Moong dal</li>\n    </ul>\n\n    <h3>Rice</h3>\n    <ul>\n        <li>Steamed rice / Boiled rice</li>\n        <li>Jeera rice</li>\n        <li>Veg pulao</li>\n        <li>Khichdi</li>\n    </ul>\n\n    <h3>Salad & Raita</h3>\n    <ul>\n        <li>Green salad (onion, cucumber, tomato)</li>\n        <li>Boondi raita</li>\n        <li>Veg raita</li>\n    </ul>\n\n    <h3>Breakfast</h3>\n    <ul>\n        <li>Poha</li>\n        <li>Sandwich</li>\n        <li>Aloo puri</li>\n        <li>Aloo parantha</li>\n        <li>Gobhi parantha</li>\n        <li>Pyaaz parantha</li>\n        <li>Paneer parantha</li>\n    </ul>\n\n    <h3>Non-Veg</h3>\n    <ul>\n        <li>Homestyle chicken</li>\n        <li>Egg curry</li>\n        <li>Omelette</li>\n    </ul>",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Requirement Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "1 person",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65978",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65979",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 1500,
+                  "_id": "698cab45b9b4699c70e6597a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 2000,
+                  "_id": "698cab45b9b4699c70e6597b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 people",
+                  "value": "5-6",
+                  "priceChange": 4000,
+                  "_id": "698cab45b9b4699c70e6597c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7-8 people",
+                  "value": "7-8",
+                  "priceChange": 5000,
+                  "_id": "698cab45b9b4699c70e6597d",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e65977"
+            },
+            {
+              "isPricingReference": false,
+              "name": "mealsPerDay",
+              "label": "How many meals per day?",
+              "type": "select",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "Breakfast & Lunch",
+                  "value": "breakfast_lunch",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6597f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dinner",
+                  "value": "dinner",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65980",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "All 3 meals (breakfast+lunch+dinner)",
+                  "value": "all_3",
+                  "priceChange": 1500,
+                  "_id": "698cab45b9b4699c70e65981",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e6597e"
+            },
+            {
+              "isPricingReference": false,
+              "name": "foodType",
+              "label": "Veg/Non Veg?",
+              "type": "radio",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "Veg food only",
+                  "value": "veg",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65983",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Veg + Non Veg",
+                  "value": "veg_nonveg",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65984",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e65982"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home ?",
+              "type": "radio",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65986",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65987",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e65988",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e65985"
+            }
+          ],
+          "_id": "698cab45b9b4699c70e65976"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:05.794Z",
+      "__v": 7
+    },
+    {
+      "_id": "698cab45b9b4699c70e6598a",
+      "service": "698cab45b9b4699c70e65973",
+      "name": "Dish-washing",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770910956/safely_hands/image-1770910947299.png",
+      "price": 550,
+      "description": "Expert dishwashing service ensuring spotless and sanitized dishes",
+      "features": [
+        "Spotless Cleaning",
+        "Verified Staff"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Requirements",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "isDishwashingRequired",
+              "label": "Dish-washing?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Required",
+                  "value": "required",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6598d",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e6598c"
+            }
+          ],
+          "_id": "698cab45b9b4699c70e6598b"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:05.895Z",
+      "__v": 3
+    },
+    {
+      "_id": "698cab45b9b4699c70e65992",
+      "service": "698cab45b9b4699c70e65990",
+      "name": "2-12 Months Baby Care",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911068/safely_hands/image-1770911059434.png",
+      "price": 2500,
+      "description": "Babycare services for the well-being of your little one",
+      "features": [
+        "All services Inclusive",
+        "Verified Staff"
+      ],
+      "inclusions": "Our babysitters in this category have expertise in all things related to diapers, formula milk, massaging, sterilising, bathing, burping, washing of clothes, taking care of hygiene, nail cutting, basic food for baby like daliyaa, khichdi, playing with babies and making them sleep, packing baby travel bag, etc.",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Booking Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "hoursPerDay",
+              "label": "How many hours per day?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "4 hours",
+                  "value": "4",
+                  "priceChange": 5625,
+                  "_id": "698cab45b9b4699c70e65995",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 hours",
+                  "value": "5",
+                  "priceChange": 7500,
+                  "_id": "698cab45b9b4699c70e65996",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 hours",
+                  "value": "6",
+                  "priceChange": 9000,
+                  "_id": "698cab45b9b4699c70e65997",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7 hours",
+                  "value": "7",
+                  "priceChange": 11300,
+                  "_id": "698cab45b9b4699c70e65998",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "8 hours",
+                  "value": "8",
+                  "priceChange": 13800,
+                  "_id": "698cab45b9b4699c70e65999",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "9 hours",
+                  "value": "9",
+                  "priceChange": 15000,
+                  "_id": "698cab45b9b4699c70e6599a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "10 hours",
+                  "value": "10",
+                  "priceChange": 16300,
+                  "_id": "698cab45b9b4699c70e6599b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e65994"
+            },
+            {
+              "isPricingReference": false,
+              "name": "numberOfKids",
+              "label": "No of kids",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Single",
+                  "value": "single",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e6599d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Twins",
+                  "value": "twins",
+                  "priceChange": 5000,
+                  "_id": "698cab45b9b4699c70e6599e",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e6599c"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e659a0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e659a1",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab45b9b4699c70e659a2",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab45b9b4699c70e6599f"
+            }
+          ],
+          "_id": "698cab45b9b4699c70e65993"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:05.998Z",
+      "__v": 2
+    },
+    {
+      "_id": "698cab46b9b4699c70e659a6",
+      "service": "698cab46b9b4699c70e659a4",
+      "name": "Elderly Care (24 Hrs)",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911181/safely_hands/image-1770911176345.png",
+      "video": "",
+      "price": 25000,
+      "description": "Experienced & compassionate, male & female care givers. From personal care to mobility support & emotional well-being.",
+      "features": [
+        "All services Inclusive",
+        "Verified Staff",
+        "Assistance for elders"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Elderly Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "elderlyAge",
+              "label": "Elderly's Age",
+              "type": "select",
+              "options": [
+                {
+                  "label": "50-60",
+                  "value": "50-60",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659a9",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "60-70",
+                  "value": "60-70",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659aa",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "70-80",
+                  "value": "70-80",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ab",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "80-90",
+                  "value": "80-90",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ac",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "90+",
+                  "value": "90plus",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ad",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659a8"
+            },
+            {
+              "isPricingReference": false,
+              "name": "diaperChanging",
+              "label": "Diaper changing required?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 3000,
+                  "_id": "698cab46b9b4699c70e659af",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659b0",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659ae"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e659a7"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.100Z",
+      "__v": 4
+    },
+    {
+      "_id": "698cab46b9b4699c70e659b4",
+      "service": "698cab46b9b4699c70e659b2",
+      "name": "5 Hours Per Day",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911208/safely_hands/image-1770911204559.png",
+      "price": 10000,
+      "features": [
+        "Complete household management",
+        "Verified Staff",
+        "All services inclusive"
+      ],
+      "inclusions": "Floor, slab and basin cleaning only.\n\nPots will NOT be cleaned by safely hands workers. Cleaning chemicals, agents etc. have to be provided by client.\n\nPlease note: You are booking for specific hours/slots and we do not guarantee all selected tasks to be completed in that time-frame. It is only an estimate of the tasks for us to ensure service quality. The worker will only complete tasks possible in the booked time slot.",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Cleaning & Cooking",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "cleaningWork",
+              "label": "Cleaning work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Brooming/Mopping",
+                  "value": "brooming_mopping",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659b7",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Brooming/Mopping/Dusting",
+                  "value": "brooming_mopping_dusting",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659b8",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659b9",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659b6"
+            },
+            {
+              "isPricingReference": false,
+              "name": "dishwashing",
+              "label": "Dishwashing",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Required",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659bb",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659bc",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659ba"
+            },
+            {
+              "isPricingReference": false,
+              "name": "cookingWork",
+              "label": "Cooking work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1 meal only",
+                  "value": "1_meal",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659be",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 meals",
+                  "value": "2_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659bf",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "All 3 meals",
+                  "value": "3_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659c0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659c1",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659bd"
+            },
+            {
+              "condition": {
+                "key": "cookingWork",
+                "value": "!none"
+              },
+              "isPricingReference": false,
+              "name": "foodType",
+              "label": "Food type (if cooking selected)",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Veg",
+                  "value": "veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659c3",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Non-veg",
+                  "value": "non_veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659c4",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Both Veg & Non-veg",
+                  "value": "both",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659c5",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659c6",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659c2"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e659b5"
+        },
+        {
+          "stepTitle": "Household Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "laundry",
+              "label": "Laundry",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Machine Wash",
+                  "value": "machine",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659c9",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ca",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659c8"
+            },
+            {
+              "isPricingReference": false,
+              "name": "houseSize",
+              "label": "Select house size (1 floor area)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 BHK",
+                  "value": "1bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659cc",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 BHK",
+                  "value": "2bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659cd",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 BHK",
+                  "value": "3bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ce",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 BHK",
+                  "value": "4bhk",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e659cf",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 BHK",
+                  "value": "5bhk",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e659d0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 BHK",
+                  "value": "6bhk",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e659d1",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659cb"
+            },
+            {
+              "isPricingReference": false,
+              "name": "floors",
+              "label": "How many such floors?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 floor only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659d3",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 floors",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659d4",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 floors",
+                  "value": "3",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e659d5",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 floors",
+                  "value": "4",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e659d6",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 floors",
+                  "value": "5",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e659d7",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659d2"
+            },
+            {
+              "isPricingReference": false,
+              "name": "bathroomCleaning",
+              "label": "Bathroom cleaning",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1-2 bathrooms",
+                  "value": "1-2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659d9",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3-4 bathrooms",
+                  "value": "3-4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659da",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 bathrooms",
+                  "value": "5-6",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e659db",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659dc",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659d8"
+            },
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 person",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659de",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659df",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659e0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659e1",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 people",
+                  "value": "5-6",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e659e2",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7-9 people",
+                  "value": "7-9",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e659e3",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659dd"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659e5",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659e6",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659e7",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659e4"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e659c7"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.206Z",
+      "__v": 4
+    },
+    {
+      "_id": "698cab46b9b4699c70e659e9",
+      "service": "698cab46b9b4699c70e659b2",
+      "name": "6 Hours Per Day",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911267/safely_hands/image-1770911262260.png",
+      "price": 12000,
+      "features": [
+        "Complete household management",
+        "Verified Staff",
+        "All services inclusive"
+      ],
+      "inclusions": "Floor, slab and basin cleaning only.\n\nPots will NOT be cleaned by safely hands workers. Cleaning chemicals, agents etc. have to be provided by client.\n\nPlease note: You are booking for specific hours/slots and we do not guarantee all selected tasks to be completed in that time-frame. It is only an estimate of the tasks for us to ensure service quality. The worker will only complete tasks possible in the booked time slot.",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Cleaning & Cooking",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "cleaningWork",
+              "label": "Cleaning work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Brooming/Mopping",
+                  "value": "brooming_mopping",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ec",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Brooming/Mopping/Dusting",
+                  "value": "brooming_mopping_dusting",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ed",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ee",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659eb"
+            },
+            {
+              "isPricingReference": false,
+              "name": "dishwashing",
+              "label": "Dishwashing",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Required",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f1",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659ef"
+            },
+            {
+              "isPricingReference": false,
+              "name": "cookingWork",
+              "label": "Cooking work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1 meal only",
+                  "value": "1_meal",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f3",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 meals",
+                  "value": "2_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f4",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "All 3 meals",
+                  "value": "3_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f5",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f6",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659f2"
+            },
+            {
+              "condition": {
+                "key": "cookingWork",
+                "value": "!none"
+              },
+              "isPricingReference": false,
+              "name": "foodType",
+              "label": "Food type (if cooking selected)",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Veg",
+                  "value": "veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f8",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Non-veg",
+                  "value": "non_veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659f9",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Both Veg & Non-veg",
+                  "value": "both",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659fa",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659fb",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659f7"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e659ea"
+        },
+        {
+          "stepTitle": "Household Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "laundry",
+              "label": "Laundry",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Machine Wash",
+                  "value": "machine",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659fe",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e659ff",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e659fd"
+            },
+            {
+              "isPricingReference": false,
+              "name": "houseSize",
+              "label": "Select house size (1 floor area)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 BHK",
+                  "value": "1bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a01",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 BHK",
+                  "value": "2bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a02",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 BHK",
+                  "value": "3bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a03",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 BHK",
+                  "value": "4bhk",
+                  "priceChange": 600,
+                  "_id": "698cab46b9b4699c70e65a04",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 BHK",
+                  "value": "5bhk",
+                  "priceChange": 600,
+                  "_id": "698cab46b9b4699c70e65a05",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 BHK",
+                  "value": "6bhk",
+                  "priceChange": 600,
+                  "_id": "698cab46b9b4699c70e65a06",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a00"
+            },
+            {
+              "isPricingReference": false,
+              "name": "floors",
+              "label": "How many such floors?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 floor only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a08",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 floors",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a09",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 floors",
+                  "value": "3",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65a0a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 floors",
+                  "value": "4",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65a0b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 floors",
+                  "value": "5",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e65a0c",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a07"
+            },
+            {
+              "isPricingReference": false,
+              "name": "bathroomCleaning",
+              "label": "Bathroom cleaning",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1-2 bathrooms",
+                  "value": "1-2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a0e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3-4 bathrooms",
+                  "value": "3-4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a0f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 bathrooms",
+                  "value": "5-6",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65a10",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a11",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a0d"
+            },
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 person",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a13",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a14",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a15",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a16",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 people",
+                  "value": "5-6",
+                  "priceChange": 600,
+                  "_id": "698cab46b9b4699c70e65a17",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7-9 people",
+                  "value": "7-9",
+                  "priceChange": 800,
+                  "_id": "698cab46b9b4699c70e65a18",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a12"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a1a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a1b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a1c",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a19"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e659fc"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.320Z",
+      "__v": 4
+    },
+    {
+      "_id": "698cab46b9b4699c70e65a1e",
+      "service": "698cab46b9b4699c70e659b2",
+      "name": "8 Hours Per Day",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911302/safely_hands/image-1770911292349.png",
+      "price": 16000,
+      "features": [
+        "Complete household management",
+        "Verified Staff",
+        "All services inclusive"
+      ],
+      "inclusions": "Floor, slab and basin cleaning only.\n\nPots will NOT be cleaned by safely hands workers. Cleaning chemicals, agents etc. have to be provided by client.\n\nPlease note: You are booking for specific hours/slots and we do not guarantee all selected tasks to be completed in that time-frame. It is only an estimate of the tasks for us to ensure service quality. The worker will only complete tasks possible in the booked time slot\n\nPlease note: You are booking for specific hours/slots and we do not guarantee all selected tasks to be completed in that time-frame. It is only an estimate of the tasks for us to ensure service quality. The worker will only complete tasks possible in the booked time slot.",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Cleaning & Cooking",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "cleaningWork",
+              "label": "Cleaning work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Brooming/Mopping",
+                  "value": "brooming_mopping",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a21",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Brooming/Mopping/Dusting",
+                  "value": "brooming_mopping_dusting",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a22",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a23",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a20"
+            },
+            {
+              "isPricingReference": false,
+              "name": "dishwashing",
+              "label": "Dishwashing",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Required",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a25",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a26",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a24"
+            },
+            {
+              "isPricingReference": false,
+              "name": "cookingWork",
+              "label": "Cooking work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1 meal only",
+                  "value": "1_meal",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a28",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 meals",
+                  "value": "2_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a29",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "All 3 meals",
+                  "value": "3_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a2a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a2b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a27"
+            },
+            {
+              "condition": {
+                "key": "cookingWork",
+                "value": "!none"
+              },
+              "isPricingReference": false,
+              "name": "foodType",
+              "label": "Food type (if cooking selected)",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Veg",
+                  "value": "veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a2d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Non-veg",
+                  "value": "non_veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a2e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Both Veg & Non-veg",
+                  "value": "both",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a2f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a30",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a2c"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65a1f"
+        },
+        {
+          "stepTitle": "Household Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "laundry",
+              "label": "Laundry",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Machine Wash",
+                  "value": "machine",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a33",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a34",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a32"
+            },
+            {
+              "isPricingReference": false,
+              "name": "houseSize",
+              "label": "Select house size (1 floor area)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 BHK",
+                  "value": "1bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a36",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 BHK",
+                  "value": "2bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a37",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 BHK",
+                  "value": "3bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a38",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 BHK",
+                  "value": "4bhk",
+                  "priceChange": 800,
+                  "_id": "698cab46b9b4699c70e65a39",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 BHK",
+                  "value": "5bhk",
+                  "priceChange": 800,
+                  "_id": "698cab46b9b4699c70e65a3a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 BHK",
+                  "value": "6bhk",
+                  "priceChange": 800,
+                  "_id": "698cab46b9b4699c70e65a3b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a35"
+            },
+            {
+              "isPricingReference": false,
+              "name": "floors",
+              "label": "How many such floors?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 floor only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a3d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 floors",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a3e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 floors",
+                  "value": "3",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65a3f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 floors",
+                  "value": "4",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65a40",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 floors",
+                  "value": "5",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e65a41",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a3c"
+            },
+            {
+              "isPricingReference": false,
+              "name": "bathroomCleaning",
+              "label": "Bathroom cleaning",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1-2 bathrooms",
+                  "value": "1-2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a43",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3-4 bathrooms",
+                  "value": "3-4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a44",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 bathrooms",
+                  "value": "5-6",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a45",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a46",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a42"
+            },
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 person",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a48",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a49",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a4a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a4b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 people",
+                  "value": "5-6",
+                  "priceChange": 900,
+                  "_id": "698cab46b9b4699c70e65a4c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7-9 people",
+                  "value": "7-9",
+                  "priceChange": 900,
+                  "_id": "698cab46b9b4699c70e65a4d",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a47"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a4f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a50",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a51",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a4e"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65a31"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.410Z",
+      "__v": 3
+    },
+    {
+      "_id": "698cab46b9b4699c70e65a53",
+      "service": "698cab46b9b4699c70e659b2",
+      "name": "10 Hours Per Day",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911332/safely_hands/image-1770911327139.png",
+      "price": 18000,
+      "features": [
+        "Complete household management",
+        "Verified Staff",
+        "All services inclusive"
+      ],
+      "inclusions": "Floor, slab and basin cleaning only.\n\nPots will NOT be cleaned by safely hands workers. Cleaning chemicals, agents etc. have to be provided by client.\n\nPlease note: You are booking for specific hours/slots and we do not guarantee all selected tasks to be completed in that time-frame. It is only an estimate of the tasks for us to ensure service quality. The worker will only complete tasks possible in the booked time slot.",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Cleaning & Cooking",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "cleaningWork",
+              "label": "Cleaning work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Brooming/Mopping",
+                  "value": "brooming_mopping",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a56",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Brooming/Mopping/Dusting",
+                  "value": "brooming_mopping_dusting",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a57",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a58",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a55"
+            },
+            {
+              "isPricingReference": false,
+              "name": "dishwashing",
+              "label": "Dishwashing",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Required",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a5a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a5b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a59"
+            },
+            {
+              "isPricingReference": false,
+              "name": "cookingWork",
+              "label": "Cooking work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1 meal only",
+                  "value": "1_meal",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a5d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 meals",
+                  "value": "2_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a5e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "All 3 meals",
+                  "value": "3_meals",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a5f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a60",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a5c"
+            },
+            {
+              "condition": {
+                "key": "cookingWork",
+                "value": "!none"
+              },
+              "isPricingReference": false,
+              "name": "foodType",
+              "label": "Food type (if cooking selected)",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Veg",
+                  "value": "veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a62",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Non-veg",
+                  "value": "non_veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a63",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Both Veg & Non-veg",
+                  "value": "both",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a64",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a65",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a61"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65a54"
+        },
+        {
+          "stepTitle": "Household Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "laundry",
+              "label": "Laundry",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Machine Wash",
+                  "value": "machine",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a68",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a69",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a67"
+            },
+            {
+              "isPricingReference": false,
+              "name": "houseSize",
+              "label": "Select house size (1 floor area)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 BHK",
+                  "value": "1bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a6b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 BHK",
+                  "value": "2bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a6c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 BHK",
+                  "value": "3bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a6d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 BHK",
+                  "value": "4bhk",
+                  "priceChange": 900,
+                  "_id": "698cab46b9b4699c70e65a6e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 BHK",
+                  "value": "5bhk",
+                  "priceChange": 900,
+                  "_id": "698cab46b9b4699c70e65a6f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 BHK",
+                  "value": "6bhk",
+                  "priceChange": 900,
+                  "_id": "698cab46b9b4699c70e65a70",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a6a"
+            },
+            {
+              "isPricingReference": false,
+              "name": "floors",
+              "label": "How many such floors?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 floor only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a72",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 floors",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a73",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 floors",
+                  "value": "3",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65a74",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 floors",
+                  "value": "4",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65a75",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 floors",
+                  "value": "5",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e65a76",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a71"
+            },
+            {
+              "isPricingReference": false,
+              "name": "bathroomCleaning",
+              "label": "Bathroom cleaning",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1-2 bathrooms",
+                  "value": "1-2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a78",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3-4 bathrooms",
+                  "value": "3-4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a79",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 bathrooms",
+                  "value": "5-6",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a7a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a7b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a77"
+            },
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 person",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a7d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a7e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a7f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a80",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 people",
+                  "value": "5-6",
+                  "priceChange": 900,
+                  "_id": "698cab46b9b4699c70e65a81",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7-9 people",
+                  "value": "7-9",
+                  "priceChange": 900,
+                  "_id": "698cab46b9b4699c70e65a82",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a7c"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a84",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a85",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a86",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a83"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65a66"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.467Z",
+      "__v": 3
+    },
+    {
+      "_id": "698cab46b9b4699c70e65a8a",
+      "service": "698cab46b9b4699c70e65a88",
+      "name": "Housekeeper",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911778/safely_hands/image-1770911774067.png",
+      "price": 15000,
+      "description": "Complete floor cleaning and sanitization for a sparkling clean home",
+      "features": [
+        "Complete floor cleaning",
+        "Sanitization",
+        "Verified Staff"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "House Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "houseSize",
+              "label": "Select house size (Please describe the area of ONLY 1 floor)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 BHK",
+                  "value": "1bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a8d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 BHK",
+                  "value": "2bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a8e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 BHK",
+                  "value": "3bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a8f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 BHK",
+                  "value": "4bhk",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65a90",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 BHK",
+                  "value": "5bhk",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e65a91",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 BHK",
+                  "value": "6bhk",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65a92",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a8c"
+            },
+            {
+              "isPricingReference": false,
+              "name": "floorCount",
+              "label": "How many such floors?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 floor only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a94",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 floors",
+                  "value": "2",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65a95",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 floors",
+                  "value": "3",
+                  "priceChange": 4000,
+                  "_id": "698cab46b9b4699c70e65a96",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 floors",
+                  "value": "4",
+                  "priceChange": 6000,
+                  "_id": "698cab46b9b4699c70e65a97",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a93"
+            },
+            {
+              "isPricingReference": false,
+              "name": "cleaningServiceType",
+              "label": "Cleaning services?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "Brooming",
+                  "value": "brooming",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a99",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Mopping",
+                  "value": "mopping",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a9a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Brooming + Mopping",
+                  "value": "brooming_mopping",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a9b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65a9c",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a98"
+            },
+            {
+              "isPricingReference": false,
+              "name": "additionalServices",
+              "label": "Do you wish to include these services?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "Bathroom cleaning",
+                  "value": "bathroom",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65a9e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dusting",
+                  "value": "dusting",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65a9f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dish Washing",
+                  "value": "dishwashing",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65aa0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Bathroom cleaning + Dusting",
+                  "value": "bathroom_dusting",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65aa1",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Bathroom cleaning + Dish Washing",
+                  "value": "bathroom_dishwashing",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65aa2",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dusting + Dish Washing",
+                  "value": "dusting_dishwashing",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65aa3",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Bathroom cleaning + Dusting + Dish Washing",
+                  "value": "all",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65aa4",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aa5",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65a9d"
+            },
+            {
+              "isPricingReference": false,
+              "name": "bathroomCount",
+              "label": "Bathroom cleaning (Pots will NOT be cleaned by safely hands workers)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1-2 bathrooms",
+                  "value": "1-2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aa7",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3-4 bathrooms",
+                  "value": "3-4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aa8",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 bathrooms",
+                  "value": "5-6",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aa9",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aaa",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65aa6"
+            },
+            {
+              "isPricingReference": false,
+              "name": "servantQuarter",
+              "label": "Servant quarter availaible ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aac",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aad",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65aab"
+            },
+            {
+              "isPricingReference": false,
+              "name": "religion",
+              "label": "Worker Religion ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Hindu Only",
+                  "value": "hindu",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aaf",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Any Religion (rs 500/- OFF)",
+                  "value": "any",
+                  "priceChange": -500,
+                  "_id": "698cab46b9b4699c70e65ab0",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65aae"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ab2",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ab3",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ab1"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65a8b"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.564Z",
+      "__v": 2
+    },
+    {
+      "_id": "698cab46b9b4699c70e65ab5",
+      "service": "698cab46b9b4699c70e65a88",
+      "name": "Cook",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911449/safely_hands/image-1770911445189.png",
+      "price": 17000,
+      "description": "Authentic Indian home-style cooking service for delicious meals",
+      "features": [
+        "Authentic Indian Cooking",
+        "Verified Staff",
+        "Healthy Meals"
+      ],
+      "inclusions": "Note : Cook will cook 1-2 dish per meal\n<br> \n\n<h2>Menu</h2>\n\n    <h3>Breads</h3>\n    <ul>\n        <li>Roti</li>\n        <li>Poori</li>\n        <li>Plain Paratha</li>\n        <li>Aloo Paratha</li>\n        <li>Gobhi Paratha</li>\n        <li>Pyaaz Paratha</li>\n        <li>Paneer Paratha</li>\n    </ul>\n\n    <h3>Sabzi (Dry)</h3>\n    <ul>\n        <li>Lauki ki sabzi</li>\n        <li>Tindey ki sabzi</li>\n        <li>Kaddu ki sabzi</li>\n        <li>Bhindi ki sabzi</li>\n        <li>Aloo methi</li>\n        <li>Aloo palak</li>\n        <li>Aloo jeera</li>\n        <li>Aloo gobhi</li>\n        <li>Aloo matar</li>\n        <li>Mixed veg</li>\n    </ul>\n\n    <h3>Sabzi (Gravy)</h3>\n    <ul>\n        <li>Aloo pyaaz tamatar</li>\n        <li>Matar paneer</li>\n        <li>Palak paneer</li>\n        <li>Kadi pakoda</li>\n        <li>Aloo soybean</li>\n    </ul>\n\n    <h3>Dal/Lentils</h3>\n    <ul>\n        <li>Dal tadka</li>\n        <li>Rajma</li>\n        <li>Chole</li>\n        <li>Chana aloo</li>\n        <li>Moong dal</li>\n    </ul>\n\n    <h3>Rice</h3>\n    <ul>\n        <li>Steamed rice / Boiled rice</li>\n        <li>Jeera rice</li>\n        <li>Veg pulao</li>\n        <li>Khichdi</li>\n    </ul>\n\n    <h3>Salad & Raita</h3>\n    <ul>\n        <li>Green salad (onion, cucumber, tomato)</li>\n        <li>Boondi raita</li>\n        <li>Veg raita</li>\n    </ul>\n\n    <h3>Breakfast</h3>\n    <ul>\n        <li>Poha</li>\n        <li>Sandwich</li>\n        <li>Aloo puri</li>\n        <li>Aloo parantha</li>\n        <li>Gobhi parantha</li>\n        <li>Pyaaz parantha</li>\n        <li>Paneer parantha</li>\n    </ul>\n\n    <h3>Non-Veg</h3>\n    <ul>\n        <li>Homestyle chicken</li>\n        <li>Egg curry</li>\n        <li>Omelette</li>\n    </ul>",
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Cooking Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "1 person",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ab8",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ab9",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aba",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65abb",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 people",
+                  "value": "5-6",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e65abc",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7-8 people",
+                  "value": "7-8",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65abd",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ab7"
+            },
+            {
+              "isPricingReference": false,
+              "name": "mealsPerDay",
+              "label": "How many meals per day?",
+              "type": "select",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "Breakfast & Lunch",
+                  "value": "breakfast_lunch",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65abf",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dinner",
+                  "value": "dinner",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ac0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "All 3 meals (breakfast+lunch+dinner)",
+                  "value": "all_3",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ac1",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65abe"
+            },
+            {
+              "isPricingReference": false,
+              "name": "foodType",
+              "label": "Veg/Non Veg?",
+              "type": "radio",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "Veg food only",
+                  "value": "veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ac3",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Veg + Non Veg",
+                  "value": "veg_nonveg",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65ac4",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ac2"
+            },
+            {
+              "isPricingReference": false,
+              "name": "isDishwashingRequired",
+              "label": "Is dish-washing to be included?",
+              "type": "radio",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ac6",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ac7",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ac5"
+            },
+            {
+              "isPricingReference": false,
+              "name": "servantQuarter",
+              "label": "Servant quarter availaible ?",
+              "type": "radio",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ac9",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aca",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ac8"
+            },
+            {
+              "isPricingReference": false,
+              "name": "religion",
+              "label": "Worker Religion ?",
+              "type": "radio",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "Hindu Only",
+                  "value": "hindu",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65acc",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Any Religion (rs 500/- OFF)",
+                  "value": "any",
+                  "priceChange": -500,
+                  "_id": "698cab46b9b4699c70e65acd",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65acb"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home ?",
+              "type": "radio",
+              "isQuantityMultiplier": false,
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65acf",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ad0",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ad1",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ace"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65ab6"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.667Z",
+      "__v": 6
+    },
+    {
+      "_id": "698cab46b9b4699c70e65ad3",
+      "service": "698cab46b9b4699c70e65a88",
+      "name": "Babysitter",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911358/safely_hands/image-1770911354328.png",
+      "price": 20000,
+      "description": "Professional child care service, ensuring their safety & well-being",
+      "features": [
+        "Verified Staff",
+        "Child Care Expert",
+        "Safety First"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Baby Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "babyAge",
+              "label": "Please select your baby's age",
+              "type": "select",
+              "options": [
+                {
+                  "label": "2-12 months",
+                  "value": "2-12m",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ad6",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "1-2 years",
+                  "value": "1-2y",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ad7",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2-4 years",
+                  "value": "2-4y",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ad8",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "More than 4 years",
+                  "value": "4y_plus",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ad9",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ad5"
+            },
+            {
+              "isPricingReference": false,
+              "name": "numberOfKids",
+              "label": "No of kids",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Single",
+                  "value": "single",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65adb",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Twins",
+                  "value": "twins",
+                  "priceChange": 10000,
+                  "_id": "698cab46b9b4699c70e65adc",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ada"
+            },
+            {
+              "isPricingReference": false,
+              "name": "servantQuarter",
+              "label": "Servant quarter availaible ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ade",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65adf",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65add"
+            },
+            {
+              "isPricingReference": false,
+              "name": "religion",
+              "label": "Worker Religion ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Hindu Only",
+                  "value": "hindu",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ae1",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Any Religion (rs 500/- OFF)",
+                  "value": "any",
+                  "priceChange": -500,
+                  "_id": "698cab46b9b4699c70e65ae2",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ae0"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ae4",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ae5",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65ae6",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65ae3"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65ad4"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.716Z",
+      "__v": 2
+    },
+    {
+      "_id": "698cab46b9b4699c70e65ae8",
+      "service": "698cab46b9b4699c70e65a88",
+      "name": "All-Rounder",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911244/safely_hands/image-1770911240388.png",
+      "price": 16000,
+      "description": "Complete household management, taking care of cooking, cleaning and more",
+      "features": [
+        "Complete household management",
+        "Verified Staff",
+        "All services inclusive"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Cleaning & Cooking",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "cleaningWork",
+              "label": "Cleaning work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Brooming/Mopping",
+                  "value": "brooming_mopping",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aeb",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Brooming/Mopping/Dusting",
+                  "value": "brooming_mopping_dusting",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aec",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aed",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65aea"
+            },
+            {
+              "isPricingReference": false,
+              "name": "dishwashing",
+              "label": "Dishwashing",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Required",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65aef",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65af0",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65aee"
+            },
+            {
+              "isPricingReference": false,
+              "name": "cookingWork",
+              "label": "Cooking work",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1 meal only",
+                  "value": "1_meal",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65af2",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 meals",
+                  "value": "2_meals",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65af3",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "All 3 meals",
+                  "value": "3_meals",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65af4",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65af1"
+            },
+            {
+              "condition": {
+                "key": "cookingWork",
+                "value": "!none"
+              },
+              "isPricingReference": false,
+              "name": "foodType",
+              "label": "Food type (if cooking selected)",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Veg",
+                  "value": "veg",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65af7",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Non-veg",
+                  "value": "non_veg",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65af8",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Both Veg & Non-veg",
+                  "value": "both",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65af9",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65af6"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65ae9"
+        },
+        {
+          "stepTitle": "Household Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "laundry",
+              "label": "Laundry",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Machine Wash",
+                  "value": "machine",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65afd",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65afe",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65afc"
+            },
+            {
+              "isPricingReference": false,
+              "name": "houseSize",
+              "label": "Select house size (1 floor area)",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 BHK",
+                  "value": "1bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b00",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 BHK",
+                  "value": "2bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b01",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 BHK",
+                  "value": "3bhk",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b02",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 BHK",
+                  "value": "4bhk",
+                  "priceChange": 500,
+                  "_id": "698cab46b9b4699c70e65b03",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 BHK",
+                  "value": "5bhk",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65b04",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "6 BHK",
+                  "value": "6bhk",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e65b05",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65aff"
+            },
+            {
+              "isPricingReference": false,
+              "name": "floors",
+              "label": "How many such floors?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 floor only",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b07",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 floors",
+                  "value": "2",
+                  "priceChange": 1200,
+                  "_id": "698cab46b9b4699c70e65b08",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 floors",
+                  "value": "3",
+                  "priceChange": 2400,
+                  "_id": "698cab46b9b4699c70e65b09",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 floors",
+                  "value": "4",
+                  "priceChange": 3600,
+                  "_id": "698cab46b9b4699c70e65b0a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5 floors",
+                  "value": "5",
+                  "priceChange": 4800,
+                  "_id": "698cab46b9b4699c70e65b0b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b06"
+            },
+            {
+              "isPricingReference": false,
+              "name": "bathroomCleaning",
+              "label": "Bathroom cleaning",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "1-2 bathrooms",
+                  "value": "1-2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b0d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3-4 bathrooms",
+                  "value": "3-4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b0e",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 bathrooms",
+                  "value": "5-6",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b0f",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Not required",
+                  "value": "none",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b10",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b0c"
+            },
+            {
+              "isPricingReference": false,
+              "name": "peopleCount",
+              "label": "How many people are there at home?",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1 person",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b12",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "2 people",
+                  "value": "2",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b13",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "3 people",
+                  "value": "3",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b14",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "4 people",
+                  "value": "4",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b15",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "5-6 people",
+                  "value": "5-6",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65b16",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "7-9 people",
+                  "value": "7-9",
+                  "priceChange": 1500,
+                  "_id": "698cab46b9b4699c70e65b17",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b11"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b19",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dogs",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b1a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cats",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b1b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b18"
+            },
+            {
+              "isPricingReference": false,
+              "name": "new_field",
+              "label": "New Field",
+              "type": "radio",
+              "options": [],
+              "required": true,
+              "_id": "699834b9a0c137c9f74739d2"
+            },
+            {
+              "isPricingReference": false,
+              "name": "religion",
+              "label": "Worker Religion ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Hindu Only",
+                  "value": "hindu",
+                  "priceChange": 0,
+                  "_id": "699834b9a0c137c9f74739d4",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Any Religion (rs 500/- OFF)",
+                  "value": "any",
+                  "priceChange": -500,
+                  "_id": "699834b9a0c137c9f74739d5",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "699834b9a0c137c9f74739d3"
+            },
+            {
+              "isPricingReference": false,
+              "name": "quarter",
+              "label": "Servant quarter availaible ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "699834b9a0c137c9f74739d7",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "699834b9a0c137c9f74739d8",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "699834b9a0c137c9f74739d6"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65afb"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.770Z",
+      "__v": 2
+    },
+    {
+      "_id": "698cab46b9b4699c70e65b1f",
+      "service": "698cab46b9b4699c70e65b1d",
+      "name": "12 Hours Patient Care",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770912136/safely_hands/image-1770912119300.png",
+      "price": 22000,
+      "description": "Professional patient care for 12-hour shifts to assist with recovery and daily needs.",
+      "features": [
+        "Day or Night Shift",
+        "Medication Management",
+        "Mobility Assistance",
+        "Vitals Monitoring"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Patient Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "patientAge",
+              "label": "Patient's Age",
+              "type": "text",
+              "options": [],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b21"
+            },
+            {
+              "isPricingReference": false,
+              "name": "gender",
+              "label": "Patient's Gender",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Male",
+                  "value": "male",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b23",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Female",
+                  "value": "female",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b24",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b22"
+            },
+            {
+              "isPricingReference": false,
+              "name": "mobility",
+              "label": "Mobility Status",
+              "type": "select",
+              "options": [
+                {
+                  "label": "Walking / Independent",
+                  "value": "walking",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b26",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Semi-mobile (Needs support)",
+                  "value": "semi_mobile",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b27",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Bedridden",
+                  "value": "bedridden",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65b28",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b25"
+            },
+            {
+              "isPricingReference": false,
+              "name": "medicalCondition",
+              "label": "Medical Condition (Brief)",
+              "type": "text",
+              "options": [],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b29"
+            },
+            {
+              "isPricingReference": false,
+              "name": "shiftType",
+              "label": "Preferred Shift",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Day Shift (8am - 8pm)",
+                  "value": "day",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b2b",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Night Shift (8pm - 8am)",
+                  "value": "night",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b2c",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b2a"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65b20"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.870Z",
+      "__v": 1
+    },
+    {
+      "_id": "698cab46b9b4699c70e65b2e",
+      "service": "698cab46b9b4699c70e65b1d",
+      "name": "24 Hours Patient Care",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770912242/safely_hands/image-1770912235971.png",
+      "price": 35000,
+      "description": "24/7 dedicated care for patients requiring constant attention and support.",
+      "features": [
+        "Round-the-clock Care",
+        "Medication Management",
+        "Mobility Assistance",
+        "Emergency Support"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Patient Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "patientAge",
+              "label": "Patient's Age",
+              "type": "text",
+              "options": [],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b30"
+            },
+            {
+              "isPricingReference": false,
+              "name": "gender",
+              "label": "Patient's Gender",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Male",
+                  "value": "male",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b32",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Female",
+                  "value": "female",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b33",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b31"
+            },
+            {
+              "isPricingReference": false,
+              "name": "mobility",
+              "label": "Mobility Status",
+              "type": "select",
+              "options": [
+                {
+                  "label": "Walking / Independent",
+                  "value": "walking",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b35",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Semi-mobile (Needs support)",
+                  "value": "semi_mobile",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b36",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Bedridden",
+                  "value": "bedridden",
+                  "priceChange": 3000,
+                  "_id": "698cab46b9b4699c70e65b37",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b34"
+            },
+            {
+              "isPricingReference": false,
+              "name": "medicalCondition",
+              "label": "Medical Condition (Brief)",
+              "type": "text",
+              "options": [],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b38"
+            },
+            {
+              "isPricingReference": false,
+              "name": "accommodation",
+              "label": "Staff Accommodation Available?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b3a",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b3b",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b39"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65b2f"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.919Z",
+      "__v": 1
+    },
+    {
+      "_id": "698cab46b9b4699c70e65b3f",
+      "service": "698cab46b9b4699c70e65b3d",
+      "name": "Office Boy (8-10 Hours)",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770912097/safely_hands/image-1770912089855.png",
+      "price": 15000,
+      "description": "Standard office boy for daily office chores and errands.",
+      "features": [
+        "Files Management",
+        "Bank Work",
+        "General Errand",
+        "Office Cleaning"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Office Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "staffCount",
+              "label": "Number of Staff",
+              "type": "select",
+              "options": [
+                {
+                  "label": "1-10",
+                  "value": "1-10",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b42",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "11-20",
+                  "value": "11-20",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65b43",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "20+",
+                  "value": "20_plus",
+                  "priceChange": 2000,
+                  "_id": "698cab46b9b4699c70e65b44",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b41"
+            },
+            {
+              "isPricingReference": false,
+              "name": "dutyType",
+              "label": "Primary Duties",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Cleaning Only",
+                  "value": "cleaning",
+                  "priceChange": 0,
+                  "_id": "698cab46b9b4699c70e65b46",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cleaning + Errands",
+                  "value": "all_rounder",
+                  "priceChange": 1000,
+                  "_id": "698cab46b9b4699c70e65b47",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab46b9b4699c70e65b45"
+            }
+          ],
+          "_id": "698cab46b9b4699c70e65b40"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:06.993Z",
+      "__v": 1
+    },
+    {
+      "_id": "698cab47b9b4699c70e65b49",
+      "service": "698cab46b9b4699c70e65b3d",
+      "name": "Pantry Boy (8-10 Hours)",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770912020/safely_hands/image-1770912013839.png",
+      "price": 16000,
+      "description": "Dedicated pantry boy for serving refreshments and maintaining pantry hygiene.",
+      "features": [
+        "Tea/Coffee Service",
+        "Pantry Maintenance",
+        "Guest Hospitality",
+        "Snacks Management"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Pantry Requirements",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "beverageCount",
+              "label": "Approx. Beverages per Day",
+              "type": "select",
+              "options": [
+                {
+                  "label": "Up to 50",
+                  "value": "50",
+                  "priceChange": 0,
+                  "_id": "698cab47b9b4699c70e65b4c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "50-100",
+                  "value": "100",
+                  "priceChange": 1000,
+                  "_id": "698cab47b9b4699c70e65b4d",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "100+",
+                  "value": "100_plus",
+                  "priceChange": 2000,
+                  "_id": "698cab47b9b4699c70e65b4e",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab47b9b4699c70e65b4b"
+            },
+            {
+              "isPricingReference": false,
+              "name": "dishwashing",
+              "label": "Dishwashing Included?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 500,
+                  "_id": "698cab47b9b4699c70e65b50",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab47b9b4699c70e65b51",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab47b9b4699c70e65b4f"
+            }
+          ],
+          "_id": "698cab47b9b4699c70e65b4a"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:07.030Z",
+      "__v": 1
+    },
+    {
+      "_id": "698cab47b9b4699c70e65b62",
+      "service": "698cab47b9b4699c70e65b53",
+      "name": "24 Hour Live-in Japa",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1770911421/safely_hands/image-1770911415720.png",
+      "price": 33000,
+      "description": "24/7 dedicated support for newborn and mother.",
+      "features": [
+        "Round-the-clock Care",
+        "Baby Massage",
+        "Mother Care",
+        "Night Support"
+      ],
+      "isActive": true,
+      "questions": [
+        {
+          "stepTitle": "Care Details",
+          "fields": [
+            {
+              "isPricingReference": false,
+              "name": "servantQuarter",
+              "label": "Servant quarter availaible ?",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "Yes",
+                  "value": "yes",
+                  "priceChange": 0,
+                  "_id": "698cab47b9b4699c70e65b6c",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "698cab47b9b4699c70e65b6d",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "698cab47b9b4699c70e65b6b"
+            },
+            {
+              "isPricingReference": false,
+              "name": "age",
+              "label": "Please select your baby's age",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "0-2 Months",
+                  "value": "0-2Months",
+                  "priceChange": 0,
+                  "_id": "69983057fb32e8125c86ce8e",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "69983057fb32e8125c86ce8d"
+            },
+            {
+              "isPricingReference": false,
+              "name": "kids",
+              "label": "No of kids",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "single",
+                  "value": "1",
+                  "priceChange": 0,
+                  "_id": "69983057fb32e8125c86ce90",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "twin",
+                  "value": "2",
+                  "priceChange": 7000,
+                  "_id": "69983057fb32e8125c86ce91",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "69983057fb32e8125c86ce8f"
+            },
+            {
+              "isPricingReference": false,
+              "name": "pets",
+              "label": "Do you have pets at home ",
+              "type": "radio",
+              "options": [],
+              "required": true,
+              "_id": "69983057fb32e8125c86ce92"
+            },
+            {
+              "condition": {
+                "key": ""
+              },
+              "isPricingReference": false,
+              "name": "new_field",
+              "label": "New Field",
+              "type": "radio",
+              "options": [
+                {
+                  "label": "No",
+                  "value": "no",
+                  "priceChange": 0,
+                  "_id": "69983057fb32e8125c86ce94",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Dog(s)",
+                  "value": "dog",
+                  "priceChange": 0,
+                  "_id": "69983057fb32e8125c86ce95",
+                  "tieredPrices": []
+                },
+                {
+                  "label": "Cat(s)",
+                  "value": "cat",
+                  "priceChange": 0,
+                  "_id": "69983057fb32e8125c86ce96",
+                  "tieredPrices": []
+                }
+              ],
+              "required": true,
+              "_id": "69983057fb32e8125c86ce93"
+            }
+          ],
+          "_id": "698cab47b9b4699c70e65b63"
+        }
+      ],
+      "createdAt": "2026-02-11T16:16:07.175Z",
+      "__v": 3
+    }
+  ],
+  "cities": [
+    {
+      "isOther": false,
+      "_id": "698b7bb61b2a7ee5da7546ae",
+      "name": "Moradabad",
+      "slug": "moradabad",
+      "icon": "",
+      "isActive": true,
+      "createdAt": "2026-02-10T18:40:54.115Z",
+      "updatedAt": "2026-02-10T18:41:43.047Z",
+      "__v": 0
+    },
+    {
+      "_id": "698b7bb61b2a7ee5da7546ba",
+      "name": "Regions near Moradabad",
+      "slug": "near-moradabad",
+      "icon": "",
+      "isActive": true,
+      "isOther": true,
+      "createdAt": "2026-02-10T18:40:54.755Z",
+      "updatedAt": "2026-02-10T18:40:54.755Z",
+      "__v": 0
+    }
+  ],
+  "testimonials": [
+    {
+      "_id": "6994a85c1b6f34eafb815292",
+      "name": "Armaan",
+      "designation": "Homeowner",
+      "message": "Safely Hands truly lives up to its name. We hired a babysitter through them and the entire process was smooth and professional. The staff was background verified and well-trained. It gave us complete peace of mind. Highly recommended for families looking for trusted help!",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771350103/safely_hands/image-1771350097535.jpg",
+      "isActive": true,
+      "createdAt": "2026-02-17T17:41:48.811Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e20efb32e8125c8282af",
+      "name": "Neha Sharma, Ramganga Vihar",
+      "designation": "working mother",
+      "message": "Complete Peace of Mind\n\nAs a working mother, finding a trustworthy babysitter was my biggest concern. Safely Hands made the entire process smooth and stress-free. The staff was verified, trained, and very caring with my child. I finally feel relaxed going to work. Highly recommended!",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771430409/safely_hands/image-1771430408085.jpg",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:00:14.666Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e487fb32e8125c829fbf",
+      "name": "Rekha (Babysitter)",
+      "designation": "Babysitter",
+      "message": "Safe & Supportive Platform\n\nMujhe pehle stable kaam nahi milta tha. Safely Hands ne mujhe verified family ke saath connect kiya. Yahan safety aur support dono milta hai. Main bahut khush hoon.",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771431043/safely_hands/image-1771431042661.jpg",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:10:47.403Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e4fcfb32e8125c82ab67",
+      "name": " Pooja (Cook)",
+      "designation": "Cook",
+      "message": "Training Se Confidence Mila\n\n\nSafely Hands ki training se mujhe kaam karne ka confidence mila. Ab main professional tarike se kaam karti hoon aur mujhe time par payment milta hai. Yeh platform workers ke liye bahut accha hai.",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771431161/safely_hands/image-1771431160371.png",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:12:44.086Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e533fb32e8125c82ab6c",
+      "name": " Sunita (Patient Care Attendant)",
+      "designation": " Sunita",
+      "message": "Patient Care Mein Growth\n\nMaine patient care ka kaam Safely Hands ke through shuru kiya. Yahan mujhe training, guidance aur achhe employers mile. Main financially independent mehsoos karti hoon.",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771431216/safely_hands/image-1771431215398.png",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:13:39.145Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e56cfb32e8125c82ab71",
+      "name": "Kavita (All-Rounder Helper)",
+      "designation": "All-Rounder Helper",
+      "message": "Replacement & Support System\n\nAgar kabhi family se match na ho to Safely Hands replacement ka option deta hai. Isse workers ko bhi tension nahi hoti. Team hamesha support karti hai.",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771431270/safely_hands/image-1771431269668.png",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:14:36.613Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e5bafb32e8125c82ab76",
+      "name": "Rahul (Peon Service)",
+      "designation": "Peon Service",
+      "message": "Regular Office Job Opportunity\n\nMain pehle daily wage par kaam karta tha. Safely Hands ke through mujhe ek permanent office peon job mili. Ab mujhe regular salary milti hai aur kaam ka environment bhi professional hai.",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771431352/safely_hands/image-1771431351447.png",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:15:54.190Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e615fb32e8125c82ab7b",
+      "name": "Anita (Elderly Care)",
+      "designation": "Elderly Care",
+      "message": "Dignity & Stability\n\nSafely Hands ne mujhe ek stable job di jahan mujhe izzat milti hai. Employer bhi supportive hai aur payment system transparent hai.",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771431440/safely_hands/image-1771431439433.jpg",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:17:25.022Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995e649fb32e8125c82ab80",
+      "name": "Meena (24 Hrs Live-in Helper)",
+      "designation": "24 Hrs Live-in Helper",
+      "message": "Behtar Bhavishya\n\nIs platform ki wajah se mujhe 24 ghante live-in job mili. Income better hai aur main apne parivaar ko financially support kar pa rahi hoon. Main Safely Hands ki thankful hoon.",
+      "rating": 5,
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771431495/safely_hands/image-1771431494647.jpg",
+      "isActive": true,
+      "createdAt": "2026-02-18T16:18:17.937Z",
+      "__v": 0
+    }
+  ],
+  "credibilityLogos": [
+    {
+      "_id": "6994a3ebaa430051beed1e8e",
+      "name": "skillindia",
+      "type": "registered",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771348537/safely_hands/image-1771348534474.svg",
+      "url": "",
+      "isActive": true,
+      "order": 1,
+      "createdAt": "2026-02-17T17:22:51.410Z",
+      "__v": 0
+    },
+    {
+      "_id": "6994a4f9aa430051beed229f",
+      "name": "startup",
+      "type": "registered",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771349230/safely_hands/image-1771349226165.svg",
+      "url": "",
+      "isActive": true,
+      "order": 2,
+      "createdAt": "2026-02-17T17:27:21.549Z",
+      "__v": 0
+    },
+    {
+      "_id": "6994a530aa430051beed22a4",
+      "name": "gov",
+      "type": "registered",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771349262/safely_hands/image-1771349258570.svg",
+      "url": "",
+      "isActive": true,
+      "order": 3,
+      "createdAt": "2026-02-17T17:28:16.499Z",
+      "__v": 0
+    },
+    {
+      "_id": "6994a604aa430051beed249d",
+      "name": "msme",
+      "type": "registered",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771349498/safely_hands/image-1771349494607.svg",
+      "url": "",
+      "isActive": true,
+      "order": 4,
+      "createdAt": "2026-02-17T17:31:48.730Z",
+      "__v": 0
+    },
+    {
+      "_id": "6994a6651b6f34eafb8146e1",
+      "name": "dwss",
+      "type": "registered",
+      "imageUrl": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771349601/safely_hands/image-1771349597938.svg",
+      "url": "",
+      "isActive": true,
+      "order": 5,
+      "createdAt": "2026-02-17T17:33:25.759Z",
+      "__v": 0
+    }
+  ],
+  "teamMembers": [
+    {
+      "_id": "6995b5c9024f04c0d1c775c7",
+      "name": "Nikhil Bansal",
+      "title": "Founder  (  Vision and strategy head)",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771419050/safely_hands/image-1771419047120.jpg",
+      "category": "Founder",
+      "createdAt": "2026-02-18T12:51:21.137Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995b66a024f04c0d1c779b6",
+      "name": "Vidit kaushik",
+      "title": "Marketing/Growth Head  ( Business development Head)",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771419232/safely_hands/image-1771419230827.jpg",
+      "category": "Marketing/Growth Head",
+      "createdAt": "2026-02-18T12:54:02.164Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995be2f024f04c0d1c7c389",
+      "name": "Mohit Singh ",
+      "title": "Cleint aquisition Head  ( Building strong partnerships with client)",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771421228/safely_hands/image-1771421227075.jpg",
+      "category": "Cleint aquisition Head",
+      "createdAt": "2026-02-18T13:27:11.629Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995be57024f04c0d1c7c791",
+      "name": "Ritik agarwal ",
+      "title": "Strategic manager",
+      "image": "https://res.cloudinary.com/docgi6w3a/image/upload/v1771421264/safely_hands/image-1771421263812.jpg",
+      "category": "Strategic manager",
+      "createdAt": "2026-02-18T13:27:51.554Z",
+      "__v": 0
+    }
+  ],
+  "teamCategories": [
+    {
+      "_id": "6995b56e024f04c0d1c775bd",
+      "name": "Founder",
+      "slug": "founder",
+      "order": 1,
+      "isActive": true,
+      "createdAt": "2026-02-18T12:49:50.903Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995b588024f04c0d1c775c2",
+      "name": "Marketing/Growth Head",
+      "slug": "marketing-growth-head",
+      "order": 2,
+      "isActive": true,
+      "createdAt": "2026-02-18T12:50:16.174Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995bdec024f04c0d1c7b7e5",
+      "name": "Cleint aquisition Head",
+      "slug": "cleint-aquisition-head",
+      "order": 3,
+      "isActive": true,
+      "createdAt": "2026-02-18T13:26:04.188Z",
+      "__v": 0
+    },
+    {
+      "_id": "6995be3a024f04c0d1c7c78a",
+      "name": "Strategic manager",
+      "slug": "strategic-manager",
+      "order": 4,
+      "isActive": true,
+      "createdAt": "2026-02-18T13:27:22.662Z",
+      "__v": 0
+    }
+  ],
+  "categories": [],
+  "reviews": [
+    {
+      "_id": "698cdf33b04adca9ffb754e1",
+      "booking": "698cadc6a82d895d1b7d2a91",
+      "user": "698520ee9c9003e904fdc68d",
+      "worker": "6986631ff6e8957900d5c260",
+      "rating": 5,
+      "comment": "good",
+      "isApproved": false,
+      "createdAt": "2026-02-11T19:57:39.816Z",
+      "__v": 0
+    }
+  ],
+  "workers": []
+}

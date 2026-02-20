@@ -74,7 +74,27 @@ const ServicesGrid = () => {
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-[5px] flex items-center shadow-sm z-10">
                   <Star size={14} fill="#fbbf24" className="text-[#fbbf24] mr-1" />
                   <span className="text-[14px] font-bold text-[#212529]">
-                    4.8
+                    {(() => {
+                      const STATIC_RATINGS = {
+                        'domestic-help': 4.8,
+                        'cooks': 4.7,
+                        'babysitter': 4.8,
+                        'all-rounder': 4.6,
+                        'elderly-care': 4.8,
+                        '24-hour-live-in': 4.7,
+                        'patient-care': 4.8,
+                        'peon': 4.6,
+                        'japa': 4.8
+                      };
+                      const slug = service.slug || 'default';
+                      if (STATIC_RATINGS[slug]) return STATIC_RATINGS[slug];
+
+                      let value = 0;
+                      for (let i = 0; i < slug.length; i++) value += slug.charCodeAt(i);
+                      const x = Math.sin(value + 123) * 10000; // Offset seed for variety
+                      const random = x - Math.floor(x);
+                      return [4.6, 4.7, 4.8][Math.floor(random * 3)];
+                    })()}
                   </span>
                 </div>
 

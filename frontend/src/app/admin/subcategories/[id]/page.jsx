@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Save, Trash2, Plus } from 'lucide-react';
+import { ArrowLeft, Save, Trash2, Plus, X } from 'lucide-react';
 import { toast } from 'sonner';
 import ImageUpload from "@/components/ui/image-upload";
 import { getToken } from '@/lib/auth';
@@ -329,9 +329,10 @@ export default function EditSubCategoryPage({ params }) {
                                                         <option value="checkbox">Checkbox</option>
                                                         <option value="text">Text Input</option>
                                                         <option value="date">Date Picker</option>
+                                                        <option value="number">Number Input</option>
                                                     </select>
                                                 </div>
-                                                <div className="flex items-center pt-5">
+                                                <div className="flex items-center pt-5 gap-4">
                                                     <label className="flex items-center gap-2 cursor-pointer">
                                                         <input
                                                             type="checkbox"
@@ -345,6 +346,40 @@ export default function EditSubCategoryPage({ params }) {
                                                         />
                                                         <span className="text-xs font-bold text-slate-600">Required</span>
                                                     </label>
+                                                    {field.type === 'number' && (
+                                                        <label className="flex items-center gap-2 cursor-pointer">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={field.isPricingReference === true}
+                                                                onChange={(e) => {
+                                                                    const updated = [...subcategory.questions];
+                                                                    // Unset other references first
+                                                                    updated.forEach(s => s.fields.forEach(f => f.isPricingReference = false));
+                                                                    updated[stepIndex].fields[fieldIndex].isPricingReference = e.target.checked;
+                                                                    setSubcategory({ ...subcategory, questions: updated });
+                                                                }}
+                                                                className="rounded text-blue-500 focus:ring-blue-500"
+                                                            />
+                                                            <span className="text-xs font-bold text-sky-600">Pricing Reference</span>
+                                                        </label>
+                                                    )}
+                                                    {(field.type === 'radio' || field.type === 'select') && (
+                                                        <label className="flex items-center gap-2 cursor-pointer">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={field.isPricingReference === true}
+                                                                onChange={(e) => {
+                                                                    const updated = [...subcategory.questions];
+                                                                    // Unset other references first
+                                                                    updated.forEach(s => s.fields.forEach(f => f.isPricingReference = false));
+                                                                    updated[stepIndex].fields[fieldIndex].isPricingReference = e.target.checked;
+                                                                    setSubcategory({ ...subcategory, questions: updated });
+                                                                }}
+                                                                className="rounded text-blue-500 focus:ring-blue-500"
+                                                            />
+                                                            <span className="text-xs font-bold text-sky-600">Pricing Reference</span>
+                                                        </label>
+                                                    )}
                                                 </div>
                                             </div>
                                             <button
@@ -424,54 +459,118 @@ export default function EditSubCategoryPage({ params }) {
                                                 </div>
                                                 <div className="space-y-2">
                                                     {field.options?.map((opt, optIndex) => (
-                                                        <div key={optIndex} className="flex gap-2 items-center">
-                                                            <input
-                                                                type="text"
-                                                                placeholder="Label"
-                                                                className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-blue-500 focus:outline-none"
-                                                                value={opt.label}
-                                                                onChange={(e) => {
-                                                                    const updated = [...subcategory.questions];
-                                                                    updated[stepIndex].fields[fieldIndex].options[optIndex].label = e.target.value;
-                                                                    setSubcategory({ ...subcategory, questions: updated });
-                                                                }}
-                                                            />
-                                                            <input
-                                                                type="text"
-                                                                placeholder="Value"
-                                                                className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-blue-500 focus:outline-none font-mono"
-                                                                value={opt.value}
-                                                                onChange={(e) => {
-                                                                    const updated = [...subcategory.questions];
-                                                                    updated[stepIndex].fields[fieldIndex].options[optIndex].value = e.target.value;
-                                                                    setSubcategory({ ...subcategory, questions: updated });
-                                                                }}
-                                                            />
-                                                            <div className="relative w-24">
-                                                                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs">₹</span>
+                                                        <React.Fragment key={optIndex}>
+                                                            <div className="flex gap-2 items-center">
                                                                 <input
-                                                                    type="number"
-                                                                    placeholder="Price"
-                                                                    className="w-full bg-white border border-slate-200 rounded pl-5 pr-2 py-1 text-xs focus:border-blue-500 focus:outline-none"
-                                                                    value={opt.priceChange}
+                                                                    type="text"
+                                                                    placeholder="Label"
+                                                                    className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-blue-500 focus:outline-none"
+                                                                    value={opt.label}
                                                                     onChange={(e) => {
                                                                         const updated = [...subcategory.questions];
-                                                                        updated[stepIndex].fields[fieldIndex].options[optIndex].priceChange = parseFloat(e.target.value) || 0;
+                                                                        updated[stepIndex].fields[fieldIndex].options[optIndex].label = e.target.value;
                                                                         setSubcategory({ ...subcategory, questions: updated });
                                                                     }}
                                                                 />
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Value"
+                                                                    className="flex-1 bg-white border border-slate-200 rounded px-2 py-1 text-xs focus:border-blue-500 focus:outline-none font-mono"
+                                                                    value={opt.value}
+                                                                    onChange={(e) => {
+                                                                        const updated = [...subcategory.questions];
+                                                                        updated[stepIndex].fields[fieldIndex].options[optIndex].value = e.target.value;
+                                                                        setSubcategory({ ...subcategory, questions: updated });
+                                                                    }}
+                                                                />
+                                                                <div className="relative w-24">
+                                                                    <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs">₹</span>
+                                                                    <input
+                                                                        type="number"
+                                                                        placeholder="Price"
+                                                                        className="w-full bg-white border border-slate-200 rounded pl-5 pr-2 py-1 text-xs focus:border-blue-500 focus:outline-none"
+                                                                        value={opt.priceChange}
+                                                                        onChange={(e) => {
+                                                                            const updated = [...subcategory.questions];
+                                                                            updated[stepIndex].fields[fieldIndex].options[optIndex].priceChange = parseFloat(e.target.value) || 0;
+                                                                            setSubcategory({ ...subcategory, questions: updated });
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        const updated = [...subcategory.questions];
+                                                                        updated[stepIndex].fields[fieldIndex].options.splice(optIndex, 1);
+                                                                        setSubcategory({ ...subcategory, questions: updated });
+                                                                    }}
+                                                                    className="text-slate-300 hover:text-red-500"
+                                                                >
+                                                                    <Trash2 size={14} />
+                                                                </button>
                                                             </div>
-                                                            <button
-                                                                onClick={() => {
-                                                                    const updated = [...subcategory.questions];
-                                                                    updated[stepIndex].fields[fieldIndex].options.splice(optIndex, 1);
-                                                                    setSubcategory({ ...subcategory, questions: updated });
-                                                                }}
-                                                                className="text-slate-300 hover:text-red-500"
-                                                            >
-                                                                <Trash2 size={14} />
-                                                            </button>
-                                                        </div>
+                                                            {/* Tiered Prices Section */}
+                                                            {subcategory.questions?.some(s => s.fields.some(f => f.isPricingReference)) && !field.isPricingReference && (
+                                                                <div className="ml-4 mt-2 mb-4 pl-4 border-l border-slate-200">
+                                                                    <div className="flex items-center justify-between mb-1">
+                                                                        <span className="text-[10px] font-bold text-slate-400 uppercase">Tiered Prices (for Reference)</span>
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                const updated = [...subcategory.questions];
+                                                                                if (!updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices) {
+                                                                                    updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices = [];
+                                                                                }
+                                                                                updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices.push({ refValue: "", price: 0 });
+                                                                                setSubcategory({ ...subcategory, questions: updated });
+                                                                            }}
+                                                                            className="text-[9px] text-blue-500 font-bold hover:underline"
+                                                                        >
+                                                                            + Add Tier
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className="space-y-1">
+                                                                        {opt.tieredPrices?.map((tier, tierIndex) => (
+                                                                            <div key={tierIndex} className="flex gap-2 items-center">
+                                                                                <input
+                                                                                    type="text"
+                                                                                    placeholder="Ref Value (e.g. 2)"
+                                                                                    className="w-24 bg-white border border-slate-100 rounded px-2 py-0.5 text-[10px] focus:outline-none"
+                                                                                    value={tier.refValue}
+                                                                                    onChange={(e) => {
+                                                                                        const updated = [...subcategory.questions];
+                                                                                        updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices[tierIndex].refValue = e.target.value;
+                                                                                        setSubcategory({ ...subcategory, questions: updated });
+                                                                                    }}
+                                                                                />
+                                                                                <div className="relative w-20">
+                                                                                    <span className="absolute left-1 top-1/2 -translate-y-1/2 text-[9px] text-slate-400">₹</span>
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        placeholder="Price"
+                                                                                        className="w-full bg-white border border-slate-100 rounded pl-3 pr-1 py-0.5 text-[10px] focus:outline-none"
+                                                                                        value={tier.price}
+                                                                                        onChange={(e) => {
+                                                                                            const updated = [...subcategory.questions];
+                                                                                            updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices[tierIndex].price = parseFloat(e.target.value) || 0;
+                                                                                            setSubcategory({ ...subcategory, questions: updated });
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                                <button
+                                                                                    onClick={() => {
+                                                                                        const updated = [...subcategory.questions];
+                                                                                        updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices.splice(tierIndex, 1);
+                                                                                        setSubcategory({ ...subcategory, questions: updated });
+                                                                                    }}
+                                                                                    className="text-slate-300 hover:text-red-500"
+                                                                                >
+                                                                                    <X size={10} />
+                                                                                </button>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
                                                     ))}
                                                 </div>
                                             </div>
@@ -500,6 +599,6 @@ export default function EditSubCategoryPage({ params }) {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

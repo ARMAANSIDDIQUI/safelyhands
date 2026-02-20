@@ -106,13 +106,13 @@ const STATIC_REVIEW_COUNTS = {
 const STATIC_RATINGS = {
     'domestic-help': 4.8,
     'cooks': 4.7,
-    'babysitter': 4.9,
+    'babysitter': 4.8,
     'all-rounder': 4.6,
-    'elderly-care': 4.9,
+    'elderly-care': 4.8,
     '24-hour-live-in': 4.7,
     'patient-care': 4.8,
-    'peon': 4.5,
-    'japa': 4.9
+    'peon': 4.6,
+    'japa': 4.8
 };
 
 // Seeded random number generator for consistency
@@ -136,12 +136,10 @@ const getStaticReviewCount = (slug) => {
 const getStaticRating = (slug) => {
     if (STATIC_RATINGS[slug]) return STATIC_RATINGS[slug];
 
-    // Generate deterministic random number between 4.5 and 4.9
+    // Generate deterministic random number between 4.6 and 4.8
     const random = getSeededRandom((slug || 'default') + '_rating');
-    // Map 0-1 to 4.5-4.9
-    // Steps: 0, 0.1, 0.2, 0.3, 0.4
-    const steps = [4.5, 4.6, 4.7, 4.8, 4.9];
-    const index = Math.floor(random * 5);
+    const steps = [4.6, 4.7, 4.8];
+    const index = Math.floor(random * 3);
     return steps[index];
 };
 
