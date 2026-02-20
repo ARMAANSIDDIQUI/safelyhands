@@ -45,7 +45,7 @@ export default function ImageUpload({ value, onChange, disabled }) {
                 throw new Error(data.message || "Upload failed");
             }
 
-            onChange(data.imageUrl);
+            onChange(data.url || data.imageUrl);
             toast.success(file.type.startsWith('video/') ? "Video uploaded successfully" : "Image uploaded successfully");
         } catch (error) {
             console.error("Upload error:", error);

@@ -96,8 +96,8 @@ router.post('/', (req, res, next) => {
             }
 
             res.json({
-                url: result.secure_url,        // Primary field
-                imageUrl: result.secure_url,   // Legacy compat
+                url: result.secure_url || result.url,
+                imageUrl: result.secure_url || result.url,
                 resourceType: result.resource_type,
                 message: 'File uploaded successfully'
             });

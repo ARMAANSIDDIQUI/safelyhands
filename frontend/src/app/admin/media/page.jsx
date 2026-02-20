@@ -40,7 +40,7 @@ export default function MediaLibraryPage() {
 
             const entry = {
                 id: Date.now(),
-                url: data.url,
+                url: data.url || data.imageUrl,
                 name: file.name,
                 type: data.resourceType || (isImage ? "image" : "video"),
                 size: file.size,
@@ -76,7 +76,7 @@ export default function MediaLibraryPage() {
 
     const copyTag = (entry) => {
         const tag = entry.type === "video"
-            ? `<video src="${entry.url}" controls style="max-width:100%;border-radius:8px;"></video>`
+            ? `<video src="${entry.url}" autoplay loop muted playsinline style="max-width:100%;border-radius:8px;pointer-events:none;"></video>`
             : `<img src="${entry.url}" alt="" style="max-width:100%;border-radius:8px;" />`;
         navigator.clipboard.writeText(tag);
         toast.success(`${entry.type === "video" ? "<video>" : "<img>"} tag copied!`);
