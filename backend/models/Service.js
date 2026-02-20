@@ -24,6 +24,7 @@ const serviceSchema = new mongoose.Schema({
     availability: { type: String },
     verificationStatus: { type: String },
     isActive: { type: Boolean, default: true },
+    questions: { type: Array, default: [] },
     createdAt: { type: Date, default: Date.now }
 }, {
     toJSON: { virtuals: true },

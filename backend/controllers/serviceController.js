@@ -49,7 +49,7 @@ const getServiceBySlug = async (req, res) => {
 // @access  Private/Admin
 const createService = async (req, res) => {
     try {
-        const { title, slug, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus, subcategories } = req.body;
+        const { title, slug, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, video, icon, gradientFrom, gradientTo, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus, subcategories, questions } = req.body;
 
         const serviceExists = await Service.findOne({ slug });
         if (serviceExists) {
@@ -63,21 +63,23 @@ const createService = async (req, res) => {
             basePrice: basePrice || 0,
             minPrice: minPrice || 0,
             maxPrice: maxPrice || 0,
-            features,
+            features: features || [],
             imageUrl,
+            video,
             icon,
             subtitle,
             gradientFrom: gradientFrom || 'blue-100',
             gradientTo: gradientTo || 'blue-200',
-            rating,
-            reviewCount,
+            rating: rating || 4.8,
+            reviewCount: reviewCount || 0,
             badge,
             category,
             shift,
             gender: gender || 'Both',
             availability,
             verificationStatus,
-            subcategories: subcategories || []
+            subcategories: subcategories || [],
+            questions: questions || []
         });
 
         res.status(201).json(service);
@@ -91,33 +93,22 @@ const createService = async (req, res) => {
 // @access  Private/Admin
 const updateService = async (req, res) => {
     try {
-        const { title, subtitle, description, basePrice, minPrice, maxPrice, features, imageUrl, icon, gradientFrom, gradientTo, isActive, rating, reviewCount, badge, category, shift, gender, availability, verificationStatus, subcategories, questions } = req.body;
-
         const service = await Service.findById(req.params.id);
 
         if (service) {
-            service.title = title || service.title;
-            service.description = description || service.description;
-            service.basePrice = basePrice !== undefined ? basePrice : service.basePrice;
-            service.minPrice = minPrice !== undefined ? minPrice : (service.minPrice || 0);
-            service.maxPrice = maxPrice !== undefined ? maxPrice : (service.maxPrice || 0);
-            service.features = features || service.features;
-            service.imageUrl = imageUrl || service.imageUrl;
-            service.icon = icon || service.icon;
-            service.subtitle = subtitle || service.subtitle;
-            service.gradientFrom = gradientFrom || service.gradientFrom;
-            service.gradientTo = gradientTo || service.gradientTo;
-            service.isActive = isActive !== undefined ? isActive : service.isActive;
-            service.rating = rating !== undefined ? rating : service.rating;
-            service.reviewCount = reviewCount !== undefined ? reviewCount : service.reviewCount;
-            service.badge = badge !== undefined ? badge : service.badge;
-            service.category = category || service.category;
-            service.shift = shift || service.shift;
-            service.gender = gender || service.gender;
-            service.availability = availability || service.availability;
-            service.verificationStatus = verificationStatus || service.verificationStatus;
-            service.subcategories = subcategories || service.subcategories;
-            service.questions = questions || service.questions;
+            // Update fields if they are present in req.body
+            const fieldsToUpdate = [
+                'title', 'subtitle', 'description', 'basePrice', 'minPrice', 'maxPrice',
+                'features', 'imageUrl', 'video', 'icon', 'gradientFrom', 'gradientTo',
+                'isActive', 'rating', 'reviewCount', 'badge', 'category', 'shift',
+                'gender', 'availability', 'verificationStatus', 'subcategories', 'questions'
+            ];
+
+            fieldsToUpdate.forEach(field => {
+                if (req.body[field] !== undefined) {
+                    service[field] = req.body[field];
+                }
+            });
 
             const updatedService = await service.save();
             res.json(updatedService);
