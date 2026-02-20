@@ -19,9 +19,9 @@ export default function ImageUpload({ value, onChange, disabled }) {
             return;
         }
 
-        // Validate file size (10MB max)
-        if (file.size > 10 * 1024 * 1024) {
-            toast.error("File size must be less than 10MB");
+        // Validate file size (50MB max)
+        if (file.size > 50 * 1024 * 1024) {
+            toast.error("File size must be less than 50MB");
             return;
         }
 
