@@ -81,7 +81,11 @@ router.post('/', (req, res, next) => {
             console.error('Upload Error:', error);
             // Clean up local file if upload fails
             if (req.file && fs.existsSync(req.file.path)) {
-                fs.unlinkSync(req.file.path);
+                try {
+                    fs.unlinkSync(req.file.path);
+                } catch (unlinkError) {
+                    console.error('Error deleting temp file:', unlinkError);
+                }
             }
             next(error); // goes to global error handler with CORS headers
         }

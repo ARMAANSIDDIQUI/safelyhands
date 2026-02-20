@@ -14,7 +14,6 @@ console.log(`Starting Next.js in ${dev ? 'development' : 'production'} mode (NOD
 const app = express();
 
 // Ensure uploads directory exists (only for local development)
-// Vercel serverless has read-only filesystem except /tmp
 if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
     const uploadsDir = path.join(__dirname, 'uploads');
     if (!fs.existsSync(uploadsDir)) {
@@ -22,19 +21,22 @@ if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
     }
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = (process.env.PORT || 5000);
 
-// Allow ALL origins — no CORS restrictions
+// 1. CORS Middleware (Must be FIRST)
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     // Respond immediately to pre-flight OPTIONS requests
     if (req.method === 'OPTIONS') {
         return res.sendStatus(204);
     }
     next();
 });
+
+// 2. Body Parsers (with large limits)
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
