@@ -58,10 +58,14 @@ router.post('/', (req, res, next) => {
         }
         try {
             if (!req.file) {
+                console.error('!!! [UPLOAD ERROR] No file object in request');
                 return res.status(400).json({ message: 'No file uploaded' });
             }
 
+            console.log(`>>> [UPLOAD] File received: ${req.file.originalname} | Size: ${req.file.size} bytes | Mime: ${req.file.mimetype}`);
+
             // Upload to Cloudinary
+            console.log(`>>> [UPLOAD] Sending to Cloudinary with resource_type: auto...`);
             const result = await cloudinary.uploader.upload(req.file.path, {
                 folder: 'safely_hands',
                 use_filename: true,
@@ -69,8 +73,14 @@ router.post('/', (req, res, next) => {
                 resource_type: 'auto', // Handles images AND videos
             });
 
+            console.log(`>>> [UPLOAD] Cloudinary success! Resource Type: ${result.resource_type} | URL: ${result.secure_url}`);
+
             // Remove file from local uploads folder
-            fs.unlinkSync(req.file.path);
+            try {
+                fs.unlinkSync(req.file.path);
+            } catch (err) {
+                console.error('!!! [UPLOAD] Error cleaning up local file:', err.message);
+            }
 
             res.json({
                 url: result.secure_url,        // Primary field
@@ -79,7 +89,7 @@ router.post('/', (req, res, next) => {
                 message: 'File uploaded successfully'
             });
         } catch (error) {
-            console.error('Upload Error:', error);
+            console.error('!!! [UPLOAD CLOUDINARY ERROR]:', error);
             // Clean up local file if upload fails
             if (req.file && fs.existsSync(req.file.path)) {
                 try {
