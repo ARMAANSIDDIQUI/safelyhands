@@ -11,14 +11,18 @@ const createBooking = async (req, res) => {
         const { serviceType, date, time, address, notes, totalAmount, paymentProofUrl, weeklyDays, genderPreference, shift, babyDOB } = req.body;
         const frequency = req.body.frequency || 'Daily'; // Default to 'Daily' if not provided
 
-        let startDate = new Date(date);
-        let endDate = new Date(date);
+        const dateStr = typeof date === 'string' ? date.split('T')[0] : new Date(date).toISOString().split('T')[0];
+        let startDate = new Date(dateStr);
+        let endDate = new Date(dateStr);
+        startDate.setUTCHours(0, 0, 0, 0);
+        endDate.setUTCHours(0, 0, 0, 0);
 
         if (frequency === 'One-time') {
             // End date is same as start date (already set)
         } else {
             // For Daily, Weekly, Live-in, set duration to strictly 30 days
             endDate.setDate(startDate.getDate() + 30);
+            endDate.setUTCHours(23, 59, 59, 999);
         }
 
         const booking = await Booking.create({
@@ -289,15 +293,23 @@ const updateBooking = async (req, res) => {
 
         // Recalculate start and end dates if frequency or date changed
         if (req.body.date || req.body.frequency) {
-            const newStartDate = new Date(booking.date);
-            const newEndDate = new Date(booking.date);
+            const dateStr = typeof (req.body.date || booking.date) === 'string'
+                ? (req.body.date || booking.date).split('T')[0]
+                : new Date(req.body.date || booking.date).toISOString().split('T')[0];
+
+            const newStartDate = new Date(dateStr);
+            const newEndDate = new Date(dateStr);
+            newStartDate.setUTCHours(0, 0, 0, 0);
+            newEndDate.setUTCHours(0, 0, 0, 0);
 
             if (booking.frequency !== 'One-time') {
                 newEndDate.setMonth(newEndDate.getMonth() + 1);
+                newEndDate.setUTCHours(23, 59, 59, 999);
             }
 
             booking.startDate = newStartDate;
             booking.endDate = newEndDate;
+            booking.date = dateStr;
         }
 
         booking.address = req.body.address || booking.address;
@@ -415,10 +427,12 @@ const getValidDates = async (req, res) => {
         }
 
         const validDates = [];
-        let current = new Date(booking.startDate || booking.date);
+        // CRITICAL: Interpret stored UTC with +5.5h offset to correctly identify the intended India calendar day.
+        let current = new Date(new Date(booking.startDate || booking.date).getTime() + (5.5 * 60 * 60 * 1000));
         current.setUTCHours(0, 0, 0, 0);
 
-        const end = booking.endDate ? new Date(booking.endDate) : new Date(current);
+        const endRaw = booking.endDate ? new Date(booking.endDate) : new Date(booking.startDate || booking.date);
+        const end = new Date(endRaw.getTime() + (5.5 * 60 * 60 * 1000));
         end.setUTCHours(0, 0, 0, 0);
 
         if (booking.frequency === 'One-time') {
@@ -426,7 +440,7 @@ const getValidDates = async (req, res) => {
         } else {
             // Loop from startDate to endDate
             while (current <= end) {
-                if (booking.frequency === 'Daily' || booking.frequency === 'Live-in' || booking.frequency === 'Day-shift' || booking.frequency === 'Part-time') {
+                if (['Daily', 'Live-in', 'Day-shift', 'Part-time'].includes(booking.frequency)) {
                     validDates.push(new Date(current));
                 } else if (booking.frequency === 'Weekly') {
                     if (booking.weeklyDays && booking.weeklyDays.includes(current.getDay())) {

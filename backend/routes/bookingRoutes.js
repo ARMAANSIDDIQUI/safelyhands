@@ -10,10 +10,10 @@ const {
     getWorkerBookings,
     deleteBooking,
     updateBooking,
-    markAttendance,
     getValidDates,
     downloadBill
 } = require('../controllers/bookingController');
+const { markAttendance } = require('../controllers/attendanceController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 router.route('/')

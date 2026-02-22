@@ -537,18 +537,16 @@ export default function AdminBookings() {
                                                                 className="rounded-md border shadow-sm mx-auto"
                                                                 modifiers={{
                                                                     present: (date) => {
-                                                                        const dateStr = date.toISOString().split('T')[0];
-                                                                        const log = booking.attendanceLogs?.find(l =>
-                                                                            new Date(l.date).toISOString().split('T')[0] === dateStr
+                                                                        const dStr = date.toLocaleDateString('en-CA');
+                                                                        return booking.attendanceLogs?.some(l =>
+                                                                            new Date(l.date).toISOString().split('T')[0] === dStr && l.status === 'present'
                                                                         );
-                                                                        return log?.status === 'present';
                                                                     },
                                                                     absent: (date) => {
-                                                                        const dateStr = date.toISOString().split('T')[0];
-                                                                        const log = booking.attendanceLogs?.find(l =>
-                                                                            new Date(l.date).toISOString().split('T')[0] === dateStr
+                                                                        const dStr = date.toLocaleDateString('en-CA');
+                                                                        return booking.attendanceLogs?.some(l =>
+                                                                            new Date(l.date).toISOString().split('T')[0] === dStr && l.status === 'absent'
                                                                         );
-                                                                        return log?.status === 'absent';
                                                                     }
                                                                 }}
                                                                 modifiersStyles={{

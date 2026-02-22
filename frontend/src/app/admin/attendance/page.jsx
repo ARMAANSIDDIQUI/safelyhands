@@ -346,12 +346,16 @@ export default function AdminAttendancePage() {
                                             </TableCell>
                                             <TableCell>
                                                 <div className="flex flex-col gap-1">
-                                                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase w-fit ${log.status === 'present' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase w-fit ${log.status === 'present' ? 'bg-green-100 text-green-700' :
+                                                            log.status === 'not_marked' ? 'bg-slate-100 text-slate-500' :
+                                                                'bg-red-100 text-red-700'
                                                         }`}>
-                                                        {log.status}
+                                                        {log.status === 'not_marked' ? 'Not Marked' : log.status}
                                                     </span>
                                                     {log.isSynthetic && (
-                                                        <span className="text-[9px] text-slate-400 italic">Auto-calculated (Missed)</span>
+                                                        <span className="text-[9px] text-slate-400 italic">
+                                                            {log.status === 'not_marked' ? 'Pending mark' : 'Auto-calculated (Missed)'}
+                                                        </span>
                                                     )}
                                                 </div>
                                             </TableCell>

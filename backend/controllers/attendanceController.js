@@ -17,16 +17,21 @@ const formatDateLocal = (dateInput) => {
     return `${day}-${month}-${year}`;
 };
 
+// Helper: Get Current IST Date object
+const getNowIST = () => new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+
 // Helper: Get all valid attendance dates for a booking
 const getValidAttendanceDates = (booking) => {
     const validDates = [];
-    const today = new Date();
+    // CRITICAL: Use IST for today and normalization to prevent X-1 offset
+    const today = getNowIST();
     today.setUTCHours(0, 0, 0, 0);
 
-    const startDate = new Date(booking.startDate || booking.date);
+    const startDate = new Date(new Date(booking.startDate || booking.date).getTime() + (5.5 * 60 * 60 * 1000));
     startDate.setUTCHours(0, 0, 0, 0);
 
-    const endDate = booking.endDate ? new Date(booking.endDate) : new Date(booking.date);
+    const endDateBase = booking.endDate ? new Date(booking.endDate) : new Date(booking.date);
+    const endDate = new Date(endDateBase.getTime() + (5.5 * 60 * 60 * 1000));
     endDate.setUTCHours(23, 59, 59, 999);
 
     switch (booking.frequency) {
@@ -121,7 +126,14 @@ const isServiceActive = (booking) => {
 // @access  Private
 const markAttendance = async (req, res) => {
     try {
-        const { booking: bookingId, status, date } = req.body;
+        const { booking: bodyBookingId, status, attendanceStatus, date } = req.body;
+        const bookingId = req.params.id || bodyBookingId;
+        const statusVal = status || attendanceStatus || 'present';
+
+        if (!bookingId || bookingId === 'undefined' || !mongoose.Types.ObjectId.isValid(bookingId)) {
+            return res.status(400).json({ message: 'Invalid or missing Booking ID' });
+        }
+
         const booking = await Booking.findById(bookingId);
 
         if (!booking) {
@@ -161,7 +173,7 @@ const markAttendance = async (req, res) => {
                 date: attendanceDate
             },
             {
-                status,
+                status: statusVal,
                 markedBy: req.user._id,
                 worker: booking.assignedWorker,
                 user: booking.user
@@ -182,13 +194,13 @@ const markAttendance = async (req, res) => {
 
         if (logIndex > -1) {
             console.log(`[DEBUG] Updating existing log index ${logIndex}`);
-            booking.attendanceLogs[logIndex].status = status;
+            booking.attendanceLogs[logIndex].status = statusVal;
             booking.attendanceLogs[logIndex].markedBy = req.user.role === 'admin' ? 'admin' : (req.user.role === 'worker' ? 'worker' : 'user');
         } else {
-            console.log(`[DEBUG] Pushing new log recorded as ${status}`);
+            console.log(`[DEBUG] Pushing new log recorded as ${statusVal}`);
             booking.attendanceLogs.push({
                 date: attendanceDate,
-                status: status || 'present',
+                status: statusVal,
                 markedBy: req.user.role === 'admin' ? 'admin' : (req.user.role === 'worker' ? 'worker' : 'user')
             });
         }
@@ -328,22 +340,24 @@ const getValidDates = async (req, res) => {
             status: a.status
         }));
 
-        // Add synthetic "Absent" for missed past dates to help the calendar
+        // Add synthetic "Absent" or "Not Marked" for missed dates
         validDates.forEach(vd => {
             const vDate = new Date(vd);
             vDate.setUTCHours(0, 0, 0, 0);
+            const vDateStr = vDate.toISOString().split('T')[0];
+            const todayStr = today.toISOString().split('T')[0];
 
-            if (vDate.getTime() < today.getTime()) {
+            if (vDateStr <= todayStr) {
                 const alreadyExists = markedDates.some(m => {
                     const mDate = new Date(m.date);
                     mDate.setUTCHours(0, 0, 0, 0);
-                    return mDate.getTime() === vDate.getTime();
+                    return mDate.toISOString().split('T')[0] === vDateStr;
                 });
 
                 if (!alreadyExists) {
                     markedDates.push({
                         date: vDate,
-                        status: 'absent',
+                        status: vDateStr === todayStr ? 'not_marked' : 'absent',
                         synthetic: true
                     });
                 }
@@ -468,11 +482,11 @@ const downloadAttendancePDF = async (req, res) => {
         let combinedRecords = [...attendance];
         validDates.forEach(vDate => {
             const vDateStr = vDate.toISOString().split('T')[0];
-            // If missed and in the past
-            if (!attendanceMap.has(vDateStr) && vDateStr < todayStr) {
+            // If missed and (past or today)
+            if (!attendanceMap.has(vDateStr) && vDateStr <= todayStr) {
                 combinedRecords.push({
                     date: vDate,
-                    status: 'absent',
+                    status: vDateStr === todayStr ? 'not_marked' : 'absent',
                     isSynthetic: true
                 });
             }
@@ -644,8 +658,11 @@ const downloadAttendanceCSV = async (req, res) => {
         let combinedRecords = [...attendance];
         validDates.forEach(vDate => {
             const vDateStr = vDate.toISOString().split('T')[0];
-            if (!attendanceMap.has(vDateStr) && vDateStr < todayStr) {
-                combinedRecords.push({ date: vDate, status: 'absent' });
+            if (!attendanceMap.has(vDateStr) && vDateStr <= todayStr) {
+                combinedRecords.push({
+                    date: vDate,
+                    status: vDateStr === todayStr ? 'not_marked' : 'absent'
+                });
             }
         });
         combinedRecords.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -745,22 +762,37 @@ const getAdminAttendance = async (req, res) => {
         activeBookings.forEach(booking => {
             const validDates = getValidAttendanceDates(booking);
             validDates.forEach(vDate => {
-                // Only look at dates within requested range AND in the past (before today)
+                // Only look at dates within requested range
                 if (vDate >= start && vDate <= end) {
                     const vDateStr = vDate.toISOString().split('T')[0];
                     const key = `${booking._id}_${vDateStr}`;
 
-                    // If not already in real attendance AND it's a today or past date
-                    if (!attendanceMap.has(key) && vDateStr <= todayStr) {
-                        finalResults.push({
-                            _id: `synthetic_${key}`,
-                            booking: booking,
-                            worker: booking.assignedWorker,
-                            date: vDate,
-                            status: 'absent', // Default for missed days
-                            isSynthetic: true,
-                            markedBy: 'system'
-                        });
+                    // If not already in real attendance
+                    if (!attendanceMap.has(key)) {
+                        // If it's today
+                        if (vDateStr === todayStr) {
+                            finalResults.push({
+                                _id: `synthetic_${key}`,
+                                booking: booking,
+                                worker: booking.assignedWorker,
+                                date: vDate,
+                                status: 'not_marked', // Virtual "Pending" for today
+                                isSynthetic: true,
+                                markedBy: 'system'
+                            });
+                        }
+                        // If it's in the past
+                        else if (vDateStr < todayStr) {
+                            finalResults.push({
+                                _id: `synthetic_${key}`,
+                                booking: booking,
+                                worker: booking.assignedWorker,
+                                date: vDate,
+                                status: 'absent', // Default for missed days
+                                isSynthetic: true,
+                                markedBy: 'system'
+                            });
+                        }
                     }
                 }
             });
@@ -840,12 +872,12 @@ const downloadAdminReportPDF = async (req, res) => {
             validDates.forEach(vDate => {
                 if (vDate >= start && vDate <= end) {
                     const vDateStr = vDate.toISOString().split('T')[0];
-                    if (!attendanceMap.has(`${booking._id}_${vDateStr}`) && vDateStr < todayStr) {
+                    if (!attendanceMap.has(`${booking._id}_${vDateStr}`) && vDateStr <= todayStr) {
                         combinedRecords.push({
                             booking: booking,
                             worker: booking.assignedWorker,
                             date: vDate,
-                            status: 'absent',
+                            status: vDateStr === todayStr ? 'not_marked' : 'absent',
                             isSynthetic: true
                         });
                     }
