@@ -333,8 +333,6 @@ export default function AddSubCategoryPage() {
                                                                 checked={field.isPricingReference === true}
                                                                 onChange={(e) => {
                                                                     const updated = [...subcategory.questions];
-                                                                    // Unset other references first
-                                                                    updated.forEach(s => s.fields.forEach(f => f.isPricingReference = false));
                                                                     updated[stepIndex].fields[fieldIndex].isPricingReference = e.target.checked;
                                                                     setSubcategory({ ...subcategory, questions: updated });
                                                                 }}
@@ -350,8 +348,6 @@ export default function AddSubCategoryPage() {
                                                                 checked={field.isPricingReference === true}
                                                                 onChange={(e) => {
                                                                     const updated = [...subcategory.questions];
-                                                                    // Unset other references first
-                                                                    updated.forEach(s => s.fields.forEach(f => f.isPricingReference = false));
                                                                     updated[stepIndex].fields[fieldIndex].isPricingReference = e.target.checked;
                                                                     setSubcategory({ ...subcategory, questions: updated });
                                                                 }}
@@ -510,17 +506,38 @@ export default function AddSubCategoryPage() {
                                                                     <div className="space-y-1">
                                                                         {opt.tieredPrices?.map((tier, tierIndex) => (
                                                                             <div key={tierIndex} className="flex gap-2 items-center">
-                                                                                <input
-                                                                                    type="text"
-                                                                                    placeholder="Ref Value (e.g. 2)"
-                                                                                    className="w-24 bg-white border border-slate-100 rounded px-2 py-0.5 text-[10px] focus:outline-none"
-                                                                                    value={tier.refValue}
-                                                                                    onChange={(e) => {
-                                                                                        const updated = [...subcategory.questions];
-                                                                                        updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices[tierIndex].refValue = e.target.value;
-                                                                                        setSubcategory({ ...subcategory, questions: updated });
-                                                                                    }}
-                                                                                />
+                                                                                <div className="flex gap-1 flex-wrap">
+                                                                                    {subcategory.questions?.flatMap(s => s.fields).filter(f => f.isPricingReference).map((refField, refIdx) => {
+                                                                                        const allRefs = subcategory.questions?.flatMap(s => s.fields).filter(f => f.isPricingReference);
+                                                                                        const partIndex = allRefs.indexOf(refField);
+                                                                                        const comboParts = tier.refValue.split('_');
+                                                                                        const currentValue = comboParts[partIndex] || '';
+
+                                                                                        return (
+                                                                                            <select
+                                                                                                key={refField.name}
+                                                                                                className="min-w-[80px] bg-white border border-slate-100 rounded px-1 py-0.5 text-[10px] focus:outline-none"
+                                                                                                value={currentValue}
+                                                                                                onChange={(e) => {
+                                                                                                    const updated = [...subcategory.questions];
+                                                                                                    const currentParts = updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices[tierIndex].refValue.split('_');
+
+                                                                                                    // Fill array to match number of references
+                                                                                                    while (currentParts.length < allRefs.length) currentParts.push("");
+
+                                                                                                    currentParts[partIndex] = e.target.value;
+                                                                                                    updated[stepIndex].fields[fieldIndex].options[optIndex].tieredPrices[tierIndex].refValue = currentParts.slice(0, allRefs.length).join('_');
+                                                                                                    setSubcategory({ ...subcategory, questions: updated });
+                                                                                                }}
+                                                                                            >
+                                                                                                <option value="">{refField.label.length > 12 ? refField.label.substring(0, 12) + '...' : refField.label}</option>
+                                                                                                {refField.options?.map(o => (
+                                                                                                    <option key={o.value} value={o.value}>{o.label}</option>
+                                                                                                ))}
+                                                                                            </select>
+                                                                                        );
+                                                                                    })}
+                                                                                </div>
                                                                                 <div className="relative w-20">
                                                                                     <span className="absolute left-1 top-1/2 -translate-y-1/2 text-[9px] text-slate-400">₹</span>
                                                                                     <input

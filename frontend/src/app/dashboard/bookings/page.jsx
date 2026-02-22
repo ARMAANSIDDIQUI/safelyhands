@@ -417,9 +417,11 @@ export default function MyBookingsPage() {
                                             </Link>
                                         </Button>
 
-                                        <Button size="sm" variant="outline" onClick={() => handleDownloadBill(booking._id)} className="text-emerald-700 border-emerald-200 bg-emerald-50 hover:bg-emerald-100">
-                                            <Download className="mr-2 h-3 w-3" /> Bill
-                                        </Button>
+                                        {booking.paymentStatus === 'paid' && (
+                                            <Button size="sm" variant="outline" onClick={() => handleDownloadBill(booking._id)} className="text-emerald-700 border-emerald-200 bg-emerald-50 hover:bg-emerald-100">
+                                                <Download className="mr-2 h-3 w-3" /> Bill
+                                            </Button>
+                                        )}
 
                                         {booking.status === 'pending' && (
                                             <>

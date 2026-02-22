@@ -449,6 +449,7 @@ const getValidDates = async (req, res) => {
 // @access  Private
 const downloadBill = async (req, res) => {
     try {
+        console.log(`[DEBUG] Attempting to download bill for booking ID: ${req.params.id}`);
         const path = require('path');
         const fs = require('fs');
         const booking = await Booking.findById(req.params.id)
@@ -456,6 +457,7 @@ const downloadBill = async (req, res) => {
             .populate('items.subCategory', 'name');
 
         if (!booking) {
+            console.error(`[DEBUG] Booking not found for ID: ${req.params.id}`);
             return res.status(404).json({ message: 'Booking not found' });
         }
 
@@ -508,9 +510,9 @@ const downloadBill = async (req, res) => {
 
         // --- Billing To Details ---
         doc.fillColor(colors.secondary).fontSize(9).text('BILL TO:', 350, 175);
-        doc.fillColor(colors.text).fontSize(11).text(booking.user.name, 350, 188, { bold: true });
-        doc.fontSize(9).text(booking.user.phone, 350, 201);
-        doc.fontSize(9).text(booking.address, 350, 214, { width: 200 });
+        doc.fillColor(colors.text).fontSize(11).text(booking.user?.name || 'Customer', 350, 188, { bold: true });
+        doc.fontSize(9).text(booking.user?.phone || 'N/A', 350, 201);
+        doc.fontSize(9).text(booking.address || 'N/A', 350, 214, { width: 200 });
 
         // --- Service Details Table Header ---
         const tableTop = 260;
@@ -556,10 +558,11 @@ const downloadBill = async (req, res) => {
 
         // --- Status Banner ---
         currentY += 40;
-        const statusColor = booking.paymentStatus === 'paid' ? '#10b981' : '#ef4444';
+        const pStatus = booking.paymentStatus || 'unpaid';
+        const statusColor = pStatus === 'paid' ? '#10b981' : '#ef4444';
         doc.rect(50, currentY, 500, 40).fill('#f1f5f9');
-        doc.fillColor(statusColor).fontSize(14).text(`Payment Status: ${booking.paymentStatus.toUpperCase()}`, 60, currentY + 13, { bold: true });
-        doc.fillColor(colors.secondary).fontSize(10).text(`Booking: ${booking.status.toUpperCase()}`, 350, currentY + 15, { align: 'right' });
+        doc.fillColor(statusColor).fontSize(14).text(`Payment Status: ${pStatus.toUpperCase()}`, 60, currentY + 13, { bold: true });
+        doc.fillColor(colors.secondary).fontSize(10).text(`Booking: ${(booking.status || 'pending').toUpperCase()}`, 350, currentY + 15, { align: 'right' });
 
         // --- Verification Stamp ---
         if (booking.paymentStatus === 'paid') {

@@ -67,6 +67,30 @@ export default function BookingDetailPage() {
 
 
 
+    const handleDownloadBill = async () => {
+        try {
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}/download-bill`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!res.ok) throw new Error("Failed to download bill");
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Bill_${id}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toast.success("Bill downloaded!");
+        } catch (error) {
+            console.error("Download error:", error);
+            toast.error("Failed to download bill");
+        }
+    };
+
     const handleSubmitReview = async () => {
         if (!booking?.assignedWorker) return;
         setReviewSubmitting(true);
@@ -108,7 +132,19 @@ export default function BookingDetailPage() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold">Booking Details</h2>
-                <Badge>{booking.status}</Badge>
+                <div className="flex items-center gap-2">
+                    {booking.paymentStatus === 'paid' && (
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleDownloadBill}
+                            className="text-emerald-700 border-emerald-200 bg-emerald-50 hover:bg-emerald-100"
+                        >
+                            <FileText className="mr-2 h-4 w-4" /> Download Bill
+                        </Button>
+                    )}
+                    <Badge>{booking.status}</Badge>
+                </div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">

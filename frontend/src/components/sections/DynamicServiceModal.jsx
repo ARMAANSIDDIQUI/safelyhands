@@ -35,15 +35,9 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
         let basePrice = subCategory.price || 0;
         let additionalPrice = 0;
 
-        // 3a. Find the reference field value
-        let referenceValue = null;
-        subCategory.questions.forEach(step => {
-            step.fields.forEach(field => {
-                if (field.isPricingReference) {
-                    referenceValue = answers[field.name]?.toString();
-                }
-            });
-        });
+        // 3a. Find the reference field values and join them
+        const referenceFields = subCategory.questions.flatMap(s => s.fields).filter(f => f.isPricingReference);
+        const referenceValue = referenceFields.map(f => answers[f.name]?.toString() || '').join('_');
 
         // 3b. Calculate based on selections and tiers
         subCategory.questions.forEach(step => {
@@ -56,7 +50,7 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
                         // Add the reference field's own base price change
                         additionalPrice += (option.priceChange || 0);
                     } else {
-                        // Check for a tiered price matching the reference value
+                        // Check for a tiered price matching the compound reference value
                         const tier = option.tieredPrices?.find(t => t.refValue === referenceValue);
                         if (tier) {
                             additionalPrice += tier.price;
@@ -144,8 +138,8 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
                                                     // Calculate display price for label
                                                     let displayPrice = option.priceChange;
                                                     if (!field.isPricingReference) {
-                                                        const referenceField = subCategory.questions.flatMap(s => s.fields).find(f => f.isPricingReference);
-                                                        const referenceValue = referenceField ? answers[referenceField.name]?.toString() : null;
+                                                        const referenceFields = subCategory.questions.flatMap(s => s.fields).filter(f => f.isPricingReference);
+                                                        const referenceValue = referenceFields.map(f => answers[f.name]?.toString() || '').join('_');
                                                         const tier = option.tieredPrices?.find(t => t.refValue === referenceValue);
                                                         if (tier) displayPrice = tier.price;
                                                     }

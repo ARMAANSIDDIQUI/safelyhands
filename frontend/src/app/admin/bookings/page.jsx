@@ -703,13 +703,15 @@ export default function AdminBookings() {
                                                 </button>
 
                                                 {/* Download Bill */}
-                                                <button
-                                                    onClick={() => handleDownloadBill(booking._id)}
-                                                    className="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 border border-emerald-100"
-                                                    title="Download Bill"
-                                                >
-                                                    <Download size={16} />
-                                                </button>
+                                                {booking.paymentStatus === 'paid' && (
+                                                    <button
+                                                        onClick={() => handleDownloadBill(booking._id)}
+                                                        className="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 border border-emerald-100"
+                                                        title="Download Bill"
+                                                    >
+                                                        <Download size={16} />
+                                                    </button>
+                                                )}
 
                                                 {/* Edit Button */}
                                                 <button
