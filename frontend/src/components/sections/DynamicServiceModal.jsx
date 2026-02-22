@@ -140,25 +140,36 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
                                             </div>
                                         ) : (
                                             <div className="flex flex-wrap gap-3">
-                                                {field.options?.map((option) => (
-                                                    <button
-                                                        key={option.value}
-                                                        onClick={() => setAnswers({ ...answers, [field.name]: option.value })}
-                                                        className={cn(
-                                                            "px-6 py-3 rounded-xl border-2 font-bold transition-all text-left",
-                                                            answers[field.name] === option.value
-                                                                ? "border-sky-500 bg-sky-50 text-sky-600 shadow-sm"
-                                                                : "border-slate-100 text-slate-400"
-                                                        )}
-                                                    >
-                                                        {option.label}
-                                                        {option.priceChange > 0 && (
-                                                            <span className="text-xs ml-2 text-slate-500 opacity-70">
-                                                                (+₹{option.priceChange})
-                                                            </span>
-                                                        )}
-                                                    </button>
-                                                ))}
+                                                {field.options?.map((option) => {
+                                                    // Calculate display price for label
+                                                    let displayPrice = option.priceChange;
+                                                    if (!field.isPricingReference) {
+                                                        const referenceField = subCategory.questions.flatMap(s => s.fields).find(f => f.isPricingReference);
+                                                        const referenceValue = referenceField ? answers[referenceField.name]?.toString() : null;
+                                                        const tier = option.tieredPrices?.find(t => t.refValue === referenceValue);
+                                                        if (tier) displayPrice = tier.price;
+                                                    }
+
+                                                    return (
+                                                        <button
+                                                            key={option.value}
+                                                            onClick={() => setAnswers({ ...answers, [field.name]: option.value })}
+                                                            className={cn(
+                                                                "px-6 py-3 rounded-xl border-2 font-bold transition-all text-left",
+                                                                answers[field.name] === option.value
+                                                                    ? "border-sky-500 bg-sky-50 text-sky-600 shadow-sm"
+                                                                    : "border-slate-100 text-slate-400"
+                                                            )}
+                                                        >
+                                                            {option.label}
+                                                            {displayPrice > 0 && (
+                                                                <span className="text-xs ml-2 text-slate-500 opacity-70">
+                                                                    (+₹{displayPrice})
+                                                                </span>
+                                                            )}
+                                                        </button>
+                                                    );
+                                                })}
                                             </div>
                                         )}
                                     </div>
