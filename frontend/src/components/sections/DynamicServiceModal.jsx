@@ -48,19 +48,22 @@ export default function DynamicServiceModal({ isOpen, onClose, subCategory, onCo
         // 3b. Calculate based on selections and tiers
         subCategory.questions.forEach(step => {
             step.fields.forEach(field => {
-                if (field.isPricingReference) return;
-
                 const selectedValue = answers[field.name];
                 const option = field.options?.find(opt => opt.value === selectedValue);
 
                 if (option) {
-                    // Check for a tiered price matching the reference value
-                    const tier = option.tieredPrices?.find(t => t.refValue === referenceValue);
-                    if (tier) {
-                        additionalPrice += tier.price;
-                    } else if (option.priceChange) {
-                        // Fallback to base price change
-                        additionalPrice += option.priceChange;
+                    if (field.isPricingReference) {
+                        // Add the reference field's own base price change
+                        additionalPrice += (option.priceChange || 0);
+                    } else {
+                        // Check for a tiered price matching the reference value
+                        const tier = option.tieredPrices?.find(t => t.refValue === referenceValue);
+                        if (tier) {
+                            additionalPrice += tier.price;
+                        } else if (option.priceChange) {
+                            // Fallback to base price change
+                            additionalPrice += option.priceChange;
+                        }
                     }
                 }
             });
