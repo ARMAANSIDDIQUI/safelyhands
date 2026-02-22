@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Edit, Search, Trash2, Layers, ArrowUpRight, Plus } from 'lucide-react';
 import { toast } from 'sonner';
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 import { getToken } from '@/lib/auth';
 
@@ -11,6 +12,8 @@ export default function AdminSubCategoriesPage() {
     const [subcategories, setSubcategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
 
     useEffect(() => {
         fetchSubcategories();
@@ -52,24 +55,11 @@ export default function AdminSubCategoriesPage() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("Are you sure you want to delete this subcategory?")) return;
-
-        // Note: DELETE endpoint might need to be verified or implemented if not standard
-        // Currently using serviceController's deleteSubCategory if it exists or generic delete
-        // But wait, subcategory deletion usually happens via parent service update or specific endpoint
-        // Let's assume a DELETE /api/subcategories/:id exists or we need to add it.
-        // The serviceController has `updateSubCategory` and `createSubCategory`. 
-        // It DOES NOT have `deleteSubCategory` exported in the list I saw earlier!
-        // I need to add delete capability to backend first? 
-        // Or I can just hide delete button for now if not ready.
-        // Actually, deleting a subdoc from a parent array is tricky without parent ID.
-        // But `SubCategory` is a separate model now. So `SubCategory.findByIdAndDelete` works.
-        // I need to add `deleteSubCategory` to backend.
-
-        // TEMPORARY: Just show toast that it's coming soon or try to call it
+    const handleDelete = async () => {
+        if (!deletingId) return;
+        setLoading(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subcategories/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subcategories/${deletingId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${getToken()}`
@@ -79,6 +69,7 @@ export default function AdminSubCategoriesPage() {
             if (res.ok) {
                 toast.success("Subcategory deleted");
                 fetchSubcategories();
+                setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete (Backend implementation needed)");
             }
@@ -176,8 +167,8 @@ export default function AdminSubCategoriesPage() {
                                         <button
                                             onClick={() => toggleStatus(sub._id, sub.isActive !== false)}
                                             className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${sub.isActive !== false
-                                                    ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                                                    : 'bg-red-100 text-red-700 hover:bg-red-200'
+                                                ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                                                : 'bg-red-100 text-red-700 hover:bg-red-200'
                                                 }`}
                                         >
                                             {sub.isActive !== false ? 'Active' : 'Inactive'}
@@ -195,7 +186,10 @@ export default function AdminSubCategoriesPage() {
                                                 <Edit size={18} />
                                             </Link>
                                             <button
-                                                onClick={() => handleDelete(sub._id)}
+                                                onClick={() => {
+                                                    setDeletingId(sub._id);
+                                                    setIsDeleteDialogOpen(true);
+                                                }}
                                                 className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors"
                                             >
                                                 <Trash2 size={18} />
@@ -208,6 +202,16 @@ export default function AdminSubCategoriesPage() {
                     </table>
                 </div>
             </div>
+
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Delete Subcategory"
+                description="Are you sure you want to delete this subcategory? This action cannot be undone."
+                confirmText="Delete"
+                loading={loading}
+            />
         </div>
     );
 }

@@ -10,7 +10,7 @@ const attendanceSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-// Prevent duplicate attendance for same worker, booking, and date
-attendanceSchema.index({ booking: 1, worker: 1, date: 1 }, { unique: true });
+// Prevent duplicate attendance for same booking and date
+attendanceSchema.index({ booking: 1, date: 1 }, { unique: true });
 
 module.exports = mongoose.models.Attendance || mongoose.model('Attendance', attendanceSchema);

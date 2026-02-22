@@ -96,7 +96,8 @@ export default function AttendancePage() {
                     booking: selectedBooking._id,
                     status,
                     date: calendarDate
-                })
+                }),
+                cache: 'no-store'
             });
 
             const data = await res.json();
@@ -165,7 +166,13 @@ export default function AttendancePage() {
 
     // Get attendance status for a specific date
     const getDateStatus = (date) => {
-        const record = history.find(h => isSameDay(new Date(h.date), date));
+        if (!history || history.length === 0) return null;
+
+        const dateStr = new Date(date).toISOString().split('T')[0];
+        const record = history.find(h => {
+            const hDateStr = new Date(h.date).toISOString().split('T')[0];
+            return hDateStr === dateStr;
+        });
         return record ? record.status : null;
     };
 
@@ -277,7 +284,7 @@ export default function AttendancePage() {
                             </Badge>
                         </CardTitle>
                         <CardDescription>
-                            {format(calendarDate, "EEEE, MMMM do, yyyy")}
+                            {format(calendarDate, "EEEE, dd-MM-yyyy")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -350,7 +357,7 @@ export default function AttendancePage() {
                                                 Marked as {dateStatus === 'present' ? 'Present' : 'Absent'}
                                             </h4>
                                             <p className="text-sm text-muted-foreground mb-4">
-                                                Attendance for {format(calendarDate, "MMM do")} has been recorded.
+                                                Attendance for {format(calendarDate, "dd-MM-yyyy")} has been recorded.
                                             </p>
 
                                             {isAdmin && (
@@ -386,7 +393,7 @@ export default function AttendancePage() {
                                 return (
                                     <div className="space-y-4">
                                         <p className="text-sm text-slate-600">
-                                            Was <strong>{selectedBooking?.assignedWorker?.name}</strong> present on {format(calendarDate, "MMM do")}?
+                                            Was <strong>{selectedBooking?.assignedWorker?.name}</strong> present on {format(calendarDate, "dd-MM-yyyy")}?
                                         </p>
                                         <div className="flex gap-4">
                                             <Button
@@ -438,7 +445,7 @@ export default function AttendancePage() {
                         <div className="flex justify-between items-center pb-2 border-b">
                             <span className="text-sm text-slate-500">Start Date</span>
                             <span className="font-medium">
-                                {selectedBooking?.startDate ? format(new Date(selectedBooking.startDate), 'MMM d, yyyy') : 'N/A'}
+                                {selectedBooking?.startDate ? format(new Date(selectedBooking.startDate), 'dd-MM-yyyy') : 'N/A'}
                             </span>
                         </div>
                         <div className="flex justify-between items-center pb-2 border-b">
@@ -446,7 +453,7 @@ export default function AttendancePage() {
                                 {selectedBooking?.frequency === 'Daily' ? 'Renews On' : 'End Date'}
                             </span>
                             <span className="font-medium">
-                                {selectedBooking?.endDate ? format(new Date(selectedBooking.endDate), 'MMM d, yyyy') : 'N/A'}
+                                {selectedBooking?.endDate ? format(new Date(selectedBooking.endDate), 'dd-MM-yyyy') : 'N/A'}
                             </span>
                         </div>
 

@@ -11,7 +11,8 @@ const {
     deleteBooking,
     updateBooking,
     markAttendance,
-    getValidDates
+    getValidDates,
+    downloadBill
 } = require('../controllers/bookingController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
@@ -31,6 +32,8 @@ router.route('/:id')
     .get(protect, getBookingById)
     .put(protect, admin, updateBookingStatus)
     .delete(protect, deleteBooking);
+
+router.route('/:id/download-bill').get(protect, downloadBill);
 
 router.route('/:id/status').put(protect, admin, updateBookingStatus);
 

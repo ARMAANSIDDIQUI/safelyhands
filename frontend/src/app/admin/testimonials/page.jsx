@@ -32,6 +32,7 @@ import {
 import { Plus, Pencil, Trash2, Loader2, Star } from "lucide-react";
 import ImageUpload from "@/components/ui/image-upload";
 import Image from "next/image";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function TestimonialsAdmin() {
     const { user } = useAuth();
@@ -40,6 +41,8 @@ export default function TestimonialsAdmin() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
 
     const [form, setForm] = useState({
         name: "",
@@ -106,11 +109,12 @@ export default function TestimonialsAdmin() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("Are you sure you want to delete this testimonial?")) return;
+    const handleDelete = async () => {
+        if (!deletingId) return;
+        setSubmitting(true);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/${deletingId}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${user?.token}` }
             });
@@ -118,11 +122,14 @@ export default function TestimonialsAdmin() {
             if (res.ok) {
                 toast.success("Testimonial deleted");
                 fetchTestimonials();
+                setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete");
             }
         } catch (error) {
             toast.error("An error occurred");
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -318,7 +325,10 @@ export default function TestimonialsAdmin() {
                                             <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
                                                 <Pencil className="h-4 w-4 text-slate-500" />
                                             </Button>
-                                            <Button variant="ghost" size="icon" onClick={() => handleDelete(item._id)}>
+                                            <Button variant="ghost" size="icon" onClick={() => {
+                                                setDeletingId(item._id);
+                                                setIsDeleteDialogOpen(true);
+                                            }}>
                                                 <Trash2 className="h-4 w-4 text-red-500" />
                                             </Button>
                                         </div>
@@ -329,6 +339,16 @@ export default function TestimonialsAdmin() {
                     </TableBody>
                 </Table>
             </div>
+
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Delete Testimonial"
+                description="Are you sure you want to delete this testimonial? This action cannot be undone."
+                confirmText="Delete"
+                loading={submitting}
+            />
         </div>
     );
 }

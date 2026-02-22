@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Check, X, Eye, Loader2, Calendar as CalendarIcon, MapPin, Search, Pencil, Trash2, Clock, History, FileText, RefreshCcw } from "lucide-react";
+import { Check, X, Eye, Loader2, Calendar as CalendarIcon, MapPin, Search, Pencil, Trash2, Clock, History, FileText, RefreshCcw, Download, FileSpreadsheet } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
+import { isSameDay } from "date-fns";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 
@@ -77,8 +78,9 @@ export default function AdminBookings() {
     const fetchAvailability = async (booking) => {
         try {
             const token = getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers/availability?date=${booking.date}&time=${booking.time}&frequency=${booking.frequency}`, {
-                headers: { "Authorization": `Bearer ${token}` }
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/workers/availability?date=${booking.date}&time=${booking.time}&frequency=${booking.frequency}&t=${Date.now()}`, {
+                headers: { "Authorization": `Bearer ${token}` },
+                cache: 'no-store'
             });
             const data = await res.json();
             if (Array.isArray(data)) {
@@ -128,11 +130,12 @@ export default function AdminBookings() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
+            const token = getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${editingBooking._id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user?.token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(editFormData)
             });
@@ -164,11 +167,12 @@ export default function AdminBookings() {
         }
 
         try {
+            const token = getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}/assign`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user?.token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({ workerId })
             });
@@ -187,11 +191,12 @@ export default function AdminBookings() {
 
     const handleStatusUpdate = async (bookingId, status, paymentStatus) => {
         try {
+            const token = getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}/status`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user?.token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({ status, paymentStatus })
             });
@@ -216,30 +221,99 @@ export default function AdminBookings() {
 
     const handleAttendanceUpdate = async (bookingId, attendanceStatus, date) => {
         try {
+            const token = getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}/attendance`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user?.token}`
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ attendanceStatus, date })
+                body: JSON.stringify({ attendanceStatus, date }),
+                cache: 'no-store'
             });
 
             if (res.ok) {
+                const data = await res.json();
                 toast.success(`Attendance marked`);
+
+                // 1. Optimistic/Immediate update in Redux
+                if (data.booking) {
+                    dispatch({ type: 'bookings/updateBookingInAdmin', payload: data.booking });
+                }
+
+                // 2. Background refresh
                 dispatch(invalidateAdminBookings());
                 dispatch(fetchAllBookings());
             } else {
-                throw new Error("Failed to update attendance");
+                const errData = await res.json();
+                throw new Error(errData.message || "Failed to update attendance");
             }
         } catch (error) {
-            toast.error("Failed to update attendance");
+            console.error(`[DEBUG] Attendance Error:`, error);
+            toast.error(error.message || "Failed to update attendance");
+        }
+    };
+
+    const handleDownloadBill = async (bookingId) => {
+        try {
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}/download-bill`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!res.ok) throw new Error("Failed to download bill");
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Bill_${bookingId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toast.success("Bill downloaded!");
+        } catch (error) {
+            console.error("Download error:", error);
+            toast.error("Failed to download bill");
+        }
+    };
+
+    const handleDownloadAttendance = async (bookingId, type) => {
+        try {
+            const token = getToken();
+            const endpoint = type === 'pdf' ? 'download-pdf' : 'download-csv';
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/booking/${bookingId}/${endpoint}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!res.ok) throw new Error(`Failed to download attendance ${type}`);
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Attendance_${bookingId}.${type}`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toast.success(`Attendance ${type.toUpperCase()} downloaded!`);
+        } catch (error) {
+            console.error("Download error:", error);
+            toast.error(`Failed to download attendance ${type}`);
         }
     };
 
     const getDailyAttendanceStatus = (booking) => {
-        const today = new Date().toLocaleDateString();
-        const todayLog = booking.attendanceLogs?.find(log => new Date(log.date).toLocaleDateString() === today);
+        if (!booking.attendanceLogs || booking.attendanceLogs.length === 0) return 'not_marked';
+
+        // Use YYYY-MM-DD for robust comparison across timezones
+        const todayStr = new Date().toISOString().split('T')[0];
+
+        const todayLog = booking.attendanceLogs.find(log => {
+            const logDateStr = new Date(log.date).toISOString().split('T')[0];
+            return logDateStr === todayStr;
+        });
+
         return todayLog?.status || 'not_marked';
     };
 
@@ -371,7 +445,7 @@ export default function AdminBookings() {
                                         </td>
                                         <td className="p-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                                                ${booking.status === 'completed' ? 'bg-green-100 text-green-800' :
+                                                    ${booking.status === 'completed' ? 'bg-green-100 text-green-800' :
                                                     booking.status === 'approved' ? 'bg-blue-100 text-blue-800' :
                                                         booking.status === 'cancelled' || booking.status === 'rejected' ? 'bg-red-100 text-red-800' :
                                                             'bg-amber-100 text-amber-800'}`}>
@@ -381,7 +455,7 @@ export default function AdminBookings() {
                                         <td className="p-4">
                                             <div className="flex flex-col gap-1">
                                                 <span className={`inline-flex items-center w-fit px-2 py-0.5 rounded text-[10px] font-bold uppercase
-                                                    ${booking.paymentStatus === 'paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
+                                                        ${booking.paymentStatus === 'paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
                                                     {booking.paymentStatus || 'unpaid'}
                                                 </span>
                                                 <div className="flex gap-1">
@@ -421,7 +495,7 @@ export default function AdminBookings() {
                                                         return (
                                                             <div className="flex flex-col items-center gap-1">
                                                                 <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase
-                                                                    ${status === 'present' ? 'bg-emerald-100 text-emerald-700' :
+                                                                        ${status === 'present' ? 'bg-emerald-100 text-emerald-700' :
                                                                         status === 'absent' ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-500'}`}>
                                                                     {status.replace('_', ' ')}
                                                                 </span>
@@ -462,14 +536,16 @@ export default function AdminBookings() {
                                                                 className="rounded-md border shadow-sm mx-auto"
                                                                 modifiers={{
                                                                     present: (date) => {
+                                                                        const dateStr = date.toISOString().split('T')[0];
                                                                         const log = booking.attendanceLogs?.find(l =>
-                                                                            new Date(l.date).toDateString() === date.toDateString()
+                                                                            new Date(l.date).toISOString().split('T')[0] === dateStr
                                                                         );
                                                                         return log?.status === 'present';
                                                                     },
                                                                     absent: (date) => {
+                                                                        const dateStr = date.toISOString().split('T')[0];
                                                                         const log = booking.attendanceLogs?.find(l =>
-                                                                            new Date(l.date).toDateString() === date.toDateString()
+                                                                            new Date(l.date).toISOString().split('T')[0] === dateStr
                                                                         );
                                                                         return log?.status === 'absent';
                                                                     }
@@ -489,6 +565,24 @@ export default function AdminBookings() {
                                                                     <span>Absent</span>
                                                                 </div>
                                                             </div>
+                                                            <div className="mt-4 pt-2 border-t flex flex-col gap-2">
+                                                                <Button
+                                                                    variant="outline"
+                                                                    size="sm"
+                                                                    className="h-7 text-[10px] text-red-600 border-red-100 hover:bg-red-50"
+                                                                    onClick={() => handleDownloadAttendance(booking._id, 'pdf')}
+                                                                >
+                                                                    <FileText size={10} className="mr-1" /> PDF Report
+                                                                </Button>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    size="sm"
+                                                                    className="h-7 text-[10px] text-emerald-600 border-emerald-100 hover:bg-emerald-50"
+                                                                    onClick={() => handleDownloadAttendance(booking._id, 'csv')}
+                                                                >
+                                                                    <FileSpreadsheet size={10} className="mr-1" /> CSV Data
+                                                                </Button>
+                                                            </div>
                                                         </PopoverContent>
                                                     </Popover>
                                                 </div>
@@ -507,7 +601,7 @@ export default function AdminBookings() {
                                                                     variant="outline"
                                                                     size="sm"
                                                                     className={`w-36 justify-between text-xs font-normal
-                                                                        ${workersWithAvailability[booking._id]?.find(w => w._id === selectedWorker[booking._id])?.isAvailable === false ? 'border-red-300 bg-red-50 text-red-700' : 'border-slate-200'}`}
+                                                                            ${workersWithAvailability[booking._id]?.find(w => w._id === selectedWorker[booking._id])?.isAvailable === false ? 'border-red-300 bg-red-50 text-red-700' : 'border-slate-200'}`}
                                                                     onMouseEnter={() => !workersWithAvailability[booking._id] && fetchAvailability(booking)}
                                                                 >
                                                                     <div className="flex items-center truncate">
@@ -542,8 +636,8 @@ export default function AdminBookings() {
                                                                                     setSearchTerm("");
                                                                                 }}
                                                                                 className={`w-full text-left px-3 py-2 text-xs rounded-md hover:bg-slate-50 flex items-center justify-between
-                                                                                    ${selectedWorker[booking._id] === w._id ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-700'}
-                                                                                    ${w.isAvailable === false ? 'opacity-60 bg-red-50/20' : ''}`}
+                                                                                        ${selectedWorker[booking._id] === w._id ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-700'}
+                                                                                        ${w.isAvailable === false ? 'opacity-60 bg-red-50/20' : ''}`}
                                                                             >
                                                                                 <div className="flex flex-col">
                                                                                     <span className="truncate">{w.name}</span>
@@ -595,6 +689,7 @@ export default function AdminBookings() {
                                                         Mark Done
                                                     </button>
                                                 )}
+
                                                 {/* View Details Button */}
                                                 <button
                                                     onClick={() => {
@@ -605,6 +700,15 @@ export default function AdminBookings() {
                                                     title="View Full Details"
                                                 >
                                                     <Eye size={16} />
+                                                </button>
+
+                                                {/* Download Bill */}
+                                                <button
+                                                    onClick={() => handleDownloadBill(booking._id)}
+                                                    className="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 border border-emerald-100"
+                                                    title="Download Bill"
+                                                >
+                                                    <Download size={16} />
                                                 </button>
 
                                                 {/* Edit Button */}
@@ -873,6 +977,6 @@ export default function AdminBookings() {
                 confirmText="Delete Permanently"
                 loading={isLoading}
             />
-        </div >
+        </div>
     );
 }

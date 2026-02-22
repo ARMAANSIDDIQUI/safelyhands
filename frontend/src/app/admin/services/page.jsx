@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Edit, Plus, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 import { getToken } from '@/lib/auth';
 
@@ -11,6 +12,8 @@ export default function AdminServicesPage() {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
 
     useEffect(() => {
         fetchServices();
@@ -30,20 +33,22 @@ export default function AdminServicesPage() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("Are you sure you want to delete this service?")) return;
+    const handleDelete = async () => {
+        if (!deletingId) return;
+        setLoading(true);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/${deletingId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${getToken()}` // Assuming token is here
+                    'Authorization': `Bearer ${getToken()}`
                 }
             });
 
             if (res.ok) {
-                toast.success("Service deleted");
+                toast.success("Service and all associated data deleted");
                 fetchServices();
+                setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete service");
             }
@@ -135,7 +140,13 @@ export default function AdminServicesPage() {
                                             <Link href={`/admin/services/${service._id}`} className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-500 rounded-lg transition-colors">
                                                 <Edit size={18} />
                                             </Link>
-                                            <button onClick={() => handleDelete(service._id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors">
+                                            <button
+                                                onClick={() => {
+                                                    setDeletingId(service._id);
+                                                    setIsDeleteDialogOpen(true);
+                                                }}
+                                                className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors"
+                                            >
                                                 <Trash2 size={18} />
                                             </button>
                                         </div>
@@ -146,6 +157,16 @@ export default function AdminServicesPage() {
                     </table>
                 </div>
             </div>
+
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Delete Service"
+                description="CAUTION: This will PERMANENTLY delete this service along with ALL associated subcategories, bookings, and attendance records. This action cannot be undone."
+                confirmText="Delete Everything"
+                loading={loading}
+            />
         </div>
     );
 }

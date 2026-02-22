@@ -24,7 +24,7 @@ const bookingSchema = new mongoose.Schema({
     attendanceLogs: [{
         date: { type: Date, required: true },
         status: { type: String, enum: ['present', 'absent', 'not_marked'], default: 'not_marked' },
-        markedBy: { type: String, enum: ['admin', 'user'], default: 'admin' }
+        markedBy: { type: String, enum: ['admin', 'user', 'worker'], default: 'admin' }
     }],
     assignedWorker: { type: mongoose.Schema.Types.ObjectId, ref: 'Worker' },
     startDate: { type: Date },

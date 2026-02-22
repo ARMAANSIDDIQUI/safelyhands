@@ -1,4 +1,7 @@
 const Booking = require('../models/Booking');
+const Attendance = require('../models/Attendance');
+const mongoose = require('mongoose');
+const PDFDocument = require('pdfkit');
 
 // @desc    Create new booking
 // @route   POST /api/bookings
@@ -243,8 +246,15 @@ const deleteBooking = async (req, res) => {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
+        // Cascade delete associated attendance records
+        const attendanceDeleteResult = await Attendance.deleteMany({ booking: req.params.id });
+        console.log(`[CASCADE DELETE] Removed ${attendanceDeleteResult.deletedCount} attendance records for booking ${req.params.id}`);
+
         await Booking.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Booking removed' });
+        res.json({
+            message: 'Booking and associated attendance records removed',
+            deletedAttendanceCount: attendanceDeleteResult.deletedCount
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -306,10 +316,23 @@ const updateBooking = async (req, res) => {
 const markAttendance = async (req, res) => {
     try {
         const { attendanceStatus, date } = req.body;
-        const booking = await Booking.findById(req.params.id);
+        const bookingId = req.params.id;
+
+        if (!bookingId || bookingId === 'undefined' || !mongoose.Types.ObjectId.isValid(bookingId)) {
+            return res.status(400).json({ message: 'Invalid or missing Booking ID' });
+        }
+
+        const booking = await Booking.findById(bookingId);
 
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Ensure a worker is assigned (needed for Attendance record)
+        if (!booking.assignedWorker) {
+            return res.status(400).json({
+                message: 'No worker is assigned to this booking. Please assign a worker first.'
+            });
         }
 
         // Check if admin or the user who created the booking
@@ -318,30 +341,65 @@ const markAttendance = async (req, res) => {
         }
 
         const logDate = date ? new Date(date) : new Date();
-        logDate.setHours(0, 0, 0, 0);
+        logDate.setUTCHours(0, 0, 0, 0); // Normalize to UTC Date
 
+        // 1. Create or Update in Attendance Collection (Primary source for history)
+        const attendanceRecord = await Attendance.findOneAndUpdate(
+            {
+                booking: booking._id,
+                date: logDate
+            },
+            {
+                status: attendanceStatus || 'present',
+                markedBy: req.user._id,
+                worker: booking.assignedWorker,
+                user: booking.user
+            },
+            { upsert: true, new: true, runValidators: true }
+        );
+        console.log(`[DEBUG] Attendance record updated: ${attendanceRecord._id}`);
+
+        // 2. Sync with Booking.attendanceLogs (For redundancy/stats)
         if (!booking.attendanceLogs) booking.attendanceLogs = [];
 
         const logIndex = booking.attendanceLogs.findIndex(log => {
-            const d = new Date(log.date);
-            d.setHours(0, 0, 0, 0);
-            return d.getTime() === logDate.getTime();
+            if (!log.date) return false;
+            const dStr = new Date(log.date).toISOString().split('T')[0];
+            const targetStr = logDate.toISOString().split('T')[0];
+            return dStr === targetStr;
         });
 
+        console.log(`[DEBUG] Found logIndex: ${logIndex} for date ${logDate.toISOString()}`);
+
+        const logStatus = attendanceStatus || 'present';
+        const logRole = req.user.role === 'admin' ? 'admin' : (req.user.role === 'worker' ? 'worker' : 'user');
+
         if (logIndex > -1) {
-            booking.attendanceLogs[logIndex].status = attendanceStatus || booking.attendanceLogs[logIndex].status;
-            booking.attendanceLogs[logIndex].markedBy = req.user.role === 'admin' ? 'admin' : 'user';
+            console.log(`[DEBUG] Updating existing log at index ${logIndex} to status ${logStatus}`);
+            booking.attendanceLogs[logIndex].status = logStatus;
+            booking.attendanceLogs[logIndex].markedBy = logRole;
         } else {
+            console.log(`[DEBUG] Pushing new log for date ${logDate.toISOString()} with status ${logStatus}`);
             booking.attendanceLogs.push({
                 date: logDate,
-                status: attendanceStatus || 'not_marked',
-                markedBy: req.user.role === 'admin' ? 'admin' : 'user'
+                status: logStatus,
+                markedBy: logRole
             });
         }
 
+        // CRITICAL: Mongoose needs this to detect subdocument changes in arrays
+        booking.markModified('attendanceLogs');
         const updatedBooking = await booking.save();
-        res.json(updatedBooking);
+
+        console.log(`[DEBUG] Save successful. New logs count: ${updatedBooking.attendanceLogs.length}`);
+
+        res.json({
+            message: 'Attendance marked',
+            booking: updatedBooking,
+            record: attendanceRecord
+        });
     } catch (error) {
+        console.error('Error in bookingController.markAttendance:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -358,10 +416,10 @@ const getValidDates = async (req, res) => {
 
         const validDates = [];
         let current = new Date(booking.startDate || booking.date);
-        current.setHours(0, 0, 0, 0);
+        current.setUTCHours(0, 0, 0, 0);
 
         const end = booking.endDate ? new Date(booking.endDate) : new Date(current);
-        end.setHours(0, 0, 0, 0);
+        end.setUTCHours(0, 0, 0, 0);
 
         if (booking.frequency === 'One-time') {
             validDates.push(new Date(current));
@@ -386,6 +444,147 @@ const getValidDates = async (req, res) => {
     }
 };
 
+// @desc    Download Bill as PDF
+// @route   GET /api/bookings/:id/download-bill
+// @access  Private
+const downloadBill = async (req, res) => {
+    try {
+        const path = require('path');
+        const fs = require('fs');
+        const booking = await Booking.findById(req.params.id)
+            .populate('user', 'name email phone')
+            .populate('items.subCategory', 'name');
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Check ownership or admin
+        if (req.user.role !== 'admin' && booking.user._id.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        const doc = new PDFDocument({ margin: 50, size: 'A4' });
+        const filename = `Bill_${booking._id}.pdf`;
+
+        res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-type', 'application/pdf');
+
+        doc.pipe(res);
+
+        const colors = {
+            primary: '#2563eb', // SafelyHands Blue
+            text: '#1e293b',
+            secondary: '#64748b',
+            light: '#f8fafc',
+            border: '#e2e8f0'
+        };
+
+        // --- Header Section ---
+        const logoPath = path.join(__dirname, '../../frontend/public/headerlogo.png');
+        if (fs.existsSync(logoPath)) {
+            doc.image(logoPath, 50, 45, { width: 120 });
+        } else {
+            doc.fontSize(20).fillColor(colors.primary).text('SafelyHands', 50, 50, { bold: true });
+        }
+
+        doc.fillColor(colors.text).fontSize(10)
+            .text('SafelyHands Services Pvt Ltd', 350, 50, { align: 'right' })
+            .text('Near Sai mandir Ramganga vihar', 350, 65, { align: 'right' })
+            .text('MDA Moradabad 244001', 350, 80, { align: 'right' })
+            .text('safelyhands@gmail.com', 350, 95, { align: 'right' })
+            .text('+91 8218303038 / 7618341297', 350, 110, { align: 'right' });
+
+        doc.moveTo(50, 130).lineTo(550, 130).strokeColor(colors.border).stroke();
+
+        // --- Invoice Title & Details ---
+        doc.moveDown(1.5);
+        doc.fillColor(colors.primary).fontSize(22).text('INVOICE', 50, 145);
+
+        doc.fillColor(colors.text).fontSize(9);
+        doc.text(`Invoice No: INV-${booking._id.toString().slice(-6).toUpperCase()}`, 50, 175);
+        doc.text(`Date: ${new Date(booking.createdAt).toLocaleDateString()}`, 50, 188);
+        doc.text(`Frequency: ${booking.frequency}`, 50, 201);
+
+        // --- Billing To Details ---
+        doc.fillColor(colors.secondary).fontSize(9).text('BILL TO:', 350, 175);
+        doc.fillColor(colors.text).fontSize(11).text(booking.user.name, 350, 188, { bold: true });
+        doc.fontSize(9).text(booking.user.phone, 350, 201);
+        doc.fontSize(9).text(booking.address, 350, 214, { width: 200 });
+
+        // --- Service Details Table Header ---
+        const tableTop = 260;
+        doc.rect(50, tableTop, 500, 25).fill(colors.light);
+        doc.fillColor(colors.primary).fontSize(10).text('Service & Sub-Category', 60, tableTop + 8);
+        doc.text('Details', 220, tableTop + 8);
+        doc.text('Qty', 420, tableTop + 8, { width: 30, align: 'center' });
+        doc.text('Amount', 470, tableTop + 8, { width: 80, align: 'right' });
+
+        // --- Table Content ---
+        let currentY = tableTop + 30;
+        booking.items.forEach((item, index) => {
+            const itemHeight = 40; // Base height
+
+            // Check for page break
+            if (currentY > 700) {
+                doc.addPage();
+                currentY = 50;
+            }
+
+            doc.fillColor(colors.text).fontSize(10).text(`${index + 1}. ${item.subCategory?.name || 'Service'}`, 60, currentY, { bold: true });
+
+            // Details (Answers)
+            if (item.answers) {
+                const answers = item.answers.toJSON ? item.answers.toJSON() : item.answers;
+                const answerText = Object.entries(answers)
+                    .map(([k, v]) => `${k.replace(/([A-Z])/g, ' $1')}: ${v}`)
+                    .join(', ');
+                doc.fillColor(colors.secondary).fontSize(9).text(answerText, 220, currentY, { width: 180 });
+            }
+
+            doc.fillColor(colors.text).fontSize(10).text(item.quantity.toString(), 420, currentY, { width: 30, align: 'center' });
+            doc.text(`Rs. ${item.price}`, 470, currentY, { width: 70, align: 'right' });
+
+            currentY += 45;
+            doc.moveTo(50, currentY - 5).lineTo(550, currentY - 5).strokeColor(colors.border).lineWidth(0.5).stroke();
+        });
+
+        // --- Totals Section ---
+        currentY += 10;
+        doc.fillColor(colors.secondary).fontSize(12).text('Total Amount:', 350, currentY);
+        doc.fillColor(colors.primary).fontSize(16).text(`Rs. ${booking.totalAmount}`, 450, currentY, { width: 100, align: 'right', bold: true });
+
+        // --- Status Banner ---
+        currentY += 40;
+        const statusColor = booking.paymentStatus === 'paid' ? '#10b981' : '#ef4444';
+        doc.rect(50, currentY, 500, 40).fill('#f1f5f9');
+        doc.fillColor(statusColor).fontSize(14).text(`Payment Status: ${booking.paymentStatus.toUpperCase()}`, 60, currentY + 13, { bold: true });
+        doc.fillColor(colors.secondary).fontSize(10).text(`Booking: ${booking.status.toUpperCase()}`, 350, currentY + 15, { align: 'right' });
+
+        // --- Verification Stamp ---
+        if (booking.paymentStatus === 'paid') {
+            doc.save()
+                .translate(450, 650)
+                .rotate(-20)
+                .fillColor('#10b981', 0.2)
+                .fontSize(40)
+                .text('PAID', 0, 0, { stroke: true })
+                .restore();
+        }
+
+        // --- Footer ---
+        const footerY = 780;
+        doc.fontSize(8).fillColor(colors.secondary).text('This is a computer-generated invoice and does not require a signature.', 50, footerY, { align: 'center', width: 500 });
+        doc.text('Thank you for choosing SafelyHands!', 50, footerY + 12, { align: 'center', width: 500 });
+
+        doc.end();
+
+    } catch (error) {
+        console.error('Error generating bill PDF:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     createBooking,
     getMyBookings,
@@ -397,5 +596,6 @@ module.exports = {
     deleteBooking,
     updateBooking,
     markAttendance,
-    getValidDates
+    getValidDates,
+    downloadBill
 };

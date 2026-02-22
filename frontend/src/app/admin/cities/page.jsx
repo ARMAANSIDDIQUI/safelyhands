@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, X, Check, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 import { getToken } from '@/lib/auth';
 
@@ -12,6 +13,8 @@ export default function AdminCitiesPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentCity, setCurrentCity] = useState(null); // null for new, object for edit
     const [formData, setFormData] = useState({ name: '', slug: '', icon: '', isActive: true });
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
 
     useEffect(() => {
         fetchCities();
@@ -62,11 +65,11 @@ export default function AdminCitiesPage() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("Are you sure you want to delete this city?")) return;
-
+    const handleDelete = async () => {
+        if (!deletingId) return;
+        setLoading(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cities/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cities/${deletingId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${getToken()}`
@@ -76,6 +79,7 @@ export default function AdminCitiesPage() {
             if (res.ok) {
                 toast.success("City deleted");
                 fetchCities();
+                setIsDeleteDialogOpen(false);
             } else {
                 toast.error("Failed to delete");
             }
@@ -155,7 +159,13 @@ export default function AdminCitiesPage() {
                                             <button onClick={() => openModal(city)} className="p-2 hover:bg-blue-50 text-slate-400 hover:text-blue-500 rounded-lg transition-colors">
                                                 <Edit size={18} />
                                             </button>
-                                            <button onClick={() => handleDelete(city._id)} className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors">
+                                            <button
+                                                onClick={() => {
+                                                    setDeletingId(city._id);
+                                                    setIsDeleteDialogOpen(true);
+                                                }}
+                                                className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors"
+                                            >
                                                 <Trash2 size={18} />
                                             </button>
                                         </div>
@@ -227,6 +237,16 @@ export default function AdminCitiesPage() {
                     </div>
                 </div>
             )}
+
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Delete City"
+                description="Are you sure you want to delete this city? This action cannot be undone."
+                confirmText="Delete"
+                loading={loading}
+            />
         </div>
     );
 }

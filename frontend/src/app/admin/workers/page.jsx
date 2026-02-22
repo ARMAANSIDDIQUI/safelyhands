@@ -269,7 +269,7 @@ export default function AdminWorkers() {
                 onOpenChange={setIsDeleteDialogOpen}
                 onConfirm={handleDelete}
                 title="Delete Worker"
-                description="Are you sure you want to delete this team member? This action cannot be undone."
+                description="Are you sure you want to delete this team member? This will also PERMANENTLY delete all of their historical attendance records. This action cannot be undone."
                 confirmText="Delete"
                 loading={loading}
             />

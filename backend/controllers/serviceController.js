@@ -1,4 +1,7 @@
 const Service = require('../models/Service');
+const Booking = require('../models/Booking');
+const Attendance = require('../models/Attendance');
+const SubCategory = require('../models/SubCategory');
 
 // @desc    Get all services
 // @route   GET /api/services
@@ -128,8 +131,35 @@ const deleteService = async (req, res) => {
         const service = await Service.findById(req.params.id);
 
         if (service) {
+            // 1. Delete associated SubCategories
+            const subCatResult = await SubCategory.deleteMany({ service: service._id });
+            console.log(`[CASCADE DELETE] Removed ${subCatResult.deletedCount} subcategories for service ${service.title}`);
+
+            // 2. Identify and delete associated Bookings
+            // Note: Booking schema stores serviceType as a string (title), but we should also check by subCategory references if possible.
+            // For now, we'll use the service title as is done elsewhere in the app.
+            const bookings = await Booking.find({ serviceType: service.title });
+            const bookingIds = bookings.map(b => b._id);
+
+            // 3. Delete attendance for these bookings
+            const attendanceResult = await Attendance.deleteMany({ booking: { $in: bookingIds } });
+            console.log(`[CASCADE DELETE] Removed ${attendanceResult.deletedCount} attendance records for service ${service.title}`);
+
+            // 4. Delete the bookings themselves
+            const bookingResult = await Booking.deleteMany({ _id: { $in: bookingIds } });
+            console.log(`[CASCADE DELETE] Removed ${bookingResult.deletedCount} bookings for service ${service.title}`);
+
+            // 5. Delete the service
             await service.deleteOne();
-            res.json({ message: 'Service removed' });
+
+            res.json({
+                message: 'Service and all associated data (subcategories, bookings, attendance) removed',
+                deletedCount: {
+                    subCategories: subCatResult.deletedCount,
+                    bookings: bookingResult.deletedCount,
+                    attendance: attendanceResult.deletedCount
+                }
+            });
         } else {
             res.status(404).json({ message: 'Service not found' });
         }
@@ -137,8 +167,6 @@ const deleteService = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
-const SubCategory = require('../models/SubCategory');
 
 // @desc    Get subcategories for a service
 // @route   GET /api/services/:id/subcategories
@@ -198,6 +226,10 @@ const deleteSubCategory = async (req, res) => {
     try {
         const subCategory = await SubCategory.findById(req.params.id);
         if (subCategory) {
+            // Note: A booking can contain multiple items. If we delete a subcategory,
+            // we should technically decide if we want to delete bookings containing it.
+            // However, usually subcategories are "deactivated" rather than deleted if they have bookings.
+            // For now, we'll just delete the subcategory as requested.
             await subCategory.deleteOne();
             res.json({ message: 'SubCategory removed' });
         } else {

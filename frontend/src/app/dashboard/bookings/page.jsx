@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Eye, Loader2, FileText, Pencil, Trash2, Calendar as CalendarIcon, Star, MessageSquare, Clock, MapPin, ArrowRight, User, CheckCircle2, RefreshCcw } from "lucide-react";
+import { Eye, Loader2, FileText, Pencil, Trash2, Calendar as CalendarIcon, Star, MessageSquare, Clock, MapPin, ArrowRight, User, CheckCircle2, RefreshCcw, Download, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
 import { Calendar } from "@/components/ui/calendar";
 
@@ -199,6 +199,55 @@ export default function MyBookingsPage() {
         }
     };
 
+    const handleDownloadBill = async (bookingId) => {
+        try {
+            const token = getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${bookingId}/download-bill`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!res.ok) throw new Error("Failed to download bill");
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Bill_${bookingId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toast.success("Bill downloaded!");
+        } catch (error) {
+            console.error("Download error:", error);
+            toast.error("Failed to download bill");
+        }
+    };
+
+    const handleDownloadAttendance = async (bookingId, type) => {
+        try {
+            const token = getToken();
+            const endpoint = type === 'pdf' ? 'download-pdf' : 'download-csv';
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/booking/${bookingId}/${endpoint}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!res.ok) throw new Error(`Failed to download attendance ${type}`);
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Attendance_${bookingId}.${type}`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toast.success(`Attendance ${type.toUpperCase()} downloaded!`);
+        } catch (error) {
+            console.error("Download error:", error);
+            toast.error(`Failed to download attendance ${type}`);
+        }
+    };
+
     // Filter Logic
     const filteredBookings = bookings.filter(booking => {
         if (activeTab === 'new') return booking.status === 'pending';
@@ -366,6 +415,10 @@ export default function MyBookingsPage() {
                                             <Link href={`/dashboard/bookings/${booking._id}`}>
                                                 <Eye className="mr-2 h-3 w-3" /> Details
                                             </Link>
+                                        </Button>
+
+                                        <Button size="sm" variant="outline" onClick={() => handleDownloadBill(booking._id)} className="text-emerald-700 border-emerald-200 bg-emerald-50 hover:bg-emerald-100">
+                                            <Download className="mr-2 h-3 w-3" /> Bill
                                         </Button>
 
                                         {booking.status === 'pending' && (
@@ -568,6 +621,25 @@ export default function MyBookingsPage() {
                                         <div className="w-3 h-3 rounded-full bg-blue-50 border border-blue-400"></div>
                                         <span>Scheduled</span>
                                     </div>
+                                </div>
+
+                                <div className="mt-6 pt-4 border-t w-full flex flex-col gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleDownloadAttendance(attendanceBooking._id, 'pdf')}
+                                        className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                                    >
+                                        <FileText className="mr-2 h-4 w-4" /> Download Attendance (PDF)
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleDownloadAttendance(attendanceBooking._id, 'csv')}
+                                        className="w-full justify-start text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+                                    >
+                                        <FileSpreadsheet className="mr-2 h-4 w-4" /> Download Attendance (CSV)
+                                    </Button>
                                 </div>
                             </div>
                         )}

@@ -31,7 +31,8 @@ export default function AdminLayout({ children }) {
 
     const navItems = [
         { href: "/admin", icon: LayoutDashboard, label: "Overview" },
-        { href: "/admin/bookings", icon: CalendarCheck, label: "Bookings & Attendance" },
+        { href: "/admin/bookings", icon: CalendarCheck, label: "Bookings" },
+        { href: "/admin/attendance", icon: CalendarCheck, label: "Attendance Reports" },
         { href: "/admin/services", icon: Briefcase, label: "Services" },
         { href: "/admin/subcategories", icon: Briefcase, label: "Subcategories" },
         { href: "/admin/cities", icon: MapPin, label: "Cities" },

@@ -1,4 +1,5 @@
 const Worker = require('../models/Worker');
+const Attendance = require('../models/Attendance');
 
 // @desc    Get all workers
 // @route   GET /api/workers
@@ -99,8 +100,15 @@ const deleteWorker = async (req, res) => {
         const worker = await Worker.findById(req.params.id);
 
         if (worker) {
+            // Cascade delete attendance records
+            const attendanceDeleteResult = await Attendance.deleteMany({ worker: req.params.id });
+            console.log(`[CASCADE DELETE] Removed ${attendanceDeleteResult.deletedCount} attendance records for worker ${req.params.id}`);
+
             await worker.deleteOne();
-            res.json({ message: 'Worker removed' });
+            res.json({
+                message: 'Worker and associated attendance records removed',
+                deletedAttendanceCount: attendanceDeleteResult.deletedCount
+            });
         } else {
             res.status(404).json({ message: 'Worker not found' });
         }
