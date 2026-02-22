@@ -142,10 +142,11 @@ const markAttendance = async (req, res) => {
             });
         }
 
-        const attendanceDate = date ? new Date(date) : new Date();
+        const nowIST_mark = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const attendanceDate = date ? new Date(date) : nowIST_mark;
         attendanceDate.setUTCHours(0, 0, 0, 0); // Normalize to UTC Date
         const targetStr = attendanceDate.toISOString().split('T')[0];
-        console.log(`[DEBUG] markAttendance (AttendanceController) date: ${targetStr}`);
+        console.log(`[DEBUG] markAttendance (AttendanceController) date: ${targetStr} (IST Today: ${nowIST_mark.toISOString().split('T')[0]})`);
 
         if (!isValidAttendanceDate(booking, attendanceDate)) {
             return res.status(400).json({
@@ -229,11 +230,9 @@ const getBookingAttendance = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized access to attendance logs' });
         }
 
-        const attendance = await Attendance.find({ booking: req.params.bookingId })
-            .sort({ date: -1 });
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const nowIST_get = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const today = new Date(nowIST_get);
+        today.setUTCHours(0, 0, 0, 0);
 
         // Merge synthetic "Absent" for missed past dates
         const validDates = getValidAttendanceDates(booking);
@@ -320,7 +319,8 @@ const getValidDates = async (req, res) => {
         // Get existing attendance records
         const attendanceRecords = await Attendance.find({ booking: req.params.bookingId });
 
-        const today = new Date();
+        const nowIST_valid = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const today = new Date(nowIST_valid);
         today.setUTCHours(0, 0, 0, 0);
 
         const markedDates = attendanceRecords.map(a => ({
@@ -380,7 +380,8 @@ const getMyBookingsWithAttendance = async (req, res) => {
             const validDates = getValidAttendanceDates(booking);
             const attendanceRecords = await Attendance.find({ booking: booking._id });
 
-            const today = new Date();
+            const nowIST_my = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+            const today = new Date(nowIST_my);
             today.setUTCHours(0, 0, 0, 0);
 
             // Filter valid dates that are NOT in the future
@@ -453,8 +454,8 @@ const downloadAttendancePDF = async (req, res) => {
         }
 
         // --- Synthesis Logic ---
-        const now = new Date();
-        const todayStr = now.toISOString().split('T')[0];
+        const nowIST_pdf = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const todayStr = nowIST_pdf.toISOString().split('T')[0];
         const validDates = getValidAttendanceDates(booking);
 
         // Match existing records
@@ -535,8 +536,8 @@ const downloadAttendancePDF = async (req, res) => {
 
         const historicalValidDates = getValidAttendanceDates(booking).filter(d => {
             const check = new Date(d);
-            check.setHours(0, 0, 0, 0);
-            return check.getTime() <= new Date().setHours(0, 0, 0, 0);
+            check.setUTCHours(0, 0, 0, 0);
+            return check.getTime() <= new Date(nowIST_pdf).setUTCHours(0, 0, 0, 0);
         });
 
         const present = attendance.filter(a => a.status === 'present').length;
@@ -634,8 +635,8 @@ const downloadAttendanceCSV = async (req, res) => {
         });
 
         // Synthesis Logic
-        const now = new Date();
-        const todayStr = now.toISOString().split('T')[0];
+        const nowIST_csv = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const todayStr = nowIST_csv.toISOString().split('T')[0];
         const validDates = getValidAttendanceDates(booking);
         const attendanceMap = new Map();
         attendance.forEach(a => attendanceMap.set(new Date(a.date).toISOString().split('T')[0], a));
@@ -681,11 +682,11 @@ const getAdminAttendance = async (req, res) => {
         const { workerId, serviceType, startDate, endDate } = req.query;
         let query = {};
 
-        // Parse date range
-        const now = new Date();
-        const start = startDate ? new Date(startDate) : new Date(now);
+        // Parse date range (Defaulting to "Today" in IST)
+        const nowIST_admin = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const start = startDate ? new Date(startDate) : nowIST_admin;
         start.setUTCHours(0, 0, 0, 0);
-        const end = endDate ? new Date(endDate) : new Date(now);
+        const end = endDate ? new Date(endDate) : nowIST_admin;
         end.setUTCHours(23, 59, 59, 999);
 
         // Define criteria for bookings to check
@@ -739,8 +740,7 @@ const getAdminAttendance = async (req, res) => {
         // Synthesize results
         let finalResults = [...existingAttendance];
         // Using +5:30 offset for India to correctly identify "Today"
-        const nowIST = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
-        const todayStr = nowIST.toISOString().split('T')[0];
+        const todayStr = nowIST_admin.toISOString().split('T')[0];
 
         activeBookings.forEach(booking => {
             const validDates = getValidAttendanceDates(booking);

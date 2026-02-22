@@ -306,8 +306,9 @@ export default function AdminBookings() {
     const getDailyAttendanceStatus = (booking) => {
         if (!booking.attendanceLogs || booking.attendanceLogs.length === 0) return 'not_marked';
 
-        // Use YYYY-MM-DD for robust comparison across timezones
-        const todayStr = new Date().toISOString().split('T')[0];
+        // Use IST (+5:30) for robust comparison across timezones
+        const nowIST = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const todayStr = nowIST.toISOString().split('T')[0];
 
         const todayLog = booking.attendanceLogs.find(log => {
             const logDateStr = new Date(log.date).toISOString().split('T')[0];
