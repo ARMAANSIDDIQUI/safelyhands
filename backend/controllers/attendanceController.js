@@ -738,7 +738,9 @@ const getAdminAttendance = async (req, res) => {
 
         // Synthesize results
         let finalResults = [...existingAttendance];
-        const todayStr = now.toISOString().split('T')[0];
+        // Using +5:30 offset for India to correctly identify "Today"
+        const nowIST = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
+        const todayStr = nowIST.toISOString().split('T')[0];
 
         activeBookings.forEach(booking => {
             const validDates = getValidAttendanceDates(booking);
@@ -748,8 +750,8 @@ const getAdminAttendance = async (req, res) => {
                     const vDateStr = vDate.toISOString().split('T')[0];
                     const key = `${booking._id}_${vDateStr}`;
 
-                    // If not already in real attendance AND it's a past date
-                    if (!attendanceMap.has(key) && vDateStr < todayStr) {
+                    // If not already in real attendance AND it's a today or past date
+                    if (!attendanceMap.has(key) && vDateStr <= todayStr) {
                         finalResults.push({
                             _id: `synthetic_${key}`,
                             booking: booking,

@@ -19,6 +19,7 @@ export default function AdminAttendancePage() {
     const { user } = useAuth();
     const [attendance, setAttendance] = useState([]);
     const [workers, setWorkers] = useState([]);
+    const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
         workerId: "",
@@ -40,6 +41,13 @@ export default function AdminAttendancePage() {
                 if (workersRes.ok) {
                     const data = await workersRes.json();
                     setWorkers(data);
+                }
+
+                // Fetch Services for dropdown
+                const servicesRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`);
+                if (servicesRes.ok) {
+                    const data = await servicesRes.json();
+                    setServices(data);
                 }
 
                 // Fetch attendance with the default "today" filters
@@ -242,10 +250,9 @@ export default function AdminAttendancePage() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Services</SelectItem>
-                                    <SelectItem value="cleaning">Cleaning</SelectItem>
-                                    <SelectItem value="cooking">Cooking</SelectItem>
-                                    <SelectItem value="care">Care</SelectItem>
-                                    <SelectItem value="all-rounder">All Rounder</SelectItem>
+                                    {services.map(service => (
+                                        <SelectItem key={service._id} value={service.title}>{service.title}</SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -331,7 +338,7 @@ export default function AdminAttendancePage() {
                                             </TableCell>
                                             <TableCell>
                                                 <div className="space-y-0.5">
-                                                    <div className="text-sm font-bold capitalize text-slate-700">{log.booking?.serviceType?.replace('-', ' ') || "N/A"}</div>
+                                                    <div className="text-sm font-bold capitalize text-slate-700">{log.booking?.serviceType || log.serviceType || "N/A"}</div>
                                                     <div className="flex items-center gap-1 text-[11px] text-slate-400">
                                                         <User size={10} /> {log.booking?.user?.name || log.user?.name || "Deleted Customer"}
                                                     </div>
