@@ -74,16 +74,16 @@ const isValidAttendanceDate = (booking, dateToCheck) => {
     const checkDate = new Date(dateToCheck);
     checkDate.setUTCHours(0, 0, 0, 0);
 
-    const today = new Date();
+    const today = getNowIST();
     today.setUTCHours(0, 0, 0, 0);
 
-    // Rule: Cannot mark for future dates
+    // Rule: Cannot mark for future dates (based on IST)
     if (checkDate.getTime() > today.getTime()) return false;
 
-    const startDate = new Date(booking.startDate || booking.date);
+    // Rule: Cannot mark before service starts (Standardized IST normalization)
+    const startDate = new Date(new Date(booking.startDate || booking.date).getTime() + (5.5 * 60 * 60 * 1000));
     startDate.setUTCHours(0, 0, 0, 0);
 
-    // Rule: Cannot mark before service starts
     if (checkDate.getTime() < startDate.getTime()) return false;
 
     const validDates = getValidAttendanceDates(booking);
@@ -99,16 +99,18 @@ const isServiceActive = (booking) => {
     if (booking.serviceStatus !== 'active') return false;
     if (booking.status === 'completed' || booking.status === 'rejected') return false;
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = getNowIST();
+    today.setUTCHours(0, 0, 0, 0);
 
-    const endDate = booking.endDate ? new Date(booking.endDate) : new Date(booking.date);
-    endDate.setHours(23, 59, 59, 999);
+    const endDateBase = booking.endDate ? new Date(booking.endDate) : new Date(booking.date);
+    const endDate = new Date(endDateBase.getTime() + (5.5 * 60 * 60 * 1000));
+    endDate.setUTCHours(23, 59, 59, 999);
 
     // For one-time, check if the date has passed
     if (booking.frequency === 'One-time') {
-        const bookingDate = new Date(booking.date);
-        bookingDate.setHours(23, 59, 59, 999);
+        const bookingDateBase = new Date(booking.date);
+        const bookingDate = new Date(bookingDateBase.getTime() + (5.5 * 60 * 60 * 1000));
+        bookingDate.setUTCHours(23, 59, 59, 999);
         return today <= bookingDate;
     }
 
