@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import DynamicServiceModal from "./DynamicServiceModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchServices, selectAllServices, selectServiceStatus } from "@/store/slices/serviceSlice";
+import ImageUpload from "@/components/ui/image-upload";
 
 export default function BookingWizard() {
     const { user } = useAuth();
@@ -44,6 +45,7 @@ export default function BookingWizard() {
         notes: "",
         genderPreference: "Female", // Default global preference
         babyDOB: "2025-12-01",
+        paymentProofUrl: "",
         // Additional fields can be added here
     });
 
@@ -244,9 +246,9 @@ export default function BookingWizard() {
             address: `${formData.address}${regionInput ? `, ${regionInput}` : ''}`,
             city: selectedCity,
             notes: formData.notes,
-            totalAmount: calculatedTotal, // Include calculated total
-            totalAmount: calculatedTotal, // Include calculated total
+            totalAmount: calculatedTotal,
             frequency: 'Daily',
+            paymentProofUrl: formData.paymentProofUrl
         };
 
         try {
@@ -621,6 +623,37 @@ export default function BookingWizard() {
                                                 placeholder="Any specific requirements..."
                                                 className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
                                             />
+                                        </div>
+
+                                        {/* Payment Details */}
+                                        <div className="bg-slate-50 border border-slate-200 p-6 rounded-xl mt-6">
+                                            <h3 className="text-lg font-bold text-slate-800 mb-4">Payment Details</h3>
+                                            <div className="flex flex-col md:flex-row gap-6">
+                                                <div className="flex-1">
+                                                    <p className="text-sm text-slate-600 mb-3">Please scan the QR code to make the payment. Bank details are also provided below.</p>
+                                                    <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm mb-4 flex justify-center">
+                                                        <img src="/images/qr.jpeg" alt="Payment QR Code" className="rounded-lg object-contain w-[200px] h-[200px]" />
+                                                    </div>
+                                                    <div className="space-y-1 text-sm bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                                                        <p><span className="font-semibold">Bank:</span> State Bank of India</p>
+                                                        <p><span className="font-semibold">A/c Holder:</span> Nikhil Bansal</p>
+                                                        <p><span className="font-semibold">A/c No:</span> 37830110244</p>
+                                                        <p><span className="font-semibold">IFSC:</span> SBIN0050690</p>
+                                                        <p><span className="font-semibold">Branch:</span> Lajpat Nagar Moradabad</p>
+                                                        <div className="border-t my-2 pt-2">
+                                                            <p><span className="font-semibold flex items-center gap-1">UPI ID:</span> 6399980449@ybl</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex-1 flex flex-col">
+                                                    <label className="block text-sm font-bold text-slate-700 mb-2">Upload Payment Proof (Optional)</label>
+                                                    <ImageUpload
+                                                        value={formData.paymentProofUrl}
+                                                        onChange={(url) => setFormData({ ...formData, paymentProofUrl: url })}
+                                                    />
+                                                    <p className="text-xs text-slate-500 mt-2 text-center">Supported formats: Images/Videos</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

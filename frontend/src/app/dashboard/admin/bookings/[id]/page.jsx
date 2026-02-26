@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, User, MapPin, Calendar, Clock, CheckCircle, XCircle } from "lucide-react";
+import { ArrowLeft, User, MapPin, Calendar, Clock, CheckCircle, XCircle, Receipt } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -171,6 +171,26 @@ export default function BookingDetailPage() {
                             <div className="bg-slate-50 p-3 rounded-lg text-sm text-slate-600 italic">
                                 "{booking.notes}"
                             </div>
+                        )}
+                    </div>
+
+                    <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                        <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <Receipt size={20} className="text-slate-500" />
+                            Payment Proof
+                        </h2>
+                        {booking.paymentProofUrl ? (
+                            <div className="mt-2">
+                                {booking.paymentProofUrl.match(/\.(mp4|webm|mov|ogg|m4v|avi)$/i) || booking.paymentProofUrl.includes('/video/upload/') ? (
+                                    <video src={booking.paymentProofUrl} controls className="w-full rounded-lg border border-slate-200" />
+                                ) : (
+                                    <a href={booking.paymentProofUrl} target="_blank" rel="noreferrer">
+                                        <img src={booking.paymentProofUrl} alt="Payment Proof" className="w-full rounded-lg border border-slate-200 cursor-pointer hover:opacity-90 transition-opacity" />
+                                    </a>
+                                )}
+                            </div>
+                        ) : (
+                            <p className="text-sm text-slate-500 italic">No payment proof uploaded.</p>
                         )}
                     </div>
                 </div>

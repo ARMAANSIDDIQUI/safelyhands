@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Eye, Loader2, FileText, Pencil, Trash2, Calendar as CalendarIcon, Star, MessageSquare, Clock, MapPin, ArrowRight, User, CheckCircle2, RefreshCcw, Download, FileSpreadsheet } from "lucide-react";
+import { Eye, Loader2, FileText, Pencil, Trash2, Calendar as CalendarIcon, Star, MessageSquare, Clock, MapPin, ArrowRight, User, CheckCircle2, RefreshCcw, Download, FileSpreadsheet, Receipt } from "lucide-react";
 import { toast } from "sonner";
 import { Calendar } from "@/components/ui/calendar";
 
@@ -43,6 +43,10 @@ export default function MyBookingsPage() {
         address: "",
         notes: ""
     });
+
+    // Receipt Modal State
+    const [isReceiptDialogOpen, setIsReceiptDialogOpen] = useState(false);
+    const [receiptUrl, setReceiptUrl] = useState(null);
 
     // Attendance Modal State
     const [isAttendanceDialogOpen, setIsAttendanceDialogOpen] = useState(false);
@@ -423,6 +427,15 @@ export default function MyBookingsPage() {
                                             </Button>
                                         )}
 
+                                        {booking.paymentProofUrl && (
+                                            <Button size="sm" variant="outline" onClick={() => {
+                                                setReceiptUrl(booking.paymentProofUrl);
+                                                setIsReceiptDialogOpen(true);
+                                            }}>
+                                                <Receipt className="mr-2 h-3 w-3" /> Receipt
+                                            </Button>
+                                        )}
+
                                         {booking.status === 'pending' && (
                                             <>
                                                 <Button size="sm" variant="secondary" onClick={() => handleOpenEdit(booking)}>
@@ -696,6 +709,53 @@ export default function MyBookingsPage() {
                                 </Button>
                             </DialogFooter>
                         </form>
+                    </DialogContent>
+                </Dialog>
+
+                {/* Receipt Dialog */}
+                <Dialog open={isReceiptDialogOpen} onOpenChange={setIsReceiptDialogOpen}>
+                    <DialogContent className="sm:max-w-[500px]">
+                        <DialogHeader>
+                            <DialogTitle className="flex items-center gap-2">
+                                <Receipt className="w-5 h-5 text-indigo-500" />
+                                Payment Receipt
+                            </DialogTitle>
+                            <DialogDescription>
+                                Verified payment proof for this booking.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="flex justify-center p-4 bg-slate-50 border border-slate-100 rounded-lg mt-2">
+                            {receiptUrl?.match(/\.(mp4|webm|ogg)$/i) ? (
+                                <video
+                                    controls
+                                    className="max-h-[60vh] w-full rounded border border-slate-200 bg-black"
+                                    src={receiptUrl}
+                                >
+                                    Your browser does not support the video tag.
+                                </video>
+                            ) : receiptUrl?.match(/\.(jpeg|jpg|gif|png)$/i) ? (
+                                <a href={receiptUrl} target="_blank" rel="noopener noreferrer">
+                                    <img
+                                        src={receiptUrl}
+                                        alt="Payment Receipt"
+                                        className="max-h-[60vh] object-contain rounded border border-slate-200 cursor-zoom-in"
+                                    />
+                                </a>
+                            ) : (
+                                <a
+                                    href={receiptUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex flex-col items-center justify-center py-10 px-4 text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors rounded-lg w-full"
+                                >
+                                    <FileText className="h-12 w-12 mb-3" />
+                                    <span className="font-medium underline">View External Document</span>
+                                </a>
+                            )}
+                        </div>
+                        <DialogFooter>
+                            <Button variant="outline" onClick={() => setIsReceiptDialogOpen(false)}>Close</Button>
+                        </DialogFooter>
                     </DialogContent>
                 </Dialog>
             </div>

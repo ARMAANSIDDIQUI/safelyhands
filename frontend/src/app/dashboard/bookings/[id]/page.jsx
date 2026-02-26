@@ -182,21 +182,23 @@ export default function BookingDetailPage() {
                                     </div>
                                 </div>
                             )}
+                            {booking.paymentProofUrl && (
+                                <div className="flex items-start gap-3 pt-2">
+                                    <Receipt className="w-5 h-5 text-gray-500 mt-0.5" />
+                                    <div className="w-full">
+                                        <p className="font-medium mb-2">Payment Proof</p>
+                                        {booking.paymentProofUrl.match(/\.(mp4|webm|mov|ogg|m4v|avi)$/i) || booking.paymentProofUrl.includes('/video/upload/') ? (
+                                            <video src={booking.paymentProofUrl} controls className="max-w-xs h-auto rounded-lg border border-gray-200" />
+                                        ) : (
+                                            <a href={booking.paymentProofUrl} target="_blank" rel="noreferrer">
+                                                <img src={booking.paymentProofUrl} alt="Payment Proof" className="max-w-xs h-auto rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
-
-                    <div className="w-full mt-6">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Billing History</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-center py-8 text-gray-500">
-                                    No invoices generated yet.
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
                 </div>
 
                 {/* Sidebar / Worker Info */}

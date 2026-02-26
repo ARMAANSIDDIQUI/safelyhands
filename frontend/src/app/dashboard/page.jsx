@@ -196,31 +196,46 @@ export default function DashboardPage() {
                     </CardHeader>
                     <CardContent className="space-y-4 relative z-10">
                         <Button
-                            className="w-full justify-start h-auto py-4 px-6 bg-blue-600 hover:bg-blue-500 border-none shadow-lg group transition-all transform hover:translate-x-1"
+                            className="w-full justify-start h-auto p-0 bg-blue-600 hover:bg-blue-500 border-none shadow-lg group transition-all transform hover:translate-x-1 overflow-hidden"
                             asChild
                         >
-                            <Link href="/booking">
-                                <div className="p-2 bg-blue-500 rounded-lg mr-4 group-hover:bg-blue-400 transition-colors">
+                            <Link href="/booking" className="flex items-center w-full py-4 px-4 sm:px-6">
+                                <div className="p-2 bg-blue-500 rounded-lg mr-3 sm:mr-4 group-hover:bg-blue-400 transition-colors shrink-0">
                                     <Plus className="h-5 w-5 text-white" />
                                 </div>
-                                <div className="text-left">
-                                    <div className="font-bold">Book New Service</div>
-                                    <div className="text-xs text-blue-200 mt-0.5">Schedule a professional now</div>
+                                <div className="text-left overflow-hidden">
+                                    <div className="font-bold truncate">Book New Service</div>
+                                    <div className="text-xs text-blue-200 mt-0.5 truncate">Schedule a professional now</div>
                                 </div>
                             </Link>
                         </Button>
 
                         <Button
-                            className="w-full justify-start h-auto py-4 px-6 bg-slate-800 hover:bg-slate-700 border-none shadow-sm group transition-all transform hover:translate-x-1"
+                            className="w-full justify-start h-auto p-0 bg-slate-800 hover:bg-slate-700 border-none shadow-sm group transition-all transform hover:translate-x-1 overflow-hidden"
                             asChild
                         >
-                            <Link href="/contact">
-                                <div className="p-2 bg-slate-700 rounded-lg mr-4 group-hover:bg-slate-600 transition-colors">
+                            <Link href="/contact" className="flex items-center w-full py-4 px-4 sm:px-6">
+                                <div className="p-2 bg-slate-700 rounded-lg mr-3 sm:mr-4 group-hover:bg-slate-600 transition-colors shrink-0">
                                     <MessageSquare className="h-5 w-5 text-slate-300" />
                                 </div>
-                                <div className="text-left">
-                                    <div className="font-bold text-slate-200">Contact Support</div>
-                                    <div className="text-xs text-slate-400 mt-0.5">Get help with your bookings</div>
+                                <div className="text-left overflow-hidden">
+                                    <div className="font-bold text-slate-200 truncate">Contact Support</div>
+                                    <div className="text-xs text-slate-400 mt-0.5 truncate">Get help with your bookings</div>
+                                </div>
+                            </Link>
+                        </Button>
+
+                        <Button
+                            className="w-full justify-start h-auto p-0 bg-emerald-700 hover:bg-emerald-600 border-none shadow-sm group transition-all transform hover:translate-x-1 overflow-hidden"
+                            asChild
+                        >
+                            <Link href="/payment" className="flex items-center w-full py-4 px-4 sm:px-6">
+                                <div className="p-2 bg-emerald-600 rounded-lg mr-3 sm:mr-4 group-hover:bg-emerald-500 transition-colors shrink-0">
+                                    <CreditCard className="h-5 w-5 text-emerald-100" />
+                                </div>
+                                <div className="text-left overflow-hidden">
+                                    <div className="font-bold text-emerald-50 truncate">Make a Payment</div>
+                                    <div className="text-xs text-emerald-200 mt-0.5 truncate">View QR code and bank details</div>
                                 </div>
                             </Link>
                         </Button>

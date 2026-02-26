@@ -955,6 +955,44 @@ export default function AdminBookings() {
                                 </div>
                             )}
 
+                            {/* Payment Proof */}
+                            {viewingBooking.paymentProofUrl && (
+                                <div>
+                                    <h4 className="text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
+                                        <FileText size={14} className="text-indigo-500" /> Payment Proof
+                                    </h4>
+                                    <div className="bg-slate-50 border border-slate-200 p-2 rounded-lg flex justify-center">
+                                        {viewingBooking.paymentProofUrl.match(/\.(jpeg|jpg|gif|png)$/i) ? (
+                                            <a href={viewingBooking.paymentProofUrl} target="_blank" rel="noopener noreferrer">
+                                                <img
+                                                    src={viewingBooking.paymentProofUrl}
+                                                    alt="Payment Proof"
+                                                    className="max-h-60 rounded border border-slate-200 object-contain hover:opacity-90 transition-opacity cursor-zoom-in"
+                                                />
+                                            </a>
+                                        ) : viewingBooking.paymentProofUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                                            <video
+                                                controls
+                                                className="max-h-60 w-full rounded border border-slate-200 bg-black"
+                                                src={viewingBooking.paymentProofUrl}
+                                            >
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        ) : (
+                                            <a
+                                                href={viewingBooking.paymentProofUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex flex-col items-center justify-center p-6 text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors rounded-lg w-full"
+                                            >
+                                                <FileText className="h-10 w-10 mb-2" />
+                                                <span className="text-sm font-medium underline">View Uploaded Document</span>
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Total Footer */}
                             <div className="flex justify-between items-center pt-4 border-t border-slate-100">
                                 <span className="text-slate-500 font-medium">Total Amount</span>
