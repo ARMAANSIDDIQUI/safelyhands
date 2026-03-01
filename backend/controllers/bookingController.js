@@ -8,7 +8,7 @@ const PDFDocument = require('pdfkit');
 // @access  Private
 const createBooking = async (req, res) => {
     try {
-        const { serviceType, date, time, address, notes, totalAmount, paymentProofUrl, weeklyDays, genderPreference, shift, babyDOB } = req.body;
+        const { serviceType, date, time, address, phone, notes, totalAmount, paymentProofUrl, weeklyDays, genderPreference, shift, babyDOB } = req.body;
         const frequency = req.body.frequency || 'Daily'; // Default to 'Daily' if not provided
 
         const dateStr = typeof date === 'string' ? date.split('T')[0] : new Date(date).toISOString().split('T')[0];
@@ -35,6 +35,7 @@ const createBooking = async (req, res) => {
             endDate,
             time,
             address,
+            phone,
             notes,
             totalAmount,
             paymentProofUrl,

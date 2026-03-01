@@ -443,6 +443,7 @@ export default function AdminBookings() {
                                         <td className="p-4">
                                             <div className="font-medium text-slate-900">{booking.user?.name || 'Guest'}</div>
                                             <div className="text-xs text-slate-500">{booking.address?.slice(0, 20)}...</div>
+                                            <div className="text-xs text-slate-500 mt-1 font-mono">{booking.phone || booking.user?.phone || 'No phone'}</div>
                                         </td>
                                         <td className="p-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize

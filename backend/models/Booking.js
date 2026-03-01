@@ -15,6 +15,7 @@ const bookingSchema = new mongoose.Schema({
     weeklyDays: [{ type: Number, min: 0, max: 6 }], // 0=Sunday, 1=Monday, ... 6=Saturday
     date: { type: Date, required: true },
     address: { type: String, required: true },
+    phone: { type: String, required: true },
     notes: { type: String },
     status: { type: String, enum: ['pending', 'approved', 'rejected', 'completed'], default: 'pending' },
     serviceStatus: { type: String, enum: ['active', 'completed', 'cancelled'], default: 'active' },

@@ -42,12 +42,19 @@ export default function BookingWizard() {
         date: "",
         time: "",
         address: "",
+        phone: "",
         notes: "",
         genderPreference: "Female", // Default global preference
         babyDOB: "2025-12-01",
         paymentProofUrl: "",
         // Additional fields can be added here
     });
+
+    useEffect(() => {
+        if (user && user.phone) {
+            setFormData(prev => ({ ...prev, phone: user.phone }));
+        }
+    }, [user]);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -225,8 +232,13 @@ export default function BookingWizard() {
             return;
         }
 
-        if (!formData.date || !formData.address || !formData.time) {
-            toast.error("Please fill all required details (Date, Time, Address)");
+        if (!formData.date || !formData.address || !formData.time || !formData.phone) {
+            toast.error("Please fill all required details (Date, Time, Address, Phone)");
+            return;
+        }
+
+        if (formData.phone.length !== 10) {
+            toast.error("Please enter a valid 10-digit phone number");
             return;
         }
 
@@ -244,6 +256,7 @@ export default function BookingWizard() {
             date: formData.date,
             time: formData.time,
             address: `${formData.address}${regionInput ? `, ${regionInput}` : ''}`,
+            phone: formData.phone,
             city: selectedCity,
             notes: formData.notes,
             totalAmount: calculatedTotal,
@@ -583,16 +596,37 @@ export default function BookingWizard() {
                                             </div>
                                         </div>
 
-                                        {/* Address */}
-                                        <div>
-                                            <label className="block text-sm font-bold text-slate-700 mb-2">Complete Address</label>
-                                            <textarea
-                                                id="booking-address"
-                                                value={formData.address}
-                                                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                                placeholder="House No, Street, Landmark..."
-                                                className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
-                                            />
+                                        {/* Address & Phone */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Complete Address</label>
+                                                <textarea
+                                                    id="booking-address"
+                                                    value={formData.address}
+                                                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                                    placeholder="House No, Street, Landmark..."
+                                                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
+                                                <div className="flex h-12">
+                                                    <span className="inline-flex items-center px-4 bg-slate-100 border border-r-0 border-slate-200 rounded-l-xl text-sm text-slate-500 font-bold">
+                                                        +91
+                                                    </span>
+                                                    <input
+                                                        type="text"
+                                                        className="w-full px-4 bg-slate-50 border border-slate-200 rounded-r-xl focus:outline-none focus:border-sky-500 font-medium text-slate-700"
+                                                        placeholder="10-digit number"
+                                                        maxLength={10}
+                                                        value={formData.phone}
+                                                        onChange={(e) => {
+                                                            const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                                            setFormData({ ...formData, phone: digits });
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
 
                                         {/* Shared Gender Pref (if applicable) */}

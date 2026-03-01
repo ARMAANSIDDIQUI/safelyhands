@@ -12,6 +12,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { getToken, saveSession } from "@/lib/auth";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function ProfilePage() {
     const { user, logout, loading, setUser } = useAuth();
@@ -35,6 +36,17 @@ export default function ProfilePage() {
             });
         }
 
+    }, [user]);
+
+    // Phone missing modal state
+    const [showPhoneModal, setShowPhoneModal] = useState(false);
+
+    useEffect(() => {
+        if (user && !user.phone) {
+            setShowPhoneModal(true);
+        } else {
+            setShowPhoneModal(false);
+        }
     }, [user]);
 
     // Password State
@@ -465,6 +477,47 @@ export default function ProfilePage() {
                     </Card>
                 </TabsContent>
             </Tabs>
+
+            {/* Complete Profile Dialog for missing Phone */}
+            <Dialog open={showPhoneModal} onOpenChange={setShowPhoneModal}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Complete Your Profile</DialogTitle>
+                        <DialogDescription>
+                            Please provide a valid 10-digit phone number to continue using all features of SafelyHands.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="modal-phone">Phone Number</Label>
+                            <div className="flex">
+                                <span className="inline-flex items-center px-3 bg-slate-100 border border-r-0 rounded-l-md text-sm text-muted-foreground font-medium">
+                                    +91
+                                </span>
+                                <Input
+                                    id="modal-phone"
+                                    className="rounded-l-none"
+                                    placeholder="10-digit number"
+                                    maxLength={10}
+                                    value={formData.phone}
+                                    onChange={(e) => {
+                                        const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                        setFormData({ ...formData, phone: digitsOnly });
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            onClick={handleSave}
+                            disabled={loadingResult || !formData.phone || formData.phone.length !== 10}
+                        >
+                            {loadingResult ? "Saving..." : "Save Phone Number"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

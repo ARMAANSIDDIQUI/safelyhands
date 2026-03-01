@@ -171,6 +171,7 @@ export default function BookingDetailPage() {
                                 <div>
                                     <p className="font-medium">Location</p>
                                     <p className="text-sm text-gray-500">{booking.address}</p>
+                                    <p className="text-sm text-gray-500 mt-1 font-mono">Phone: +91 {booking.phone || booking.user?.phone || 'N/A'}</p>
                                 </div>
                             </div>
                             {booking.notes && (
