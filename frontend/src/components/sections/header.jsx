@@ -160,6 +160,16 @@ const Header = () => {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
+          <Link
+            href="/broomit"
+            id="header-broomit-btn"
+            className="bg-[#212529] hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm md:text-base font-bold shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center gap-1.5 border border-amber-400/30"
+          >
+            <span className="text-amber-400 font-extrabold text-base">⚡</span>
+            <span>Get help in 15 mins</span>
+            <span className="text-amber-400 font-extrabold text-base">⚡</span>
+          </Link>
+
           {user ? (
             <>
               <Link

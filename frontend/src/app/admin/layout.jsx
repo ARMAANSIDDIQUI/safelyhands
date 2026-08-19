@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Users, CalendarCheck, Briefcase, Settings, LogOut, MessageSquareQuote, Home, ShieldCheck, Wrench, Menu, X, MessageSquare, MapPin, Layers, ImageIcon } from "lucide-react";
+import { LayoutDashboard, Users, CalendarCheck, Briefcase, Settings, LogOut, MessageSquareQuote, Home, ShieldCheck, Wrench, Menu, X, MessageSquare, MapPin, Layers, ImageIcon, Zap } from "lucide-react";
 
 export default function AdminLayout({ children }) {
     const { user, loading, logout } = useAuth();
@@ -31,6 +31,7 @@ export default function AdminLayout({ children }) {
 
     const navItems = [
         { href: "/admin", icon: LayoutDashboard, label: "Overview" },
+        { href: "/admin/broomit", icon: Zap, label: "⚡ BroomIT (15-Min)" },
         { href: "/admin/bookings", icon: CalendarCheck, label: "Bookings" },
         { href: "/admin/attendance", icon: CalendarCheck, label: "Attendance Reports" },
         { href: "/admin/services", icon: Briefcase, label: "Services" },
