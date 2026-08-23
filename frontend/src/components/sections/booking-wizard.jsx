@@ -13,7 +13,7 @@ import { fetchServices, selectAllServices, selectServiceStatus } from "@/store/s
 import ImageUpload from "@/components/ui/image-upload";
 
 export default function BookingWizard() {
-    const { user } = useAuth();
+    const { user, updateUserProfile } = useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -65,8 +65,13 @@ export default function BookingWizard() {
     });
 
     useEffect(() => {
-        if (user && user.phone) {
-            setFormData(prev => ({ ...prev, phone: user.phone }));
+        if (user) {
+            if (user.phone && !formData.phone) {
+                setFormData(prev => ({ ...prev, phone: user.phone }));
+            }
+            if (user.address && !formData.address) {
+                setFormData(prev => ({ ...prev, address: user.address }));
+            }
         }
     }, [user]);
 
@@ -643,7 +648,33 @@ export default function BookingWizard() {
                                         {/* Address & Phone */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-bold text-slate-700 mb-2">Complete Address</label>
+                                                <div className="flex items-center justify-between gap-2 mb-2">
+                                                    <label className="block text-sm font-bold text-slate-700">Complete Address</label>
+                                                    <div className="flex items-center gap-1.5">
+                                                        {user?.address && formData.address !== user.address && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setFormData({ ...formData, address: user.address })}
+                                                                className="text-[11px] font-bold text-blue-600 hover:bg-blue-50 px-2 py-0.5 rounded border border-blue-200 transition-all"
+                                                            >
+                                                                Use Saved
+                                                            </button>
+                                                        )}
+                                                        {formData.address.trim() && formData.address !== user?.address && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={async () => {
+                                                                    const res = await updateUserProfile({ address: formData.address });
+                                                                    if (res.success) toast.success("Saved as default profile address!");
+                                                                    else toast.error(res.message || "Failed to save address");
+                                                                }}
+                                                                className="text-[11px] font-bold text-slate-700 hover:bg-slate-100 px-2 py-0.5 rounded border border-slate-200 transition-all"
+                                                            >
+                                                                Save Profile
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </div>
                                                 <textarea
                                                     id="booking-address"
                                                     value={formData.address}

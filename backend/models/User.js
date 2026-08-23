@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     googleId: { type: String }, // For OAuth
     profilePicture: { type: String }, // User profile image URL
     phone: { type: String },
+    address: { type: String, default: "" }, // Default Saved Home Address
     otp: { type: String },
     otpExpires: { type: Date },
     otpRequestsToday: { type: Number, default: 0 },

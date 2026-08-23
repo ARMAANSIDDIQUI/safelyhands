@@ -34,7 +34,7 @@ const PLATFORM_FEE = 20;
 const GST_RATE = 0.18;
 
 export default function SafeITPage() {
-    const { user } = useAuth();
+    const { user, updateUserProfile } = useAuth();
     const router = useRouter();
 
     // Workflow state: 1 = Task & Region Selection, 2 = Booking Details & Payment
@@ -67,6 +67,18 @@ export default function SafeITPage() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [bookingSuccess, setBookingSuccess] = useState(null);
+
+    // Auto-fill address and phone from profile if available
+    useEffect(() => {
+        if (user) {
+            if (user.address && !address) {
+                setAddress(user.address);
+            }
+            if (user.phone && !phone) {
+                setPhone(user.phone);
+            }
+        }
+    }, [user]);
 
     // Close dropdown on click outside
     useEffect(() => {
@@ -250,27 +262,25 @@ export default function SafeITPage() {
         <main className="min-h-screen bg-slate-50 font-sans">
             <div className="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
                 {/* Header Banner */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/80 border border-blue-200 text-blue-800 text-xs font-bold mb-3 shadow-xs">
-                            <Zap size={14} className="text-blue-600 fill-blue-500 animate-pulse" />
-                            <span>SafeIt • Instant Help in 15 Minutes</span>
-                        </div>
-                        <h1 className="text-2xl md:text-4xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-                            Book Trusted Help in Minutes!
-                        </h1>
-                        <p className="text-slate-500 text-sm md:text-base font-medium mt-1">
-                            Fast, reliable, and trained household support at your doorstep with <span className="text-blue-600 font-bold">Safely Hands</span>.
-                        </p>
+                <div className="text-center max-w-3xl mx-auto mb-10">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/90 border border-blue-200 text-blue-800 text-xs font-extrabold mb-3.5 shadow-xs">
+                        <Zap size={14} className="text-blue-600 fill-blue-500 animate-pulse" />
+                        <span>SafeIt • Instant Help in 15 Minutes</span>
                     </div>
+                    <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-2">
+                        Book Trusted Help in Minutes!
+                    </h1>
+                    <p className="text-slate-500 text-base md:text-lg font-medium max-w-xl mx-auto">
+                        Fast, reliable, and trained household support at your doorstep with <span className="text-blue-600 font-bold">Safely Hands</span>.
+                    </p>
 
                     {!user && (
-                        <div className="bg-blue-50 border border-blue-200 p-3.5 rounded-2xl flex items-center gap-3 text-xs md:text-sm text-blue-900 font-medium">
-                            <Lock size={18} className="text-blue-600 shrink-0" />
+                        <div className="mt-4 bg-blue-50/90 border border-blue-200/80 px-4 py-2.5 rounded-2xl inline-flex items-center gap-3 text-xs md:text-sm text-blue-900 font-semibold shadow-xs">
+                            <Lock size={16} className="text-blue-600 shrink-0" />
                             <span>Login required to complete booking</span>
                             <button
                                 onClick={() => router.push("/login?redirect=/safeit")}
-                                className="ml-auto px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-xs shrink-0"
+                                className="px-3.5 py-1 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-xs shrink-0 cursor-pointer"
                             >
                                 Login
                             </button>
@@ -517,25 +527,48 @@ export default function SafeITPage() {
                                 <div className="p-6 md:p-8 space-y-6">
 
                                     {/* Address Field */}
-                                    <div className="border border-slate-200 rounded-2xl p-4 flex items-center justify-between gap-4 bg-white hover:border-blue-300 transition-colors">
-                                        <div className="flex items-center gap-3 flex-1">
-                                            <MapPin size={22} className="text-blue-600 flex-shrink-0" />
+                                    <div className="border border-slate-200 rounded-2xl p-4 bg-white hover:border-blue-300 transition-colors">
+                                        <div className="flex items-center justify-between gap-2 mb-2">
+                                            <label className="text-xs font-bold uppercase text-slate-500 flex items-center gap-1.5">
+                                                <MapPin size={16} className="text-blue-600" />
+                                                <span>Service Delivery Address</span>
+                                            </label>
+
+                                            <div className="flex items-center gap-2">
+                                                {user?.address && address !== user.address && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setAddress(user.address)}
+                                                        className="text-xs font-bold text-blue-600 hover:bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200 transition-all cursor-pointer"
+                                                    >
+                                                        Use Saved Address
+                                                    </button>
+                                                )}
+                                                {address.trim() && address !== user?.address && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={async () => {
+                                                            const res = await updateUserProfile({ address });
+                                                            if (res.success) toast.success("Saved as default profile address!");
+                                                            else toast.error(res.message || "Failed to save address");
+                                                        }}
+                                                        className="text-xs font-bold text-slate-700 hover:bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 transition-all cursor-pointer"
+                                                    >
+                                                        Save to Profile
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-3">
                                             <input
                                                 type="text"
                                                 value={address}
                                                 onChange={(e) => setAddress(e.target.value)}
-                                                placeholder="Enter your complete address..."
+                                                placeholder="Type your complete house address, street, landmark..."
                                                 className="w-full text-sm md:text-base font-medium text-slate-800 focus:outline-none placeholder:text-slate-400"
                                             />
                                         </div>
-                                        <button
-                                            onClick={() => {
-                                                if (!address) setAddress("House #12, Block B, Main Street");
-                                            }}
-                                            className="text-xs md:text-sm font-bold text-blue-600 hover:text-blue-700 flex-shrink-0"
-                                        >
-                                            + Add Address
-                                        </button>
                                     </div>
 
                                     {/* Phone Number Field */}
@@ -701,23 +734,6 @@ export default function SafeITPage() {
                                         <label htmlFor="terms-check" className="text-xs text-slate-600 leading-normal cursor-pointer">
                                             I agree to adhere to the duration of my booking. I also agree to treat the staff with respect and report any issues directly to customer support. <span className="text-blue-600 font-bold underline">Terms & Conditions</span>
                                         </label>
-                                    </div>
-
-                                    {/* Coupon Code Input */}
-                                    <div className="border border-slate-200 rounded-2xl p-2 bg-white flex items-center justify-between gap-3">
-                                        <input
-                                            type="text"
-                                            value={couponCode}
-                                            onChange={(e) => setCouponCode(e.target.value)}
-                                            placeholder="COUPON CODE"
-                                            className="w-full pl-3 text-xs md:text-sm font-bold uppercase text-slate-800 focus:outline-none placeholder:text-slate-300"
-                                        />
-                                        <button
-                                            onClick={handleApplyCoupon}
-                                            className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold text-xs md:text-sm rounded-xl transition-all flex-shrink-0 shadow-xs"
-                                        >
-                                            Apply
-                                        </button>
                                     </div>
 
                                     {/* Payment Details Section */}

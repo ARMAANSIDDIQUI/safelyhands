@@ -221,6 +221,7 @@ const loginUser = async (req, res) => {
                 email: user.email,
                 role: user.role,
                 phone: user.phone,
+                address: user.address || "",
                 isGoogleUser: !!user.googleId,
                 profilePicture: user.profilePicture,
                 token: generateToken(user._id),
@@ -411,6 +412,9 @@ const updateProfile = async (req, res) => {
             if (req.body.phone !== undefined) {
                 user.phone = req.body.phone;
             }
+            if (req.body.address !== undefined) {
+                user.address = req.body.address;
+            }
             if (req.body.profilePicture !== undefined) {
                 user.profilePicture = req.body.profilePicture;
             }
@@ -430,6 +434,7 @@ const updateProfile = async (req, res) => {
                 name: updatedUser.name,
                 email: updatedUser.email,
                 phone: updatedUser.phone,
+                address: updatedUser.address || "",
                 role: updatedUser.role,
                 isGoogleUser: !!updatedUser.googleId,
                 profilePicture: updatedUser.profilePicture,

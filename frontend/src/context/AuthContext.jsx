@@ -113,8 +113,35 @@ export const AuthProvider = ({ children }) => {
         router.push("/login");
     };
 
+    const updateUserProfile = async (updatedFields) => {
+        try {
+            const token = getToken();
+            if (!token) throw new Error("Not logged in");
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(updatedFields),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Failed to update profile");
+
+            const newUserData = { ...user, ...data, token: token || data.token };
+            saveSession(newUserData, newUserData.token);
+            setUser(newUserData);
+
+            return { success: true, user: newUserData };
+        } catch (err) {
+            return { success: false, message: err.message };
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, login, register, verifyEmail, logout }}>
+        <AuthContext.Provider value={{ user, setUser, loading, login, register, verifyEmail, logout, updateUserProfile }}>
             {children}
         </AuthContext.Provider>
     );
