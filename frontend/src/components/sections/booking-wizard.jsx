@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Check, Calendar, MapPin, User, ChevronRight, ChevronLeft, Loader2, Star, Plus, ArrowLeft, Trash2, Clock, Info, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -28,7 +28,21 @@ export default function BookingWizard() {
     // Selections
     const [selectedCity, setSelectedCity] = useState("");
     const [regionInput, setRegionInput] = useState("");
+    const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+    const cityDropdownRef = useRef(null);
+
     const [selectedService, setSelectedService] = useState(null);
+
+    // Close city dropdown on click outside
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (cityDropdownRef.current && !cityDropdownRef.current.contains(e.target)) {
+                setIsCityDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     // Cart
     const [cart, setCart] = useState([]); // [{ subCategory, answers, price, quantity, _tempId }]
@@ -361,17 +375,47 @@ export default function BookingWizard() {
                                         <h2 className="text-3xl font-bold text-slate-900 mb-3">Where are you located?</h2>
                                         <p className="text-slate-500">Select your city to see available services</p>
                                     </div>
-                                    <div className="space-y-4 relative" id="booking-city-select">
-                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
-                                        <select
-                                            value={selectedCity}
-                                            onChange={(e) => setSelectedCity(e.target.value)}
-                                            className="w-full pl-12 pr-12 py-4 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all appearance-none cursor-pointer hover:bg-slate-100/50"
+                                    <div className="space-y-4 relative" id="booking-city-select" ref={cityDropdownRef}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
+                                            className="w-full pl-12 pr-12 py-4 bg-white border border-slate-200 hover:border-blue-300 rounded-2xl font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/30 flex items-center justify-between shadow-xs transition-all cursor-pointer"
                                         >
-                                            <option value="" disabled>Choose a city...</option>
-                                            {cities.map(c => <option key={c._id} value={c.slug}>{c.name}</option>)}
-                                        </select>
-                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
+                                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600 pointer-events-none" size={20} />
+                                            <span>
+                                                {selectedCity
+                                                    ? cities.find(c => c.slug === selectedCity)?.name || selectedCity
+                                                    : "Choose a city..."}
+                                            </span>
+                                            <ChevronDown className={cn("absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 transition-transform duration-200 pointer-events-none", isCityDropdownOpen && "rotate-180 text-blue-600")} size={20} />
+                                        </button>
+
+                                        {isCityDropdownOpen && (
+                                            <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200/80 rounded-2xl shadow-xl z-50 p-2 max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
+                                                {cities.map((c) => {
+                                                    const isSelected = selectedCity === c.slug;
+                                                    return (
+                                                        <button
+                                                            key={c._id}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setSelectedCity(c.slug);
+                                                                setIsCityDropdownOpen(false);
+                                                            }}
+                                                            className={cn(
+                                                                "w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-between cursor-pointer",
+                                                                isSelected
+                                                                    ? "bg-blue-50 text-blue-700 font-bold"
+                                                                    : "text-slate-700 hover:bg-blue-50/70 hover:text-blue-600"
+                                                            )}
+                                                        >
+                                                            <span>{c.name}</span>
+                                                            {isSelected && <Check size={16} className="text-blue-600 stroke-[3]" />}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
                                     </div>
                                     {cities.find(c => c.slug === selectedCity)?.isOther && (
                                         <input
@@ -379,7 +423,7 @@ export default function BookingWizard() {
                                             placeholder="Enter your region..."
                                             value={regionInput}
                                             onChange={(e) => setRegionInput(e.target.value)}
-                                            className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-xl"
+                                            className="w-full mt-4 px-4 py-4 bg-white border border-slate-200 rounded-2xl font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                                         />
                                     )}
                                 </div>
