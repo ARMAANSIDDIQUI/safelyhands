@@ -2,13 +2,16 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
-import { FcGoogle } from "react-icons/fc"; // Utilizing react-icons for Google logo if available, else will SVG
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginForm() {
     const { login } = useAuth();
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -18,17 +21,25 @@ export default function LoginForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (isLoading) return;
         setIsLoading(true);
 
-        const result = await login(formData.email, formData.password);
+        try {
+            const result = await login(formData.email, formData.password);
 
-        if (result.success) {
-            toast.success("Welcome back!");
-        } else {
-            toast.error(result.message || "Login failed");
+            if (result.success) {
+                toast.success("Welcome back!");
+                const redirectParam = searchParams?.get('redirect');
+                const target = redirectParam || (result.user?.role === 'worker' ? '/worker/dashboard' : result.user?.role === 'admin' ? '/admin' : '/dashboard');
+                router.replace(target);
+            } else {
+                toast.error(result.message || "Login failed");
+                setIsLoading(false);
+            }
+        } catch (err) {
+            toast.error("An unexpected error occurred. Please try again.");
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     };
 
     const handleChange = (e) => {
@@ -47,8 +58,13 @@ export default function LoginForm() {
 
                 {/* Google Login */}
                 <button
-                    className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold h-[50px] rounded-xl transition-all duration-300 mb-6 group hover:shadow-md hover:border-slate-300"
-                    onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`}
+                    type="button"
+                    disabled={isLoading}
+                    className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold h-[50px] rounded-xl transition-all duration-300 mb-6 group hover:shadow-md hover:border-slate-300 disabled:opacity-50 disabled:pointer-events-none"
+                    onClick={() => {
+                        setIsLoading(true);
+                        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
+                    }}
                 >
                     {/* Google Icon SVG */}
                     <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

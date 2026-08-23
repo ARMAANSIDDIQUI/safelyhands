@@ -119,17 +119,6 @@ export default function SafeITInstantSection() {
                                     </div>
                                 </div>
 
-                                {/* Floating Live Badge Overlay */}
-                                <div className="absolute -bottom-6 -left-4 sm:-left-6 bg-slate-900/90 border border-sky-400/40 backdrop-blur-xl p-4 rounded-2xl shadow-2xl flex items-center gap-3.5 max-w-[240px]">
-                                    <div className="w-10 h-10 rounded-xl bg-blue-600/30 border border-blue-400/40 flex items-center justify-center text-sky-400 shrink-0">
-                                        <Zap size={22} className="fill-current animate-pulse" />
-                                    </div>
-                                    <div>
-                                        <p className="text-white font-black text-xs">SafeIt Live Queue</p>
-                                        <p className="text-sky-300 text-[11px] font-semibold">Helpers ready in Moradabad</p>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
 

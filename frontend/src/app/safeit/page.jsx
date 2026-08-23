@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Header from "@/components/sections/header";
+import React, { useState, useEffect, useRef } from "react";
 import Footer from "@/components/sections/footer";
 import ChatWidget from "@/components/sections/chat-widget";
 import { Check, Calendar, MapPin, ArrowLeft, Info, Zap, ChevronDown, CheckCircle2, Lock, UserCheck } from "lucide-react";
@@ -45,6 +44,9 @@ export default function SafeITPage() {
     // Selection States
     const [selectedRegion, setSelectedRegion] = useState("Moradabad");
     const [cities, setCities] = useState(["Moradabad", "Delhi NCR", "Noida", "Gurgaon", "Ghaziabad", "Mumbai", "Bangalore"]);
+    const [isRegionOpen, setIsRegionOpen] = useState(false);
+    const regionDropdownRef = useRef(null);
+
     const [selectedTasks, setSelectedTasks] = useState(["Brooming + Mopping", "Dusting"]);
     const [selectedHours, setSelectedHours] = useState(2); // Default 2 Hours (Bestseller)
 
@@ -65,6 +67,17 @@ export default function SafeITPage() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [bookingSuccess, setBookingSuccess] = useState(null);
+
+    // Close dropdown on click outside
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (regionDropdownRef.current && !regionDropdownRef.current.contains(e.target)) {
+                setIsRegionOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     // Fetch cities from backend API if available
     useEffect(() => {
@@ -235,8 +248,6 @@ export default function SafeITPage() {
 
     return (
         <main className="min-h-screen bg-slate-50 font-sans">
-            <Header />
-
             <div className="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
                 {/* Header Banner */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -309,25 +320,45 @@ export default function SafeITPage() {
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                                 {/* Left Form Box */}
                                 <div className="lg:col-span-7 bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 relative">
-                                    {/* Region Selector */}
+                                    {/* Styled Custom Region Selector */}
                                     <div className="mb-6">
-                                        <div className="relative">
-                                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600">
-                                                <MapPin size={20} />
-                                            </div>
-                                            <select
-                                                value={selectedRegion}
-                                                onChange={(e) => setSelectedRegion(e.target.value)}
-                                                className="w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/50 appearance-none shadow-xs cursor-pointer"
+                                        <div className="relative" ref={regionDropdownRef}>
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsRegionOpen(!isRegionOpen)}
+                                                className="w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 hover:border-blue-300 rounded-2xl font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/30 flex items-center justify-between shadow-xs transition-all cursor-pointer"
                                             >
-                                                <option value="" disabled>Select Your Region</option>
-                                                {cities.map((city, idx) => (
-                                                    <option key={idx} value={city}>{city}</option>
-                                                ))}
-                                            </select>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                                                <ChevronDown size={18} />
-                                            </div>
+                                                <MapPin size={20} className="text-blue-600 absolute left-4 top-1/2 -translate-y-1/2" />
+                                                <span>{selectedRegion || "Select Your Region"}</span>
+                                                <ChevronDown size={18} className={cn("text-slate-400 transition-transform duration-200", isRegionOpen && "rotate-180 text-blue-600")} />
+                                            </button>
+
+                                            {isRegionOpen && (
+                                                <div className="absolute left-0 right-0 mt-2 bg-white border border-slate-200/80 rounded-2xl shadow-xl z-50 p-2 max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
+                                                    {cities.map((city, idx) => {
+                                                        const isSelected = selectedRegion === city;
+                                                        return (
+                                                            <button
+                                                                key={idx}
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    setSelectedRegion(city);
+                                                                    setIsRegionOpen(false);
+                                                                }}
+                                                                className={cn(
+                                                                    "w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-between cursor-pointer",
+                                                                    isSelected
+                                                                        ? "bg-blue-50 text-blue-700 font-bold"
+                                                                        : "text-slate-700 hover:bg-slate-50 hover:text-blue-600"
+                                                                )}
+                                                            >
+                                                                <span>{city}</span>
+                                                                {isSelected && <Check size={16} className="text-blue-600 stroke-[3]" />}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 

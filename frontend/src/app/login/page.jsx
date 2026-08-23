@@ -53,19 +53,14 @@ function LoginContent() {
     }, [searchParams, router]);
 
     // Auto-redirect if already logged in
-    // Auto-redirect if already logged in
     useEffect(() => {
         const token = searchParams.get('token');
-        // Only redirect if not currently processing a login (no token in URL)
+        const redirectParam = searchParams.get('redirect');
+
+        // Only redirect if not currently processing Google OAuth callback token
         if (!loading && user && !token) {
-            toast.info("You are already logged in");
-            if (user.role === 'worker') {
-                router.replace('/worker/dashboard'); // Use replace to prevent back navigation
-            } else if (user.role === 'admin') {
-                router.replace('/admin');
-            } else {
-                router.replace('/dashboard');
-            }
+            const target = redirectParam || (user.role === 'worker' ? '/worker/dashboard' : user.role === 'admin' ? '/admin' : '/dashboard');
+            router.replace(target);
         }
     }, [user, loading, router, searchParams]);
 
