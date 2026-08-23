@@ -10,6 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import ImageUpload from "@/components/ui/image-upload";
+import SavedAddressDropdown from "@/components/ui/saved-address-dropdown";
 
 const AVAILABLE_TASKS = [
     "Brooming + Mopping",
@@ -526,49 +527,13 @@ export default function SafeITPage() {
                                 {/* Form Body */}
                                 <div className="p-6 md:p-8 space-y-6">
 
-                                    {/* Address Field */}
-                                    <div className="border border-slate-200 rounded-2xl p-4 bg-white hover:border-blue-300 transition-colors">
-                                        <div className="flex items-center justify-between gap-2 mb-2">
-                                            <label className="text-xs font-bold uppercase text-slate-500 flex items-center gap-1.5">
-                                                <MapPin size={16} className="text-blue-600" />
-                                                <span>Service Delivery Address</span>
-                                            </label>
-
-                                            <div className="flex items-center gap-2">
-                                                {user?.address && address !== user.address && (
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setAddress(user.address)}
-                                                        className="text-xs font-bold text-blue-600 hover:bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200 transition-all cursor-pointer"
-                                                    >
-                                                        Use Saved Address
-                                                    </button>
-                                                )}
-                                                {address.trim() && address !== user?.address && (
-                                                    <button
-                                                        type="button"
-                                                        onClick={async () => {
-                                                            const res = await updateUserProfile({ address });
-                                                            if (res.success) toast.success("Saved as default profile address!");
-                                                            else toast.error(res.message || "Failed to save address");
-                                                        }}
-                                                        className="text-xs font-bold text-slate-700 hover:bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 transition-all cursor-pointer"
-                                                    >
-                                                        Save to Profile
-                                                    </button>
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-center gap-3">
-                                            <input
-                                                type="text"
-                                                value={address}
-                                                onChange={(e) => setAddress(e.target.value)}
-                                                placeholder="Type your complete house address, street, landmark..."
-                                                className="w-full text-sm md:text-base font-medium text-slate-800 focus:outline-none placeholder:text-slate-400"
-                                            />
-                                        </div>
+                                    {/* Custom Saved Address Dropdown & Temporary Toggle */}
+                                    <div className="border border-slate-200 rounded-2xl p-5 bg-white shadow-xs">
+                                        <SavedAddressDropdown
+                                            selectedAddress={address}
+                                            onSelectAddress={(addr) => setAddress(addr)}
+                                            redirectUrl="/safeit"
+                                        />
                                     </div>
 
                                     {/* Phone Number Field */}

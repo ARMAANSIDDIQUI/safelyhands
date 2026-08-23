@@ -140,8 +140,85 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const addAddress = async (addressData) => {
+        try {
+            const token = getToken();
+            if (!token) throw new Error("Not logged in");
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/addresses`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(addressData),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Failed to add address");
+
+            const newUserData = { ...user, addresses: data.addresses, address: data.address };
+            saveSession(newUserData, newUserData.token);
+            setUser(newUserData);
+
+            return { success: true, addresses: data.addresses, address: data.address };
+        } catch (err) {
+            return { success: false, message: err.message };
+        }
+    };
+
+    const deleteAddress = async (addressId) => {
+        try {
+            const token = getToken();
+            if (!token) throw new Error("Not logged in");
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/addresses/${addressId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Failed to delete address");
+
+            const newUserData = { ...user, addresses: data.addresses, address: data.address };
+            saveSession(newUserData, newUserData.token);
+            setUser(newUserData);
+
+            return { success: true, addresses: data.addresses, address: data.address };
+        } catch (err) {
+            return { success: false, message: err.message };
+        }
+    };
+
+    const setDefaultAddress = async (addressId) => {
+        try {
+            const token = getToken();
+            if (!token) throw new Error("Not logged in");
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/addresses/${addressId}/default`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Failed to set default address");
+
+            const newUserData = { ...user, addresses: data.addresses, address: data.address };
+            saveSession(newUserData, newUserData.token);
+            setUser(newUserData);
+
+            return { success: true, addresses: data.addresses, address: data.address };
+        } catch (err) {
+            return { success: false, message: err.message };
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, login, register, verifyEmail, logout, updateUserProfile }}>
+        <AuthContext.Provider value={{ user, setUser, loading, login, register, verifyEmail, logout, updateUserProfile, addAddress, deleteAddress, setDefaultAddress }}>
             {children}
         </AuthContext.Provider>
     );

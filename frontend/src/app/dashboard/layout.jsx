@@ -14,7 +14,8 @@ import {
     Menu,
     X,
     ClipboardCheck,
-    Zap
+    Zap,
+    MapPin
 } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
@@ -39,6 +40,7 @@ export default function DashboardLayout({ children }) {
     const navItems = [
         { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
         { name: "My Bookings", href: "/dashboard/bookings", icon: CalendarDays },
+        { name: "Saved Addresses", href: "/dashboard/addresses", icon: MapPin },
         { name: "SafeIt (15-Min)", href: "/dashboard/safeit", icon: Zap },
         { name: "Attendance", href: "/dashboard/attendance", icon: ClipboardCheck },
         { name: "Profile", href: "/dashboard/profile", icon: User },

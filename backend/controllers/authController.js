@@ -435,6 +435,7 @@ const updateProfile = async (req, res) => {
                 email: updatedUser.email,
                 phone: updatedUser.phone,
                 address: updatedUser.address || "",
+                addresses: updatedUser.addresses || [],
                 role: updatedUser.role,
                 isGoogleUser: !!updatedUser.googleId,
                 profilePicture: updatedUser.profilePicture,
@@ -446,6 +447,176 @@ const updateProfile = async (req, res) => {
     } catch (error) {
         console.error("Profile update error:", error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Add a saved address
+// @route   POST /api/auth/addresses
+// @access  Private
+const addAddress = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const { label, tag, houseNo, landmark, fullAddress, isDefault } = req.body;
+        if (!fullAddress) return res.status(400).json({ message: "Full address is required" });
+
+        const addressName = (tag || label || 'Home').trim();
+
+        // Enforce unique address name constraint per user (e.g., Home 1 vs Home 2)
+        const duplicate = user.addresses.some(a => {
+            const existingName = (a.tag || a.label || '').trim();
+            return existingName.toLowerCase() === addressName.toLowerCase();
+        });
+
+        if (duplicate) {
+            return res.status(400).json({
+                message: `You already have an address named '${addressName}'. Please use a unique name like '${addressName} 1' or '${addressName} 2'.`
+            });
+        }
+
+        // If set as default or first address, set default
+        const makeDefault = isDefault || user.addresses.length === 0;
+        if (makeDefault) {
+            user.addresses.forEach(a => a.isDefault = false);
+            user.address = fullAddress;
+        }
+
+        const newAddr = {
+            label: label || 'Home',
+            tag: addressName,
+            houseNo: houseNo || '',
+            landmark: landmark || '',
+            fullAddress,
+            isDefault: makeDefault
+        };
+
+        user.addresses.push(newAddr);
+        await user.save();
+
+        res.status(201).json({
+            addresses: user.addresses,
+            address: user.address,
+            message: "Address saved successfully"
+        });
+    } catch (err) {
+        console.error("addAddress Error:", err);
+        res.status(500).json({ message: "Failed to add address" });
+    }
+};
+
+// @desc    Update an existing saved address
+// @route   PUT /api/auth/addresses/:id
+// @access  Private
+const updateAddress = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const { label, tag, houseNo, landmark, fullAddress, isDefault } = req.body;
+        const addrIndex = user.addresses.findIndex(a => a._id.toString() === req.params.id);
+
+        if (addrIndex === -1) {
+            return res.status(404).json({ message: "Address not found" });
+        }
+
+        const addressName = (tag || label || user.addresses[addrIndex].tag || user.addresses[addrIndex].label || 'Home').trim();
+
+        // Enforce unique address name constraint excluding current address
+        const duplicate = user.addresses.some((a, idx) => {
+            if (idx === addrIndex) return false;
+            const existingName = (a.tag || a.label || '').trim();
+            return existingName.toLowerCase() === addressName.toLowerCase();
+        });
+
+        if (duplicate) {
+            return res.status(400).json({
+                message: `You already have another address named '${addressName}'. Please use a unique name like '${addressName} 1' or '${addressName} 2'.`
+            });
+        }
+
+        if (fullAddress) user.addresses[addrIndex].fullAddress = fullAddress;
+        if (label) user.addresses[addrIndex].label = label;
+        user.addresses[addrIndex].tag = addressName;
+        if (houseNo !== undefined) user.addresses[addrIndex].houseNo = houseNo;
+        if (landmark !== undefined) user.addresses[addrIndex].landmark = landmark;
+
+        if (isDefault) {
+            user.addresses.forEach((a, idx) => a.isDefault = (idx === addrIndex));
+            user.address = user.addresses[addrIndex].fullAddress;
+        }
+
+        await user.save();
+        res.json({
+            addresses: user.addresses,
+            address: user.address,
+            message: "Address updated successfully"
+        });
+    } catch (err) {
+        console.error("updateAddress Error:", err);
+        res.status(500).json({ message: "Failed to update address" });
+    }
+};
+
+// @desc    Delete a saved address
+// @route   DELETE /api/auth/addresses/:id
+// @access  Private
+const deleteAddress = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        user.addresses = user.addresses.filter(a => a._id.toString() !== req.params.id);
+
+        if (user.addresses.length > 0 && !user.addresses.some(a => a.isDefault)) {
+            user.addresses[0].isDefault = true;
+            user.address = user.addresses[0].fullAddress;
+        } else if (user.addresses.length === 0) {
+            user.address = "";
+        }
+
+        await user.save();
+        res.json({
+            addresses: user.addresses,
+            address: user.address,
+            message: "Address removed"
+        });
+    } catch (err) {
+        console.error("deleteAddress Error:", err);
+        res.status(500).json({ message: "Failed to delete address" });
+    }
+};
+
+// @desc    Set default address
+// @route   PUT /api/auth/addresses/:id/default
+// @access  Private
+const setDefaultAddress = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        let found = false;
+        user.addresses.forEach(a => {
+            if (a._id.toString() === req.params.id) {
+                a.isDefault = true;
+                user.address = a.fullAddress;
+                found = true;
+            } else {
+                a.isDefault = false;
+            }
+        });
+
+        if (!found) return res.status(404).json({ message: "Address not found" });
+
+        await user.save();
+        res.json({
+            addresses: user.addresses,
+            address: user.address,
+            message: "Default address updated"
+        });
+    } catch (err) {
+        console.error("setDefaultAddress Error:", err);
+        res.status(500).json({ message: "Failed to update default address" });
     }
 };
 
@@ -620,6 +791,10 @@ module.exports = {
     googleAuthCallback,
     updatePassword,
     updateProfile,
+    addAddress,
+    updateAddress,
+    deleteAddress,
+    setDefaultAddress,
     forgotPassword,
     resetPassword,
     promoteToAdmin,

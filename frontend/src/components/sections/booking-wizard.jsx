@@ -11,6 +11,7 @@ import DynamicServiceModal from "./DynamicServiceModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchServices, selectAllServices, selectServiceStatus } from "@/store/slices/serviceSlice";
 import ImageUpload from "@/components/ui/image-upload";
+import SavedAddressDropdown from "@/components/ui/saved-address-dropdown";
 
 export default function BookingWizard() {
     const { user, updateUserProfile } = useAuth();
@@ -645,44 +646,14 @@ export default function BookingWizard() {
                                             </div>
                                         </div>
 
-                                        {/* Address & Phone */}
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div>
-                                                <div className="flex items-center justify-between gap-2 mb-2">
-                                                    <label className="block text-sm font-bold text-slate-700">Complete Address</label>
-                                                    <div className="flex items-center gap-1.5">
-                                                        {user?.address && formData.address !== user.address && (
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => setFormData({ ...formData, address: user.address })}
-                                                                className="text-[11px] font-bold text-blue-600 hover:bg-blue-50 px-2 py-0.5 rounded border border-blue-200 transition-all"
-                                                            >
-                                                                Use Saved
-                                                            </button>
-                                                        )}
-                                                        {formData.address.trim() && formData.address !== user?.address && (
-                                                            <button
-                                                                type="button"
-                                                                onClick={async () => {
-                                                                    const res = await updateUserProfile({ address: formData.address });
-                                                                    if (res.success) toast.success("Saved as default profile address!");
-                                                                    else toast.error(res.message || "Failed to save address");
-                                                                }}
-                                                                className="text-[11px] font-bold text-slate-700 hover:bg-slate-100 px-2 py-0.5 rounded border border-slate-200 transition-all"
-                                                            >
-                                                                Save Profile
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <textarea
-                                                    id="booking-address"
-                                                    value={formData.address}
-                                                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                                    placeholder="House No, Street, Landmark..."
-                                                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-sky-500 h-24 resize-none"
-                                                />
-                                            </div>
+                                        {/* Custom Saved Address Dropdown & Temporary Toggle */}
+                                        <div className="border border-slate-200 rounded-2xl p-5 bg-white shadow-xs">
+                                            <SavedAddressDropdown
+                                                selectedAddress={formData.address}
+                                                onSelectAddress={(addr) => setFormData({ ...formData, address: addr })}
+                                                redirectUrl="/booking"
+                                            />
+                                        </div>
                                             <div>
                                                 <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
                                                 <div className="flex h-12">
@@ -702,7 +673,6 @@ export default function BookingWizard() {
                                                     />
                                                 </div>
                                             </div>
-                                        </div>
 
                                         {/* Shared Gender Pref (if applicable) */}
                                         <div>

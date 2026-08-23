@@ -90,10 +90,6 @@ export default function SafeITInstantSection() {
                                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                                 </Link>
 
-                                <div className="text-slate-400 text-xs font-mono flex items-center justify-center gap-2">
-                                    <MapPin size={14} className="text-sky-400" />
-                                    <span>Active in Moradabad & NCR</span>
-                                </div>
                             </div>
 
                         </div>

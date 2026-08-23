@@ -10,6 +10,10 @@ const {
     forgotPassword,
     resetPassword,
     updateProfile,
+    addAddress,
+    updateAddress,
+    deleteAddress,
+    setDefaultAddress,
     promoteToAdmin,
     resendOtp
 } = require('../controllers/authController');
@@ -21,6 +25,10 @@ router.post('/resend-otp', resendOtp);
 router.post('/login', loginUser);
 router.put('/profile/password', protect, updatePassword);
 router.put('/profile', protect, updateProfile);
+router.post('/addresses', protect, addAddress);
+router.put('/addresses/:id', protect, updateAddress);
+router.delete('/addresses/:id', protect, deleteAddress);
+router.put('/addresses/:id/default', protect, setDefaultAddress);
 router.put('/promote-admin', protect, admin, promoteToAdmin);
 router.get('/users', protect, admin, require('../controllers/authController').getUsers);
 router.post('/google', googleAuth);
