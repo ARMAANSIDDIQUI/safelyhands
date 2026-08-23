@@ -86,6 +86,7 @@ app.use(async (req, res, next) => {
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/broomit', require('./routes/broomitRoutes'));
+app.use('/api/safeit', require('./routes/broomitRoutes'));
 app.use('/api/upload', require('./routes/uploadRoutes'));
 app.use('/api/attendance', require('./routes/attendanceRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));

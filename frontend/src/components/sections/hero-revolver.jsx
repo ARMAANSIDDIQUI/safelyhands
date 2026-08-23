@@ -89,7 +89,7 @@ export default function HeroRevolver() {
                     { id: services[getNext()]._id, service: services[getNext()], slot: 'bottom', index: getNext() }
                 ].map((item) => (
                     <RevolverCard
-                        key={item.id}
+                        key={`${item.slot}-${item.id || item.index}`}
                         service={item.service}
                         slot={item.slot}
                         index={item.index}

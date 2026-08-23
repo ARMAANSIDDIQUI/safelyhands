@@ -161,13 +161,13 @@ const Header = () => {
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
           <Link
-            href="/broomit"
-            id="header-broomit-btn"
-            className="bg-[#212529] hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm md:text-base font-bold shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center gap-1.5 border border-amber-400/30"
+            href="/safeit"
+            id="header-safeit-btn"
+            className="bg-[#212529] hover:bg-slate-800 text-white px-4 py-1.5 rounded-lg text-xs md:text-sm font-bold shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 flex items-center gap-1.5 border border-sky-400/30"
           >
-            <span className="text-amber-400 font-extrabold text-base">⚡</span>
+            <span className="text-sky-400 font-extrabold text-sm">⚡</span>
             <span>Get help in 15 mins</span>
-            <span className="text-amber-400 font-extrabold text-base">⚡</span>
+            <span className="text-sky-400 font-extrabold text-sm">⚡</span>
           </Link>
 
           {user ? (
@@ -307,6 +307,20 @@ const Header = () => {
         </div>
 
         <div className="flex-1 overflow-y-auto py-4 px-3">
+          {/* Mobile Instant 15-Min SafeIt CTA Button */}
+          <div className="mb-4">
+            <Link
+              href="/safeit"
+              id="mobile-header-safeit-btn"
+              className="w-full bg-[#212529] hover:bg-slate-800 text-white py-3 px-4 rounded-xl text-sm font-bold shadow-md flex items-center justify-center gap-1.5 border border-sky-400/40 transition-all"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className="text-sky-400 font-extrabold text-base">⚡</span>
+              <span>Get help in 15 mins</span>
+              <span className="text-sky-400 font-extrabold text-base">⚡</span>
+            </Link>
+          </div>
+
           <div className="space-y-1">
             {['Home', 'Services', 'About Us', 'Contact'].map((item) => (
               <Link

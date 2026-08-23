@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 
 export const metadata = {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://safelyhands.com'),
     title: {
         default: "Safely Hands - Trusted Home Makers in Moradabad (Cooks, Maids, Babysitters)",
         template: "%s | Safely Hands Moradabad"

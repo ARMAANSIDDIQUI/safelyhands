@@ -4,6 +4,14 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
+                hostname: 'images.unsplash.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'plus.unsplash.com',
+            },
+            {
+                protocol: 'https',
                 hostname: 'placehold.co',
             },
             {
@@ -17,6 +25,10 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'slelguoygbfzlpylpxfs.supabase.co',
+            },
+            {
+                protocol: 'https',
+                hostname: 'safelyhands.com',
             },
         ],
         dangerouslyAllowSVG: true,

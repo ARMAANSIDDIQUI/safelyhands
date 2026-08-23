@@ -31,7 +31,7 @@ export default function AdminLayout({ children }) {
 
     const navItems = [
         { href: "/admin", icon: LayoutDashboard, label: "Overview" },
-        { href: "/admin/broomit", icon: Zap, label: "⚡ BroomIT (15-Min)" },
+        { href: "/admin/safeit", icon: Zap, label: "⚡ SafeIt (15-Min)" },
         { href: "/admin/bookings", icon: CalendarCheck, label: "Bookings" },
         { href: "/admin/attendance", icon: CalendarCheck, label: "Attendance Reports" },
         { href: "/admin/services", icon: Briefcase, label: "Services" },

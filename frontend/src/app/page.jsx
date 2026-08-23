@@ -1,4 +1,5 @@
 import HeroSection from "@/components/sections/hero";
+import SafeITInstantSection from "@/components/sections/safeit-instant-section";
 import WorkerBenefitCards from "@/components/sections/worker-benefits-cards";
 import AppPromotion from "@/components/sections/app-promotion";
 import Footer from "@/components/sections/footer";
@@ -19,6 +20,7 @@ export default function Home() {
     return (
         <main className="min-h-screen relative">
             <HeroSection />
+            <SafeITInstantSection />
             <FeaturedServices />
             <Highlights />
             <HumansOfBroomees />

@@ -1,5 +1,5 @@
-import BroomITPage from "../broomit/page";
+import SafeITPage from "../safeit/page";
 
 export default function HelpIn15MinsPage() {
-    return <BroomITPage />;
+    return <SafeITPage />;
 }
