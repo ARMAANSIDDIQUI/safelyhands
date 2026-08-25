@@ -210,14 +210,20 @@ export default function UserSafeITDashboard() {
                                         <span className="text-xs font-extrabold uppercase text-slate-400 tracking-wider">Assigned Helper</span>
                                         {booking.assignedWorker ? (
                                             <div className="bg-slate-50 border border-slate-200 p-3 rounded-2xl flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full overflow-hidden relative bg-slate-200 flex-shrink-0">
-                                                    <Image
-                                                        src={booking.assignedWorker.profilePicture || "/images/safeit/worker_avatar.jpg"}
-                                                        alt={booking.assignedWorker.name}
-                                                        fill
-                                                        className="object-cover"
-                                                    />
-                                                </div>
+                                                {booking.assignedWorker.profilePicture ? (
+                                                    <div className="w-10 h-10 rounded-full overflow-hidden relative bg-slate-200 flex-shrink-0">
+                                                        <Image
+                                                            src={booking.assignedWorker.profilePicture}
+                                                            alt={booking.assignedWorker.name}
+                                                            fill
+                                                            className="object-cover"
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <div className="w-10 h-10 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center flex-shrink-0 text-blue-700 font-bold">
+                                                        <User size={20} />
+                                                    </div>
+                                                )}
                                                 <div className="flex-1 min-w-0">
                                                     <h4 className="font-bold text-xs text-slate-900 truncate">{booking.assignedWorker.name}</h4>
                                                     <p className="text-[11px] text-slate-500">Verified Partner</p>

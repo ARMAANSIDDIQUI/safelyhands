@@ -312,7 +312,7 @@ export default function SafeITPage() {
                         <div className="flex flex-col sm:flex-row gap-4">
                             <button
                                 onClick={() => router.push("/dashboard/safeit")}
-                                className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md"
+                                className="flex-1 bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md shadow-sky-500/20"
                             >
                                 Track in SafeIt Dashboard
                             </button>
@@ -321,7 +321,7 @@ export default function SafeITPage() {
                                     setBookingSuccess(null);
                                     setStep(1);
                                 }}
-                                className="flex-1 bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md"
+                                className="flex-1 bg-white hover:bg-slate-50 text-slate-700 font-bold py-3.5 px-6 rounded-xl transition-all border border-slate-300 shadow-xs"
                             >
                                 Book Another Service
                             </button>
@@ -436,10 +436,10 @@ export default function SafeITPage() {
                                     </div>
                                 </div>
 
-                                {/* Right Side Visual Gallery Showcase - Blue Palette Matched */}
+                                {/* Right Side Visual Gallery Showcase - 4-Card Collage */}
                                 <div className="lg:col-span-5 bg-gradient-to-br from-blue-600 via-sky-500 to-indigo-600 p-1.5 rounded-3xl shadow-xl">
-                                    <div className="bg-slate-900 rounded-[22px] overflow-hidden grid grid-cols-2 gap-1.5 p-1.5 min-h-[380px]">
-                                        <div className="relative rounded-xl overflow-hidden group min-h-[180px]">
+                                    <div className="bg-slate-900 rounded-[22px] overflow-hidden grid grid-cols-2 gap-1.5 p-1.5 min-h-[420px]">
+                                        <div className="relative rounded-xl overflow-hidden group min-h-[190px]">
                                             <Image
                                                 src="/images/safeit/dusting.jpg"
                                                 alt="Dusting & Cleaning"
@@ -447,11 +447,11 @@ export default function SafeITPage() {
                                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-                                                <span className="text-white font-extrabold text-lg tracking-wider drop-shadow-md">DUSTING</span>
+                                                <span className="text-white font-extrabold text-base tracking-wider drop-shadow-md">DUSTING</span>
                                             </div>
                                         </div>
 
-                                        <div className="relative rounded-xl overflow-hidden group min-h-[180px]">
+                                        <div className="relative rounded-xl overflow-hidden group min-h-[190px]">
                                             <Image
                                                 src="/images/safeit/kitchen.jpg"
                                                 alt="Kitchen & Dish Washing"
@@ -459,20 +459,32 @@ export default function SafeITPage() {
                                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-                                                <span className="text-white font-extrabold text-lg tracking-wider drop-shadow-md">SERVING</span>
+                                                <span className="text-white font-extrabold text-base tracking-wider drop-shadow-md">KITCHEN HELP</span>
                                             </div>
                                         </div>
 
-                                        <div className="relative rounded-xl overflow-hidden group min-h-[180px] col-span-2">
+                                        <div className="relative rounded-xl overflow-hidden group min-h-[190px]">
+                                            <Image
+                                                src="/images/safeit/helper.jpg"
+                                                alt="Verified Helper On Demand"
+                                                fill
+                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+                                                <span className="text-white font-extrabold text-base tracking-wider drop-shadow-md">VERIFIED HELPER</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="relative rounded-xl overflow-hidden group min-h-[190px]">
                                             <Image
                                                 src="/images/safeit/brooming.jpg"
                                                 alt="Brooming & Mopping"
                                                 fill
                                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex flex-col justify-end p-5">
-                                                <span className="text-sky-400 text-xs font-mono uppercase font-bold tracking-widest">Instant 15-Min Arrival</span>
-                                                <span className="text-white font-extrabold text-xl tracking-wider drop-shadow-md">BROOMING + MOPPING</span>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex flex-col justify-end p-4">
+                                                <span className="text-sky-400 text-[10px] font-mono uppercase font-bold tracking-widest">Instant 15-Min Arrival</span>
+                                                <span className="text-white font-extrabold text-base tracking-wider drop-shadow-md">BROOMING + MOPPING</span>
                                             </div>
                                         </div>
                                     </div>

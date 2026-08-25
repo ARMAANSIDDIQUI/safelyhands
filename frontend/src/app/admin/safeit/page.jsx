@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Zap, Clock, MapPin, User, CheckCircle2, AlertCircle, Phone, Search, RefreshCw, ChevronDown, Check, X, ShieldAlert, DollarSign } from "lucide-react";
+import { Zap, Clock, MapPin, User, CheckCircle2, AlertCircle, Phone, Search, RefreshCw, ChevronDown, Check, X, ShieldAlert, DollarSign, Calendar, Filter } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -24,6 +24,9 @@ export default function AdminSafeITManagement() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
+    const [cityFilter, setCityFilter] = useState("all");
+    const [dateFilter, setDateFilter] = useState("");
+    const [typeFilter, setTypeFilter] = useState("all");
     const [updatingId, setUpdatingId] = useState(null);
 
     const fetchAdminData = async () => {
@@ -132,9 +135,22 @@ export default function AdminSafeITManagement() {
         }
     };
 
+    // Available Cities for Filter Dropdown
+    const availableCities = Array.from(new Set(bookings.map(b => b.region).filter(Boolean)));
+
     // Filtered bookings
     const filteredBookings = bookings.filter(b => {
         const matchesStatus = statusFilter === "all" || b.status === statusFilter;
+        const matchesCity = cityFilter === "all" || b.region === cityFilter;
+        const matchesType = typeFilter === "all" || b.bookingType === typeFilter;
+        
+        let matchesDate = true;
+        if (dateFilter) {
+            const createdStr = new Date(b.createdAt).toISOString().split('T')[0];
+            const schedStr = b.scheduledDate ? new Date(b.scheduledDate).toISOString().split('T')[0] : '';
+            matchesDate = createdStr === dateFilter || schedStr === dateFilter;
+        }
+
         const query = searchQuery.toLowerCase();
         const matchesQuery = !searchQuery ||
             b.bookingNumber?.toLowerCase().includes(query) ||
@@ -142,7 +158,7 @@ export default function AdminSafeITManagement() {
             b.address?.toLowerCase().includes(query) ||
             b.user?.name?.toLowerCase().includes(query);
 
-        return matchesStatus && matchesQuery;
+        return matchesStatus && matchesCity && matchesType && matchesDate && matchesQuery;
     });
 
     // Overview Stats
@@ -200,27 +216,77 @@ export default function AdminSafeITManagement() {
                 </div>
             </div>
 
-            {/* Search and Filters */}
-            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-4 justify-between items-center">
-                <div className="relative w-full md:w-80">
-                    <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search by ID, Phone, Address..."
-                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:border-blue-500"
-                    />
+            {/* Search and Filters Toolbar */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {/* Search Input */}
+                    <div className="relative">
+                        <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search by ID, Phone, Address, Customer..."
+                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-medium focus:outline-none focus:border-blue-500"
+                        />
+                    </div>
+
+                    {/* City / Region Filter Dropdown */}
+                    <div className="relative">
+                        <select
+                            value={cityFilter}
+                            onChange={(e) => setCityFilter(e.target.value)}
+                            className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold text-slate-700 focus:outline-none focus:border-blue-500"
+                        >
+                            <option value="all">📍 All Cities / Regions</option>
+                            {availableCities.map((city, idx) => (
+                                <option key={idx} value={city}>{city}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Date Filter Input */}
+                    <div className="relative flex items-center gap-1.5">
+                        <input
+                            type="date"
+                            value={dateFilter}
+                            onChange={(e) => setDateFilter(e.target.value)}
+                            className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-500"
+                        />
+                        {dateFilter && (
+                            <button
+                                onClick={() => setDateFilter("")}
+                                className="p-1 text-slate-400 hover:text-slate-600 rounded"
+                                title="Clear date"
+                            >
+                                <X size={16} />
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Booking Type Filter */}
+                    <div className="relative">
+                        <select
+                            value={typeFilter}
+                            onChange={(e) => setTypeFilter(e.target.value)}
+                            className="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs md:text-sm font-semibold text-slate-700 focus:outline-none focus:border-blue-500"
+                        >
+                            <option value="all">⚡ All Booking Types</option>
+                            <option value="instant">Instant Dispatch (~15m)</option>
+                            <option value="scheduled">Scheduled Booking</option>
+                        </select>
+                    </div>
                 </div>
 
                 {/* Status Filter Pills */}
-                <div className="flex flex-wrap gap-2 w-full md:w-auto">
-                    {['all', 'pending_dispatch', 'dispatched', 'in_progress', 'completed', 'cancelled'].map((status) => (
+                <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">Status:</span>
+                    {['all', 'pending_dispatch', 'worker_assigned', 'dispatched', 'arrived', 'in_progress', 'completed', 'cancelled'].map((status) => (
                         <button
                             key={status}
                             onClick={() => setStatusFilter(status)}
                             className={cn(
-                                "px-3 py-1.5 rounded-xl text-xs font-bold transition-all capitalize",
+                                "px-3 py-1 rounded-xl text-xs font-bold transition-all capitalize",
                                 statusFilter === status
                                     ? "bg-blue-600 text-white shadow-xs"
                                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -262,10 +328,24 @@ export default function AdminSafeITManagement() {
                                         <tr key={b._id} className="hover:bg-slate-50/80 transition-colors">
                                             {/* Booking Info */}
                                             <td className="p-4 align-top">
-                                                <span className="font-mono font-bold text-slate-900 block">#{b.bookingNumber}</span>
-                                                <span className="text-[11px] text-slate-400 block font-medium">
+                                                <span className="font-mono font-bold text-slate-900 block text-xs">#{b.bookingNumber}</span>
+                                                
+                                                {/* Full Date & Time */}
+                                                <span className="text-[11px] text-slate-600 font-bold block mt-1 flex items-center gap-1">
+                                                    <Calendar size={11} className="text-blue-600 shrink-0" />
+                                                    {new Date(b.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' })}
+                                                </span>
+                                                <span className="text-[10px] text-slate-400 font-mono block">
                                                     {new Date(b.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </span>
+
+                                                {/* Scheduled Date Info if applicable */}
+                                                {b.scheduledDate && (
+                                                    <span className="text-[10px] text-indigo-700 font-semibold bg-indigo-50 border border-indigo-100 px-1.5 py-0.5 rounded block mt-1">
+                                                        📅 Sched: {new Date(b.scheduledDate).toLocaleDateString("en-IN", { day: '2-digit', month: 'short' })} {b.scheduledTime}
+                                                    </span>
+                                                )}
+
                                                 <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-blue-100 text-blue-900 px-2 py-0.5 rounded">
                                                     {b.bookingType}
                                                 </span>
