@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, X, ChevronDown, User, LogOut, LayoutDashboard, Baby, ChefHat, Home, HeartPulse, Clock } from "lucide-react";
+import { Menu, X, ChevronDown, User, LogOut, LayoutDashboard, Baby, ChefHat, Home, HeartPulse, Clock, Zap } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -120,7 +120,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden min-[1250px]:flex items-center gap-8">
           <Link href="/" className="text-lg font-bold text-slate-800 hover:text-blue-600 transition-colors"> {/* Increased text-base to text-lg */}
             Home
           </Link>
@@ -159,15 +159,15 @@ const Header = () => {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden min-[1250px]:flex items-center gap-4">
           <Link
             href="/safeit"
             id="header-safeit-btn"
-            className="bg-[#212529] hover:bg-slate-800 text-white px-4 py-1.5 rounded-lg text-xs md:text-sm font-bold shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 flex items-center gap-1.5 border border-sky-400/30"
+            className="bg-[#212529] hover:bg-slate-800 text-white px-5 py-2 mx-3 min-[1250px]:mx-4 rounded-xl text-xs md:text-sm font-bold shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 flex items-center gap-2 border border-sky-400/30 shrink-0"
           >
-            <span className="text-sky-400 font-extrabold text-sm">⚡</span>
+            <Zap size={14} className="text-sky-400 fill-sky-400 shrink-0" />
             <span>Get help in 15 mins</span>
-            <span className="text-sky-400 font-extrabold text-sm">⚡</span>
+            <Zap size={14} className="text-sky-400 fill-sky-400 shrink-0" />
           </Link>
 
           {user ? (
@@ -253,7 +253,7 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden p-2 text-slate-800 hover:bg-blue-50 rounded-lg transition-colors"
+          className="min-[1250px]:hidden p-2 text-slate-800 hover:bg-blue-50 rounded-lg transition-colors"
           onClick={() => setIsMenuOpen(true)}
         >
           <Menu size={24} />
@@ -287,13 +287,13 @@ const Header = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300 min-[1250px]:hidden ${isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         onClick={() => setIsMenuOpen(false)}
       />
 
       <div
-        className={`fixed top-0 right-0 w-[280px] h-[100dvh] bg-white shadow-2xl z-[1001] transition-transform duration-300 transform lg:hidden flex flex-col border-l border-slate-200 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 w-[280px] h-[100dvh] bg-white shadow-2xl z-[1001] transition-transform duration-300 transform min-[1250px]:hidden flex flex-col border-l border-slate-200 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
         <div className="p-5 flex items-center justify-between border-b border-slate-100">
@@ -315,9 +315,9 @@ const Header = () => {
               className="w-full bg-[#212529] hover:bg-slate-800 text-white py-3 px-4 rounded-xl text-sm font-bold shadow-md flex items-center justify-center gap-1.5 border border-sky-400/40 transition-all"
               onClick={() => setIsMenuOpen(false)}
             >
-              <span className="text-sky-400 font-extrabold text-base">⚡</span>
+              <Zap size={16} className="text-sky-400 fill-sky-400 shrink-0" />
               <span>Get help in 15 mins</span>
-              <span className="text-sky-400 font-extrabold text-base">⚡</span>
+              <Zap size={16} className="text-sky-400 fill-sky-400 shrink-0" />
             </Link>
           </div>
 

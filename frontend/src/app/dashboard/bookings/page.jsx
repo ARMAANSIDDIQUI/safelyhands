@@ -393,6 +393,12 @@ export default function MyBookingsPage() {
                                                 <span className="italic text-slate-400">Standard Service</span>
                                             )}
                                         </div>
+                                        {booking.address && (
+                                            <div className="flex items-start gap-1.5 text-xs text-slate-600 font-medium bg-blue-50/70 p-2 rounded-lg border border-blue-100/80">
+                                                <MapPin size={14} className="text-blue-600 shrink-0 mt-0.5" />
+                                                <span className="line-clamp-2">{booking.address}</span>
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="flex items-center gap-2 mt-2">
                                         <Badge variant={booking.status === 'completed' ? 'default' : 'secondary'}>

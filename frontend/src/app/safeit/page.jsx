@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Footer from "@/components/sections/footer";
 import ChatWidget from "@/components/sections/chat-widget";
-import { Check, Calendar, MapPin, ArrowLeft, Info, Zap, ChevronDown, CheckCircle2, Lock, UserCheck } from "lucide-react";
+import { Check, Calendar, MapPin, ArrowLeft, Info, Zap, ChevronDown, CheckCircle2, Lock, UserCheck, Dog, BellOff } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -295,7 +295,10 @@ export default function SafeITPage() {
                         <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-600">
                             <CheckCircle2 size={44} strokeWidth={2.5} />
                         </div>
-                        <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Help is on the way! ⚡</h2>
+                        <h2 className="text-3xl font-extrabold text-slate-900 mb-2 flex items-center justify-center gap-2">
+                            <span>Help is on the way!</span>
+                            <Zap size={28} className="text-blue-600 fill-blue-500 animate-pulse" />
+                        </h2>
                         <p className="text-slate-500 mb-6">
                             Your <strong className="text-slate-800">SafeIt (15 Mins)</strong> request has been dispatched. Our team will assign the nearest verified worker immediately.
                         </p>
@@ -438,7 +441,7 @@ export default function SafeITPage() {
                                     <div className="bg-slate-900 rounded-[22px] overflow-hidden grid grid-cols-2 gap-1.5 p-1.5 min-h-[380px]">
                                         <div className="relative rounded-xl overflow-hidden group min-h-[180px]">
                                             <Image
-                                                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=600"
+                                                src="/images/safeit/dusting.jpg"
                                                 alt="Dusting & Cleaning"
                                                 fill
                                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -450,7 +453,7 @@ export default function SafeITPage() {
 
                                         <div className="relative rounded-xl overflow-hidden group min-h-[180px]">
                                             <Image
-                                                src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=600"
+                                                src="/images/safeit/kitchen.jpg"
                                                 alt="Kitchen & Dish Washing"
                                                 fill
                                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -462,7 +465,7 @@ export default function SafeITPage() {
 
                                         <div className="relative rounded-xl overflow-hidden group min-h-[180px] col-span-2">
                                             <Image
-                                                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"
+                                                src="/images/safeit/brooming.jpg"
                                                 alt="Brooming & Mopping"
                                                 fill
                                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -627,7 +630,7 @@ export default function SafeITPage() {
                                             )}
                                         >
                                             <span className="flex items-center gap-2">
-                                                <span>🐾</span>
+                                                <Dog size={16} className="text-blue-600 shrink-0" />
                                                 <span>Pet at Home</span>
                                             </span>
                                             <span className={cn(
@@ -647,7 +650,7 @@ export default function SafeITPage() {
                                             )}
                                         >
                                             <span className="flex items-center gap-2">
-                                                <span>🔕</span>
+                                                <BellOff size={16} className="text-blue-600 shrink-0" />
                                                 <span>Avoid Calling</span>
                                             </span>
                                             <span className={cn(
@@ -667,7 +670,7 @@ export default function SafeITPage() {
                                             )}
                                         >
                                             <span className="flex items-center gap-2">
-                                                <span>👩</span>
+                                                <UserCheck size={16} className="text-blue-600 shrink-0" />
                                                 <span>Female Worker Preferred</span>
                                             </span>
                                             <span className={cn(
@@ -768,7 +771,14 @@ export default function SafeITPage() {
                                         disabled={isSubmitting}
                                         className="w-full py-4 bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-extrabold text-base md:text-lg rounded-2xl transition-all shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2"
                                     >
-                                        {isSubmitting ? "Processing Booking..." : `Confirm & Request Help (₹${amountToBePaid.toFixed(2)}) ⚡`}
+                                        {isSubmitting ? (
+                                            "Processing Booking..."
+                                        ) : (
+                                            <>
+                                                <span>Confirm & Request Help (₹{amountToBePaid.toFixed(2)})</span>
+                                                <Zap size={18} className="fill-current text-white shrink-0" />
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             </div>

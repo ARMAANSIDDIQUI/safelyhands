@@ -274,7 +274,7 @@ export default function AdminSafeITManagement() {
                                             {/* Customer & Location */}
                                             <td className="p-4 align-top max-w-xs">
                                                 <p className="font-bold text-slate-900">{b.user?.name || "Customer"}</p>
-                                                <p className="text-xs text-blue-700 font-semibold">📞 +91 {b.phone}</p>
+                                                <p className="text-xs text-blue-700 font-semibold flex items-center gap-1"><Phone size={12} className="shrink-0" /> +91 {b.phone}</p>
                                                 <p className="text-xs text-slate-500 line-clamp-2 mt-0.5"><strong className="text-slate-700">{b.region}:</strong> {b.address}</p>
                                             </td>
 
@@ -306,7 +306,7 @@ export default function AdminSafeITManagement() {
                                                     ))}
                                                 </select>
                                                 {b.assignedWorker && (
-                                                    <p className="text-[11px] text-emerald-600 font-semibold mt-1">📞 {b.assignedWorker.phone}</p>
+                                                    <p className="text-[11px] text-emerald-600 font-semibold mt-1 flex items-center gap-1"><Phone size={12} className="shrink-0" /> {b.assignedWorker.phone}</p>
                                                 )}
                                             </td>
 
@@ -341,9 +341,10 @@ export default function AdminSafeITManagement() {
                                                     {b.status === 'pending_dispatch' && (
                                                         <button
                                                             onClick={() => handleUpdateStatus(b._id, 'dispatched')}
-                                                            className="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-all"
+                                                            className="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1"
                                                         >
-                                                            Dispatch ~15m ⚡
+                                                            <span>Dispatch ~15m</span>
+                                                            <Zap size={14} className="fill-current text-white shrink-0" />
                                                         </button>
                                                     )}
 
@@ -368,9 +369,10 @@ export default function AdminSafeITManagement() {
                                                     {b.status === 'in_progress' && (
                                                         <button
                                                             onClick={() => handleUpdateStatus(b._id, 'completed')}
-                                                            className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-all"
+                                                            className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1"
                                                         >
-                                                            Complete Job ✓
+                                                            <span>Complete Job</span>
+                                                            <Check size={14} strokeWidth={2.5} className="shrink-0" />
                                                         </button>
                                                     )}
 

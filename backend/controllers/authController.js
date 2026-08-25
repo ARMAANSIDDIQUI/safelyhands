@@ -184,6 +184,8 @@ const verifyEmail = async (req, res) => {
             email: user.email,
             role: user.role,
             phone: user.phone,
+            address: user.address || "",
+            addresses: user.addresses || [],
             isGoogleUser: !!user.googleId,
             profilePicture: user.profilePicture,
             token: generateToken(user._id),
@@ -222,6 +224,7 @@ const loginUser = async (req, res) => {
                 role: user.role,
                 phone: user.phone,
                 address: user.address || "",
+                addresses: user.addresses || [],
                 isGoogleUser: !!user.googleId,
                 profilePicture: user.profilePicture,
                 token: generateToken(user._id),
@@ -269,6 +272,8 @@ const googleAuth = async (req, res) => {
                 email: user.email,
                 role: user.role,
                 phone: user.phone,
+                address: user.address || "",
+                addresses: user.addresses || [],
                 isGoogleUser: !!user.googleId,
                 profilePicture: user.profilePicture,
                 isVerified: true,
@@ -297,6 +302,8 @@ const googleAuth = async (req, res) => {
                 email: user.email,
                 role: user.role,
                 phone: user.phone,
+                address: user.address || "",
+                addresses: user.addresses || [],
                 isGoogleUser: !!user.googleId,
                 profilePicture: user.profilePicture,
                 isVerified: true,
@@ -387,6 +394,8 @@ const googleAuthCallback = async (req, res) => {
             email: user.email,
             role: user.role,
             phone: user.phone,
+            address: user.address || "",
+            addresses: user.addresses || [],
             isGoogleUser: !!user.googleId,
             profilePicture: user.profilePicture,
             isVerified: true
@@ -396,6 +405,34 @@ const googleAuthCallback = async (req, res) => {
     } catch (error) {
         console.error("Google OAuth Callback Error:", error);
         res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
+    }
+};
+
+// @desc    Get user profile & saved addresses
+// @route   GET /api/auth/profile
+// @access  Private
+const getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            phone: user.phone,
+            address: user.address || "",
+            addresses: user.addresses || [],
+            isGoogleUser: !!user.googleId,
+            profilePicture: user.profilePicture,
+            isVerified: user.isVerified,
+            createdAt: user.createdAt
+        });
+    } catch (error) {
+        console.error("Get Profile Error:", error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -789,6 +826,7 @@ module.exports = {
     loginUser,
     googleAuth,
     googleAuthCallback,
+    getProfile,
     updatePassword,
     updateProfile,
     addAddress,

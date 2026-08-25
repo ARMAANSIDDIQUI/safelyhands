@@ -6,6 +6,7 @@ const {
     loginUser,
     googleAuth,
     googleAuthCallback,
+    getProfile,
     updatePassword,
     forgotPassword,
     resetPassword,
@@ -23,6 +24,7 @@ router.post('/register', registerUser);
 router.post('/verify-email', verifyEmail);
 router.post('/resend-otp', resendOtp);
 router.post('/login', loginUser);
+router.get('/profile', protect, getProfile);
 router.put('/profile/password', protect, updatePassword);
 router.put('/profile', protect, updateProfile);
 router.post('/addresses', protect, addAddress);

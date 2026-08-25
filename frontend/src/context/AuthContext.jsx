@@ -19,13 +19,32 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
+    const fetchUserProfile = async (tokenOverride) => {
+        try {
+            const token = tokenOverride || getToken();
+            if (!token) return;
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const profileData = await res.json();
+                const updatedUser = { ...profileData, token };
+                saveSession(updatedUser, token);
+                setUser(updatedUser);
+            }
+        } catch (err) {
+            console.error("Failed to fetch user profile", err);
+        }
+    };
+
     useEffect(() => {
-        // Restore session from localStorage on mount
+        // Restore session from localStorage on mount & sync latest profile
         const currentUser = getUser();
         const token = getToken();
         if (currentUser && token) {
             console.log("AuthContext: Restoring session. Token present:", !!token);
             setUser({ ...currentUser, token });
+            fetchUserProfile(token);
         } else {
             console.log("AuthContext: No session found in localStorage");
         }
@@ -218,7 +237,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, login, register, verifyEmail, logout, updateUserProfile, addAddress, deleteAddress, setDefaultAddress }}>
+        <AuthContext.Provider value={{ user, setUser, loading, login, register, verifyEmail, logout, updateUserProfile, fetchUserProfile, addAddress, deleteAddress, setDefaultAddress }}>
             {children}
         </AuthContext.Provider>
     );

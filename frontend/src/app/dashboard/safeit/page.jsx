@@ -108,7 +108,8 @@ export default function UserSafeITDashboard() {
                         href="/safeit"
                         className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white rounded-2xl font-bold text-sm shadow-md transition-all"
                     >
-                        Book Help in 15 Mins ⚡
+                        <span>Book Help in 15 Mins</span>
+                        <Zap size={16} className="fill-current text-white" />
                     </Link>
                 </div>
             ) : (
@@ -211,7 +212,7 @@ export default function UserSafeITDashboard() {
                                             <div className="bg-slate-50 border border-slate-200 p-3 rounded-2xl flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden relative bg-slate-200 flex-shrink-0">
                                                     <Image
-                                                        src={booking.assignedWorker.profilePicture || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200"}
+                                                        src={booking.assignedWorker.profilePicture || "/images/safeit/worker_avatar.jpg"}
                                                         alt={booking.assignedWorker.name}
                                                         fill
                                                         className="object-cover"
